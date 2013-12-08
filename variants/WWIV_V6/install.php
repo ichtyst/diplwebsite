@@ -1356,6 +1356,7 @@ $bordersRawData=array(
 	array('Nanchang (nan)','Zhejiang (zhe)','No','Yes'),
 	array('North Central Pacific Ocean (ncp)','North West Pacific Ocean (nwp)','Yes','No'),
 	array('North Central Pacific Ocean (ncp)','West Central Pacific Ocean (wcp)','Yes','No'),
+	array('North Central Pacific Ocean (ncp)','Anchorage (anc)','Yes','No'),
 	array('North Central Pacific Ocean (ncp)','Gulf of Alaska (goa)','Yes','No'),
 	array('North Central Pacific Ocean (ncp)','Hawaii (hi)','Yes','No'),
 	array('North Central Pacific Ocean (ncp)','Midway Island (mdw)','Yes','No'),
@@ -2354,6 +2355,7 @@ if (!file_exists('variants/'.$this->name.'/cache/sampleMap.png'))
 	copy ('variants/'.$this->name.'/resources/sampleMap.png','variants/'.$this->name.'/cache/sampleMap.png');
 
 ?>
+
 
 
 

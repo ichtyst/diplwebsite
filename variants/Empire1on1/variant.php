@@ -3,14 +3,15 @@
 defined('IN_CODE') or die('This script can not be run by itself.');
 
 class Empire1on1Variant extends WDVariant {
-	public $id         = 33;
-	public $mapID      = 33;
-	public $name       = 'Empire1on1';
-	public $fullName   = 'Fall of the American Empire: Civil War!';
-	public $description= '1 vs 1 version of the Fall of the American Empire variant, set up during the American Secession War';
-	public $author     = 'Emmanuele Ravaioli and Andrew Newell (adapted from a map by Vincent Maus)';
-	public $adapter    = 'Emmanuele Ravaioli / Oliver Auth';
-	public $version    = '0.9.1';
+	public $id           = 33;
+	public $mapID        = 33;
+	public $name         = 'Empire1on1';
+	public $fullName     = 'Fall of the American Empire: Civil War!';
+	public $description  = '1 vs 1 version of the Fall of the American Empire variant, set up during the American Secession War';
+	public $author       = 'Emmanuele Ravaioli and Andrew Newell (adapted from a map by Vincent Maus)';
+	public $adapter      = 'Emmanuele Ravaioli / Oliver Auth';
+	public $version      = '1';
+	public $codeVversion = '1.0.1';
 
 	public $countries=array('Confederacy', 'Union');
 

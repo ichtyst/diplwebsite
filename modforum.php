@@ -63,7 +63,14 @@ switch($forceReply) {
 	case 'No': break;
 	default: $sc = '';
 }
-$forceUserID = (isset($_REQUEST['forceUserID']) ? (int)$_REQUEST['forceUserID'] : '0');
+
+$forceUserIDs = array();
+if (isset($_REQUEST['forceUserIDs']))
+{
+	$forceUserIDs = explode(',', $_REQUEST['forceUserIDs']);
+	foreach ($forceUserIDs as $key => $value)
+		$forceUserIDs[$key] = (int)$value;
+}
 
 if( !isset($_REQUEST['page']) && isset($_REQUEST['viewthread']) && $viewthread )
 {
@@ -214,17 +221,22 @@ AND ($_REQUEST['newmessage'] != "") ) {
 						$messageproblem="Reply posted sucessfully.";
 						$new['message']=""; $new['subject']="";
 						
-						if ($forceUserID != 0)
+						if (count($forceUserIDs) > 0)
 						{
-							$DB->sql_put('INSERT INTO wD_ForceReply
-								SET id = "'.$new['id'].'",
-								forceReply="'.$forceReply.'",
-								toUserID = "'.$forceUserID.'"');
-								
-							$DB->sql_put("UPDATE wD_Users 
-								SET notifications = CONCAT_WS(',',notifications, 'ForceModMessage') 
-								WHERE id = ".$forceUserID);
-								
+							foreach ($forceUserIDs as $forceUserID)
+							{
+								if ( $forceUserID != '')
+								{
+									$DB->sql_put('INSERT INTO wD_ForceReply
+										SET id = "'.$new['id'].'",
+										forceReply="'.$forceReply.'",
+										toUserID = "'.$forceUserID.'"');
+										
+									$DB->sql_put("UPDATE wD_Users 
+										SET notifications = CONCAT_WS(',',notifications, 'ForceModMessage') 
+										WHERE id = ".$forceUserID);
+								}
+							}
 						}
 					}
 					catch(Exception $e)
@@ -635,27 +647,35 @@ while( $message = $DB->tabl_hash($tabl) )
 
 			print '</div>';
 
-				// Embed forced reply.
+			// Embed forced reply.
 			if ($reply['forceReply'] != '' && $User->type['Moderator'])
 			{
-				$forceUsers = $DB->sql_tabl(
+				$forceReplyStatus   = array();
+				$forceReplyUsername = array();
+				
+				$forceUsersTab = $DB->sql_tabl(
 					"SELECT toUserID, forceReply, username
 					FROM wD_ForceReply fr
 					LEFT JOIN wD_Users u ON ( fr.toUserID = u.id)
 					WHERE fr.id=".$reply['id']);
 					
-				print "Send to: ";
-				$first=true;
+				while (list($toUserID, $forceReply, $username) = $DB->tabl_row($forceUsersTab) )
+				{
+					$forceReplyStatus[$toUserID]   = $forceReply;
+					$forceReplyUsername[$toUserID] = $username;	
+				}
 				
-				while (list($toUserID, $forceReply, $username) = $DB->tabl_row($forceUsers) )
+				print "Send to: "; 
+				$first=true;
+				foreach ($forceReplyStatus as $toUserID => $forceReply)
 				{
 					if (!$first) print " - "; $first=false;
-					print '<a href="profile.php?userID='.$toUserID.'">'.$username.'</a> '.($forceReply=='Yes'?'(Waiting for reply) ':'').'';
+					print '<a href="profile.php?userID='.$toUserID.'">'.$forceReplyUsername[$toUserID].'</a> '.($forceReply=='Yes'?'(Waiting for reply) ':'').'';
 				}
 				print '<br>';
 			}
 			
-		print '<div class="message-body replyalternate'.$replyswitch.'" '
+			print '<div class="message-body replyalternate'.$replyswitch.'" '
 					.($reply['adminReply']=='Yes' ? 'style="background-color:#ffffff;"' : '').'>
 					<div class="message-contents" fromUserID="'.$reply['fromUserID'].'">'.$reply['message'].'</div>
 				</div>
@@ -663,50 +683,56 @@ while( $message = $DB->tabl_hash($tabl) )
 				<div style="clear:both"></div>';
 			
 			// Embed forced reply.
-			if ($reply['forceReply'] == 'Done' && $User->type['Moderator'])
+			if ($reply['forceReply'] != '' && $User->type['Moderator'])
 			{
-				
-				$forceReply = $DB->sql_hash(
-					"SELECT f.id, fromUserID, f.timeSent, f.message, u.points as points, IF(s.userID IS NULL,0,1) as online,
-							u.username as fromusername, f.toID, u.type as userType
-						FROM wD_ModForumMessages f
-						INNER JOIN wD_Users u ON f.fromUserID = u.id
-						LEFT JOIN wD_Sessions s ON ( u.id = s.userID )
-						WHERE f.toID=".$reply['id']);
-				
-				if ($forceReply['fromUserID'] != '')
+				foreach ($forceReplyStatus as $toUserID => $forceReply)
 				{
-				
-					if ($forceReply['id'] > $replyID )
-						$replyID = $forceReply['id'];
-				
-					print '<div class="reply replyborder1 replyalternate1 reply-top userID'.$forceReply['fromUserID'].'" style="background-color:#ffffff; width:600px">';
+					if ($forceReply == 'Done' && $User->type['Moderator'])
+					{
+						
+						$forceReplyMessage = $DB->sql_hash(
+							"SELECT f.id, fromUserID, f.timeSent, f.message, u.points as points, IF(s.userID IS NULL,0,1) as online,
+									u.username as fromusername, f.toID, u.type as userType
+								FROM wD_ModForumMessages f
+								INNER JOIN wD_Users u ON f.fromUserID = u.id
+								LEFT JOIN wD_Sessions s ON ( u.id = s.userID )
+								WHERE f.toID=".$reply['id']." && fromUserID=".$toUserID);
+						
+						if ($forceReplyMessage['fromUserID'] != '')
+						{
+						
+							if ($forceReplyMessage['id'] > $replyID )
+								$replyID = $forceReplyMessage['id'];
+						
+							print '<div class="reply replyborder1 replyalternate1 reply-top userID'.$forceReplyMessage['fromUserID'].'" style="background-color:#ffffff; width:600px">';
 
-					print '<a name="'.$forceReply['id'].'"></a>';
+							print '<a name="'.$forceReplyMessage['id'].'"></a>';
 
-					print '<div class="message-head replyalternate1 leftRule" style="background-color:#ffffff;">';
+							print '<div class="message-head replyalternate1 leftRule" style="background-color:#ffffff;">';
 
-					print '<strong><a href="profile.php?userID='.$forceReply['fromUserID'].'">'.$forceReply['fromusername'].' '.
-						libHTML::loggedOn($forceReply['fromUserID']).
-						' ('.$forceReply['points'].' '.libHTML::points().User::typeIcon($forceReply['userType']).')';
-					
-					print '</a></strong><br />';
+							print '<strong><a href="profile.php?userID='.$forceReplyMessage['fromUserID'].'">'.$forceReplyMessage['fromusername'].' '.
+								libHTML::loggedOn($forceReplyMessage['fromUserID']).
+								' ('.$forceReplyMessage['points'].' '.libHTML::points().User::typeIcon($forceReplyMessage['userType']).')';
+							
+							print '</a></strong><br />';
 
-					print libHTML::forumMessage($message['id'],$forceReply['id']);
+							print libHTML::forumMessage($message['id'],$forceReplyMessage['id']);
 
-					print '<em>'.libTime::text($forceReply['timeSent']).'</em>';
+							print '<em>'.libTime::text($forceReplyMessage['timeSent']).'</em>';
 
-					print '</div>';
+							print '</div>';
 
-					print '
-						<div class="message-body replyalternate'.$replyswitch.'" style="background-color:#ffffff;">
-							<div class="message-contents" fromUserID="'.$forceReply['fromUserID'].'">
-								'.$forceReply['message'].'
-							</div>
-						</div>
+							print '
+								<div class="message-body replyalternate'.$replyswitch.'" style="background-color:#ffffff;">
+									<div class="message-contents" fromUserID="'.$forceReplyMessage['fromUserID'].'">
+										'.$forceReplyMessage['message'].'
+									</div>
+								</div>
 
-						<div style="clear:both"></div>
-						</div>';
+								<div style="clear:both"></div>
+								</div>';
+						}
+					}
 				}
 			}
 			
@@ -746,7 +772,7 @@ while( $message = $DB->tabl_hash($tabl) )
 					
 			if ($User->type['Moderator'])
 				print ' forceReply: 
-							<input type="text" size=4 value="" name="forceUserID">
+							<input type="text" size=4 value="" name="forceUserIDs">
 							<select name="forceReply">
 								<option value="Yes" selected>Yes</option>
 								<option value="No" >No</option>

@@ -42,6 +42,30 @@ class ModForum
 		$User->clearNotification('ForceModMessage');
 	
 	}
+
+	static function replaceVariables($message, $id)
+	{	
+		global $User, $DB;
+		$userGroup = array();
+		
+		$tabl = $DB->sql_tabl("SELECT
+			f.toUserID, u.username
+			FROM wD_ForceReply f
+			LEFT JOIN wD_Users u ON (f.toUserID = u.id)
+			WHERE f.id = ".$id." && f.toUserID != ".$User->id);
+		while( $account = $DB->tabl_hash($tabl) )
+			$userGroup[$account['toUserID']] = $account['username'];
+		
+		$userGroupString=""; $first = true;
+		foreach ($userGroup as $userID => $username)
+		{
+			if (!$first) print ' and '; $first=false;
+			$userGroupString .= '<a href="profile.php?userID='.$userID.'">'.$username.'</a>';
+		}
+		$message = str_replace ( '&lt;username&gt;' , $User->username , $message);
+		$message = str_replace ( '&lt;account_names&gt;' , $userGroupString , $message);
+		return $message;
+	}
 	
 	static function printModMessages()
 	{	
@@ -74,6 +98,8 @@ class ModForum
 			
 			print '<strong>Urgent mod message:</strong>';
 
+			$message['message'] = self::replaceVariables($message['message'], $message['id']);
+			
 			print '</div>				
 				<div class="message-body threadalternate'.$switch.'">
 					<div class="message-contents" fromUserID="'.$message['id'].'">

@@ -668,7 +668,7 @@ if ( $User->type['Moderator'] && $User->id != $UserProfile->id )
 	}
 }
 
-if ( $User->type['User'] && $User->id != $UserProfile->id)
+if ( $User->type['User'] && $User->id != $UserProfile->id && !$User->notifications->ForceModMessage)
 {
 	print '<div class="hr"></div>';
 

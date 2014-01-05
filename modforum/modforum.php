@@ -56,14 +56,28 @@ class ModForum
 		while( $account = $DB->tabl_hash($tabl) )
 			$userGroup[$account['toUserID']] = $account['username'];
 		
+		$count = count($userGroup);
+		
 		$userGroupString=""; $first = true;
 		foreach ($userGroup as $userID => $username)
 		{
-			if (!$first) print ' and '; $first=false;
+			if (!$first && $count-- == 2)
+				$userGroupString .= ' and ';
+			elseif (!$first) 
+				$userGroupString .= ', ';
+			else
+				$first=false;
+				
 			$userGroupString .= '<a href="profile.php?userID='.$userID.'">'.$username.'</a>';
 		}
 		$message = str_replace ( '&lt;username&gt;' , $User->username , $message);
 		$message = str_replace ( '&lt;account_names&gt;' , $userGroupString , $message);
+		
+		if (count($userGroup) > 1)
+			$message = str_replace ( '&lt;plural_s&gt;' , 's' , $message);
+		else
+			$message = str_replace ( '&lt;plural_s&gt;' , '' , $message);
+			
 		return $message;
 	}
 	
@@ -131,8 +145,10 @@ class ModForum
 						</div>
 						<div class="hrthin"></div></div></div>';
 		}		
-		print '</div>';			
-		libHTML::footer();
+		print '</div>';
+		
+		if ($_SERVER['PHP_SELF'] != '/profile.php')
+			libHTML::footer();
 	}
 	
 }

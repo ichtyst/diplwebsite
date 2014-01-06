@@ -159,7 +159,7 @@ class adminActionsRestrictedVDip extends adminActionsForum
 			$row[0] = 'NULL';
 			$row[1]= $row[3] + 4;					// use UserID 5 and up
 			$row[2]= '@gameID';						// gameID
-			if ($row[11] == '') $row[11]= 'NULL';	// votes
+			if ($row[11] == '') $row[11]= '""';		// votes
 			if ($row[12] == '') $row[12]= 'NULL';	// pointsWon	
 			if ($row[13] == '') $row[13]= 'NULL';	// gameMessagesSent	
 			$return .= "INSERT INTO wD_Members VALUES (".$this->RowAsString($row).");\n";

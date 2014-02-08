@@ -11,7 +11,7 @@ class Empire1on1Variant extends WDVariant {
 	public $author       = 'Emmanuele Ravaioli and Andrew Newell (adapted from a map by Vincent Maus)';
 	public $adapter      = 'Emmanuele Ravaioli / Oliver Auth';
 	public $version      = '1';
-	public $codeVversion = '1.0.1';
+	public $codeVersion  = '1.0.1';
 
 	public $countries=array('Confederacy', 'Union');
 

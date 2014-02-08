@@ -325,7 +325,7 @@ class OrderInterface
 		
 		libHTML::$footerIncludes[] = l_j('board/model_vDipV2.js');
 		libHTML::$footerIncludes[] = l_j('board/load.js');
-		libHTML::$footerIncludes[] = l_j('orders/order.js');
+		libHTML::$footerIncludes[] = l_j('orders/order_vDip.js');
 		if ($this->phase == 'Diplomacy')
 			libHTML::$footerIncludes[] = l_j('orders/phaseDiplomacy_vDip.js');
 		else
@@ -352,7 +352,7 @@ class OrderInterface
 	}
 
 	protected function jsInitForm() {
-		libHTML::$footerIncludes[] = l_j('orders/form.js');
+		libHTML::$footerIncludes[] = l_j('orders/form_vDip_V2.js');
 		libHTML::$footerScript[] = l_jf('OrdersHTML.formInit').'(context, contextKey);';
 	}
 

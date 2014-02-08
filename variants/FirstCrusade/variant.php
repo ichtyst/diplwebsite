@@ -11,7 +11,7 @@ class FirstCrusadeVariant extends WDVariant {
 	public $author     = 'Firehawk';
 	public $adapter    = 'Firehawk';
 	public $version    = '1';
-	public $codeVersion= '1.8';
+	public $codeVersion= '1.8.1';
 	public $homepage   = '';
 
 	public $countries=array('Holy Roman Empire', 'England', 'France', 'Seljuk Turks', 'Byzantine Empire', 'Russia', 'Almoravids');

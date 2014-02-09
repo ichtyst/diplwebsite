@@ -91,14 +91,20 @@ Start a new game; you decide the name, how long it runs, and how much it's worth
 			<?php print $User->points.libHTML::points(); ?>)
 	</li>
 	<li class="formlistfield">
-		<input type="text" name="newGame[bet]" size="7" value="<?php print $formPoints ?>" 
+	<div id="betinput">
+		<input id="bet" type="text" name="newGame[bet]" size="7" value="<?php print $formPoints ?>" 
 			onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13"
 			onChange="
 				this.value = parseInt(this.value);
 				if (this.value == 'NaN' ) this.value = <?php print $defaultPoints; ?>;
 				if (this.value < 2) this.value = 2;
 				if (this.value > <?php print $User->points; ?>) this.value = <?php print $User->points; ?>;"
-			/>
+			/> / 
+			<input type="button" value="Play unrated game."
+				onclick="$('bet').value = '0';
+						$('betinput').hide(); $('potType').hide(); $('bet_unrated').show();">
+	</div>
+	<div id="bet_unrated" style="<?php print libHTML::$hideStyle; ?>" >This is an unrated game.</div>
 	</li>
 	<li class="formlistdesc">
 		The bet required to join this game. This is the amount of points that all players, including you,
@@ -209,17 +215,19 @@ else
 	setExtOptions(<?php print $first;?>);
 	</script>
 	
-	<li class="formlisttitle">Pot type:</li>
-	<li class="formlistfield">
-		<input type="radio" name="newGame[potType]" value="Points-per-supply-center" checked > Points-per-supply-center (PPSC)<br />
-		<input type="radio" name="newGame[potType]" value="Winner-takes-all"> Winner-takes-all (WTA)
-	</li>
-	<li class="formlistdesc">
-		Should the winnings be split up according to who has the most supply centers, or should the winner
-		get everything (<a href="points.php#ppscwta" class="light">read more</a>).<br /><br />
+	<div id="potType">
+		<li class="formlisttitle">Pot type:</li>
+		<li class="formlistfield">
+			<input type="radio" name="newGame[potType]" value="Points-per-supply-center" checked > Points-per-supply-center (PPSC)<br />
+			<input type="radio" name="newGame[potType]" value="Winner-takes-all"> Winner-takes-all (WTA)
+		</li>
+		<li class="formlistdesc">
+			Should the winnings be split up according to who has the most supply centers, or should the winner
+			get everything (<a href="points.php#ppscwta" class="light">read more</a>).<br /><br />
 
-		<strong>Default:</strong> Points-per-supply-center (PPSC)
-	</li>
+			<strong>Default:</strong> Points-per-supply-center (PPSC)
+		</li>
+	</div>
 
 	<li class="formlisttitle">
 		Anonymous players:

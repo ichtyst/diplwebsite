@@ -223,6 +223,9 @@ class panelMember extends Member
 	 */
 	function memberBetWon()
 	{
+	
+		if ($this->Game->pot == 0 ) return;
+		
 		$buf = l_t('Bet:').' <em>'.$this->bet.libHTML::points().'</em>, ';
 
 		if ( $this->Game->phase == 'Pre-game' )

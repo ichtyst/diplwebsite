@@ -885,8 +885,11 @@ class processGame extends Game
 		$this->setPhase('Finished', 'Won');
 		
 		// Update the VDip-Ratings
-		include_once("lib/rating.php");
-		libRating::updateRatings($this, true);
+		if ($this->pot > 0)
+		{
+			include_once("lib/rating.php");
+			libRating::updateRatings($this, true);
+		}
 		
 	}
 

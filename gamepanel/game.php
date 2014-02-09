@@ -225,7 +225,7 @@ class panelGame extends Game
 				</span>
 			</div>';
 			
-		$date=' - <span class="gameDate">'.$this->datetxt().'</span>, <span class="gamePhase">';
+		$date='<span class="gameDate">'.$this->datetxt().'</span>, <span class="gamePhase">';
 		
 		if ($this->phase == 'Pre-game')
 		{
@@ -239,8 +239,10 @@ class panelGame extends Game
 				'.$this->gameIcons().
 				'<span class="gameName">'.$this->titleBarName().'</span>';
 
-		$leftBottom = '<div class="titleBarLeftSide">
-				'.l_t('Pot:').' <span class="gamePot">'.$this->pot.' '.libHTML::points().'</span>';
+		$leftBottom = '<div class="titleBarLeftSide">';
+		
+		if ($this->pot > 0)
+			$leftBottom .= l_t('Pot:').' <span class="gamePot">'.$this->pot.' '.libHTML::points().'</span> - ';
 			//<span class="gamePotType" title="'.$this->potType.'">('.($this->potType=='Points-per-supply-center'?'PPSC':'WTA').')</span>';
 
 		$leftBottom .= $date;
@@ -269,9 +271,9 @@ class panelGame extends Game
 		$alternatives=array();
 		if( $this->variantID!=1 )
 			$alternatives[]=$this->Variant->link();
-		if( $this->potType=='Winner-takes-all' )
+		if( $this->potType=='Winner-takes-all' && $this->pot > 0 )
 			$alternatives[]='<b><a href="points.php#ppscwta">'.l_t('WTA').'</a></b>';
-		else
+		elseif ($this->potType=='Points-per-supply-center' && $this->pot > 0 )
 			$alternatives[]='<b><a href="points.php#ppscwta">'.l_t('PPSC').'</a></b>';
 		if( $this->pressType=='NoPress')
 			$alternatives[]=l_t('Gunboat');
@@ -528,7 +530,8 @@ class panelGame extends Game
 		}
 		elseif( $this->phase == 'Pre-game' )
 		{
-			$buf .= 'Bet to join: <em>'.$this->minimumBet.libHTML::points().'</em>: ';
+			if ( $this->pot > 0 )
+				$buf .= 'Bet to join: <em>'.$this->minimumBet.libHTML::points().'</em>: ';
 		}
 		else
 		{

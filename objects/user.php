@@ -889,7 +889,7 @@ class User {
 		$rankingDetails['worth'] += $this->points;
 
 		$tabl = $DB->sql_tabl(
-				"SELECT COUNT(id), status FROM wD_Members WHERE userID = ".$this->id." GROUP BY status"
+				"SELECT COUNT(id), status FROM wD_Members WHERE userID = ".$this->id." AND bet != 0 GROUP BY status"
 			);
 
 		$rankingDetails['stats'] = array();

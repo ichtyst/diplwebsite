@@ -76,7 +76,7 @@ class panelMembers extends Members
 	 */
 	function membersList()
 	{
-		if( $this->Game->phase == 'Pre-game' )
+		if( $this->Game->phase == 'Pre-game'  && count($this->ByCountryID)==0  )
 		{
 			$membersNames = array();
 			foreach($this->ByUserID as $Member)
@@ -116,8 +116,11 @@ class panelMembers extends Members
 			$bet = ( method_exists ('Config','adjustCD') ? Config::adjustCD($Member->pointsValue()) : $Member->pointsValue() );
 			
 			$buf .= '<input type="hidden" name="countryID" value="'.$Member->countryID.'" />
-				<label>Take over:</label> '.$Member->countryColored().', for <em>'.$bet.libHTML::points().'</em>'.
-				( ($bet != $Member->pointsValue()) ? ' (worth:'.$Member->pointsValue().libHTML::points().')':'');
+				<label>Take over:</label> '.$Member->countryColored();
+				
+			if ($this->Game->pot > 0)
+				$buf .= ', for <em>'.$bet.libHTML::points().'</em>'.
+					( ($bet != $Member->pointsValue()) ? ' (worth:'.$Member->pointsValue().libHTML::points().')':'');
 		}
 		else
 		{
@@ -130,10 +133,12 @@ class panelMembers extends Members
 
 				if ( $User->points >= $pointsValue )
 				{
-					$buf .= '<option value="'.$Member->countryID.'" />
-						'.$Member->country.', for '.$bet.'</em>'.
-						( ($bet != $pointsValue) ? ' (worth:'.$pointsValue.')':'').
-						'</option>';
+					$buf .= '<option value="'.$Member->countryID.'" />'.$Member->country;
+					
+					if ($this->Game->pot > 0)
+						$buf .= ', for '.$bet.'</em>'.( ($bet != $pointsValue) ? ' (worth:'.$pointsValue.')':'');
+						
+					$buf .= '</option>';
 				}
 			}
 			$buf .= '</select>';

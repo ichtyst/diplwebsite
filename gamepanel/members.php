@@ -76,14 +76,27 @@ class panelMembers extends Members
 	 */
 	function membersList()
 	{
-		if( $this->Game->phase == 'Pre-game'  && count($this->ByCountryID)==0  )
+		global $User;
+		if( $this->Game->phase == 'Pre-game' && count($this->ByCountryID)==0)
 		{
 			$membersNames = array();
 			foreach($this->ByUserID as $Member)
 				$membersNames[] = '<span class="memberName">'.$Member->memberName().'</span>';
-
+			
+			return '<table><tr class="member memberAlternate1 memberPreGameList"><td>'
+				.implode(', ',$membersNames).'</td></tr></table>';
+		}
+		
+		// Choose your country:
+		if( $this->Game->phase == 'Pre-game' && count($this->ByCountryID)!=0 && !$User->type['Moderator'])
+		{
+			$membersNames = array();
+			foreach($this->ByUserID as $Member)
+				$membersNames[] = '<span class="memberName">'.$Member->memberCountryName().'</span>';
+			
 			return '<table><tr class="member memberAlternate1 memberPreGameList"><td>'.
-				implode(', ',$membersNames).'</td></tr></table>';
+				'This is '.($this->Game->anon=='Yes' ? '' : '<b>not</b> ').'an anon game, names will be revealed once the game '.($this->Game->anon=='Yes' ? 'ends' : 'starts ').'.<br>'
+				.implode(', ',$membersNames).'</td></tr></table>';
 		}
 
 		libHTML::$alternate=2;

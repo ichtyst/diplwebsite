@@ -81,6 +81,10 @@ $globalFaq = array(
 		"This special rule sends a country into civil disorder (CD) if it does not enter an order (NMR) and extend the phase so a replacement can be found.
 		This works on all phases of a turn (diplomacy, retreat, build).
 		Be careful, this might lead to locked games, if players leave and no replacement is found.",
+	"Unrated games" =>
+		"In the gamecreate options you can choose to create an unrated game instead of entering a betsize.<br>
+		These games have a pot of 0, require 0 points to join, do not change any stats on your profile and 
+		are not used to calculate your vDip-Rating.",
 
 "Special votes" => "Sub-section",
 	"Concede" =>

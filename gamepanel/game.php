@@ -244,7 +244,9 @@ class panelGame extends Game
 		if ($this->pot > 0)
 			$leftBottom .= l_t('Pot:').' <span class="gamePot">'.$this->pot.' '.libHTML::points().'</span> - ';
 			//<span class="gamePotType" title="'.$this->potType.'">('.($this->potType=='Points-per-supply-center'?'PPSC':'WTA').')</span>';
-
+		else
+			$leftBottom .= '<i><a class="light" href="features.php#4_4">'.l_t('Unrated').'</a></i> - ';
+		
 		$leftBottom .= $date;
 		
 		$leftTop .= '</div>';

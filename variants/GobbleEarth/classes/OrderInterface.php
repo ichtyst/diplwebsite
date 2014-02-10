@@ -5,7 +5,7 @@ defined('IN_CODE') or die('This script can not be run by itself.');
 class GobbleEarthVariant_OrderInterface extends OrderInterface {
 
 	protected function jsLoadBoard() {
-		global $Variant;
+		global $Variant, $Member;
 		parent::jsLoadBoard();
 		if( $this->phase=='Builds' )
 		{
@@ -18,6 +18,20 @@ class GobbleEarthVariant_OrderInterface extends OrderInterface {
 			libHTML::$footerIncludes[] = '../variants/'.$Variant->name.'/resources/renameWait.js';
 			foreach(libHTML::$footerScript as $index=>$script)
 				libHTML::$footerScript[$index]=str_replace('loadOrdersPhase();','loadOrdersPhase(); RenameWait();', $script);
+				
+			$homeBuilds='Array("'.implode($Variant->homeSCs[$Member->country], '","').'")';
+			libHTML::$footerIncludes[] = '../variants/'.$Variant->name.'/resources/renameSCs.js';
+			foreach(libHTML::$footerScript as $index=>$script)
+				libHTML::$footerScript[$index]=str_replace('loadBoard();','loadBoard();RenameSCs('.$homeBuilds.');', $script);
+				
 		}
+	}
+	
+	public function html()
+	{
+		global $DB;
+		list($cB)=$DB->sql_row("SELECT COUNT(*) FROM wD_MovesArchive WHERE gameID=".$this->gameID." AND countryID=".$this->countryID." AND turn=".($this->turn - 2)." AND type='Wait'");
+
+		return '<div style="text-align:center;">You have <b>'.$cB.'</b> colonial build'.($cB==1?'':'s').' this phase.</div>'.parent::html();
 	}
 }

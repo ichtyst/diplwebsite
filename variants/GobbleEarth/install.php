@@ -1014,7 +1014,16 @@ $bordersRawData=array(
 	array('Ukraine','Warsaw','No','Yes'),
 	array('Vladivostok','Yakutskaya','No','Yes'),
 	array('Wales','Yorkshire','No','Yes'),
-	array('Western Mediterranean','Spain (South Coast)','Yes','No')
+	array('Western Mediterranean','Spain (South Coast)','Yes','No'),
+	array('Costa Rica (East Coast)','Nicaragua (East Coast)','Yes','No'),
+	array('Costa Rica (West Coast)','Nicaragua (West Coast)','Yes','No'),
+	array('Guatemala (North Coast)','Honduras (North Coast)','Yes','No'),
+	array('Guatemala (South Coast)','Honduras (South Coast)','Yes','No'),
+	array('Guatemala (South Coast)','Oaxaca (South Coast)','Yes','No'),
+	array('Honduras (North Coast)','Nicaragua (East Coast)','Yes','No'),
+	array('Honduras (South Coast)','Nicaragua (West Coast)','Yes','No'),
+	array('Mexico (East Coast)','Oaxaca (North Coast)','Yes','No'),
+	array('Mexico (South Coast)','Oaxaca (South Coast)','Yes','No')
 );
 
 foreach($bordersRawData as $borderRawRow)

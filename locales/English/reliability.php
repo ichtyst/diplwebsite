@@ -52,7 +52,7 @@ The exact calculation is:
 		<span class="divider">________________</span>
 		<span class="denominator">TotalPhases</span>
 	</div>
-	) &minus; 10 * UnbalancedCDs
+	) &minus; 10 * (CDs - CD-takeovers)
 </div><br>
 <span class="intro">
 
@@ -66,7 +66,8 @@ The exact calculation is:
 
 	$mm = $UserProfile->missedMoves;
 	$pp = $UserProfile->phasesPlayed;
-	$cd = $UserProfile->gamesLeft - $UserProfile->leftBalanced;
+	$cd = $UserProfile->gamesLeft;
+	$cdb=$UserProfile->leftBalanced;
 	
 	if (libReliability::getReliability($UserProfile) < 0)
 	{
@@ -81,7 +82,7 @@ The exact calculation is:
 						<span class="divider">________________</span>
 						<span class="denominator"><b>'.$pp.'</b></span>
 					</div>
-					) &minus; 10 * <b>'.$cd.'</b>
+					) &minus; 10 * (<b>'.$cd.'</b> - <b>'.$cdb.'</b>)
 					= 100 &minus; '.($pp == 0 ? '0' : round(200 * $mm / $pp)).
 					' &minus; '.(10 * $cd).' = <b>'.libReliability::getReliability($UserProfile).'</b>';
 	}

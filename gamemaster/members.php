@@ -553,8 +553,11 @@ class processMembers extends Members
 
 			assert('$SCsInPlayCount > 0');
 
-			$SCTarget = $this->Game->Variant->supplyCenterTarget;
-
+			if ($this->Game->targetSCs != 0 )
+				$SCTarget = $this->Game->targetSCs;
+			else
+				$SCTarget = $this->Game->Variant->supplyCenterTarget;
+			
 			if( $Winner->supplyCenterNo > $SCTarget )
 			{
 				/*

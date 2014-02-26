@@ -1084,8 +1084,11 @@ class processGame extends Game
 		$this->setPhase('Finished', 'Drawn');
 		
 		// Update the VDip-Ratings
-		include_once("lib/rating.php");
-		libRating::updateRatings($this, true);
+		if ($this->pot > 0)
+		{
+			include_once("lib/rating.php");
+			libRating::updateRatings($this, true);
+		}
 
 		$DB->sql_put("DELETE FROM wD_Orders WHERE gameID = ".$this->id);
 		$DB->sql_put("DELETE FROM wD_Units WHERE gameID = ".$this->id);

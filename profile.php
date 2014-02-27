@@ -287,18 +287,6 @@ print '<ul class="formlist">';
 
 print '<li><strong>'.l_t('Rank:').'</strong> '.$rankingDetails['rank'].'</li>';
 
-/**
- * Add reliability-rating to the profile-page
- */
-print '<li><strong>Reliabilty Rating:</strong> <b>'.libReliability::getGrade($UserProfile).'</b>';
-print ' - ('.
-	abs(libReliability::getReliability($UserProfile)).'%) <a class="light" href="reliability.php?userID='.$UserProfile->id.'">(what\'s this?)</a><br>(missed '.
-	$UserProfile->missedMoves.' of '.
-	$UserProfile->phasesPlayed.
-	' phases, unbalanced CDs: '.($UserProfile->gamesLeft - $UserProfile->leftBalanced).
-	')</li>';
-// End Relibility-Hack
-
 if ( $rankingDetails['position'] < $rankingDetails['rankingPlayers'] )
 	print '<li><strong>'.l_t('Position:').'</strong> '.$rankingDetails['position'].' / '.
 		$rankingDetails['rankingPlayers'].' '.l_t('(top %s%%)',$rankingDetails['percentile']).'</li>';
@@ -427,7 +415,7 @@ print '<li><strong>'.l_t('Game messages:').'</strong> '.$posts.'</li>';
 
 print '<li>&nbsp;</li>';
 $total = 0;
-$includeStatus=array('Won','Drawn','Survived','Defeated','Resigned','Left');
+$includeStatus=array('Won','Drawn','Survived','Defeated','Abandoned','Left');
 foreach($rankingDetails['stats'] as $name => $status)
 {
 	if ( !in_array($name, $includeStatus) ) continue;
@@ -467,8 +455,48 @@ if( $total )
 
 	print '</ul></li>';
 }
-print '</ul></div>';
+print '<li>&nbsp;</li>';
 
+print '<style type="text/css"> .tooltip { position: absolute; display: none; background-color: #eaeaea;} </style>
+		<div id="RRtooltip" class="tooltip">RR = ((noNMR + noCD)/2)^3</div>
+		<div id="Itooltip" class="tooltip">Integrity = CDtakeovers - NMRs * 0.2 - CDs * 0.6</div>
+		<script type="text/javascript">
+			document.onmousemove = updateWMTT;
+			function updateWMTT(e) {
+				if (wmtt != null && wmtt.style.display == "block") {
+					x = (e.pageX ? e.pageX : window.event.x) + wmtt.offsetParent.scrollLeft - wmtt.offsetParent.offsetLeft;
+					y = (e.pageY ? e.pageY : window.event.y) + wmtt.offsetParent.scrollTop - wmtt.offsetParent.offsetTop;
+					wmtt.style.left = (x + 20) + "px";
+					wmtt.style.top = (y - 20) + "px";
+				}
+			}
+		    function showRR() {
+				wmtt = document.getElementById("RRtooltip");
+				wmtt.style.display = "block"
+			}
+		    function showI() {
+				wmtt = document.getElementById("Itooltip");
+				wmtt.style.display = "block"
+			}
+			function hideWMTT() {
+				wmtt.style.display = "none";
+			}
+		</script>';
+		
+print '<li><strong>'.l_t('Reliability stats: ').'</strong> <ul class="gamesublist">';
+print '<li>Reliability Rating: 
+	<a onmouseover="showRR();"; onmouseout="hideWMTT();" href="#">
+    <strong>'.libReliability::getGrade($UserProfile).'</strong></a></li>';
+print '<li>NoNMR: <strong>'.libReliability::noNMRrating($UserProfile).'%</strong> (<strong>'.$UserProfile->missedMoves.'</strong> missed phases out of <strong>'.$UserProfile->phasesPlayed.'</strong>)</li>';
+print '<li>NoCD: <strong>'.libReliability::noCDrating($UserProfile).'%</strong> (<strong>'.$UserProfile->gamesLeft.'</strong> abandoned games out of <strong>'.$UserProfile->gamesPlayed.'</strong>)</li>';
+
+if (libReliability::integrityRating($UserProfile) != 0)
+	print '<li>Integrity: 
+	<a onmouseover="showI();"; onmouseout="hideWMTT();" href="#">
+	<strong>'.libReliability::integrityRating($UserProfile).'</strong></a></li>';
+
+
+print '</ul></li></div>';
 
 print "<h2>".$UserProfile->username;
 if ( $User->type['User'] && $UserProfile->type['User'] && ! ( $User->id == $UserProfile->id || $UserProfile->type['Moderator'] || $UserProfile->type['Guest'] || $UserProfile->type['Admin'] ) )

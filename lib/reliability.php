@@ -20,39 +20,51 @@
 
 class libReliability
 {
-
-	public static $grades = array (
-		98=>'98+', 90=>'90+', 80=>'80+', 60=>'60+', 40=>'40+', 10=>'10+', 0=>'0', '-100'=>'Rookie'
-	);
+	/**
+	 * Get a user's or members noNMRrating rating.	 
+	 * This is ( missedMoves / phasesPlayed )
+	 * @return noNMRrating
+	 */
+	static function noNMRrating($User)
+	{
+		if ($User->phasesPlayed == 0) return 100;
+		return round (100 * ( 1 - $User->missedMoves / $User->phasesPlayed ) , 2);
+	}
 	
 	/**
-	 * Calc a reliability rating.  Reliability rating is 100 minus phases missed / phases played * 200, not to be lower than 0
-	 * Examples: If a user misses 5% of their games, rating would be 90, 15% would be 70, etc. 
-	 * Certain features of the site (such as creating and joining games) will be restricted if the reliability rating is too low.
-	 * @return reliability
+	 * Get a user's or members noCDrating rating.	 
+	 * This is ( gamesLeft / gamesPlayed )
+	 * @return noNMRrating
 	 */
-	static public function calcReliability($missedMoves, $phasesPlayed, $gamesLeft, $leftBalanced)
+	static function noCDrating($User)
 	{
-		if ( $phasesPlayed == 0 )
-			$reliability = 100;
-		else
-			$reliability = ceil(100 - $missedMoves / $phasesPlayed * 200 - (10 * ($gamesLeft - $leftBalanced)));
+		if ($User->gamesPlayed == 0) return 100;
+		return round (100 * ( 1 - $User->gamesLeft / $User->gamesPlayed ) , 2);
+	}
 
-		if ($reliability < 0) $reliability = 0;
-		
-		if ( $phasesPlayed < 20 ) $reliability = $reliability * -1;
-		if ( $phasesPlayed < 20 && $reliability == 0) $reliability = -1;
-
-		return $reliability;
+	/**
+	 * Get a user's or members noCDrating rating.	 
+	 * This is ( gamesLeft / gamesPlayed )
+	 * @return noNMRrating
+	 */
+	static function integrityRating($User)
+	{
+		if ($User->gamesPlayed == 0) return 0;
+		return 	$User->CDtakeover - $User->missedMoves * 0.2 - $User->gamesLeft * 0.6;
 	}
 
 	/**
 	 * Get a user's or members reliability rating.	 
+	 * This is ( (noCD + noNMR) /2 ) ^3
 	 * @return reliability
 	 */
 	static public function getReliability($User)
 	{
-		return self::calcReliability($User->missedMoves, $User->phasesPlayed, $User->gamesLeft, $User->leftBalanced);
+		if ($User->phasesPlayed == 0) return 100;
+		
+		$cleanRR = ((self::noNMRrating($User) + self::noCDrating($User)) / 2);
+		$adjustedRR = 100 * pow (($cleanRR / 100), 3);
+		return round ($adjustedRR , 2);
 	}
 	
 	/**
@@ -60,9 +72,7 @@ class libReliability
 	 */
 	static public function Grade($reliability)
 	{
-		foreach (self::$grades as $limit=>$grade)
-			if ($reliability >= $limit)
-				return $grade;
+		return "R".floor($reliability);
 	}
 	
 	/**
@@ -71,10 +81,12 @@ class libReliability
 	 */
 	static public function getGrade($User)
 	{
-		$reliability = libReliability::calcReliability($User->missedMoves, $User->phasesPlayed, $User->gamesLeft, $User->leftBalanced);
-		return libReliability::Grade($reliability);
+		if ($User->phasesPlayed > 99 && $User->gamesPlayed > 2)
+			return self::Grade(self::getReliability($User));
+		else
+			return 'Rookie';
 	}
-		
+	
 	/**
 	 * Check if the users reliability is high enough to join/create more games
 	 * @return true or error message	 
@@ -88,21 +100,40 @@ class libReliability
 		if ($openSwitches > 0)
 			return "<p><b>NOTICE:</b></p><p>You can't join or create new games, as you have active CountrySwitches at the moment.</p>";
 
-		$reliability = self::getReliability($User);
-		$maxGames = ceil($reliability / 10);
-		list($totalGames) = $DB->sql_row("SELECT COUNT(*) FROM wD_Members m, wD_Games g WHERE m.userID=".$User->id." and m.gameID=g.id and g.phase!='Finished' and m.bet>1");
+		$integrity = self::integrityRating($User);
+		list($totalGames) = $DB->sql_row("SELECT COUNT(*) FROM wD_Members m, wD_Games g WHERE m.userID=".$User->id." and m.status!='Defeated' and m.gameID=g.id and g.phase!='Finished' and m.bet!=1");
+
+		if ($integrity < -1) { $maxGames = 6; }
+		if ($integrity < -2) { $maxGames = 5; }
+		if ($integrity < -3) { $maxGames = 3; }
+		if ($integrity < -4) { $maxGames = 1; }
 		
 		// This will prevent newbies from joining 10 games and then leaving right away.
-		if ( $totalGames > 4 && $User->phasesPlayed < 20 ) 
-			return "<p>You're taking on too many games at once for a new member.<br>Please relax and enjoy the game or games that you are currently in before joining/creating a new one.<br>You need to play at least <strong>20 phases</strong>, bevore you can join more than 4 games. Once you played 20 phases your reliability-rating will affect how many games you can play at once. You can than join 1 game for each 10% RR. If your RR if better than 90% you can join as many games as you want.<br>2-player variants are not affected by this restriction.</p>";
+		if ( $totalGames > 1 && $User->phasesPlayed < 20 ) 
+			return "<p>You're taking on too many games at once for a new member.<br>
+				Please relax and enjoy the games that you are currently in before joining/creating a new one.<br>
+				You need to play at least <strong>20 phases</strong>, before you can join more than 2 games.<br>
+				2-player variants are not affected by this restriction.</p>";
+		if ( $totalGames > 3 && $User->phasesPlayed < 50 ) 
+			return "<p>You're taking on too many games at once for a new member.<br>
+				Please relax and enjoy the games that you are currently in before joining/creating a new one.<br>
+				You need to play at least <strong>50 phases</strong>, before you can join more than 4 games.<br>
+				2-player variants are not affected by this restriction.</p>";
+		if ( $totalGames > 6 && $User->phasesPlayed < 100 ) 
+			return "<p>You're taking on too many games at once for a new member.<br>
+				Please relax and enjoy the games that you are currently in before joining/creating a new one.<br>
+				You need to play at least <strong>100 phases</strong>, before you can join more than 7 games.<br>
+				2-player variants are not affected by this restriction.</p>";
 		
 		// If the rating is 90 or above, there is no game limit restriction
-		if ($maxGames < 10 && $User->phasesPlayed >= 20) { 
-			if ( $reliability == 0 )
-				return "<p>NOTICE: You are not allowed to join or create any games given your reliability rating of ZERO (meaning you have missed more than 50% of your orders across all of your games)</p><p>You can improve your reliability rating by not missing any orders, even if it's just saving the default 'Hold' for everything.</p><p>If you are not currently in a game and cannot join one because of this restriction, then you may contact an <a href=\"modforum.php\">admin</a> and briefly explain your extremely low rating.  The admin, at his or her discretion, may set your reliability rating high enough to allow you 1 game at a time. By consistently putting in orders every turn in that new game, your reliability rating will improve enough to allow you more simultaneous games. 2-player variants are not affected by this restriction and you may take over 'open' positions in ongoing games to help improve your rating. Please also note that any attempts to avoid these restrictions through a new account may result in a permanent ban from the site..</p>";
-			elseif ( $totalGames >= $maxGames ) // Can't have more than reliability rating / 10 games up
-				return "<p>NOTICE: You cannot join or create a new game, because you seem to be having trouble keeping up with the orders in the ones you already have</p><p>You can improve your reliability rating by not missing any orders, even if it's just saving the default 'Hold' for everything.</p><p>Please note that if you are marked as 'Left' for a game, your rating will continue to take hits until someone takes over for you.</p><p>Your current rating of <strong>".$reliability."</strong> allows you to have no more than <strong>".$maxGames."</strong> concurrent games before you see this message.  Every 10 reliability points will allow you an additional game. 2-player variants are not affected by this restriction. Any you can join as many 'open' spots in ongoing games as you like if there are no additional restrictions for the game.</p>";
-		}
+		if ($totalGames > ($maxGames - 1))
+			return "<p>NOTICE: You cannot join or create a new game, because you seem to be having trouble keeping up with the orders in the ones you already have.</p>
+			<p>You can improve your integrity rating by not missing any orders, even if it's just saving the default 'Hold' for everything.</p>
+			<p>Please note that if you are marked as 'Left' for a game, your rating will first receive -0.4 for the 2 NMRS, than -0.6 for the CD and continue to take NMR-hits until someone takes over for you.</p>
+			<p>Your current integrity of <strong>".$integrity."</strong> allows you to have no more than <strong>".$maxGames."</strong> concurrent games before you see this message.<br>
+			2-player variants are not affected by this restriction.<br>
+			You can join as many 'open' spots in ongoing games as you like if there are no additional restrictions for the game.</p>
+			<p>You can improve your integrity rating by taking CD-positions from ongoing games. Each takeover will improve your rating by 1.</p>";
 	}
 	
 	/**
@@ -110,12 +141,9 @@ class libReliability
 	 */
 	static function updateReliability($Member, $type, $calc)
 	{
-		global $DB, $Game;
+		global $DB;
 		
-		if ($type == 'leftBalanced' && ($Member->leftBalanced >= $Member->gamesLeft))
-			return;
-			
-		if ( (count($Game->Variant->countries) > 2) && ($Game->phaseMinutes > 30) )
+		if ( (count($Member->Game->Variant->countries) > 2) && ($Member->Game->phaseMinutes > 30) )
 			$DB->sql_put("UPDATE wD_Users SET ".$type." = ".$type." ".$calc." WHERE id=".$Member->userID);		
 	}
 
@@ -124,7 +152,7 @@ class libReliability
 	 * for games with more then 2 players and not live games...
 	 * "Left" users are included (for civil disorder to total phases ratio calculating)
 	 */
-	static function updateReliabilities($Members)
+	static function updateNMRreliabilities($Members)
 	{
 		foreach($Members->ByStatus['Playing'] as $Member)
 		{
@@ -138,6 +166,12 @@ class libReliability
 			self::updateReliability($Member, 'phasesPlayed', '+ 1');
 			self::updateReliability($Member, 'missedMoves' , '+ 1');
 		}
+	}
+	
+	static function updateCDReliabilities($Members)
+	{
+		foreach($Members->ByID as $Member)
+			self::updateReliability($Member, 'gamesPlayed', '+ 1');
 	}
 	
 }

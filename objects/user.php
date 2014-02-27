@@ -183,7 +183,8 @@ class User {
 	public $missedMoves;
 	public $phasesPlayed;
 	public $gamesLeft;
-	public $leftBalanced;
+	public $CDtakeover;
+	public $gamesPlayed;
 	
 	public $lastMessageIDViewed;
 	public $lastModMessageIDViewed;
@@ -578,13 +579,14 @@ class User {
 			u.missedMoves,
 			u.phasesPlayed,			
 			u.gamesLeft,
+			u.gamesPlayed,
 			u.rlGroup,
 			u.showCountryNames,
 			u.showCountryNamesMap,
 			u.colorCorrect,
 			u.unitOrder,
 			u.sortOrder,			
-			u.leftBalanced,
+			u.CDtakeover,
 			u.pointNClick,
 			u.terrGrey,
 			u.greyOut,
@@ -897,7 +899,13 @@ class User {
 		{
 			$rankingDetails['stats'][$status] = $number;
 		}
-
+		
+		if (isset($rankingDetails['stats']['Resigned']))
+			unset ($rankingDetails['stats']['Resigned']);
+	
+		if ($this->gamesLeft > 0)
+			$rankingDetails['stats']['Abandoned'] = $this->gamesLeft;
+		
 		$tabl = $DB->sql_tabl( "SELECT COUNT(m.id), m.status, SUM(m.bet) FROM wD_Members AS m
 					INNER JOIN wD_Games AS g ON m.gameID = g.id
 					WHERE m.userID = ".$this->id."
@@ -1085,7 +1093,7 @@ class User {
 		
 	/*
 	 * The functions to check if a user is Blocked
-	 * Basicalle it's the same as the Mute feature, but only to block a user from joining your games
+	 * Basically it's the same as the Mute feature, but only to block a user from joining your games
 	 */
 	public function getBlockUsers() {
 		global $DB;

@@ -154,7 +154,8 @@ class Member
 	public $missedMoves;
 	public $phasesPlayed;
 	public $gamesLeft;
-	public $leftBalanced;
+	public $gamesPlayed;
+	public $CDtakeover;
 
 	/**
 	 * rlGroup of the player

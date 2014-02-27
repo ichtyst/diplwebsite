@@ -305,26 +305,73 @@ else
 		Rating requirements:
 	</li>
 	<script type="text/javascript">
-		function changeMinPhases(i){
+		function changeReliabilitySelect(i){
 			if (i > 0) {
 				document.getElementById('minPhases').options[0].value = '20';
 				document.getElementById('minPhases').options[0].text  = '20+';
-			} else {
+				document.getElementById('ReliabilityInput').value = i;
+			} else if ( i == '') {
+				document.getElementById('minPhases').options[0].value = '20';
+				document.getElementById('minPhases').options[0].text  = '20+';
+				$('ReliabilityText').show();
+				$('ReliabilitySelect').hide();			
+			}
+			else {
 				document.getElementById('minPhases').options[0].value = '0';
 				document.getElementById('minPhases').options[0].text  = 'none';
+				document.getElementById('ReliabilityInput').value = i;
 			}
 		}
 	</script>
 	<li class="formlistfield">
-		<b>Min Rating: </b><select name="newGame[minRating]" onChange="changeMinPhases(this.value)">
+		ReliabilityRating: R
+<?php
+/*		
+		<span id="ReliabilitySelect" style="display:inline">
+			<select onChange="changeReliabilitySelect(this.value)">
 			<option value=0 selected>none</option>
 			<?php
 				foreach (libReliability::$grades as $limit=>$grade)
-					if ($limit > 0)
-						print '<option value='.$limit.'>'.$grade.'</option>';
+					print '<option value='.$limit.'>'.$grade.'</option>';
 			?>
-			</select> / 
-		<b>Min Phases: </b><select id="minPhases" name="newGame[minPhases]">
+			print '<option value=''>custom</option>';
+			</select>
+		</span>
+		<span id="ReliabilityText" style="display:none">
+*/
+?>		
+		<span id="ReliabilityText" >
+			<input id="ReliabilityInput" type="text" name="newGame[minRating]" size="2" value="0"
+				style="text-align:right;"
+				onChange="
+					this.value = parseInt(this.value);
+					if (this.value == 'NaN' ) this.value = 0;
+					if (this.value < 0 ) this.value = 0;
+					if (this.value > 100 ) this.value = 100;
+					changeReliabilitySelect(this.value)" 
+				onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13;">
+			or better.
+		</span>
+		<br>
+		NoNMR: <input id="minNoNMR" type="text" name="newGame[minNoNMR]" size="2" value="0"
+			style="text-align:right;"
+			onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13"
+			onChange="
+				this.value = parseInt(this.value);
+				if (this.value == 'NaN' ) this.value = 0;
+				if (this.value < 0 ) this.value = 0;
+				if (this.value > 100 ) this.value = 100;
+				"/>% or better. - 
+		NoCD: <input type="text" id="minNoCD" name="newGame[minNoCD]" size="2" value="0"
+			style="text-align:right;"
+			onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13"
+			onChange="
+				this.value = parseInt(this.value);
+				if (this.value == 'NaN' ) this.value = 0;
+				if (this.value < 0 ) this.value = 0;
+				if (this.value > 100 ) this.value = 100;
+				"/>% or better.<br>
+		Min Phases: <select id="minPhases" name="newGame[minPhases]">
 			<option value=0 selected>none</option>
 			<option value=50>50+</option>
 			<option value=100>100+</option>

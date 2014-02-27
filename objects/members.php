@@ -215,7 +215,8 @@ class Members
 				u.missedMoves AS missedMoves,
 				u.phasesPlayed AS phasesPlayed,			
 				u.gamesLeft AS gamesLeft,
-				u.leftBalanced AS leftBalanced,				
+				u.CDtakeover AS CDtakeover,				
+				u.gamesPlayed AS gamesPlayed,				
 				m.pointsWon as pointsWon,
 				IF(s.userID IS NULL,0,1) as online,
 				u.type as userType

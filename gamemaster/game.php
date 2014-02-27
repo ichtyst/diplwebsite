@@ -303,6 +303,8 @@ class processGame extends Game
 		,$specialCDturn 
 		,$specialCDcount
 		,$chessTime
+		,$minNoCD
+		,$minNoNMR
 		)
 	{
 		global $DB;
@@ -366,6 +368,8 @@ class processGame extends Game
 						specialCDturn = ".$specialCDturn.", 
 						specialCDcount = ".$specialCDcount.", 
 						chessTime = ".$chessTime.", 
+						minNoCD = ".$minNoCD.", 
+						minNoNMR = ".$minNoNMR.", 
 						rlPolicy = '".($anon == 'Yes' ? 'Strict' : 'None' )."'");
 
 		$gameID = $DB->last_inserted();
@@ -890,6 +894,10 @@ class processGame extends Game
 			include_once("lib/rating.php");
 			libRating::updateRatings($this, true);
 		}
+			
+		// Update the players play and CD count.
+		require_once(l_r('lib/reliability.php'));		 
+		libReliability::updateCDReliabilities($this->Members);			 
 		
 	}
 
@@ -921,7 +929,7 @@ class processGame extends Game
 
 		// Check for missed turns and adjust the counter in the user-data
 		require_once(l_r('lib/reliability.php'));		 
-		libReliability::updateReliabilities($this->Members);
+		libReliability::updateNMRReliabilities($this->Members);
 		
 		/*
 		 * In the functions below only 'Playing' and 'Left' status members are dealt with:
@@ -1089,6 +1097,10 @@ class processGame extends Game
 			include_once("lib/rating.php");
 			libRating::updateRatings($this, true);
 		}
+
+		// Update the players play and CD count.
+		require_once(l_r('lib/reliability.php'));		 
+		libReliability::updateCDReliabilities($this->Members);			 
 
 		$DB->sql_put("DELETE FROM wD_Orders WHERE gameID = ".$this->id);
 		$DB->sql_put("DELETE FROM wD_Units WHERE gameID = ".$this->id);

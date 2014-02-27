@@ -464,6 +464,10 @@ class processMembers extends Members
 		// Calculate the percent of the pot each player gets, based on SCs and the type of game (WTA/PPSC),
 		// and whether they're 'Left'
 		$potShareRatios = $this->potShareRatios($Winner);
+		$potShareRatios = $this->potShareRatios($Winner);
+		$potShareRatios = $this->potShareRatios($Winner);
+		$potShareRatios = $this->potShareRatios($Winner);
+		$potShareRatios = $this->potShareRatios($Winner);
 
 		// These are pre-calculated because if they aren't the pot has to be decreased, and active
 		// supply-centers recalculated as each member gets their winnings. This was the final pot of the
@@ -623,8 +627,10 @@ class processMembers extends Members
 			throw new Exception("You did not play enough phases to join this game. (Required:".$this->Game->minPhases." / You:".$User->phasesPlayed.")");
 		if ( $this->Game->minRating > abs(libReliability::getReliability($User)) )
 			throw new Exception("You reliable-rating is too low to join this game. (Required:".$this->Game->minRating."% / You:".libReliability::getReliability($User)."%)");
-		if ( $this->Game->maxLeft < $User->gamesLeft )
-			throw new Exception("You went CD in too many games. (Required: not more than ".$this->Game->maxLeft." / You:".$User->gamesLeft.")");
+		if ( $this->Game->minNoCD > libReliability::noCDrating($User) )
+			throw new Exception("You noCD-ratio is too low to join this game. (Required:".$this->Game->minNoCD."% / You:".libReliability::noCDrating($User)."%)");
+		if ( $this->Game->minNoNMR > libReliability::noNMRrating($User) )
+			throw new Exception("You noCD-ratio is too low to join this game. (Required:".$this->Game->minNoNMR."% / You:".libReliability::noNMRrating($User)."%)");
 
 		// Handle RL-relations
 		require_once ("lib/relations.php");			
@@ -705,7 +711,7 @@ class processMembers extends Members
 						missedPhases = 0, timeLoggedIn = ".time()."
 						, votes=''
 					WHERE id = ".$CD->id);
-
+			
 			unset($this->ByUserID[$CD->userID]);
 			unset($this->ByStatus['Left'][$CD->id]);
 
@@ -719,8 +725,8 @@ class processMembers extends Members
 			$CD->phasesPlayed = $User->phasesPlayed;
 			$CD->gamesLeft = $User->gamesLeft;
 
-			if (($User->leftBalanced < $User->gamesLeft) && (count($this->Game->Variant->countries) > 2) && ($this->Game->phaseMinutes > 30) )
-				$DB->sql_put("UPDATE wD_Users SET leftBalanced = leftBalanced +1 WHERE id=".$User->id);		
+			require_once(l_r('lib/reliability.php'));		 
+			libReliability::updateReliability($CD, 'CDtakeover', '+ 1');
 			
 			$this->ByUserID[$CD->userID] = $CD;
 			$this->ByStatus['Playing'][$CD->id] = $CD;

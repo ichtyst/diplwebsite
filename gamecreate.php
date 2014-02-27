@@ -58,6 +58,8 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 						,'specialCDturn'
 						,'specialCDcount'
 						,'chessTime'
+ 						,'minNoCD'
+ 						,'minNoNMR'
 						,'targetSCs'
 					);
 
@@ -145,9 +147,20 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 		
 		require_once(l_r('lib/reliability.php'));		 
 		$input['minRating'] = (int)$input['minRating'];		
-		if ( $input['minRating'] > abs(libReliability::getReliability($User)) )
+		if ( $input['minRating'] > libReliability::getReliability($User) )
 		{
 			throw new Exception("Your reliability-rating is to low (".abs(libReliability::getReliability($User)).") for your own requirement (".$input['minRating'].").");
+		}
+		
+		$input['minNoCD'] = (int)$input['minNoCD'];		
+		if ( $input['minNoCD'] > libReliability::noCDrating($User) )
+		{
+			throw new Exception("Your reliability-rating is to low (".abs(libReliability::noCDrating($User)).") for your own requirement (".$input['minNoCD'].").");
+		}
+		$input['minNoNMR'] = (int)$input['minNoNMR'];		
+		if ( $input['minNoNMR'] > libReliability::noNMRrating($User) )
+		{
+			throw new Exception("Your reliability-rating is to low (".abs(libReliability::noNMRrating($User)).") for your own requirement (".$input['minNoNMR'].").");
 		}
 		
 		$input['maxTurns'] = (int)$input['maxTurns'];		
@@ -192,7 +205,9 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 			$input['minPhases'],
 			$input['specialCDturn'],
 			$input['specialCDcount'],
-			$input['chessTime']
+			$input['chessTime'],
+			$input['minNoCD'],
+			$input['minNoNMR']
 		);
 
 		/**

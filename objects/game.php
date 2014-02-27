@@ -222,12 +222,13 @@ class Game
 	 public $targetSCs;
 	 
 	/**
-	 * Some special settings to restrict acces to players baed on their rating
+	 * Some special settings to restrict acces to players based on their rating
 	 * @var int
 	 */
 	 public $minRating;
 	 public $minPhases;
-	 public $maxLeft;
+	 public $minNoCD;
+	 public $minNoNMR;
 
 	/**
 	 * Some settings to force a CD on early NMRs
@@ -372,11 +373,12 @@ class Game
 			g.targetSCs,
 			g.minRating,
 			g.minPhases,
-			g.maxLeft,
 			g.specialCDcount,
 			g.specialCDturn,
 			g.rlPolicy,
 			g.chessTime,
+			g.minNoCD,
+			g.minNoNMR,
 			g.adminLock,
 			g.missingPlayerPolicy
 			FROM wD_Games g
@@ -573,11 +575,11 @@ class Game
 							unset($this->Members->ByStatus['Playing'][$Member->id]);
 							$Member->status = 'Left';
 							
-							require_once(l_r('lib/reliability.php'));		 
-							libReliability::updateReliability($Member, 'gamesLeft', '+ 1');
-							
 							$this->Members->ByStatus['Left'][$Member->id] = $Member;
 							libGameMessage::send(0, 'GameMaster', 'NMR from '.$Member->country.'. Send the country in CD.', $this->id);
+							
+							require_once(l_r('lib/reliability.php'));		 
+							libReliability::updateReliability($Member, 'gamesLeft', '+ 1');
 						}
 					}
 				}				
@@ -615,7 +617,7 @@ class Game
 							
 							// Check for missed turns and adjust the counter in the user-data
 							require_once(l_r('lib/reliability.php'));		 
-							libReliability::updateReliabilities($this->Members);
+							libReliability::updateNMRreliabilities($this->Members);
 							
 							return false;
 						}

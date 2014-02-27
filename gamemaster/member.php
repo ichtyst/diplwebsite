@@ -310,16 +310,16 @@ class processMember extends Member
 
 		$this->setStatus('Left');
 		
-		// Increase the "Left" counter for the player...
-		require_once(l_r('lib/reliability.php'));		 
-		libReliability::updateReliability($this, 'gamesLeft', '+ 1');
-		 
 		// Register the civil disorder
 		$DB->sql_put(
 			"INSERT INTO wD_CivilDisorders ( gameID, userID, countryID, turn, bet, SCCount )
 			VALUES ( ".$this->gameID.", ".$this->userID.", ".$this->countryID.", ".$this->Game->turn.", ".$this->bet.", ".$this->supplyCenterNo.")"
 		);
 
+		// Adjust the gamesLeft 
+		require_once(l_r('lib/reliability.php'));		 
+		libReliability::updateReliability($this, 'gamesLeft', '+ 1');
+		
 		/*
 		 * Don't do addWinnings(0), because that will refund their points; they
 		 * can still rejoin so leave their points untouched.

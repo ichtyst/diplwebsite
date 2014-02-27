@@ -12,7 +12,7 @@ class adminActionsVDip extends adminActions
 			'changeReliability' => array(
 				'name' => 'Change reliability',
 				'description' => 'Enter the new phases played and missed and the new CD-count',
-				'params' => array('userID'=>'User ID', 'missedMoves'=>'Moves missed','phasesPlayed'=>'Phases played','gamesLeft'=>'Games Left','leftBalanced'=>'Left Balanced')
+				'params' => array('userID'=>'User ID', 'CDtakeover'=>'CD takeovers')
 			),
 			'changeTargetSCs' => array(
 				'name' => 'Change target SCs.',
@@ -50,26 +50,16 @@ class adminActionsVDip extends adminActions
 		
 		$userID = (int)$params['userID'];
 
-		list($missedMovesOld, $phasesPlayedOld, $gamesLeftOld, $leftBalancedOld) 
-			= $DB->sql_row("SELECT missedMoves, phasesPlayed, gamesLeft, leftBalanced FROM wD_Users WHERE id=".$userID);
+		list($CDtakeoverOld) = $DB->sql_row("SELECT CDtakeover FROM wD_Users WHERE id=".$userID);
 
-		$missedMoves = ($params['missedMoves'] =='' ? $missedMovesOld  : (int)$params['missedMoves'] );
-		$phasesPlayed= ($params['phasesPlayed']=='' ? $phasesPlayedOld : (int)$params['phasesPlayed']);
-		$gamesLeft   = ($params['gamesLeft']   =='' ? $gamesLeftOld    : (int)$params['gamesLeft']   );
-		$leftBalanced= ($params['leftBalanced']=='' ? $leftBalancedOld : (int)$params['leftBalanced']);
+		$CDtakeover= ($params['CDtakeover']=='' ? $CDtakeoverOld : (int)$params['CDtakeover']);
 		
 		$DB->sql_put("UPDATE wD_Users SET 
-			missedMoves = ".$missedMoves.", 
-			phasesPlayed = ".$phasesPlayed.", 
-			gamesLeft = ".$gamesLeft.",
-			leftBalanced = ".$leftBalanced." 
+			CDtakeover = ".$CDtakeover." 
 			WHERE id=".$userID);
 
 		return 'This users reliability was changed to:'.
-			($params['missedMoves']  == '' ? '' : '<br>Missed Moves: ' .$missedMovesOld.'  => '.$missedMoves).
-			($params['phasesPlayed'] == '' ? '' : '<br>Phases Played: '.$phasesPlayedOld.' => '.$phasesPlayed).
-			($params['gamesLeft']    == '' ? '' : '<br>Games Left: '   .$gamesLeftOld.'    => '.$gamesLeft).
-			($params['leftBalanced'] == '' ? '' : '<br>Left Balanced: '.$leftBalancedOld.' => '.$leftBalanced);
+			($params['CDtakeover'] == '' ? '' : '<br>Left Balanced: '.$leftBalancedOld.' => '.$CDtakeover);
 	}
 	
 	public function changeReliabilityConfirm(array $params)
@@ -78,19 +68,13 @@ class adminActionsVDip extends adminActions
 		
 		$userID = (int)$params['userID'];
 		
-		list($missedMovesOld, $phasesPlayedOld, $gamesLeftOld, $leftBalancedOld) 
-			= $DB->sql_row("SELECT missedMoves, phasesPlayed, gamesLeft, leftBalanced FROM wD_Users WHERE id=".$userID);
+		list($CDtakeoverOld) 
+			= $DB->sql_row("SELECT CDtakeover FROM wD_Users WHERE id=".$userID);
 
-		$missedMoves = ($params['missedMoves'] =='' ? $missedMovesOld  : (int)$params['missedMoves'] );
-		$phasesPlayed= ($params['phasesPlayed']=='' ? $phasesPlayedOld : (int)$params['phasesPlayed']);
-		$gamesLeft   = ($params['gamesLeft']   =='' ? $gamesLeftOld    : (int)$params['gamesLeft']   );
-		$leftBalanced= ($params['leftBalanced']=='' ? $leftBalancedOld : (int)$params['leftBalanced']);
+		$CDtakeover= ($params['CDtakeover']=='' ? $leftBalancedOld : (int)$params['CDtakeover']);
 
 		return 'This users reliability will be changed:'.
-			($params['missedMoves']  == '' ? '' : '<br>Missed Moves: ' .$missedMovesOld.'  => '.$missedMoves).
-			($params['phasesPlayed'] == '' ? '' : '<br>Phases Played: '.$phasesPlayedOld.' => '.$phasesPlayed).
-			($params['gamesLeft']    == '' ? '' : '<br>Games Left: '   .$gamesLeftOld.'    => '.$gamesLeft).
-			($params['leftBalanced'] == '' ? '' : '<br>Left Balanced: '.$leftBalancedOld.' => '.$leftBalanced);
+			($params['CDtakeover'] == '' ? '' : '<br>CD takeover: '.$CDtakeoverOld.' => '.$CDtakeover);
 	}
 	
 	public function changeTargetSCs(array $params)

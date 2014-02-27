@@ -504,19 +504,32 @@ class panelGame extends Game
 		
 		$question .= '\n\n'.l_t('Are you sure you want to join this game?').'\n';		
 
-		$buf = '<form onsubmit="return confirm(\''.$question.'\');" method="post" action="board.php?gameID='.$this->id.'"><div>
-			<input type="hidden" name="formTicket" value="'.libHTML::formTicket().'" />';
-			
+		$buf = '<div>';
 		// Show join requirements:
-		if (($this->minRating > 0) || ($this->minPhases > 0))
+		if (($this->minRating > 0) || ($this->minPhases > 0)  || ($this->minNoCD > 0)  || ($this->minNoNMR > 0 ))
 		{
 			$buf .= '<em>Requirements:</em> ';
 			if( $this->minRating > 0)
 				$buf .= 'RR >= <em>'.libReliability::Grade($this->minRating).'</em> / ';
 			if( $this->minPhases > 0)
 				$buf .= 'MinPhases > <em>'.(int)($this->minPhases - 1) .'</em> / ';
+			if( $this->minNoCD > 0)
+				$buf .= 'NoCD > <em>'.(int)($this->minNoCD - 1) .'%</em> / ';
+			if( $this->minNoNMR > 0)
+				$buf .= 'NoNMR > <em>'.(int)($this->minNoNMR - 1) .'%</em> / ';
+			$buf= substr($buf,0,-2)." - ";
 		}
+
+		// Exit and do not show join button if the player should not be able to join a given game.
+		require_once(l_r('lib/reliability.php'));		 
+//		if (libReliability::getReliability($User) < $this->minRating) return substr($buf,0,-3)."</div>";
+		if ($User->phasesPlayed < $this->minPhases) return substr($buf,0,-3)."</div>";
+		if (libReliability::noCDrating($User)  < $this->minNoCD) return substr($buf,0,-3)."</div>";
+		if (libReliability::noNMRrating($User) < $this->minNoNMR) return substr($buf,0,-3)."</div>";
 		
+		$buf .= '<form style="display: inline;" onsubmit="return confirm(\''.$question.'\');" method="post" action="board.php?gameID='.$this->id.'">
+			<input type="hidden" name="formTicket" value="'.libHTML::formTicket().'" />';
+			
 		if( $this->phase == 'Pre-game'&& count($this->Members->ByCountryID)>0 )
 		{
 			$buf .= '<label>Join for</label> <em>'.$this->minimumBet.libHTML::points().'</em> as: <select name="countryID">';
@@ -540,7 +553,7 @@ class panelGame extends Game
 
 		$buf .= ' <input type="submit" name="join" value="'.l_t('Join').'" class="form-submit" />';
 
-		$buf .= '</div></form>';
+		$buf .= '</form></div>';
 		return $buf;
 	}
 

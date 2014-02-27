@@ -872,9 +872,25 @@ $sql[]="ALTER TABLE `wD_Users` ADD `scrollbars` enum('Yes','No') CHARACTER SET u
 $sql[]="ALTER TABLE `wD_Users` CHANGE `pointNClick` `pointNClick` ENUM( 'Yes', 'No' ) CHARACTER SET utf8 NOT NULL DEFAULT 'Yes';";
 $sql[]="UPDATE `wD_Users` SET `pointNClick` = 'Yes' WHERE `pointNClick` = 'No';";
 
+// VDip: 39
+$sql[]="ALTER TABLE `wD_Users` ADD `gamesPlayed` int(11) NOT NULL default '0';";
+
+// VDip: 40
+$sql[]="ALTER TABLE `wD_Games` ADD `minNoCD` SMALLINT( 5 ) UNSIGNED NOT NULL DEFAULT '0';";
+$sql[]="ALTER TABLE `wD_Games` ADD `minNoNMR` SMALLINT( 5 ) UNSIGNED NOT NULL DEFAULT '0';";
+$sql[]="ALTER TABLE `wD_Backup_Games` ADD `minNoCD` SMALLINT( 5 ) UNSIGNED NOT NULL DEFAULT '0';";
+$sql[]="ALTER TABLE `wD_Backup_Games` ADD `minNoNMR` SMALLINT( 5 ) UNSIGNED NOT NULL DEFAULT '0';";
+
+// VDip: 41
+$sql[]="ALTER TABLE `wD_Users`  ADD `CDtakeover` MEDIUMINT UNSIGNED NOT NULL DEFAULT '0';";
+$sql[]="UPDATE wD_Users SET CDtakeover = gamesLeft;";
+$sql[]="ALTER TABLE `wD_Users` DROP COLUMN `leftBalanced`;";
+$sql[]="ALTER TABLE `wD_Games` DROP COLUMN `maxLeft`;";
+$sql[]="ALTER TABLE `wD_Backup_Games` DROP COLUMN `maxLeft`;";
+
 // Set the correct version-information in the database	
 $sql[]="UPDATE `wD_Misc`     SET `value` = '135' WHERE `name` = 'Version';";
-$sql[]="UPDATE `wD_vDipMisc` SET `value` = '38'  WHERE `name` = 'Version';";
+$sql[]="UPDATE `wD_vDipMisc` SET `value` = '41'  WHERE `name` = 'Version';";
 
 // Create a default Admin-Account
 require_once ('lib/auth.php');

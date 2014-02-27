@@ -32,8 +32,18 @@ class adminActionsRestrictedVDip extends adminActionsForum
 				'description' => 'Clears advanced access log table of logs older than 60 days.',
 				'params' => array(),
 			),
+			'recalculateGamesPlayed' => array(
+				'name' => 'Recalculate games played',
+				'description' => 'Recalculates the games played for all users.',
+				'params' => array(),
+			),
+			'resetIntegrity' => array(
+				'name' => 'Reset all players integrity to 0',
+				'description' => 'Recalculates the games played for all users.',
+				'params' => array(),
+			),
 			'recalculateRatings' => array(
-				'name' => 'Recalculate ratings',
+				'name' => 'Recalculate VDip-ratings',
 				'description' => 'Recalculates the ratings for all users.',
 				'params' => array(),
 			),
@@ -82,6 +92,69 @@ class adminActionsRestrictedVDip extends adminActionsForum
 		);
 		
 		adminActions::$actions = array_merge(adminActions::$actions, $vDipActionsRestricted);
+	}
+
+	public function resetIntegrity(array $params)
+	{
+		global $DB;
+		set_time_limit(0);
+		
+		$tabl = $DB->sql_tabl("SELECT id, missedMoves, gamesLeft FROM wD_Users WHERE -1");
+		
+		while(list($userD, $missedMoves, $gamesLeft) = $DB->tabl_row($tabl))
+		{
+			$ballance = floor($missedMoves * 0.2 + $gamesLeft * 0.6);
+			$DB->sql_put("UPDATE `wD_Users` SET CDtakeover=".$ballance." WHERE id=".$userD);
+		}
+		return 'All done.';		
+	}
+	public function resetIntegrityConfirm(array $params)
+	{
+		return 'Do you really want to reset all users integrity rating? This might take quite some time and can\'t be undone.';
+	}
+	
+	public function recalculateGamesPlayed(array $params)
+	{
+		global $DB;
+		set_time_limit(0);
+		
+		$DB->sql_put("UPDATE `wD_Users` SET gamesPlayed=0");
+		$DB->sql_put("UPDATE `wD_Users` SET gamesLeft=0");
+		
+		$tabl = $DB->sql_tabl("SELECT id FROM wD_Games WHERE phase='Finished' && phaseMinutes > 30");
+		
+		while(list($gameID) = $DB->tabl_row($tabl))
+		{
+			list($members) = $DB->sql_row ("SELECT count(*) FROM wD_Members WHERE gameID = ".$gameID);
+			if ($members > 2)
+			{
+				// All members of this game get +1 games played.
+				$memberTabl = $DB->sql_tabl("SELECT userID FROM wD_Members WHERE gameID = ".$gameID);
+				while(list($userID) = $DB->tabl_row($memberTabl))
+					$DB->sql_put("UPDATE wD_Users SET gamesPlayed = gamesPlayed + 1 WHERE id=".$userID);		
+					
+				// All resigned of this game get +1 games left.
+				$resignedTabl = $DB->sql_tabl("SELECT userID FROM wD_Members WHERE gameID = ".$gameID." AND status = 'Resigned'");
+				while(list($userID) = $DB->tabl_row($resignedTabl))
+					$DB->sql_put("UPDATE wD_Users SET gamesLeft = gamesLeft + 1 WHERE id=".$userID);		
+
+				// All CDs get +1 CD
+				$CDtabl = $DB->sql_tabl("SELECT message FROM wD_GameMessages WHERE message LIKE '%userID=%Reconsider your alliances.%'
+					AND fromCountryID = 0 AND gameID = ".$gameID);
+				while (list($CD) = $DB->tabl_row($CDtabl))
+				{
+					$userID = preg_replace('/^.*userID=(\d*).*/', '$1', $CD);
+					$DB->sql_put("UPDATE wD_Users SET gamesLeft = gamesLeft + 1 WHERE id=".$userID);		
+					$DB->sql_put("UPDATE wD_Users SET gamesPlayed = gamesPlayed + 1 WHERE id=".$userID);		
+				}	
+			}
+		}
+		return 'All done.';		
+	}
+	
+	public function recalculateGamesPlayedConfirm(array $params)
+	{
+		return 'Do you really want to recalculate all games? This might take quite some time and can\'t be undone.';
 	}
 	
 	public function recalculateRatings(array $params)

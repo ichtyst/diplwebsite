@@ -67,7 +67,7 @@ The exact calculation is:
 	$mm = $UserProfile->missedMoves;
 	$pp = $UserProfile->phasesPlayed;
 	$cd = $UserProfile->gamesLeft;
-	$cdb=$UserProfile->leftBalanced;
+	$cdb=$UserProfile->CDtakeover;
 	
 	if (libReliability::getReliability($UserProfile) < 0)
 	{

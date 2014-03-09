@@ -6,10 +6,9 @@ class FubarVariant_processMember extends processMember {
 
 	function makeBet($bet)
 	{
-		parent::makeBet(1);
+		parent::makeBet(0);
 	}
 
 }
 
 ?>
-

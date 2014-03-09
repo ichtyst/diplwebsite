@@ -36,7 +36,7 @@ class DuoVariant extends WDVariant {
 	public $author='Frank Hegermann';
 	public $adapter='Oliver Auth';
 	public $version='1.0';
-	public $codeVersion='0.10';
+	public $codeVersion='0.11';
 	public $homepage='http://www.dipwiki.com/?title=Duo';
 
 	public $countries=array('Red','Green');
@@ -54,9 +54,6 @@ class DuoVariant extends WDVariant {
 		$this->variantClasses['OrderInterface']        = 'Duo';
 		$this->variantClasses['processOrderDiplomacy'] = 'Duo';
 		$this->variantClasses['userOrderDiplomacy']    = 'Duo';
-		
-		// Fixed bet at 1DPoint
-		$this->variantClasses['processMember']         = 'Duo';
 		
 		// Neutral units:
 		$this->variantClasses['OrderArchiv']           = 'Duo';

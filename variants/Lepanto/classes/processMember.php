@@ -27,7 +27,7 @@ class LepantoVariant_processMember extends processMember {
 	{
 		global $DB, $Game;
 		$DB->sql_put('UPDATE wD_Games SET potType="Winner-takes-all" WHERE id='.$Game->id);
-		parent::makeBet(1);
+		parent::makeBet($bet);
 	}
 
 }

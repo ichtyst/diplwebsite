@@ -11,7 +11,7 @@ class Empire1on1Variant extends WDVariant {
 	public $author       = 'Emmanuele Ravaioli and Andrew Newell (adapted from a map by Vincent Maus)';
 	public $adapter      = 'Emmanuele Ravaioli / Oliver Auth';
 	public $version      = '1';
-	public $codeVersion  = '1.0.1';
+	public $codeVersion  = '1.0.2';
 
 	public $countries=array('Confederacy', 'Union');
 
@@ -19,7 +19,6 @@ class Empire1on1Variant extends WDVariant {
 		parent::__construct();
 		$this->variantClasses['drawMap']            = 'Empire1on1';
 		$this->variantClasses['processGame']        = 'Empire1on1';
-		$this->variantClasses['processMember']      = 'Empire1on1';
 		$this->variantClasses['processOrderBuilds'] = 'Empire1on1';
 		$this->variantClasses['adjudicatorPreGame'] = 'Empire1on1';
 	}

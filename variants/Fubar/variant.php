@@ -37,7 +37,7 @@ class FubarVariant extends WDVariant {
 	public $fullName='Fubar';
 	public $description='Fucked up beyond all recognition.';
 	public $author='sqrg';
-	public $version='1.0.3';
+	public $version='1.0.5';
 
 	public $countries=array('Fatflap','Howdoileavethisgame','timmy1999','Sh1tn00b','oMgYoUrAsLuT','multi_152');
 
@@ -58,7 +58,7 @@ class FubarVariant extends WDVariant {
 		$this->variantClasses['OrderInterface']     = 'Fubar';
 		$this->variantClasses['userOrderBuilds']    = 'Fubar';
 
-		//bet of 1
+		//bet of 0
 		$this->variantClasses['processMember']	    = 'Fubar';
 
 	}

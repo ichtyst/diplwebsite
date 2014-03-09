@@ -45,7 +45,7 @@ class LepantoVariant extends WDVariant {
 	public $author     = 'Emmanuele Ravaioli (Tadar Es Darden)';
 	public $adapter    = 'Emmanuele Ravaioli / Oliver Auth';
 	public $version    = '1.0';
-	public $codeVersion= '1.0.1';
+	public $codeVersion= '1.0.2';
 
 	public $countries=array('Holy League', 'Ottoman Empire');
 

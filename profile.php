@@ -484,16 +484,16 @@ print '<style type="text/css"> .tooltip { position: absolute; display: none; bac
 		</script>';
 		
 print '<li><strong>'.l_t('Reliability stats: ').'</strong> <ul class="gamesublist">';
-print '<li>Reliability Rating: 
+print '<li>Reliability: 
 	<a onmouseover="showRR();"; onmouseout="hideWMTT();" href="#">
     <strong>'.libReliability::getGrade($UserProfile).'</strong></a></li>';
 print '<li>NoNMR: <strong>'.libReliability::noNMRrating($UserProfile).'%</strong> (<strong>'.$UserProfile->missedMoves.'</strong> missed phases out of <strong>'.$UserProfile->phasesPlayed.'</strong>)</li>';
 print '<li>NoCD: <strong>'.libReliability::noCDrating($UserProfile).'%</strong> (<strong>'.$UserProfile->gamesLeft.'</strong> abandoned games out of <strong>'.$UserProfile->gamesPlayed.'</strong>)</li>';
 
-if (libReliability::integrityRating($UserProfile) != 0)
+if ( $User->type['Moderator'])
 	print '<li>Integrity: 
-	<a onmouseover="showI();"; onmouseout="hideWMTT();" href="#">
-	<strong>'.libReliability::integrityRating($UserProfile).'</strong></a></li>';
+		<a onmouseover="showI();"; onmouseout="hideWMTT();" href="#">
+		<strong>'.libReliability::integrityRating($UserProfile).'</strong></a> (<strong>'.$UserProfile->CDtakeover.'</strong> CD takeovers)</li>';
 
 
 print '</ul></li></div>';

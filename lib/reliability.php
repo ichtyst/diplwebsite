@@ -50,7 +50,7 @@ class libReliability
 	static function integrityRating($User)
 	{
 		if ($User->gamesPlayed == 0) return 0;
-		return 	$User->CDtakeover - $User->missedMoves * 0.2 - $User->gamesLeft * 0.6;
+		return $User->CDtakeover - (($User->missedMoves * 0.2) + ($User->gamesLeft * 0.6));
 	}
 
 	/**
@@ -93,6 +93,7 @@ class libReliability
 	 */
 	static public function isReliable($User)
 	{
+		return;
 		global $DB;
 		
 		// A player can't join new games, as long as he has active CountrySwiches.
@@ -126,7 +127,7 @@ class libReliability
 				2-player variants are not affected by this restriction.</p>";
 		
 		// If the rating is 90 or above, there is no game limit restriction
-		if ($totalGames > ($maxGames - 1))
+		if (isset($maxGames) && $totalGames > ($maxGames - 1))
 			return "<p>NOTICE: You cannot join or create a new game, because you seem to be having trouble keeping up with the orders in the ones you already have.</p>
 			<p>You can improve your integrity rating by not missing any orders, even if it's just saving the default 'Hold' for everything.</p>
 			<p>Please note that if you are marked as 'Left' for a game, your rating will first receive -0.4 for the 2 NMRS, than -0.6 for the CD and continue to take NMR-hits until someone takes over for you.</p>

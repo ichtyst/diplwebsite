@@ -99,13 +99,39 @@ class adminActionsRestrictedVDip extends adminActionsForum
 		global $DB;
 		set_time_limit(0);
 		
+		$DB->sql_put("UPDATE `wD_Users` SET CDtakeover=0");
+
+		$tabl = $DB->sql_tabl("SELECT gameID, message
+								FROM wD_GameMessages
+								WHERE message LIKE '%userID=%Reconsider your alliances.%'
+								AND fromCountryID =0");
+									
+		while(list($gameID, $message) = $DB->tabl_row($tabl))
+		{
+			$user = preg_replace('~^.*</strong> (.*) has taken over.*~', '$1', $message);
+			if ($user == 'Someone')
+			{
+				$countryName = preg_replace('~^.*has taken over (.*) replacing .*~', '$1', $message);
+				$Variant=libVariant::loadFromGameID($gameID);
+				$Game = $Variant->Game($gameID);
+				foreach($Game->Members->ByID as $Member)
+					if ($Member->country == $countryName)
+						$user=$Member->username;
+			}
+			$DB->sql_put("UPDATE `wD_Users` SET CDtakeover=CDtakeover +1 WHERE username='".$DB->escape($user)."'");
+			
+		}
+/*	
 		$tabl = $DB->sql_tabl("SELECT id, missedMoves, gamesLeft FROM wD_Users WHERE -1");
 		
 		while(list($userD, $missedMoves, $gamesLeft) = $DB->tabl_row($tabl))
 		{
-			$ballance = floor($missedMoves * 0.2 + $gamesLeft * 0.6);
+			$b1 = $missedMoves * 0.2;
+			$b2 = $gamesLeft * 0.6;
+			$ballance = floor($b1 + $b2);
 			$DB->sql_put("UPDATE `wD_Users` SET CDtakeover=".$ballance." WHERE id=".$userD);
 		}
+*/
 		return 'All done.';		
 	}
 	public function resetIntegrityConfirm(array $params)

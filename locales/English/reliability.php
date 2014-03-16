@@ -15,27 +15,48 @@ trouble keeping up with the orders in the ones you already have.
 </p>
 
 <p class="intro">
-Diplomacy is a game of communication, trust (and distrust), 
-and because games usually take a long time to finish it's very important for 
-players that you play the best you can and don't screw the game halfway.</p>
+On this site we ask that all players respect their fellow players. Part of this respect includes
+entering orders every turn in your games. Diplomacy is a game of communication, trust (and mistrust),
+and because games usually take a long time to finish it's very important that you play the best you can
+and don't ruin the game halfway. 
 </p>
 
 <p class="intro">
-If you fail to submit orders for your country for some turns (usually 2) the country is send in
-"Civil disorder" and another player is able take your place, so the games integrity is not hurt that much.
+While playing a losing position might not be as fun as a winning one, it is still your responsibility to
+other members to continue to play. Even if you cannot win a game there are still plenty of ways to make the
+game fun. For example: you may choose to hurt the country that sealed your defeat, help someone secure a solo
+so that you can get a survive instead of a defeat, or use the rest of the game to practice manipulating other
+players on the board.
 </p>
 
 <p class="intro">
-To join more games you need to take open spots in <a href='gamelistings.php?page-games=1&gamelistType=Joinable'> ongoing games </a>.
-With your current rating of <b><?php print libReliability::integrityRating($User);?></b> you can play a maximum of <b><?php print libReliability::gameLimits($User);?></b> games at once.
-2-player games are not affected of this restrictions.
+If you fail to submit orders for your country in consecutive turns (usually 2) the country is sent into "Civil disorder"
+and another player can take over your position to ensure that the game's integrity is not overly impacted.
 </p>
 
 <p class="intro">
-If you can't win a game or are on a losing position you might choose to hurt the country that sealed 
-your failure as much as possible by making your defeat as hard as possible. Talk to stronger players 
-on the board, they might help you, just because you have a common enemy.
+If you have missed turns in your games or your countries went in CD then you will be limited in the number of games 
+you can play. This is to ensure that players do not take on more games then they can keep up with, and to ensure that players who
+do not respect their fellow members cannot ruin multiple games. 
 </p>
+
+<?php 
+$unballancedCDs = $User->gamesLeft - $User->CDtakeover;
+$unballancedNMR = $User->missedMoves - ($User->CDtakeover * 2);
+if ( $unballancedCDs < 0 )
+{
+	$unballancedNMR = $User->missedMoves + ($unballancedCDs * 2);
+	$unballancedCDs = 0;
+}
+?>
+
+<p class="intro">
+With <b><?php print $unballancedCDs;?></b> unbalanced CDs and <b><?php print $unballancedNMR;?></b> unbalanced NMRs you can play a maximum of
+<b><?php print libReliability::gameLimits($User);?></b> games at once. 2-player games are not affected by this restrictions.
+If you want to to increase the number of games you can join you may take over 
+<a href='gamelistings.php?page-games=1&gamelistType=Joinable'>open spots in ongoing games</a> or reclaim your CDed countries if 
+they have not been taken.</p>
+
 <?php return; }?>
 
 <p class="intro">

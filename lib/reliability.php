@@ -125,7 +125,7 @@ class libReliability
 		if($User->type['Moderator'])
 			print '<p class="notice">Game-Restrictions in effect.</p>
 				<p class="notice">With your current NMR and CD count you can join or create '.$mG.' additional games.<br>
-				Read more about this <a href="CDtakeover.php">here</a>.<br><br></p>';
+				Read more about this <a href="reliability.php">here</a>.<br><br></p>';
 	}
 	
 	/**

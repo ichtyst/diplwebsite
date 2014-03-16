@@ -8,6 +8,36 @@ defined('IN_CODE') or die('This script can not be run by itself.');
  */
 ?>
 
+<?php global $User; if ($User->type['Moderator']) { ?>
+<p class="intro">
+Your ability to join or create a new game is limited, because you seem to be having 
+trouble keeping up with the orders in the ones you already have.
+</p>
+
+<p class="intro">
+Diplomacy is a game of communication, trust (and distrust), 
+and because games usually take a long time to finish it's very important for 
+players that you play the best you can and don't screw the game halfway.</p>
+</p>
+
+<p class="intro">
+If you fail to submit orders for your country for some turns (usually 2) the country is send in
+"Civil disorder" and another player is able take your place, so the games integrity is not hurt that much.
+</p>
+
+<p class="intro">
+To join more games you need to take open spots in <a href='gamelistings.php?page-games=1&gamelistType=Joinable'> ongoing games </a>.
+With your current rating of <b><?php print libReliability::integrityRating($User);?></b> you can play a maximum of <b><?php print libReliability::gameLimits($User);?></b> games at once.
+2-player games are not affected of this restrictions.
+</p>
+
+<p class="intro">
+If you can't win a game or are on a losing position you might choose to hurt the country that sealed 
+your failure as much as possible by making your defeat as hard as possible. Talk to stronger players 
+on the board, they might help you, just because you have a common enemy.
+</p>
+<?php return; }?>
+
 <p class="intro">
 
 Because Diplomacy is a game of communication, trust (and distrust), 

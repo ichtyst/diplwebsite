@@ -134,6 +134,9 @@ function printAndFindTab()
 	return $tab;
 }
 
+require_once('lib/reliability.php');
+libReliability::printCDNotice($User);
+
 $tab = printAndFindTab();
 
 $search = new search($tab);

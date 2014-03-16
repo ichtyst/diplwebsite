@@ -60,8 +60,6 @@ class libReliability
 	 */
 	static public function getReliability($User)
 	{
-		if ($User->phasesPlayed == 0) return 100;
-		
 		$cleanRR = ((self::noNMRrating($User) + self::noCDrating($User)) / 2);
 		$adjustedRR = 100 * pow (($cleanRR / 100), 3);
 		return round ($adjustedRR , 2);
@@ -85,6 +83,49 @@ class libReliability
 			return self::Grade(self::getReliability($User));
 		else
 			return 'Rookie';
+	}
+
+	static public function gameLimits($User)
+	{
+		$integrity = self::integrityRating($User);
+		if ($integrity <= -4) { return 1; }
+		if ($integrity <= -3) { return 3; }
+		if ($integrity <= -2) { return 5; }
+		if ($integrity <= -1) { return 6; }
+		return 9999;
+	}
+	
+	
+	/**
+	 * Return how many games a user can join.
+	 * @return $maxgames as integer or 9999 as no restrictions...
+	 */
+	static public function maxGames($User)
+	{
+		global $DB;
+
+		$integrity = self::integrityRating($User);
+		if ($integrity > -1) return 9999;
+			
+		$mG = 9999;
+		list($totalGames) = $DB->sql_row("SELECT COUNT(*) FROM wD_Members m, wD_Games g WHERE m.userID=".$User->id." and m.status!='Defeated' and m.gameID=g.id and g.phase!='Finished' and m.bet!=1");
+		$mg = self::gameLimits($User) - $totalGames;
+		if ($mG < 0) { $mG = 0; }
+		return $mG;
+	}
+	
+	/**
+	 * 
+	 * 
+	 */
+	static public function printCDNotice($User)
+	{
+		$mG = self::maxGames($User);
+//		if ( $mG < 999  )
+		if($User->type['Moderator'])
+			print '<p class="notice">Game-Restrictions in effect.</p>
+				<p class="notice">With your current NMR and CD count you can join or create '.$mG.' additional games.<br>
+				Read more about this <a href="CDtakeover.php">here</a>.<br><br></p>';
 	}
 	
 	/**

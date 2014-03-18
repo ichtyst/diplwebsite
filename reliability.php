@@ -28,7 +28,7 @@ require_once('lib/reliability.php');
 
 libHTML::starthtml();
 
-print libHTML::pageTitle('Why are there any limitations for joining new games?','A quick guide explaining why it\'s important to enter your orders and not CD.');
+print libHTML::pageTitle('Are there any limitations for joining new games?','A quick guide explaining why it\'s important to enter your orders and not CD.');
 
 require_once(l_r('locales/English/reliability.php'));
 

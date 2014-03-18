@@ -267,6 +267,9 @@ else
 	$formPoints = $defaultPoints;
 
 
+require_once('lib/reliability.php');
+libReliability::printCDNotice($User);
+
 require_once(l_r('locales/English/gamecreate.php'));
 
 print '</div>';

@@ -87,12 +87,19 @@ class libReliability
 
 	static public function gameLimits($User)
 	{
+		$gLp = $gLi = 999;
+		
+		if ($User->phasesPlayed < 100) {$gLp = 7;}
+		if ($User->phasesPlayed < 50)  {$gLp = 4;}
+		if ($User->phasesPlayed < 20)  {$gLp = 2;}
+		
 		$integrity = self::integrityRating($User);
-		if ($integrity <= -4) { return 1; }
-		if ($integrity <= -3) { return 3; }
-		if ($integrity <= -2) { return 5; }
-		if ($integrity <= -1) { return 6; }
-		return 9999;
+		if ($integrity <= -1) { $gLi =  6; }
+		if ($integrity <= -2) { $gLi =  5; }
+		if ($integrity <= -3) { $gLi =  3; }
+		if ($integrity <= -4) { $gLi =  1; }
+		
+		return min($gLp,$gLi);		
 	}
 	
 	
@@ -104,12 +111,12 @@ class libReliability
 	{
 		global $DB;
 
-		$integrity = self::integrityRating($User);
-		if ($integrity > -1) return 9999;
+		$gL = self::gameLimits($User);
+		if ($gL > 100) return 100;
 			
-		$mG = 9999;
+		$mG = 100;
 		list($totalGames) = $DB->sql_row("SELECT COUNT(*) FROM wD_Members m, wD_Games g WHERE m.userID=".$User->id." and m.status!='Defeated' and m.gameID=g.id and g.phase!='Finished' and m.bet!=1");
-		$mg = self::gameLimits($User) - $totalGames;
+		$mG = $gL - $totalGames;
 		if ($mG < 0) { $mG = 0; }
 		return $mG;
 	}
@@ -120,11 +127,9 @@ class libReliability
 	 */
 	static public function printCDNotice($User)
 	{
-		$mG = self::maxGames($User);
-//		if ( $mG < 999  )
-		if($User->type['Moderator'])
+		if ( self::maxGames($User) < 50 )
 			print '<p class="notice">Game-Restrictions in effect.</p>
-				<p class="notice">With your current NMR and CD count you can join or create '.$mG.' additional games.<br>
+				<p class="notice">You can join or create '.self::maxGames($User).' additional games.<br>
 				Read more about this <a href="reliability.php">here</a>.<br><br></p>';
 	}
 	
@@ -134,7 +139,6 @@ class libReliability
 	 */
 	static public function isReliable($User)
 	{
-		return;
 		global $DB;
 		
 		// A player can't join new games, as long as he has active CountrySwiches.
@@ -142,40 +146,32 @@ class libReliability
 		if ($openSwitches > 0)
 			return "<p><b>NOTICE:</b></p><p>You can't join or create new games, as you have active CountrySwitches at the moment.</p>";
 
-		$integrity = self::integrityRating($User);
-		list($totalGames) = $DB->sql_row("SELECT COUNT(*) FROM wD_Members m, wD_Games g WHERE m.userID=".$User->id." and m.status!='Defeated' and m.gameID=g.id and g.phase!='Finished' and m.bet!=1");
-
-		if ($integrity < -1) { $maxGames = 6; }
-		if ($integrity < -2) { $maxGames = 5; }
-		if ($integrity < -3) { $maxGames = 3; }
-		if ($integrity < -4) { $maxGames = 1; }
+		$maxGames = self::maxGames($User);
 		
-		// This will prevent newbies from joining 10 games and then leaving right away.
-		if ( $totalGames > 1 && $User->phasesPlayed < 20 ) 
-			return "<p>You're taking on too many games at once for a new member.<br>
-				Please relax and enjoy the games that you are currently in before joining/creating a new one.<br>
-				You need to play at least <strong>20 phases</strong>, before you can join more than 2 games.<br>
-				2-player variants are not affected by this restriction.</p>";
-		if ( $totalGames > 3 && $User->phasesPlayed < 50 ) 
-			return "<p>You're taking on too many games at once for a new member.<br>
-				Please relax and enjoy the games that you are currently in before joining/creating a new one.<br>
-				You need to play at least <strong>50 phases</strong>, before you can join more than 4 games.<br>
-				2-player variants are not affected by this restriction.</p>";
-		if ( $totalGames > 6 && $User->phasesPlayed < 100 ) 
-			return "<p>You're taking on too many games at once for a new member.<br>
-				Please relax and enjoy the games that you are currently in before joining/creating a new one.<br>
-				You need to play at least <strong>100 phases</strong>, before you can join more than 7 games.<br>
-				2-player variants are not affected by this restriction.</p>";
-		
-		// If the rating is 90 or above, there is no game limit restriction
-		if (isset($maxGames) && $totalGames > ($maxGames - 1))
+		if ($maxGames == 0)
+		{
+			if ( self::gameLimits($User) == 2 ) 
+				return "<p>You're taking on too many games at once for a new member.<br>
+					Please relax and enjoy the games that you are currently in before joining/creating a new one.<br>
+					You need to play at least <strong>20 phases</strong>, before you can join more than 2 games.<br>
+					2-player variants are not affected by this restriction.</p>
+					<p>Read more about this <a href='reliability.php'>here</a>.</p>";
+			if ( self::gameLimits($User) == 4 ) 
+				return "<p>You're taking on too many games at once for a new member.<br>
+					Please relax and enjoy the games that you are currently in before joining/creating a new one.<br>
+					You need to play at least <strong>50 phases</strong>, before you can join more than 4 games.<br>
+					2-player variants are not affected by this restriction.</p>
+					<p>Read more about this <a href='reliability.php'>here</a>.</p>";
+			if ( self::gameLimits($User) == 7 ) 
+				return "<p>You're taking on too many games at once for a new member.<br>
+					Please relax and enjoy the games that you are currently in before joining/creating a new one.<br>
+					You need to play at least <strong>100 phases</strong>, before you can join more than 7 games.<br>
+					2-player variants are not affected by this restriction.</p>
+					<p>Read more about this <a href='reliability.php'>here</a>.</p>";
+					
 			return "<p>NOTICE: You cannot join or create a new game, because you seem to be having trouble keeping up with the orders in the ones you already have.</p>
-			<p>You can improve your integrity rating by not missing any orders, even if it's just saving the default 'Hold' for everything.</p>
-			<p>Please note that if you are marked as 'Left' for a game, your rating will first receive -0.4 for the 2 NMRS, than -0.6 for the CD and continue to take NMR-hits until someone takes over for you.</p>
-			<p>Your current integrity of <strong>".$integrity."</strong> allows you to have no more than <strong>".$maxGames."</strong> concurrent games before you see this message.<br>
-			2-player variants are not affected by this restriction.<br>
-			You can join as many 'open' spots in ongoing games as you like if there are no additional restrictions for the game.</p>
-			<p>You can improve your integrity rating by taking CD-positions from ongoing games. Each takeover will improve your rating by 1.</p>";
+				<p>Read more about this <a href='reliability.php'>here</a>.</p>";
+		}
 	}
 	
 	/**

@@ -31,7 +31,7 @@ class GobbleEarthVariant_adjudicatorBuilds extends adjudicatorBuilds
 					$DB->sql_put(
 						"UPDATE wD_Moves
 						SET success = 'No'
-						WHERE gameID=".$Game->id." AND countryID=".$countryID." AND toTerrID not IN (".implode(",",$terrIDs).")"
+						WHERE gameID=".$Game->id." AND countryID=".$countryID." AND toTerrID not IN (".implode(",",$terrIDs).") AND moveType != 'Destroy'"
 					);
 			}
 		}

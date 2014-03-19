@@ -94,6 +94,7 @@ class userMember extends panelMember
 		// Balance his reliability
 		require_once(l_r('lib/reliability.php'));		 
 		libReliability::updateReliability($this, 'gamesLeft', '- 1');
+		libReliability::updateReliability($this, 'gamesPlayed', '- 1');
 
 	}
 

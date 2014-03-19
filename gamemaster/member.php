@@ -315,6 +315,7 @@ class processMember extends Member
 		// Adjust the gamesLeft 
 		require_once(l_r('lib/reliability.php'));		 
 		libReliability::updateReliability($this, 'gamesLeft', '+ 1');
+		libReliability::updateReliability($this, 'gamesPlayed', '+ 1');
 		
 		/*
 		 * Don't do addWinnings(0), because that will refund their points; they

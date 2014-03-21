@@ -29,9 +29,13 @@ class GobbleEarthVariant_OrderInterface extends OrderInterface {
 	
 	public function html()
 	{
-		global $DB;
-		list($cB)=$DB->sql_row("SELECT COUNT(*) FROM wD_MovesArchive WHERE gameID=".$this->gameID." AND countryID=".$this->countryID." AND turn=".($this->turn - 2)." AND type='Wait'");
+		if( $this->phase=='Builds' )
+		{
+			global $DB;
+			list($cB)=$DB->sql_row("SELECT COUNT(*) FROM wD_MovesArchive WHERE gameID=".$this->gameID." AND countryID=".$this->countryID." AND turn=".($this->turn - 2)." AND type='Wait'");
 
-		return '<div style="text-align:center;">You have <b>'.$cB.'</b> colonial build'.($cB==1?'':'s').' this phase.</div>'.parent::html();
+			return '<div style="text-align:center;">You have <b>'.$cB.'</b> colonial build'.($cB==1?'':'s').' this phase.</div>'.parent::html();
+		}
+		return parent::html();
 	}
 }

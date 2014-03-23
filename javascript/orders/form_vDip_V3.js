@@ -173,14 +173,10 @@ function OrdersHTMLFormClass() {
 			if( MyOrders.pluck('isChanged').any(function(c){return c;}) )
 			{
 				this.ordersChanged=true;
-				if( this.finalized || MyOrders.pluck('isComplete').all(function(c){return c;}) )
-				{
+				if( MyOrders.pluck('isComplete').all(function(c){return c;}) )
 					this.buttonOn('UpdateButton');
-				}
 				else
-				{
 					this.buttonOff('UpdateButton');
-				}
 			}
 			else
 			{

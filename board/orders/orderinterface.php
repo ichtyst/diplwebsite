@@ -352,7 +352,7 @@ class OrderInterface
 	}
 
 	protected function jsInitForm() {
-		libHTML::$footerIncludes[] = l_j('orders/form_vDip_V2.js');
+		libHTML::$footerIncludes[] = l_j('orders/form_vDip_V3.js');
 		libHTML::$footerScript[] = l_jf('OrdersHTML.formInit').'(context, contextKey);';
 	}
 

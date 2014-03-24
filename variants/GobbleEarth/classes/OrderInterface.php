@@ -20,7 +20,7 @@ class GobbleEarthVariant_OrderInterface extends OrderInterface {
 				libHTML::$footerScript[$index]=str_replace('loadOrdersPhase();','loadOrdersPhase(); RenameWait();', $script);
 				
 			$homeBuilds='Array("'.implode($Variant->homeSCs[$Member->country], '","').'")';
-			libHTML::$footerIncludes[] = '../variants/'.$Variant->name.'/resources/renameSCs.js';
+			libHTML::$footerIncludes[] = '../variants/'.$Variant->name.'/resources/renameSCsV2.js';
 			foreach(libHTML::$footerScript as $index=>$script)
 				libHTML::$footerScript[$index]=str_replace('loadBoard();','loadBoard();RenameSCs('.$homeBuilds.');', $script);
 				

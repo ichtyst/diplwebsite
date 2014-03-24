@@ -325,7 +325,7 @@ class OrderInterface
 		
 		libHTML::$footerIncludes[] = l_j('board/model_vDipV2.js');
 		libHTML::$footerIncludes[] = l_j('board/load.js');
-		libHTML::$footerIncludes[] = l_j('orders/order_vDip.js');
+		libHTML::$footerIncludes[] = l_j('orders/order_vDipV2.js');
 		if ($this->phase == 'Diplomacy')
 			libHTML::$footerIncludes[] = l_j('orders/phaseDiplomacy_vDip.js');
 		else

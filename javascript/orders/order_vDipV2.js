@@ -326,7 +326,7 @@ function Order(orderData)
 		
 		return true;
 	}
-	
+
 	this.formDropDown=function(name, aoptions, value) {
 		var elementName='orderForm['+this.id+']['+name+']';
 		
@@ -351,8 +351,11 @@ function Order(orderData)
 			
 			if( !Object.isUndefined(value) && value != '' )
 			{
-				var valueName = options.get(value);
-				html=html+'<option selected="selected" value="'+value+'">'+valueName+'</option>';
+				if (name != "toTerrID" && name != "fromTerrID")
+				{
+					var valueName = options.get(value);
+					html=html+'<option selected="selected" value="'+value+'">'+valueName+'</option>';
+				}
 			}
 			else
 			{
@@ -362,11 +365,35 @@ function Order(orderData)
 			
 			var valueName = '';
 			
-			options.each(function(pair) {
-				if( !( Object.isUndefined(pair[0]) || pair[0]=='undefined' ) && pair[0] != value )
-					html=html+'<option value="'+pair[0]+'">'+pair[1]+'</option>';
-			});
+			 
+			if (name == "toTerrID" || name == "fromTerrID")
+			{
+				terrNames = []; terrNamesConvoy = [];
 			
+				options.each(function(pair) {
+					if (pair[1].indexOf("(via convoy)") == -1 )
+						terrNames.push ({id: pair[0], name: pair[1]});
+					else
+						terrNamesConvoy.push ({id: pair[0], name: pair[1]});
+				});
+				
+				terrNames = terrNames.sort(function(a,b) {return a.name > b.name;}).concat(terrNamesConvoy.sort(function(a,b) {return a.name > b.name;}));
+				var length = terrNames.length;   
+				for (var i = 0; i < length; i++) 
+				{
+					html=html+'<option ';
+					if( !Object.isUndefined(value) && value == terrNames[i].id )
+						html=html+'selected="selected" ';
+					html=html+'value="'+terrNames[i].id+'">'+terrNames[i].name+'</option>';
+				}	
+			}
+			else
+			{
+				options.each(function(pair) {
+					if( !( Object.isUndefined(pair[0]) || pair[0]=='undefined' ) && pair[0] != value )
+						html=html+'<option value="'+pair[0]+'">'+pair[1]+'</option>';
+				});
+			}
 			html = html+'</select> ';
 			
 			return html;

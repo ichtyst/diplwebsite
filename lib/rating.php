@@ -187,9 +187,12 @@ class libRating
 		$mV  = abs($SCq1 - $SCq2); 
 
 		// Value the importance of take-overs. (If a player bet only the half the whole match is worth only half.
-		$mV = $mV * (1 - abs($Member1['bet'] - $Member2['bet']) / max($Member1['bet'], $Member2['bet']));		
+		if (($Member1['bet'] + $Member2['bet']) == 0)
+			$mV=0;
+		else
+			$mV = $mV * (1 - abs($Member1['bet'] - $Member2['bet']) / max($Member1['bet'], $Member2['bet']));		
 		
-		// Set K-factor to 40
+		// Set K-factor to 100
 		$K = 100;
 		
 		// The more people the more important a game...

@@ -799,7 +799,8 @@ while( $message = $DB->tabl_hash($tabl) )
 								<option value="No" >No</option>
 							</select><br>';
 
-				print 'status: <select name="toggleStatus" onchange="this.form.submit();">
+				print 'status: <select name="toggleStatus" onchange="this.form.submit();"'.
+						(($message['assigned'] == $User->id || strpos($message['userType'],'Moderator')!==false || $User->type['Admin']) ? '' : 'disabled').'>
 							<option value="Open"    '.($message['status'] == 'Open'     ? 'selected' : '').'>Open</option>
 							<option value="Resolved"'.($message['status'] == 'Resolved' ? 'selected' : '').'>Resolved</option>
 							<option value="Bugs"    '.($message['status'] == 'Bugs'     ? 'selected' : '').'>Bugs</option>

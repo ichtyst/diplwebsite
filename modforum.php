@@ -12,6 +12,7 @@ $User->clearNotification('ModForum');
 // Set different tabs for admins to see...
 $tabs = array(
 	'Open'     =>array (l_t('Unresolved reports'),' AND (status = "New" OR status = "Open")' ),
+	'Assigned' =>array (l_t('My reports'),' AND status = "Open" AND (assigned = "'.$User->id.'" OR fromUserID = "'.$User->id.'")' ),
 	'Resolved' =>array (l_t('Resolved reports'),' AND status = "Resolved"'),
 	'Bugs'     =>array (l_t('Bugs to take care of'),' AND status = "Bugs"'),
 	'Sticky'   =>array (l_t('Internal discussions'),' AND status = "Sticky"'),
@@ -91,7 +92,13 @@ if (isset($_REQUEST['toggleStatus']) && $_REQUEST['toggleStatus'] != $tab && $Us
 	list($status)=$DB->sql_row("SELECT status FROM wD_ModForumMessages WHERE id = ".$viewthread);
 	$newstatus = $_REQUEST['toggleStatus'];
 	$DB->sql_put("UPDATE wD_ModForumMessages SET status='".$newstatus."' WHERE id = ".$viewthread);
+		
 	$tab = $newstatus;
+}
+
+if (isset($_REQUEST['setAssigned']) && $User->type['Moderator'])
+{
+	$DB->sql_put("UPDATE wD_ModForumMessages SET assigned='".(int)$_REQUEST['setAssigned']."' WHERE id = ".$viewthread);
 }
 
 if( !isset($_REQUEST['newmessage']) ) $_REQUEST['newmessage']  = '';
@@ -111,147 +118,155 @@ AND ($_REQUEST['newmessage'] != "") ) {
 
 	$new['sendtothread'] = $viewthread;
 
-		if( isset($_SESSION['lastPostText']) && $_SESSION['lastPostText'] == $new['message'] && !$User->type['Moderator'])
-		{
-			$messageproblem = "You are posting the same message again, please don't post repeat messages.";
-			$postboxopen = !$new['sendtothread'];
-		}
-		elseif( isset($_SESSION['lastPostTime']) && $_SESSION['lastPostTime'] > (time()-20) && !$User->type['Moderator']
-			&& ! ( $new['sendtothread'] && isset($_SESSION['lastPostType']) && $_SESSION['lastPostType']=='ThreadStart' ) )
-		{
-			$messageproblem = "You are posting too frequently, please slow down.";
-			$postboxopen = !$new['sendtothread'];
-		}
+	if( isset($_SESSION['lastPostText']) && $_SESSION['lastPostText'] == $new['message'] && !$User->type['Moderator'])
+	{
+		$messageproblem = "You are posting the same message again, please don't post repeat messages.";
+		$postboxopen = !$new['sendtothread'];
+	}
+	elseif( isset($_SESSION['lastPostTime']) && $_SESSION['lastPostTime'] > (time()-20) && !$User->type['Moderator']
+		&& ! ( $new['sendtothread'] && isset($_SESSION['lastPostType']) && $_SESSION['lastPostType']=='ThreadStart' ) )
+	{
+		$messageproblem = "You are posting too frequently, please slow down.";
+		$postboxopen = !$new['sendtothread'];
+	}
+	else
+	{		
+		if( isset($_REQUEST['fromUserID']) && $User->type['Admin'] && (int)$_REQUEST['fromUserID'] > 4)
+			$fromUserID=(int)$_REQUEST['fromUserID'];
 		else
-		{		
-			if( isset($_REQUEST['fromUserID']) && $User->type['Admin'] && (int)$_REQUEST['fromUserID'] > 4)
-				$fromUserID=(int)$_REQUEST['fromUserID'];
-			else
-				$fromUserID=$User->id;
-		
-			if(!$new['sendtothread']) // New thread to the forum
+			$fromUserID=$User->id;
+	
+		if(!$new['sendtothread']) // New thread to the forum
+		{
+			if ( 4 <= substr_count($new['message'], '<br />') )
 			{
-				if ( 4 <= substr_count($new['message'], '<br />') )
-				{
-					$messageproblem = "Too many lines in this message; ".
-						"please write a summary of the message in less than 4 ".
-						"lines and write the rest of the message as a response.";
-					$postboxopen = true;
-				}
-				elseif( 500 < strlen($new['message']) )
-				{
-					$messageproblem = "Too many characters in this message; ".
-						"please write a summary of the message in less than 500 ".
-						"characters and write the rest of the message as a response.";
-					$postboxopen = true;
-				}
-				elseif( empty($new['subject']) )
-				{
-					$messageproblem = "You haven't given a subject.";
-					$postboxopen = true;
-				}
-				elseif( strlen($new['subject'])>=90 )
-				{
-					$messageproblem = "Subject is too long, please keep it within 90 characters.";
-					$postboxopen = true;
-				}
-				else
-				{
-					try
-					{
-						$subjectWords = explode(' ', $new['subject']);
-						foreach( $subjectWords as $subjectWord )
-							if( strlen($subjectWord)> 25 )
-								throw new Exception("A word in the subject, '".$subjectWord."' is longer than 25 ".
-									"characters, please choose a subject with normal words.");
-
-						
-						$new['id'] = ModForumMessage::send(0,
-							$fromUserID,
-							$new['message'],
-							$new['subject'],
-							'ThreadStart');
-
-						$_SESSION['lastPostText']=$new['message'];
-						$_SESSION['lastPostTime']=time();
-						$_SESSION['lastPostType']='ThreadStart';
-
-						$messageproblem = "Thread posted sucessfully.";
-						$new['message'] = "";
-						$new['subject'] = "";
-						$postboxopen = false;
-
-						$viewthread = $new['id'];
-					}
-					catch(Exception $e)
-					{
-						$messageproblem=$e->getMessage();
-						$postboxopen = true;
-					}
-				}
+				$messageproblem = "Too many lines in this message; ".
+					"please write a summary of the message in less than 4 ".
+					"lines and write the rest of the message as a response.";
+				$postboxopen = true;
+			}
+			elseif( 500 < strlen($new['message']) )
+			{
+				$messageproblem = "Too many characters in this message; ".
+					"please write a summary of the message in less than 500 ".
+					"characters and write the rest of the message as a response.";
+				$postboxopen = true;
+			}
+			elseif( empty($new['subject']) )
+			{
+				$messageproblem = "You haven't given a subject.";
+				$postboxopen = true;
+			}
+			elseif( strlen($new['subject'])>=90 )
+			{
+				$messageproblem = "Subject is too long, please keep it within 90 characters.";
+				$postboxopen = true;
 			}
 			else
 			{
-				// To a thread
-				$threadDetails = $DB->sql_hash(
-					"SELECT f.id, f.latestReplySent
-					FROM wD_ModForumMessages f 
-					WHERE f.id=".$new['sendtothread']."
-						AND f.type='ThreadStart'");
-
-				unset($messageproblem);
-				
-				if( isset($threadDetails['id']) && !isset($messageproblem) )
+				try
 				{
-					// It's being sent to an existing, non-silenced / dated thread.
-					try
+					$subjectWords = explode(' ', $new['subject']);
+					foreach( $subjectWords as $subjectWord )
+						if( strlen($subjectWord)> 25 )
+							throw new Exception("A word in the subject, '".$subjectWord."' is longer than 25 ".
+								"characters, please choose a subject with normal words.");
+
+					
+					$new['id'] = ModForumMessage::send(0,
+						$fromUserID,
+						$new['message'],
+						$new['subject'],
+						'ThreadStart');
+
+					$_SESSION['lastPostText']=$new['message'];
+					$_SESSION['lastPostTime']=time();
+					$_SESSION['lastPostType']='ThreadStart';
+
+					$messageproblem = "Thread posted sucessfully.";
+					$new['message'] = "";
+					$new['subject'] = "";
+					$postboxopen = false;
+
+					$viewthread = $new['id'];
+				}
+				catch(Exception $e)
+				{
+					$messageproblem=$e->getMessage();
+					$postboxopen = true;
+				}
+			}
+		}
+		else
+		{
+			// To a thread
+			$threadDetails = $DB->sql_hash(
+				"SELECT f.id, f.latestReplySent, f.assigned, u.type as userType
+				FROM wD_ModForumMessages f 
+				INNER JOIN wD_Users u ON ( f.fromUserID = u.id )
+				WHERE f.id=".$new['sendtothread']."
+					AND f.type='ThreadStart'");
+
+			unset($messageproblem);
+			
+			if( isset($threadDetails['id']) && !isset($messageproblem) )
+			{
+				// It's being sent to an existing, non-silenced / dated thread.
+				try
+				{
+					$new['id'] = ModForumMessage::send( $new['sendtothread'],
+						$fromUserID,
+						$new['message'],
+							'',
+							'ThreadReply',
+							(isset($_REQUEST['ReplyAdmin']) ? 'Yes' : 'No')
+							);
+
+					$_SESSION['lastPostText']=$new['message'];
+					$_SESSION['lastPostTime']=time();
+					$_SESSION['lastPostType']='ThreadReply';
+
+					$messageproblem="Reply posted sucessfully.";
+					$new['message']=""; $new['subject']="";
+					
+					if ($threadDetails['assigned'] == 0 
+							&& $User->type['Moderator'] 
+							&& !isset($_REQUEST['ReplyAdmin']) 
+							&& strpos($threadDetails['userType'],'Moderator')===false)
+						$DB->sql_put('UPDATE wD_ModForumMessages SET assigned = "'.$User->id.'" WHERE id='.$threadDetails['id']);
+					
+					
+					if (count($forceUserIDs) > 0)
 					{
-						$new['id'] = ModForumMessage::send( $new['sendtothread'],
-							$fromUserID,
-							$new['message'],
-								'',
-								'ThreadReply',
-								(isset($_REQUEST['ReplyAdmin']) ? 'Yes' : 'No')
-								);
-
-						$_SESSION['lastPostText']=$new['message'];
-						$_SESSION['lastPostTime']=time();
-						$_SESSION['lastPostType']='ThreadReply';
-
-						$messageproblem="Reply posted sucessfully.";
-						$new['message']=""; $new['subject']="";
-						
-						if (count($forceUserIDs) > 0)
+						foreach ($forceUserIDs as $forceUserID)
 						{
-							foreach ($forceUserIDs as $forceUserID)
+							if ( $forceUserID != '')
 							{
-								if ( $forceUserID != '')
-								{
-									$DB->sql_put('INSERT INTO wD_ForceReply
-										SET id = "'.$new['id'].'",
-										forceReply="'.$forceReply.'",
-										toUserID = "'.$forceUserID.'"');
-										
-									$DB->sql_put("UPDATE wD_Users 
-										SET notifications = CONCAT_WS(',',notifications, 'ForceModMessage') 
-										WHERE id = ".$forceUserID);
-								}
+								$DB->sql_put('INSERT INTO wD_ForceReply
+									SET id = "'.$new['id'].'",
+									forceReply="'.$forceReply.'",
+									toUserID = "'.$forceUserID.'"');
+									
+								$DB->sql_put("UPDATE wD_Users 
+									SET notifications = CONCAT_WS(',',notifications, 'ForceModMessage') 
+									WHERE id = ".$forceUserID);
 							}
 						}
 					}
-					catch(Exception $e)
-					{
-						$messageproblem=$e->getMessage();
-					}
 				}
-				else
+				catch(Exception $e)
 				{
-					$messageproblem="The thread you attempted to reply to doesn't exist.";
+					$messageproblem=$e->getMessage();
 				}
-				
-				unset($threadDetails);
 			}
+			else
+			{
+				$messageproblem="The thread you attempted to reply to doesn't exist.";
+			}
+			
+			unset($threadDetails);
 		}
+	}
 
 	if ( isset($messageproblem) and $new['id'] != -1 )
 	{
@@ -359,7 +374,7 @@ if( $User->type['Moderator'] )
 }
 // end of more tabs for admins
 	
-if ($ForumThreads == 0)
+if ($ForumThreads == 0 && !$User->type['Moderator'])
 {
 	list($threads)= $DB->sql_row("SELECT COUNT(type) FROM wD_ModForumMessages WHERE type='ThreadStart'");
 	list($posts)= $DB->sql_row("SELECT COUNT(type) FROM wD_ModForumMessages WHERE 1");
@@ -467,9 +482,11 @@ if( file_exists($cacheHTML) )
 $tabl = $DB->sql_tabl("SELECT
 	f.id, f.fromUserID, f.timeSent, f.message, f.subject, f.replies,
 		u.username as fromusername, u.points as points, f.latestReplySent, IF(s.userID IS NULL,0,1) as online, u.type as userType, 
-		f.status as status
+		f.status as status,
+		f.assigned, u2.username as modname
 	FROM wD_ModForumMessages f
 	INNER JOIN wD_Users u ON ( f.fromUserID = u.id )
+	LEFT JOIN wD_Users u2 ON ( f.assigned = u2.id )
 	LEFT JOIN wD_Sessions s ON ( u.id = s.userID )
 	WHERE f.type = 'ThreadStart'
 	".($User->type['Moderator'] ? $tabs[$tab][1] : " AND fromUserID = '".$User->id."'")."
@@ -557,6 +574,9 @@ while( $message = $DB->tabl_hash($tabl) )
 	else
 		print '<strong>'.$message['subject'].'</strong>';
 
+	if ($message['modname'] != "") 
+		print '<strong> - assigned to: '.$message['modname'].'</strong>';
+		
 	print '</div>
 		
 		<div class="message-body threadalternate'.$switch.'">
@@ -769,41 +789,76 @@ while( $message = $DB->tabl_hash($tabl) )
 			print '<TEXTAREA NAME="newmessage" style="margin-bottom:5px;" ROWS="4">'.$_REQUEST['newmessage'].'</TEXTAREA><br />
 					<input type="hidden" value="'.libHTML::formTicket().'" name="formTicket">
 					<input type="hidden" name="page" value="'.$forumPager->pageCount.'" />';
-					
+
 			if ($User->type['Moderator'])
-				print ' forceReply: 
-							<input type="text" size=4 value="" name="forceUserIDs">
-							<select name="forceReply">
+			{
+				print 'forcePM on user (IDs): 
+							<input type="text" size=20 value="" name="forceUserIDs">
+						 - user(s) needs to reply: <select name="forceReply">
 								<option value="Yes" selected>Yes</option>
 								<option value="No" >No</option>
-							</select> - ';
-					
-			print '<input type="submit" ';
-					
-			if (strpos($message['userType'],'Moderator')===false && $User->type['Moderator'])
-				print 'onclick="return confirm(\'Are you sure you want post this reply visible for the thread-starter too?\');"';
-							
-			print 'class="form-submit" value="Post reply" name="Reply">';
+							</select><br>';
 
-			if (strpos($message['userType'],'Moderator')===false && $User->type['Moderator'])
-				print ' - <input type="submit" class="form-submit" value="Only for admins" name="ReplyAdmin">';
-
+				print 'status: <select name="toggleStatus" onchange="this.form.submit();">
+							<option value="Open"    '.($message['status'] == 'Open'     ? 'selected' : '').'>Open</option>
+							<option value="Resolved"'.($message['status'] == 'Resolved' ? 'selected' : '').'>Resolved</option>
+							<option value="Bugs"    '.($message['status'] == 'Bugs'     ? 'selected' : '').'>Bugs</option>
+							<option value="Sticky"  '.($message['status'] == 'Sticky'   ? 'selected' : '').'>Sticky</option>
+						</select>';
+				
+				if ($User->type['Admin']) 
+				{
+					print ' - assigned to: <select name="setAssigned" onchange="this.form.submit();"'.
+						(strpos($message['userType'],'Moderator')===false ? '' : 'disabled').'>
+								<option value="None"         '.($message['assigned'] == ''      ? 'selected' : '').'>None</option>';
+					$modsList = $DB->sql_tabl("SELECT id,username FROM wD_Users WHERE type LIKE '%Moderator%'");
+					while( list($id, $name) = $DB->tabl_row($modsList) )
+						print '<option value="'.$id.'"'.($message['assigned'] == $id ? 'selected' : '').'>'.$name.'</option>';
+					print '</select>';
+				}
+				elseif ( $message['assigned'] == 0 || $message['assigned'] == $User->id )
+				{
+					print ' - assigned to: <select name="setAssigned" onchange="this.form.submit();"'.
+						(strpos($message['userType'],'Moderator')===false ? '' : 'disabled').'>
+								<option value="None"         '.($message['assigned'] == ''        ? 'selected' : '').'>None</option>
+								<option value="'.$User->id.'"'.($message['assigned'] == $User->id ? 'selected' : '').'>Me</option>
+							</select>';
+				}
+				else
+				{
+					print ' - assigned to: <select name="setAssigned" disabled>
+								<option value="'.$message['assigned'].'" selected>'.$message['modname'].'</option>
+							</select>';
+				}
+				print '<br>';
+			}
+			
+				
+		
 			if ($User->type['Admin'])
 			{
 				if( isset($_REQUEST['fromUserID']) && $User->type['Admin'] && $_REQUEST['fromUserID'] != $User->id && (int)$_REQUEST['fromUserID'] != 0)
 					$fromUserIDprefill=(int)$_REQUEST['fromUserID'];
 				else
 					$fromUserIDprefill='';				
-				print ' - UserID: <input type="text" size=4 value="'.$fromUserIDprefill.'" name="fromUserID">';
+				print 'post as userID: <input type="text" size=4 value="'.$fromUserIDprefill.'" name="fromUserID"> (to make PMs or mails accessible in the modforum)<br>';
+			}
+
+			print '<br>';
+			
+			if ($message['modname'] == '' || $message['modname'] == $User->username || $message['fromUserID'] == $User->id)
+			{
+				print '<input type="submit" ';
+				if (strpos($message['userType'],'Moderator')===false && $User->type['Moderator'])
+					print 'onclick="return confirm(\'Are you sure you want post this reply visible for the thread-starter too?\');"';
+				print 'class="form-submit" value="Post reply" name="Reply">';
+				
+				if (strpos($message['userType'],'Moderator')===false && $User->type['Moderator'])
+					print ' - ';
 			}
 			
-			if ($User->type['Moderator'])
-				print ' - Status: <select name="toggleStatus" onchange="this.form.submit();">
-							<option value="Open"    '.($tab == 'Open'     ? 'selected' : '').'>Open</option>
-							<option value="Resolved"'.($tab == 'Resolved' ? 'selected' : '').'>Resolved</option>
-							<option value="Bugs"    '.($tab == 'Bugs'     ? 'selected' : '').'>Bugs</option>
-							<option value="Sticky"  '.($tab == 'Sticky'   ? 'selected' : '').'>Sticky</option>
-						</select>';
+			if (strpos($message['userType'],'Moderator')===false && $User->type['Moderator'])
+				print '<input type="submit" class="form-submit" value="Only for admins" name="ReplyAdmin">';			
 									
 			print '</p></form></div>
 					<div class="hrthin"></div>';

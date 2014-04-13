@@ -39,6 +39,11 @@ class adminActionsVDip extends adminActions
 				'description' => 'Lock (or unlock) a game to prevent users to enter orders.',
 				'params' => array('gameID'=>'GameID')
 			),
+			'replaceCoutries' => array(
+				'name' => 'Replace country-player.',
+				'description' => 'Replace one player in a given game with another one.',
+				'params' => array('gameID'=>'GameID','userID'=>'userID','replaceID'=>'replace User ID')
+			),
 		);
 		
 		adminActions::$actions = array_merge(adminActions::$actions, $vDipActions);
@@ -134,6 +139,47 @@ class adminActionsVDip extends adminActions
 		$DB->sql_put("UPDATE wD_Games SET adminLock = '".($status == 'Yes' ? 'No' : 'Yes')."' WHERE id = ".$gameID);		
 		
 		return 'This game is now '.( $status == 'No' ? 'locked' : 'unlocked').'.';
+	}
+
+	public function replaceCoutries(array $params)
+	{
+		global $DB;
+		
+		$gameID    = (int)$params['gameID'];
+		$userID    = (int)$params['userID'];
+		$replaceID = (int)$params['replaceID'];
+
+		list($gameName)    = $DB->sql_row("SELECT name FROM wD_Games WHERE id=".$gameID);
+		list($userName)    = $DB->sql_row("SELECT username FROM wD_Users WHERE id=".$userID);
+		list($replaceName) = $DB->sql_row("SELECT username FROM wD_Users WHERE id=".$replaceID);
+		
+		list($bet) = $DB->sql_row("SELECT bet FROM wD_Members WHERE userID=".$userID." AND gameID=".$gameID);
+		list($replacePoints) = $DB->sql_row("SELECT points FROM wD_Users WHERE id=".$replaceID);
+		list($userPoints) = $DB->sql_row("SELECT points FROM wD_Users WHERE id=".$userID);
+
+		$newPoints = $replacePoints - $bet;
+		if ($newPoints < 0) $newPoints = 0;
+		
+		$DB->sql_put("UPDATE wD_Users SET points = ".$newPoints." WHERE id=".$replaceID);
+		$DB->sql_put("UPDATE wD_Users SET points = ".($userPoints + $bet)." WHERE id=".$userID);
+		$DB->sql_put("UPDATE wD_Members SET userID = ".$replaceID." WHERE userID=".$userID." AND gameID=".$gameID);
+
+		return 'In game '.$gameName.' (id='.$gameID.') the user '.$userName.' was removed and replaced by '.$replaceName.'.';
+	}
+	
+	public function replaceCoutriesConfirm(array $params)
+	{
+		global $DB;
+		
+		$gameID    = (int)$params['gameID'];
+		$userID    = (int)$params['userID'];
+		$replaceID = (int)$params['replaceID'];
+		
+		list($gameName)    = $DB->sql_row("SELECT name FROM wD_Games WHERE id=".$gameID);
+		list($userName)    = $DB->sql_row("SELECT username FROM wD_Users WHERE id=".$userID);
+		list($replaceName) = $DB->sql_row("SELECT username FROM wD_Users WHERE id=".$replaceID);
+		
+		return 'In game '.$gameName.' (id='.$gameID.') the user '.$userName.' will be removed and replaced by '.$replaceName.'.';
 	}
 	
 

@@ -54,17 +54,13 @@ class adminActionsVDip extends adminActions
 		global $DB;
 		
 		$userID = (int)$params['userID'];
+		$CDtakeover = (int)$params['CDtakeover'];
 
 		list($CDtakeoverOld) = $DB->sql_row("SELECT CDtakeover FROM wD_Users WHERE id=".$userID);
 
-		$CDtakeover= ($params['CDtakeover']=='' ? $CDtakeoverOld : (int)$params['CDtakeover']);
-		
-		$DB->sql_put("UPDATE wD_Users SET 
-			CDtakeover = ".$CDtakeover." 
-			WHERE id=".$userID);
+		$DB->sql_put("UPDATE wD_Users SET CDtakeover = ".$CDtakeover." WHERE id=".$userID);
 
-		return 'This users reliability was changed to:'.
-			($params['CDtakeover'] == '' ? '' : '<br>Left Balanced: '.$leftBalancedOld.' => '.$CDtakeover);
+		return 'This users CDtakeovers got changed from <b>'.$CDtakeoverOld.'</b> to <b>'.$CDtakeover.'</b>.';
 	}
 	
 	public function changeReliabilityConfirm(array $params)
@@ -72,14 +68,11 @@ class adminActionsVDip extends adminActions
 		global $DB;
 		
 		$userID = (int)$params['userID'];
+		$CDtakeover = (int)$params['CDtakeover'];
 		
-		list($CDtakeoverOld) 
-			= $DB->sql_row("SELECT CDtakeover FROM wD_Users WHERE id=".$userID);
+		list($CDtakeoverOld) = $DB->sql_row("SELECT CDtakeover FROM wD_Users WHERE id=".$userID);
 
-		$CDtakeover= ($params['CDtakeover']=='' ? $leftBalancedOld : (int)$params['CDtakeover']);
-
-		return 'This users reliability will be changed:'.
-			($params['CDtakeover'] == '' ? '' : '<br>CD takeover: '.$CDtakeoverOld.' => '.$CDtakeover);
+		return 'This users CDtakeovers will be changed from <b>'.$CDtakeoverOld.'</b> to <b>'.$CDtakeover.'</b>.';
 	}
 	
 	public function changeTargetSCs(array $params)

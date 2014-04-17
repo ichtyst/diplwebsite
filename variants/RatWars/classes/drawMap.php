@@ -124,8 +124,8 @@ class RatWarsVariant_drawMap extends Fog_drawMap {
 		{
 			return array(
 				'map'     =>'variants/RatWars/resources/map.png',
-				'army'    =>'contrib/army.png',
-				'fleet'   =>'contrib/fleet.png',
+				'army'    =>'variants/RatWars/resources/army.png',
+				'fleet'   =>'variants/RatWars/resources/fleet.png',
 				'names'   =>'variants/RatWars/resources/mapNames.png',
 				'standoff'=>'images/icons/cross.png'
 			);

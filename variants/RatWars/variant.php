@@ -34,7 +34,7 @@ class RatWarsVariant extends WDVariant {
 	public $author     ='kaner406';
 	public $adapter    ='kaner406 / Oliver Auth';
 	public $version    ='1';
-	public $codeVersion='1.0.2';	
+	public $codeVersion='1.0.3';	
 	
 	public $countries=array('Dead Rabbits','Plug Uglies','Shirt Tails','Hell-Cats');	
 

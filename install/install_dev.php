@@ -891,9 +891,13 @@ $sql[]="ALTER TABLE `wD_Backup_Games` DROP COLUMN `maxLeft`;";
 // VDip: 42
 $sql[]="ALTER TABLE `wD_ModForumMessages` ADD `assigned` mediumint(8) unsigned DEFAULT 0;";
 
+// VDip: 43
+$sql[]="ALTER TABLE `wD_Games` ADD `chooseYourCountry` enum('Yes','No') NOT NULL DEFAULT 'No';";
+$sql[]="ALTER TABLE `wD_Backup_Games` ADD `chooseYourCountry` enum('Yes','No') NOT NULL DEFAULT 'No';";
+
 // Set the correct version-information in the database	
 $sql[]="UPDATE `wD_Misc`     SET `value` = '135' WHERE `name` = 'Version';";
-$sql[]="UPDATE `wD_vDipMisc` SET `value` = '42'  WHERE `name` = 'Version';";
+$sql[]="UPDATE `wD_vDipMisc` SET `value` = '43'  WHERE `name` = 'Version';";
 
 // Create a default Admin-Account
 require_once ('lib/auth.php');

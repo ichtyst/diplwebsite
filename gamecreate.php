@@ -61,6 +61,7 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
  						,'minNoCD'
  						,'minNoNMR'
 						,'targetSCs'
+						,'moderated'
 					);
 
 		if ( !isset($form['missingPlayerPolicy']) )
@@ -186,6 +187,14 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 			throw new Exception("The chessTime value is too large or small; it must be between 0 minutes and 100 days.");
 		}
 		
+		$input['moderator'] = ( (strtolower($input['moderated']) == 'yes') ? $User->id : '0' );
+		if ( $input['moderator'] != 0 && $User->gamesPlayed < 50)
+		{
+			throw new Exception("You need to have at least 50 non-live games with more than 2 players completed to moderate a game.");
+		}	
+		
+		$input['chooseYourCountry'] = ( ($input['countryID'] > 0) ? 'Yes' : 'No' );
+		
 		// Create Game record & object
 		require_once(l_r('gamemaster/game.php'));
 		$Game = processGame::create(
@@ -208,6 +217,8 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 			$input['chessTime'],
 			$input['minNoCD'],
 			$input['minNoNMR']
+			,$input['moderator']
+			,$input['chooseYourCountry']
 		);
 
 		/**
@@ -222,7 +233,8 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 		// END RELIABILITY-PATCH
 		
 		// Create first Member record & object
-		processMember::create($User->id, $Game->minimumBet, $input['countryID']);
+		if ($input['moderator'] == 0)
+			processMember::create($User->id, $Game->minimumBet, $input['countryID']);
 	
 		// Post a small note at the beginning of each ChooseYourCountry game to tell everyone discussion has to wait till everybody joined.
 		if ($input['countryID'] != 0 && $input['pressType'] != 'NoPress')

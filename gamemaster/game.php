@@ -305,6 +305,8 @@ class processGame extends Game
 		,$chessTime
 		,$minNoCD
 		,$minNoNMR
+		,$moderator
+		,$chooseYourCountry
 		)
 	{
 		global $DB;
@@ -369,7 +371,9 @@ class processGame extends Game
 						specialCDcount = ".$specialCDcount.", 
 						chessTime = ".$chessTime.", 
 						minNoCD = ".$minNoCD.", 
-						minNoNMR = ".$minNoNMR.", 
+						minNoNMR = ".$minNoNMR.",
+						directorUserID = ".$moderator.",
+						chooseYourCountry = '".$chooseYourCountry."',
 						rlPolicy = '".($anon == 'Yes' ? 'Strict' : 'None' )."'");
 
 		$gameID = $DB->last_inserted();

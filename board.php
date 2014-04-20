@@ -155,7 +155,7 @@ if ( isset($_REQUEST['viewArchive']) )
 
 // Before HTML pre-generate everything and check input, so game summary header will be accurate
 
-if( isset($Member) && $Member->status == 'Playing' && $Game->phase!='Finished' )
+if( ( (isset($Member) && $Member->status == 'Playing') || $User->id == $Game->directorUserID) && $Game->phase!='Finished' )
 {
 	if( $Game->phase != 'Pre-game' )
 	{
@@ -178,7 +178,7 @@ if( isset($Member) && $Member->status == 'Playing' && $Game->phase!='Finished' )
 	}
 	else
 	{
-		if( $Game->Members->votesPassed() && $Game->phase!='Finished' )
+		if( isset($Member) && $Game->Members->votesPassed() && $Game->phase!='Finished' )
 		{
 			$DB->sql_put("UPDATE wD_Games SET attempts=attempts+1 WHERE id=".$Game->id);
 			$DB->sql_put("COMMIT");
@@ -241,7 +241,7 @@ if( isset($Member) && $Member->status == 'Playing' && $Game->phase!='Finished' )
 	 * is no longer in the game, once it's processed.
 	 * Skip the next few lines if so.
 	 */
-	if (!(isset($Game->Members->ByUserID[$User->id])))
+	if (!(isset($Game->Members->ByUserID[$User->id])) && isset($Member))
 	{
 		unset($Member);
 		goto NoMoreMember;
@@ -254,7 +254,7 @@ if( isset($Member) && $Member->status == 'Playing' && $Game->phase!='Finished' )
 		$Member = $Game->Members->ByUserID[$User->id];
 	}
 
-	if ( 'Pre-game' != $Game->phase && $Game->phase!='Finished' )
+	if ( 'Pre-game' != $Game->phase && $Game->phase!='Finished' && isset($Member))
 	{
 		if ($Game->adminLock == 'No' || $User->type['Admin'] || defined('AdminUserSwitch'))
 		{
@@ -274,7 +274,7 @@ if( isset($Member) && $Member->status == 'Playing' && $Game->phase!='Finished' )
 // Skip-target for the CountrySwitch-exit.
 NoMoreMember:
 
-if ( 'Pre-game' != $Game->phase && ( isset($Member) || $User->type['Moderator'] ) )
+if ( 'Pre-game' != $Game->phase && ( isset($Member) || $User->type['Moderator'] || $User->id == $Game->directorUserID ) )
 {
 	$CB = $Game->Variant->Chatbox();
 

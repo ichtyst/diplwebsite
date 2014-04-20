@@ -207,7 +207,7 @@ else
 	</li>
 
 	<li class="formlistdesc">
-		Random distribution of each country, or players pick their country (gamecreator get's the selected country).<br /><br />
+		Random distribution of each country, or players pick their country (gamecreator gets the selected country).<br /><br />
 		<strong>Default:</strong> Random
 	</li>
 	
@@ -533,6 +533,26 @@ else
 
 		<strong>Default:</strong> No password set
 	</li>
+
+	<li class="formlisttitle">
+		Moderated game:
+	</li>
+	<li class="formlistfield">
+		<input type="radio" name="newGame[moderated]" value="No" checked>No
+		<input type="radio" name="newGame[moderated]" value="Yes" <?php if ($User->gamesPlayed < 50) print "disabled"; ?> >Yes
+	</li>
+	<li class="formlistdesc">
+		If set to yes you are given extra moderator-powers to manage this game. 
+		You can force extends, pauses and have many other options running the game.<br />
+		If you select Yes, you are not automatically playing in this game, you are the moderator.
+		You need to join this game once it's created if you want to play a country.<br />
+		If you want to enable the players to choose their countries select any country in the "Country assignment" list. You will still need to join this game once it's created.<br /><br />
+		You need to have at least <b>50</b> non-live games with more than 2 players completed to moderate a game.
+		<br /><br />
+
+		<strong>Default:</strong> No, there is no moderator for this game.
+	</li>
+	
 <!-- 
 	<li class="formlisttitle">
 		No moves received options:

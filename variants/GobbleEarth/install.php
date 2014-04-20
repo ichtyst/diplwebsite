@@ -465,7 +465,7 @@ $bordersRawData=array(
 	array('Brest','Picardy','Yes','Yes'),
 	array('East Africa','Dar es Salaam','Yes','Yes'),
 	array('East Africa','Mogadishu','Yes','Yes'),
-	array('East Africa','Seychelles','Yes','Yes'),
+	array('East Africa','Seychelles','Yes','No'),
 	array('East Africa','Sudan','No','Yes'),
 	array('British Guiana','Caribbean','Yes','No'),
 	array('British Guiana','Surinam','Yes','Yes'),
@@ -1044,3 +1044,4 @@ if (!file_exists('variants/'.$this->name.'/cache/sampleMap.png'))
 	copy ('variants/'.$this->name.'/resources/sampleMap.png','variants/'.$this->name.'/cache/sampleMap.png');
 
 ?>
+

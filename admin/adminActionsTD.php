@@ -45,6 +45,11 @@ class adminActionsTD extends adminActionsForms
 				'description' => 'Flips a game\'s paused status; if it\'s paused it\'s unpaused, otherwise it\'s paused.',
 				'params' => array(),
 			),
+			'extendPhase' => array(
+				'name' => 'Extend phase',
+				'description' => 'Extend the current phase.',
+				'params' => array('extend'=>'Days to extend'),
+			),
 			'makePublic' => array(
 				'name' => 'Make public a private game',
 				'description' => 'Removes a private game\'s password.',
@@ -77,22 +82,6 @@ class adminActionsTD extends adminActionsForms
 					Also the next process time is reset to the new phase length.',
 				'params' => array('phaseMinutes'=>'Minutes per phase'),
 			),
-			'countryReallocate' => array(
-				'name' => 'Reallocate countries',
-				'description' => 'Alter which player has which country. Enter a list like so:
-					"<em>R,T,A,G,U,F,E</em>".<br />
-					The result will be that England will be set to Russia, France to Turkey, etc.<br /><br />
-					If you aren\'t sure about the order of each country just enter the gameID without anything else and the list of
-					countries in the order will be output.<br /><br />
-					To prevent people sharing invalid info before the countries have been reallocated only no-message games
-					can have their countries reallocated; messages should be enabled only after the countries have been reallocated.<br /><br />
-					(The substitution string to reverse the reallocation will be generated, in case you need to reverse the reallocation.)<br />
-					(If changing the countries of a variant for which the first letter of the countries are not distinct countryID numbers must be used instead.)<br />
-					(Alternatively you can enter [userID1]=[countryLetter1],[userID2]=[countryLetter2],etc)',
-				'params' => array(
-					'reallocations'=>'Reallocations list (e.g "<em>R,T,A,G,U,F,E</em>")'
-					)
-			),
 			'alterMessaging' => array(
 				'name' => 'Alter game messaging',
 				'description' => 'Change a game\'s messaging settings, e.g. to convert from gunboat to public-only or all messages allowed.',
@@ -109,124 +98,18 @@ class adminActionsTD extends adminActionsForms
 		
 		$this->fixedGameID = $Game->id;
 	}
-	public function countryReallocate(array $params)
+	public function extendPhase(array $params)
 	{
 		global $DB;
 
-		$gameID=$this->fixedGameID;
-
-		$Variant=libVariant::loadFromGameID($gameID);
-		$Game = $Variant->Game($gameID);
-
-		if( strlen($params['reallocations'])==0 )
-		{
-			$c=array();
-			foreach($Variant->countries as $index=>$country)
-			{
-				$index++;
-				$countryLetter=strtoupper(substr($country,0,1));
-				$c[$countryLetter] = '#'.$index.": ".$country;
-			}
-			$ids=array_keys($c);
-
-			return implode('<br />',$c)."<br />".l_t("e.g. \"%s\"\" would change nothing",implode(',',$ids));
-		}
-
-		$reallocations=explode(',',$params['reallocations']);
-
-		if ( $Game->pressType != 'NoPress' )
-			throw new Exception(l_t("Only games with no messages allowed can have their countries reordered, ".
-				"otherwise information may already have been communicated while believing countries were already allocated."));
-
-		if ( $Game->phase == 'Pre-game' )
-			throw new Exception(l_t("This game hasn't yet started; countries can only be reallocated after they have been allocated already."));
-
-		if ( $Game->phase == 'Finished' )
-			throw new Exception(l_t("This game has finished, countries can't be reallocated."));
-
-		if( count($reallocations) != count($Variant->countries) )
-			throw new Exception(l_t("The number of inputted reallocations (%s) aren't equal to the number of countries (%s).",count($reallocations),count($Variant->countries)));
-
-		if( !is_numeric(implode('', $reallocations)) )
-		{
-			$countryIDsByLetter=array();
-			foreach($Variant->countries as $countryID=>$countryName)
-			{
-				$countryID++;
-				$countryLetter=strtoupper(substr($countryName,0,1));
-				if( isset($countryIDsByLetter[$countryLetter]) )
-					throw new Exception(l_t("For the given variant two countries have the same start letter: '%s (one is '%s'), you must give countryIDs instead of letters.",$countryLetter,$countryName));
-
-				$countryIDsByLetter[$countryLetter]=$countryID;
-			}
-
-			if( count(explode('=',$reallocations[0]))==2 )
-			{
-				$newCountryIDsByOldCountryID=array();
-				foreach($reallocations as $r)
-				{
-					list($userID,$countryLetter)=explode('=', $r);
-					$countryID=$countryIDsByLetter[$countryLetter];
-
-					$oldCountryID=false;
-					list($oldCountryID)=$DB->sql_row("SELECT countryID FROM wD_Members WHERE userID=".$userID." AND gameID = ".$Game->id);
-					if( !$oldCountryID )
-						throw new Exception(l_t("User %s not found in this game.",$userID));
-
-					$newCountryIDsByOldCountryID[$oldCountryID]=$countryID;
-				}
-			}
-			else
-			{
-				$newCountryIDsByOldCountryID=array();
-				for($oldCountryID=1; $oldCountryID<=count($reallocations); $oldCountryID++)
-				{
-					$countryLetter=$reallocations[$oldCountryID-1];
-
-					if( !isset($countryIDsByLetter[$countryLetter]) )
-						throw new Exception(l_t("No country name starts with letter '%s'",$countryLetter));
-
-					$newCountryIDsByOldCountryID[$oldCountryID]=$countryIDsByLetter[$countryLetter];
-				}
-			}
-		}
-		else
-		{
-			$newCountryIDsByOldCountryID=array();
-			for($oldCountryID=1; $oldCountryID<=count($reallocations); $oldCountryID++)
-			{
-				$newCountryID=$reallocations[$oldCountryID-1];
-				$newCountryIDsByOldCountryID[$oldCountryID]=(int)$newCountryID;
-			}
-		}
-
-		$changes=array();
-		$newUserIDByNewCountryID=array();
-		$changeBack=array();
-		foreach($newCountryIDsByOldCountryID as $oldCountryID=>$newCountryID)
-		{
-			list($userID)=$DB->sql_row("SELECT userID FROM wD_Members WHERE gameID=".$Game->id." AND countryID=".$oldCountryID." FOR UPDATE");
-			$newUserIDByNewCountryID[$newCountryID]=$userID;
-
-			$changes[] = l_t("Changed %s (#%s) to %s (#%s).",$Variant->countries[$oldCountryID-1],$oldCountryID,$Variant->countries[$newCountryID-1],$newCountryID);
-			$changeBack[$newCountryID]=$oldCountryID;
-		}
-
-		$changeBackStr=array();
-		for($i=1; $i<=count($Variant->countries); $i++)
-			$changeBackStr[] = $changeBack[$i];
-		$changeBackStr=implode(',', $changeBackStr);
-
-		// Foreach member set the new owners' userID
-		// The member isn't given a new countryID, instead the user in control of the countryID is moved into the other countryID:
-		// userID is what gets changed, not countryID (if it's not done this way all sorts of problems e.g. supplyCenterNo crop up)
-		$DB->sql_put("BEGIN");
-		foreach($newUserIDByNewCountryID as $newCountryID=>$userID)
-			$DB->sql_put("UPDATE wD_Members SET userID=".$userID." WHERE gameID=".$Game->id." AND countryID=".$newCountryID);
-		$DB->sql_put("COMMIT");
-
-		return l_t('In this game these countries were successfully swapped:').'<br />'.implode(',<br />', $changes).'.<br />
-			'.l_t('These changes can be reversed with "%s"',$changeBackStr);
+		$gameID = (int)$this->fixedGameID;
+		$extend = (int)$params['extend'];
+		
+		$DB->sql_put("UPDATE wD_Games
+			SET processTime = processTime + ". $extend * 86400 ."
+			WHERE id = ".$gameID);
+			
+		return 'The current phase for the game was extended by '.$extend.' day(s).';
 	}
 	public function alterMessaging(array $params)
 	{
@@ -517,6 +400,10 @@ class adminActionsTD extends adminActionsForms
 			
 			// Now backup and erase the game from existence, then commit:
 			processGame::eraseGame($Game->id);
+		}
+		elseif( $Game->phase == 'Pre-game' )
+		{
+			$DB->sql_put("UPDATE wD_Games SET processTime = ".time()." WHERE id = ".$Game->id);
 		}
 		else
 		{

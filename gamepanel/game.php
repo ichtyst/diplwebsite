@@ -240,14 +240,24 @@ class panelGame extends Game
 				'<span class="gameName">'.$this->titleBarName().'</span>';
 
 		$leftBottom = '<div class="titleBarLeftSide">';
+
 		
 		if ($this->pot > 0)
 			$leftBottom .= l_t('Pot:').' <span class="gamePot">'.$this->pot.' '.libHTML::points().'</span> - ';
 			//<span class="gamePotType" title="'.$this->potType.'">('.($this->potType=='Points-per-supply-center'?'PPSC':'WTA').')</span>';
 		else
 			$leftBottom .= '<i><a class="light" href="features.php#4_4">'.l_t('Unrated').'</a></i> - ';
-		
+
 		$leftBottom .= $date;
+
+		if ($this->directorUserID != 0)
+		{
+			$director = new User($this->directorUserID);
+			$leftBottom .= '<br>This is a moderated game. Gamedirector: '.$director->profile_link();
+			if (isset($this->Members->ByUserID[$this->directorUserID]))
+				$leftBottom .= ' (is playing too)';
+			$leftBottom .= '.';
+		}
 		
 		$leftTop .= '</div>';
 		$leftBottom .= '</div>';
@@ -283,6 +293,8 @@ class panelGame extends Game
 			$alternatives[]=l_t('Public Press');
 		if( $this->anon=='Yes' )
 			$alternatives[]=l_t('Anon');
+		if( $this->chooseYourCountry=='Yes' )
+			$alternatives[]=l_t('ChooseYourCountry');
 		if( $this->chessTime > 0)
 			$alternatives[]=l_t('Chess:'.$this->chessTime." min.");
 			

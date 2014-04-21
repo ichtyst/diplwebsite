@@ -460,12 +460,19 @@ class processGame extends Game
 			$minimumBet = $this->Members->pointsLowestCD();
 		}
 
+		// All players joined this game, set minimumBet to NULL
+		if ( count($this->Members->ByStatus['Left']) == 0 )
+		{
+			$DB->sql_put("UPDATE wD_Games SET minimumBet = NULL WHERE id=".$this->id);
+			$this->minimumBet = null;
+		}
 		// The new value isn't the same, and it isn't comparing false with null (which are the same in this case)
-		if ( $minimumBet != $this->minimumBet && !( $minimumBet==false && is_null($this->minimumBet)) )
+		elseif ( $minimumBet != $this->minimumBet && !( $minimumBet==false && is_null($this->minimumBet)) )
 		{
 			$DB->sql_put("UPDATE wD_Games SET minimumBet = ".($minimumBet?$minimumBet:'NULL')." WHERE id=".$this->id);
 			$this->minimumBet = $minimumBet;
 		}
+		
 	}
 
 	/**

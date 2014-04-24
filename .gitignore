@@ -8,3 +8,5 @@
 /variants/*/install-save*
 Thumbs.db
 /piwik
+/nbproject
+/tobiTest

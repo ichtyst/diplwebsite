@@ -36,11 +36,13 @@ class NeutralUnits_processGame extends processGame
 			$units=array();
 			while ( list($unitID, $terrID) = $DB->tabl_row($tabl))
 				$units[$unitID] = $terrID;
-		
+ 		
 			foreach ($units as $unitID=>$terrID)
 				if (array_key_exists($terrID, $this->Variant->neutralHold))
 					if ( in_array($this->Variant->neutralHold[$terrID],$units) )
 						$DB->sql_put("UPDATE wD_Orders SET type='Support Hold', toTerrID='".$this->Variant->neutralHold[$terrID]."' WHERE unitID=".$unitID);
+						
+						
 		}
 		
 		// If only the "neutral player has to do retreats process again.
@@ -50,7 +52,7 @@ class NeutralUnits_processGame extends processGame
 				FROM wD_Members 
 				WHERE orderStatus != 'None' AND gameID = ".$this->id);
 			if ($count == 0)
-				parent::process();
+				self::process();
 		}	
 	}
 }

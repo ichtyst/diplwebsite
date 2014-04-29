@@ -895,9 +895,15 @@ $sql[]="ALTER TABLE `wD_ModForumMessages` ADD `assigned` mediumint(8) unsigned D
 $sql[]="ALTER TABLE `wD_Games` ADD `chooseYourCountry` enum('Yes','No') NOT NULL DEFAULT 'No';";
 $sql[]="ALTER TABLE `wD_Backup_Games` ADD `chooseYourCountry` enum('Yes','No') NOT NULL DEFAULT 'No';";
 
+// VDip: 44
+$sql[]="ALTER TABLE `wD_ForceReply` ADD `status` enum('Sent','Read','Replied') CHARACTER SET utf8 NOT NULL DEFAULT 'Sent';";
+$sql[]="ALTER TABLE `wD_ForceReply` ADD `readIP`  int(10) unsigned NOT NULL;";
+$sql[]="ALTER TABLE `wD_ForceReply` ADD `readTime` int(10) unsigned NOT NULL;";
+$sql[]="ALTER TABLE `wD_ForceReply` ADD `replyIP` int(10) unsigned NOT NULL;";
+
 // Set the correct version-information in the database	
 $sql[]="UPDATE `wD_Misc`     SET `value` = '135' WHERE `name` = 'Version';";
-$sql[]="UPDATE `wD_vDipMisc` SET `value` = '43'  WHERE `name` = 'Version';";
+$sql[]="UPDATE `wD_vDipMisc` SET `value` = '44'  WHERE `name` = 'Version';";
 
 // Create a default Admin-Account
 require_once ('lib/auth.php');

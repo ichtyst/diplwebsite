@@ -901,9 +901,14 @@ $sql[]="ALTER TABLE `wD_ForceReply` ADD `readIP`  int(10) unsigned NOT NULL;";
 $sql[]="ALTER TABLE `wD_ForceReply` ADD `readTime` int(10) unsigned NOT NULL;";
 $sql[]="ALTER TABLE `wD_ForceReply` ADD `replyIP` int(10) unsigned NOT NULL;";
 
+// VDip: 45
+$sql[]="ALTER TABLE `wD_Games` ADD `description` text NOT NULL;";
+$sql[]="ALTER TABLE `wD_Backup_Games` ADD `description` text NOT NULL;";
+$sql[]="ALTER TABLE `wD_Users` ADD `directorLicense` enum('Yes','No') DEFAULT NULL;";
+
 // Set the correct version-information in the database	
 $sql[]="UPDATE `wD_Misc`     SET `value` = '135' WHERE `name` = 'Version';";
-$sql[]="UPDATE `wD_vDipMisc` SET `value` = '44'  WHERE `name` = 'Version';";
+$sql[]="UPDATE `wD_vDipMisc` SET `value` = '45'  WHERE `name` = 'Version';";
 
 // Create a default Admin-Account
 require_once ('lib/auth.php');

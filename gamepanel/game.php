@@ -54,6 +54,7 @@ class panelGame extends Game
 		print '
 		<div class="gamePanel variant'.$this->Variant->name.'">
 			'.$this->header().'
+			'.$this->description().'
 			'.$this->members().'
 			'.$this->votes().'
 			'.$this->links().'
@@ -250,15 +251,6 @@ class panelGame extends Game
 
 		$leftBottom .= $date;
 
-		if ($this->directorUserID != 0)
-		{
-			$director = new User($this->directorUserID);
-			$leftBottom .= '<br>This is a moderated game. Gamedirector: '.$director->profile_link();
-			if (isset($this->Members->ByUserID[$this->directorUserID]))
-				$leftBottom .= ' (is playing too)';
-			$leftBottom .= '.';
-		}
-		
 		$leftTop .= '</div>';
 		$leftBottom .= '</div>';
 
@@ -589,6 +581,51 @@ class panelGame extends Game
 			<input type="hidden" name="gameID" value="'.$this->id.'" />
 			<input type="submit" value="" class="form-submit" />
 			</div></form>';
+	}
+	
+	/**
+	 * A bar with a button letting people view the game
+	 * @return string
+	 */
+	public function description()
+	{
+		if ($this->description == "" && $this->directorUserID == 0) return;
+	
+		global $User;
+		
+		$buf = '<div class="bar titleBar" '.($this instanceof panelGameBoard ? '' : 'style="background-color:#FAFAFA"').'>';
+		
+		if ($this->directorUserID != 0)
+		{
+			$director = new User($this->directorUserID);
+			$buf .= 'This is a moderated game. Gamedirector: '.$director->profile_link();
+			if (isset($this->Members->ByUserID[$this->directorUserID]))
+				$buf .= ' (is playing too)';
+			$buf .= '.';
+		}
+
+		if ($this->description != "")
+		{
+			if ($this->isJoinable() || $this->phase == 'Pre-game' || !$this->Members->isJoined() )
+			{
+				$buf .= '<div class="hr"></div>'.$this->description.'</span>';
+			}
+			else
+			{
+				$buf .= '<span id="DescriptionButton">
+							<a href="#" onclick="$(\'Description\').show(); $(\'DescriptionButton\').hide(); return false;">
+								<br>Click here to view game description.
+							</a>
+						</span>';
+						
+				$buf .= '<span id="Description" style="'.libHTML::$hideStyle.'">
+							<div class="hr"></div>
+							'.$this->description.'</span>';
+			}
+		}	
+		$buf .= '</div><div style="font-size:5px; clear:both"><br></div>';
+	
+		return $buf;
 	}
 }
 

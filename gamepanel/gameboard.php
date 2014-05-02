@@ -276,6 +276,8 @@ class panelGameBoard extends panelGame
 		$buf = '<div class="titleBar barAlt'.libHTML::alternate().'">
 				'.$this->titleBar().'
 			</div>';
+		
+		$buf .= $this->description();
 
 		$noticeBar = $this->gameNoticeBar();
 		if ( $noticeBar )
@@ -290,7 +292,6 @@ class panelGameBoard extends panelGame
 		{
 			$buf .= '<div class="membersList">'.$this->Members->ByUserID[$User->id]->memberHeaderBar().'</div>';
 		}
-
 
 		return $buf;
 	}

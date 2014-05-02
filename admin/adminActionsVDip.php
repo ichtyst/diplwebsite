@@ -44,6 +44,11 @@ class adminActionsVDip extends adminActions
 				'description' => 'Replace one player in a given game with another one.',
 				'params' => array('gameID'=>'GameID','userID'=>'userID','replaceID'=>'replace User ID')
 			),
+			'ChangeDirectorLicense' => array(
+				'name' => 'Change director license',
+				'description' => 'Manually grand or remove the license to create moderated games.',
+				'params' => array('userID'=>'User ID','newLicense'=>'change license to (Yes, No or NULL)'),
+			),
 		);
 		
 		adminActions::$actions = array_merge(adminActions::$actions, $vDipActions);
@@ -175,6 +180,25 @@ class adminActionsVDip extends adminActions
 		return 'In game '.$gameName.' (id='.$gameID.') the user '.$userName.' will be removed and replaced by '.$replaceName.'.';
 	}
 	
+	public function ChangeDirectorLicense(array $params)
+	{
 
+		$userID = (int)$params['userID'];
+		$params['newLicense'] = strtoupper(substr($params['newLicense'],0,1));
+		switch($params['newLicense']) {
+			case 'Y':
+				$newLicense = 'Yes';
+				break;
+			case 'N':
+				$newLicense = 'No';
+				break;
+			default:
+				$newLicense = 'NULL';
+		}
+	
+		$DB->sql_put("UPDATE wD_Users SET directorLicense = '".$newLicense."' WHERE id=".$userID);
+
+		return l_t('This users director license was set to %s.',$newLicense);
+	}
 }
 ?>

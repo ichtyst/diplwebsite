@@ -218,6 +218,12 @@ class User {
 	public $greyOut;
 	public $scrollbars;
 	
+	/*
+	 * User has the right to create directed games, even if he does not met the criteria, 
+	 * or is blocked from creating these games even if he does met the criteria.
+	 */
+	public $directorLicense;
+	
 	/**
 	 * 'No' if the player can submit mod reports, 'Yes' if they are muted
 	 * @var string
@@ -591,6 +597,7 @@ class User {
 			u.terrGrey,
 			u.greyOut,
 			u.scrollbars,
+			u.directorLicense,
 			IF(s.userID IS NULL,0,1) as online
 			FROM wD_Users u
 			LEFT JOIN wD_Sessions s ON ( u.id = s.userID )
@@ -1118,6 +1125,21 @@ class User {
 			$DB->sql_put("DELETE FROM wD_BlockUser WHERE userID=".$this->id." AND blockUserID=".$blockUserID);
 		else
 			$DB->sql_put("INSERT INTO wD_BlockUser (userID, blockUserID) VALUES (".$this->id.",".$blockUserID.")");
+	}
+	
+	/*
+	 * Is the user allowed to be a game-director.
+	 */
+	public function DirectorLicense()
+	{
+		// Manual granting or blocking of GD-rights.
+		if ($this->directorLicense == 'Yes') return true;
+		if ($this->directorLicense == 'No')  return false;
+		
+		// Users with <25 games, or RR < 97 are not allowed.
+		include_once("lib/reliability.php");
+		if ($this->gamesPlayed < 25 or libReliability::getReliability($this) < 97) return false;
+		return true;
 	}
 
 }

@@ -45,7 +45,7 @@ Start a new game; you decide the name, how long it runs, and how much it's worth
 	<li class="formlistdesc">
 		The name of your game
 	</li>
-
+	
 	<li class="formlisttitle">
 		Phase length: (5 minutes - 10 days)
 	</li>
@@ -520,7 +520,46 @@ else
 	?>
 	
 	<li class="formlisttitle">
-		<img src="images/icons/lock.png" alt="Private" /> Password protect (optional):
+		Moderated game:
+	</li>
+	<li class="formlistfield">
+		<input type="radio" name="newGame[moderated]" 
+			onclick="$('GDoptions').hide();	$('PWReq').hide(); $('PWOpt').show();"
+			value="No" checked>No
+		<input type="radio" name="newGame[moderated]" value="Yes" 
+			onclick="$('GDoptions').show(); $('PWReq').show(); $('PWOpt').hide();"
+			<?php if (!$User->DirectorLicense()) print "disabled"; ?> >Yes
+	</li>
+	<li class="formlistdesc">
+		If set to yes you are given extra moderator-powers to manage this game.<br />
+		You need to have at least <b>25</b> non-live games with more than 2 players completed and a reliability-rating of <b>R97</b> or better to moderate a game.
+		<br /><br />
+		<strong>Default:</strong> No, there is no moderator for this game.
+	</li>
+
+	<span id="GDoptions" style="<?php print libHTML::$hideStyle; ?>">
+	
+		<li class="formlisttitle">
+			Game description (required for moderated games):
+		</li>
+		<li class="formlistfield">
+			<TEXTAREA name="newGame[description]" ROWS="4"></TEXTAREA>
+		<li class="formlistdesc">
+			Please enter a brief description about your game and custom rules here.
+		</li>
+	
+	</span>
+
+<!-- 
+ 
+		You can force extends, pauses and have many other options running the game.<br />
+		If you select Yes, you are not automatically playing in this game, you are the moderator.
+		You need to join this game once it's created if you want to play a country.<br />
+		If you want to enable the players to choose their countries select any country in the "Country assignment" list. You will still need to join this game once it's created.
+-->
+	
+	<li class="formlisttitle">
+		<img src="images/icons/lock.png" alt="Private" /> Password protect (<span id="PWOpt">optional</span><span id="PWReq" style="<?php print libHTML::$hideStyle;?>">required for moderated games</span>):
 	</li>
 	<li class="formlistfield">
 		<ul>
@@ -534,25 +573,6 @@ else
 		<strong>Default:</strong> No password set
 	</li>
 
-	<li class="formlisttitle">
-		Moderated game:
-	</li>
-	<li class="formlistfield">
-		<input type="radio" name="newGame[moderated]" value="No" checked>No
-		<input type="radio" name="newGame[moderated]" value="Yes" <?php if ($User->gamesPlayed < 50) print "disabled"; ?> >Yes
-	</li>
-	<li class="formlistdesc">
-		If set to yes you are given extra moderator-powers to manage this game. 
-		You can force extends, pauses and have many other options running the game.<br />
-		If you select Yes, you are not automatically playing in this game, you are the moderator.
-		You need to join this game once it's created if you want to play a country.<br />
-		If you want to enable the players to choose their countries select any country in the "Country assignment" list. You will still need to join this game once it's created.<br /><br />
-		You need to have at least <b>50</b> non-live games with more than 2 players completed to moderate a game.
-		<br /><br />
-
-		<strong>Default:</strong> No, there is no moderator for this game.
-	</li>
-	
 <!-- 
 	<li class="formlisttitle">
 		No moves received options:

@@ -62,6 +62,7 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
  						,'minNoNMR'
 						,'targetSCs'
 						,'moderated'
+						,'description'
 					);
 
 		if ( !isset($form['missingPlayerPolicy']) )
@@ -187,13 +188,27 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 			throw new Exception("The chessTime value is too large or small; it must be between 0 minutes and 100 days.");
 		}
 		
+		$input['chooseYourCountry'] = ( ($input['countryID'] > 0) ? 'Yes' : 'No' );
+		
 		$input['moderator'] = ( (strtolower($input['moderated']) == 'yes') ? $User->id : '0' );
-		if ( $input['moderator'] != 0 && $User->gamesPlayed < 50)
+		if ( $input['moderator'] != 0 && !$User->DirectorLicense())
 		{
-			throw new Exception("You need to have at least 50 non-live games with more than 2 players completed to moderate a game.");
+			throw new Exception("You do not meet the criteria to moderate a game. Please ask the mods for assistance.");
 		}	
 		
-		$input['chooseYourCountry'] = ( ($input['countryID'] > 0) ? 'Yes' : 'No' );
+		if ( $input['password'] == '' && $input['moderator'] != 0)
+		{
+			throw new Exception("Moderated games need a password.");
+		}	
+		
+		$input['description'] = $DB->msg_escape($input['description']);
+		if ( $input['description'] == '' && $input['moderator'] != 0)
+		{
+			throw new Exception("Moderated games need a game description.");
+		}	
+		$patterns = array('/gameID[:= _]?([0-9]+)/i','/userID[:= _]?([0-9]+)/i','/threadID[:= _]?([0-9]+)/i','/((?:[^a-z0-9])|(?:^))([0-9]+) ?(?:(?:D)|(?:points))((?:[^a-z])|(?:$))/i');
+		$replacements = array('<a href="board.php?gameID=\1" class="light">gameID=\1</a>','<a href="profile.php?userID=\1" class="light">userID=\1</a>','<a href="forum.php?threadID=\1#\1" class="light">threadID=\1</a>',	'\1\2'.libHTML::points().'\3');
+		$input['description'] = preg_replace($patterns, $replacements, $input['description']);
 		
 		// Create Game record & object
 		require_once(l_r('gamemaster/game.php'));
@@ -219,6 +234,7 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 			$input['minNoNMR']
 			,$input['moderator']
 			,$input['chooseYourCountry']
+			,$input['description']
 		);
 
 		/**

@@ -256,6 +256,26 @@ else
 		<br /><br /><strong>Default:</strong> Allow all
 	</li>
 	
+	<li class="formlisttitle">
+		Do not process the game on:
+	</li>
+	<li class="formlistfield">
+		<input type="checkbox" name="newGame[noProcess][]" value="1">Mon
+		<input type="checkbox" name="newGame[noProcess][]" value="2">Tue
+		<input type="checkbox" name="newGame[noProcess][]" value="3">Wed
+		<input type="checkbox" name="newGame[noProcess][]" value="4">Thu
+		<input type="checkbox" name="newGame[noProcess][]" value="5">Fri
+		<input type="checkbox" name="newGame[noProcess][]" value="6">Sat
+		<input type="checkbox" name="newGame[noProcess][]" value="0">Sun
+	</li>
+	<li class="formlistdesc">
+		If you do not want this game to process on specific days of the week, then check the appropriate day or days to restrict processing. <br />
+		If a current phase falls on any of the selected days it will be extended by 24 hours until a day that is available for processing. However if all players 'ready' their orders the game will process as usual regardless of whether or not the extended 24 hours has been reached. <br />
+		Days are processed according to standard CET time.
+	
+		<br /><br /><strong>Default:</strong> Nothing selected. Process on all days of the week.
+	</li>
+	
 </ul>
 
 <div class="hr"></div>

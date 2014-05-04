@@ -316,6 +316,10 @@ class panelGame extends Game
 			$alternatives[]=l_t('OnlyFriends');
 		if( $this->missingPlayerPolicy=='Wait' )
 			$alternatives[]=l_t('Wait for orders');
+			
+		if( $this->noProcess != '')
+			$alternatives[]=l_t('noProcess:'.str_replace(array('1', '2', '3', '4', '5', '6', '0'), 
+					array(l_t('Mon'), l_t('Tue'), l_t('Wed'), l_t('Thu'), l_t('Fri'), l_t('Sat'), l_t('Sun')), $this->noProcess));
 
 		if ( $alternatives )
 			return '<div class="titleBarLeftSide" style="float:left">

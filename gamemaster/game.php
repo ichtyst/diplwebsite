@@ -308,6 +308,7 @@ class processGame extends Game
 		,$moderator
 		,$chooseYourCountry
 		,$description
+		,$noProcess
 		)
 	{
 		global $DB;
@@ -376,6 +377,7 @@ class processGame extends Game
 						directorUserID = ".$moderator.",
 						chooseYourCountry = '".$chooseYourCountry."',
 						description = '".$description."',
+						noProcess = '".$noProcess."',
 						rlPolicy = '".($anon == 'Yes' ? 'Strict' : 'None' )."'");
 
 		$gameID = $DB->last_inserted();
@@ -619,7 +621,11 @@ class processGame extends Game
 						WHERE m.gameID = ".$this->id);
 
 			$this->processTime = time() + $this->phaseMinutes*60;
-
+			
+			// Extend the processTime by a day if no processing is allowed.
+			while (strpos( $this->noProcess, date("w", $this->processTime)) !== FALSE)
+				$this->processTime += 86400;
+			
 			$DB->sql_put("UPDATE wD_Games SET processTime = ".$this->processTime." WHERE id = ".$this->id);
 			
 			// Set the "lastProcessed"-time for the chessClock

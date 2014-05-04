@@ -45,6 +45,7 @@ libHTML::starthtml();
 
 if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 {
+
 	try
 	{
 		$form = $_REQUEST['newGame']; // This makes $form look harmless when it is unsanitized; the parameters must all be sanitized
@@ -63,8 +64,12 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 						,'targetSCs'
 						,'moderated'
 						,'description'
+						,'noProcess'
 					);
 
+		if ( !isset($form['noProcess']) )
+			$form['noProcess'] = array();
+		
 		if ( !isset($form['missingPlayerPolicy']) )
 			$form['missingPlayerPolicy'] = 'Normal';
 		
@@ -209,6 +214,12 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 		$patterns = array('/gameID[:= _]?([0-9]+)/i','/userID[:= _]?([0-9]+)/i','/threadID[:= _]?([0-9]+)/i','/((?:[^a-z0-9])|(?:^))([0-9]+) ?(?:(?:D)|(?:points))((?:[^a-z])|(?:$))/i');
 		$replacements = array('<a href="board.php?gameID=\1" class="light">gameID=\1</a>','<a href="profile.php?userID=\1" class="light">userID=\1</a>','<a href="forum.php?threadID=\1#\1" class="light">threadID=\1</a>',	'\1\2'.libHTML::points().'\3');
 		$input['description'] = preg_replace($patterns, $replacements, $input['description']);
+
+		$input['noProcess'] = implode(',',$input['noProcess']);
+		if ( $input['noProcess'] == '1,2,3,4,5,6,0' )
+		{
+			throw new Exception("Games need at least one weekday for processing allowed.");
+		}	
 		
 		// Create Game record & object
 		require_once(l_r('gamemaster/game.php'));
@@ -235,6 +246,7 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 			,$input['moderator']
 			,$input['chooseYourCountry']
 			,$input['description']
+			,$input['noProcess']
 		);
 
 		/**

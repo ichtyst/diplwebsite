@@ -1,13 +1,14 @@
 <?php
-
-chdir("../../");
-require_once('header.php');
+if(!in_array('header.php', get_required_files())){
+    chdir(dirname(__FILE__).'/../..');
+    require_once('header.php');
+}
 
 class IAmap {
 
     protected $mapName;
 
-    public function __construct($variant, $mapName = 'IA_smallMap.png') {
+    public function __construct($variant, $mapName = 'IA_smallmap.png') {
         $this->Variant = $variant;
 
         $this->mapName = $mapName;
@@ -20,7 +21,7 @@ class IAmap {
     protected $usedColors;
 
     public function drawMap() {
-        if (!file_exists('variants/' . $this->Variant->name . '/resources/' . $this->mapName)) {
+        if (!file_exists('variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName)) {
             ini_set("memory_limit", "1024M");
 
             $this->map = $this->loadMap();
@@ -45,7 +46,7 @@ class IAmap {
     protected function loadMap($mapName = '') {
         $mapName = ($mapName == '') ? $this->sourceMapName : $mapName;
 
-        $map = imagecreatefrompng('variants/' . $this->Variant->name . '/resources/' . $mapName);
+        $map = imagecreatefrompng('variants/' . $this->Variant->name . '/interactiveMap/' . $mapName);
 
         $map2 = imagecreatetruecolor(imagesx($map), imagesy($map));
 
@@ -140,6 +141,7 @@ class IAmap {
     }
 
     protected function coloredCorrectly() {
+        $this->usedColors = $this->getColors();
         foreach ($this->usedColors as $color) {
             $territories = array_keys($this->usedColors, $color);
             if (count($territories) > 1) {
@@ -150,7 +152,7 @@ class IAmap {
     }
 
     protected function saveMap() {
-        imagepng($this->map, 'variants/' . $this->Variant->name . '/resources/' . $this->mapName);
+        imagepng($this->map, 'variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName);
         imagedestroy($this->map);
     }
 
@@ -159,7 +161,7 @@ class IAmap {
         
         define('DELETECACHE', 0);
 
-        libHTML::serveImage('variants/' . $this->Variant->name . '/resources/' . $this->mapName);
+        libHTML::serveImage('variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName);
     }
 
     public function createMapData() {
@@ -169,7 +171,7 @@ class IAmap {
 
             $colors = array();
 
-            $map = imagecreatefrompng('variants/' . $this->Variant->name . '/resources/' . $this->mapName);
+            $map = imagecreatefrompng('variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName);
 
             $territoryPositions = $this->getTerritoryPositions();
 
@@ -207,15 +209,57 @@ class IAmap {
     public function serveMapData() {
         echo file_get_contents('variants/' . $this->Variant->name . '/cache/IA_mapData.map');
     }
-
+    
+    protected function jsLoadBasicIAScripts() {
+        libHTML::$footerIncludes[] = '../interactiveMap/javascript_1.0/interactiveMap.js';
+	libHTML::$footerIncludes[] = '../interactiveMap/javascript_1.0/interactiveMapDraw.js';
+	libHTML::$footerIncludes[] = '../interactiveMap/javascript_1.0/interactiveMapOrders.js';
+	libHTML::$footerIncludes[] = '../interactiveMap/javascript_1.0/interactiveMapButtons.js';
+    }
+    
+    protected function jsAutoloadScripts($IApath) {
+        $directoryContent = scandir(l_r($IApath));
+        
+        foreach($directoryContent as $filename){
+                if(pathinfo($IApath.'/'.$filename, PATHINFO_EXTENSION) == 'js')
+                        libHTML::$footerIncludes[] = '../'.$IApath.'/'.$filename;
+        }
+    }
+    
+    protected function jsFooterScript() {
+        global $User;
+        
+        if(isset($User->pointNClick)){    
+            libHTML::$footerScript[] = 'interactiveMap.options.scrollbars = '.($User->scrollbars=='Yes' ? 'true' : 'false');
+            libHTML::$footerScript[] = 'interactiveMap.options.greyOut = '.($User->terrGrey=='off' ? 'false' : 'true');
+            libHTML::$footerScript[] = 'interactiveMap.options.unitGreyOut = '.($User->terrGrey=='all' ? 'true' : 'false');
+            libHTML::$footerScript[] = 'interactiveMap.options.greyOutIntensity = 0.'.$User->greyOut;
+        }
+			
+	libHTML::$footerScript[]   = 'loadIA();';
+    }
+    
+    public function jsLoadInteractiveMap() {
+        global $Game;
+        
+        $IApath = l_r('variants/'.$Game->Variant->name.'/interactiveMap');
+        
+        if(!file_exists($IApath)) return; //interactiveMap-feature not implemented for this variant
+        
+        $this->jsLoadBasicIAScripts();
+        
+        $this->jsAutoloadScripts($IApath);
+        
+        $this->jsFooterScript();
+    }
 }
 
 function getIAmapObject(){
     $variant = loadVariant();
     
     $IAmapClassName = 'IAmap';
-    if(file_exists('variants/' . $variant->name . '/classes/interactiveMap.php')){
-        require_once 'variants/' . $variant->name . '/classes/interactiveMap.php';
+    if(file_exists('variants/' . $variant->name . '/interactiveMap/interactiveMap.php')){
+        require_once 'variants/' . $variant->name . '/interactiveMap/interactiveMap.php';
         $IAmapClassName =  $variant->name.'Variant_IAmap';
     }
     

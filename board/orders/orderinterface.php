@@ -335,20 +335,11 @@ class OrderInterface
 		foreach(array('loadTerritories','loadBoardTurnData','loadModel','loadBoard','loadOrdersModel','loadOrdersForm','loadOrdersPhase') as $jf)
 			libHTML::$footerScript[] = l_jf($jf).'();';
 			
-		if ($User->pointNClick=='Yes' && file_exists('variants/'.$Game->Variant->name.'/resources/IA_smallmap.png'))
-		{
-			libHTML::$footerIncludes[] = '../interactiveMap/javascript_1.0/interactiveMap.js';
-			libHTML::$footerIncludes[] = '../interactiveMap/javascript_1.0/interactiveMapDraw.js';
-			libHTML::$footerIncludes[] = '../interactiveMap/javascript_1.0/interactiveMapOrders.js';
-			libHTML::$footerIncludes[] = '../interactiveMap/javascript_1.0/interactiveMapButtons.js';	
-			
-			libHTML::$footerScript[] = 'interactiveMap.options.scrollbars = '.($User->scrollbars=='Yes' ? 'true' : 'false');
-			libHTML::$footerScript[] = 'interactiveMap.options.greyOut = '.($User->terrGrey=='off' ? 'false' : 'true');
-			libHTML::$footerScript[] = 'interactiveMap.options.unitGreyOut = '.($User->terrGrey=='all' ? 'true' : 'false');
-			libHTML::$footerScript[] = 'interactiveMap.options.greyOutIntensity = 0.'.$User->greyOut;
-			
-			libHTML::$footerScript[]   = 'loadIA();';
-		}
+                if($User->pointNClick=='Yes'){
+                        require_once(l_r('interactiveMap/php/interactiveMap.php'));
+                        $IAmap = getIAmapObject();
+                        $IAmap->jsLoadInteractiveMap();
+                }
 	}
 
 	protected function jsInitForm() {

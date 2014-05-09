@@ -24,8 +24,7 @@ class WWIV_V6Variant_OrderInterface extends OrderInterface
 	{
 		global $Variant;
 		parent::jsLoadBoard();
-
-		parent::jsLoadBoard();
+                
 		// Expand the allowed SupplyCenters array to include non-home SCs.
 		if( $this->phase=='Builds' )
 		{

@@ -211,9 +211,19 @@ class adminActionsForms
 
 					self::save($name, $paramValues, $details);
 
-					$description = '<p class="notice">'.$details.'</p>
-									<p>'.l_t($description).'</p>';
-
+					if (defined("INBOARD"))
+					{
+						global $gameID;
+						$description = '<p class="notice">'.$details.'</p>'.
+										'<p class="notice"><a href="board.php?gameID='.$gameID.'">Click here to update the gamepage.</a></p>'.
+										'<p>'.l_t($description).'</p>';
+					}
+					else
+					{
+						$description = '<p class="notice">'.$details.'</p>
+										<p>'.l_t($description).'</p>';
+					}
+					
 					$Misc->LastModAction = time();
 				}
 

@@ -112,6 +112,11 @@ class Chatbox
 				else
 					libGameMessage::send($msgCountryID, $Member->countryID, $newmessage);
 			}
+			elseif( $User->id == $Game->directorUserID)
+			{
+				$fromName = $User->username.' (Gamedirector)';
+				libGameMessage::send(0, 0, '<strong>'.$fromName.': </strong>'.$newmessage);
+			}
 			elseif( $User->type['Moderator'] || defined('AdminUserSwitch'))
 			{
 				$fromName = (($User->type['ForumModerator'] || $User->type['Admin']) ? $User->username.' (Moderator)' : 'Mod-Team');
@@ -191,6 +196,7 @@ class Chatbox
 		$chatbox .= '</TABLE></DIV>';
 
 		if ( ( $User->type['Moderator'] && $msgCountryID == 0 && !isset($Member)) ||
+			 ( $User->id == $Game->directorUserID ) ||		
 		     ( isset($Member) &&
 		       ( ($Game->pressType == 'Regular' && $Game->phase != 'Finished' ) ||        // All tabs allowed for Regular (but not after game is completed)
 		         $Member->countryID == $msgCountryID ||                                   // Notes tab always allowed

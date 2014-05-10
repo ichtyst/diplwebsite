@@ -672,17 +672,23 @@ while( $message = $DB->tabl_hash($tabl) )
 			{
 				$forceReplyStatus   = array();
 				$forceReplyUsername = array();
+				$forceReplyStatus2  = array();
+				$forceReplyReadIP   = array();
+				$forceReplyReadTime = array();
 				
 				$forceUsersTab = $DB->sql_tabl(
-					"SELECT toUserID, forceReply, username
+					"SELECT fr.toUserID, fr.forceReply, u.username, fr.status, fr.readIP, fr.readTime
 					FROM wD_ForceReply fr
 					LEFT JOIN wD_Users u ON ( fr.toUserID = u.id)
 					WHERE fr.id=".$reply['id']);
-					
-				while (list($toUserID, $forceReply, $username) = $DB->tabl_row($forceUsersTab) )
+
+				while (list($toUserID, $forceReply, $username, $status, $readIP, $readTime) = $DB->tabl_row($forceUsersTab) )
 				{
 					$forceReplyStatus[$toUserID]   = $forceReply;
 					$forceReplyUsername[$toUserID] = $username;	
+					$forceReplyStatus2[$toUserID]  = $status;
+					$forceReplyReadIP[$toUserID]   = $readIP;
+					$forceReplyReadTime[$toUserID] = $readTime;
 				}
 				
 				print "Send to: "; 
@@ -690,7 +696,13 @@ while( $message = $DB->tabl_hash($tabl) )
 				foreach ($forceReplyStatus as $toUserID => $forceReply)
 				{
 					if (!$first) print " - "; $first=false;
-					print '<a href="profile.php?userID='.$toUserID.'">'.$forceReplyUsername[$toUserID].'</a> '.($forceReply=='Yes'?'(Waiting for reply) ':'').'';
+					print '<a href="profile.php?userID='.$toUserID.'">'.$forceReplyUsername[$toUserID].'</a> ';
+					if ($forceReply=='Yes' && $forceReplyStatus2[$toUserID] == 'Sent') 
+						print '(Waiting for reply) ';
+					elseif ($forceReply=='Yes' && $forceReplyStatus2[$toUserID] == 'Read')
+						print '(Waiting for reply / Read, IP='.long2ip($forceReplyReadIP[$toUserID]).', time='.libTime::text($forceReplyReadTime[$toUserID]).') ';
+					elseif ($forceReplyStatus2[$toUserID] == 'Read')
+						print '(Read, IP='.long2ip($forceReplyReadIP[$toUserID]).', time='.libTime::text($forceReplyReadTime[$toUserID]).') ';
 				}
 				print '<br>';
 			}
@@ -712,10 +724,12 @@ while( $message = $DB->tabl_hash($tabl) )
 						
 						$forceReplyMessage = $DB->sql_hash(
 							"SELECT f.id, fromUserID, f.timeSent, f.message, u.points as points, IF(s.userID IS NULL,0,1) as online,
-									u.username as fromusername, f.toID, u.type as userType
+									u.username as fromusername, f.toID, u.type as userType,
+									fr.readIP, fr.readTime, fr.replyIP
 								FROM wD_ModForumMessages f
 								INNER JOIN wD_Users u ON f.fromUserID = u.id
 								LEFT JOIN wD_Sessions s ON ( u.id = s.userID )
+								LEFT JOIN wD_ForceReply fr ON ( f.toID = fr.id && fr.toUserID =  f.fromUserID)
 								WHERE f.toID=".$reply['id']." && fromUserID=".$toUserID);
 						
 						if ($forceReplyMessage['fromUserID'] != '')
@@ -745,6 +759,8 @@ while( $message = $DB->tabl_hash($tabl) )
 							print '
 								<div class="message-body replyalternate'.$replyswitch.'" style="background-color:#ffffff;">
 									<div class="message-contents" fromUserID="'.$forceReplyMessage['fromUserID'].'">
+										Read: IP='.($forceReplyMessage['readIP']   != 0 ? long2ip($forceReplyMessage['readIP']) : '').', time='.($forceReplyMessage['readTime'] != 0 ? libTime::text($forceReplyMessage['readTime']) : '').'<br>
+										Reply: IP='.($forceReplyMessage['replyIP'] != 0 ? long2ip($forceReplyMessage['replyIP']): '').', time='.libTime::text($forceReplyMessage['timeSent']).'<br><br>
 										'.$forceReplyMessage['message'].'
 									</div>
 								</div>
@@ -799,7 +815,8 @@ while( $message = $DB->tabl_hash($tabl) )
 								<option value="No" >No</option>
 							</select><br>';
 
-				print 'status: <select name="toggleStatus" onchange="this.form.submit();">
+				print 'status: <select name="toggleStatus" onchange="this.form.submit();"'.
+						(($message['assigned'] == $User->id || strpos($message['userType'],'Moderator')!==false || $User->type['Admin']) ? '' : 'disabled').'>
 							<option value="Open"    '.($message['status'] == 'Open'     ? 'selected' : '').'>Open</option>
 							<option value="Resolved"'.($message['status'] == 'Resolved' ? 'selected' : '').'>Resolved</option>
 							<option value="Bugs"    '.($message['status'] == 'Bugs'     ? 'selected' : '').'>Bugs</option>

@@ -53,9 +53,9 @@ class processMember extends Member
 
 		$DB->sql_put("DELETE FROM wD_Members WHERE id=".$this->id);
 
-		if(count($Game->Members->ByUserID)==1)
+		if(count($Game->Members->ByUserID)==1 && $Game->directorUserID == 0)
 		{
-			// No-one else left in the game
+			// No-one else left in the game and no game director
 			processGame::eraseGame($Game->id);
 		}
 		else

@@ -261,7 +261,7 @@ $territoryRawData=array(
 	array('Hyderabad (East Coast)', 'Coast', 'No', 0, 1479, 429, 1479, 429),
 	array('Hyderabad (West Coast)', 'Coast', 'No', 0, 1424, 442, 1424, 442),
 	array('Mexico (East Coast)', 'Coast', 'No', 13, 258, 407, 258, 407),
-	array('Mexico (South Coast)', 'Coast', 'No', 13, 240, 437, 241, 437),
+	array('Mexico (West Coast)', 'Coast', 'No', 13, 240, 437, 241, 437),
 	array('Nicaragua (East Coast)', 'Coast', 'No', 0, 345, 469, 345, 469),
 	array('Nicaragua (West Coast)', 'Coast', 'No', 0, 329, 481, 330, 482),
 	array('Oaxaca (North Coast)', 'Coast', 'No', 0, 286, 433, 286, 433),
@@ -465,7 +465,7 @@ $bordersRawData=array(
 	array('Brest','Picardy','Yes','Yes'),
 	array('East Africa','Dar es Salaam','Yes','Yes'),
 	array('East Africa','Mogadishu','Yes','Yes'),
-	array('East Africa','Seychelles','Yes','Yes'),
+	array('East Africa','Seychelles','Yes','No'),
 	array('East Africa','Sudan','No','Yes'),
 	array('British Guiana','Caribbean','Yes','No'),
 	array('British Guiana','Surinam','Yes','Yes'),
@@ -683,7 +683,7 @@ $bordersRawData=array(
 	array('Guadalajara','Rio Grande','No','Yes'),
 	array('Guadalajara','Sonora','Yes','Yes'),
 	array('Guadalajara','South Pacific Ocean','Yes','No'),
-	array('Guadalajara','Mexico (South Coast)','Yes','No'),
+	array('Guadalajara','Mexico (West Coast)','Yes','No'),
 	array('Guatemala','Honduras','No','Yes'),
 	array('Guatemala','Merida','No','Yes'),
 	array('Guatemala','Oaxaca','No','Yes'),
@@ -725,7 +725,7 @@ $bordersRawData=array(
 	array('Gulf of Tehuantepec','South Pacific Ocean','Yes','No'),
 	array('Gulf of Tehuantepec','Guatemala (South Coast)','Yes','No'),
 	array('Gulf of Tehuantepec','Honduras (South Coast)','Yes','No'),
-	array('Gulf of Tehuantepec','Mexico (South Coast)','Yes','No'),
+	array('Gulf of Tehuantepec','Mexico (West Coast)','Yes','No'),
 	array('Gulf of Tehuantepec','Oaxaca (South Coast)','Yes','No'),
 	array('Hamgyong','Manchuria','No','Yes'),
 	array('Hamgyong','Sea of Japan','Yes','No'),
@@ -995,7 +995,7 @@ $bordersRawData=array(
 	array('South Atlantic Ocean','West Indian Ocean','Yes','No'),
 	array('South Pacific Ocean','Costa Rica (West Coast)','Yes','No'),
 	array('South Pacific Ocean','Honduras (South Coast)','Yes','No'),
-	array('South Pacific Ocean','Mexico (South Coast)','Yes','No'),
+	array('South Pacific Ocean','Mexico (West Coast)','Yes','No'),
 	array('South Pacific Ocean','Nicaragua (West Coast)','Yes','No'),
 	array('Spainish Sahara','West Africa','Yes','Yes'),
 	array('Sudan','Ubangi-Shari','No','Yes'),
@@ -1023,7 +1023,7 @@ $bordersRawData=array(
 	array('Honduras (North Coast)','Nicaragua (East Coast)','Yes','No'),
 	array('Honduras (South Coast)','Nicaragua (West Coast)','Yes','No'),
 	array('Mexico (East Coast)','Oaxaca (North Coast)','Yes','No'),
-	array('Mexico (South Coast)','Oaxaca (South Coast)','Yes','No')
+	array('Mexico (West Coast)','Oaxaca (South Coast)','Yes','No')
 );
 
 foreach($bordersRawData as $borderRawRow)
@@ -1044,3 +1044,5 @@ if (!file_exists('variants/'.$this->name.'/cache/sampleMap.png'))
 	copy ('variants/'.$this->name.'/resources/sampleMap.png','variants/'.$this->name.'/cache/sampleMap.png');
 
 ?>
+
+

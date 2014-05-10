@@ -45,7 +45,7 @@ Start a new game; you decide the name, how long it runs, and how much it's worth
 	<li class="formlistdesc">
 		The name of your game
 	</li>
-
+	
 	<li class="formlisttitle">
 		Phase length: (5 minutes - 10 days)
 	</li>
@@ -207,7 +207,7 @@ else
 	</li>
 
 	<li class="formlistdesc">
-		Random distribution of each country, or players pick their country (gamecreator get's the selected country).<br /><br />
+		Random distribution of each country, or players pick their country (gamecreator gets the selected country).<br /><br />
 		<strong>Default:</strong> Random
 	</li>
 	
@@ -254,6 +254,26 @@ else
 		Disable some types of messaging; allow only global in-game messages, or allow no in-game messages.
 
 		<br /><br /><strong>Default:</strong> Allow all
+	</li>
+	
+	<li class="formlisttitle">
+		Do not process the game on:
+	</li>
+	<li class="formlistfield">
+		<input type="checkbox" name="newGame[noProcess][]" value="1">Mon
+		<input type="checkbox" name="newGame[noProcess][]" value="2">Tue
+		<input type="checkbox" name="newGame[noProcess][]" value="3">Wed
+		<input type="checkbox" name="newGame[noProcess][]" value="4">Thu
+		<input type="checkbox" name="newGame[noProcess][]" value="5">Fri
+		<input type="checkbox" name="newGame[noProcess][]" value="6">Sat
+		<input type="checkbox" name="newGame[noProcess][]" value="0">Sun
+	</li>
+	<li class="formlistdesc">
+		If you do not want this game to process on specific days of the week, then check the appropriate day or days to restrict processing. <br />
+		If a current phase falls on any of the selected days it will be extended by 24 hours until a day that is available for processing. However if all players 'ready' their orders the game will process as usual regardless of whether or not the extended 24 hours has been reached. <br />
+		Days are processed according to standard CET time.
+	
+		<br /><br /><strong>Default:</strong> Nothing selected. Process on all days of the week.
 	</li>
 	
 </ul>
@@ -520,7 +540,46 @@ else
 	?>
 	
 	<li class="formlisttitle">
-		<img src="images/icons/lock.png" alt="Private" /> Password protect (optional):
+		Moderated game:
+	</li>
+	<li class="formlistfield">
+		<input type="radio" name="newGame[moderated]" 
+			onclick="$('GDoptions').hide();	$('PWReq').hide(); $('PWOpt').show();"
+			value="No" checked>No
+		<input type="radio" name="newGame[moderated]" value="Yes" 
+			onclick="$('GDoptions').show(); $('PWReq').show(); $('PWOpt').hide();"
+			<?php if (!$User->DirectorLicense()) print "disabled"; ?> >Yes
+	</li>
+	<li class="formlistdesc">
+		If set to yes you are given extra moderator-powers to manage this game.<br />
+		You need to have at least <b>25</b> non-live games with more than 2 players completed and a reliability-rating of <b>R97</b> or better to moderate a game.
+		<br /><br />
+		<strong>Default:</strong> No, there is no moderator for this game.
+	</li>
+
+	<span id="GDoptions" style="<?php print libHTML::$hideStyle; ?>">
+	
+		<li class="formlisttitle">
+			Game description (required for moderated games):
+		</li>
+		<li class="formlistfield">
+			<TEXTAREA name="newGame[description]" ROWS="4"></TEXTAREA>
+		<li class="formlistdesc">
+			Please enter a brief description about your game and custom rules here.
+		</li>
+	
+	</span>
+
+<!-- 
+ 
+		You can force extends, pauses and have many other options running the game.<br />
+		If you select Yes, you are not automatically playing in this game, you are the moderator.
+		You need to join this game once it's created if you want to play a country.<br />
+		If you want to enable the players to choose their countries select any country in the "Country assignment" list. You will still need to join this game once it's created.
+-->
+	
+	<li class="formlisttitle">
+		<img src="images/icons/lock.png" alt="Private" /> Password protect (<span id="PWOpt">optional</span><span id="PWReq" style="<?php print libHTML::$hideStyle;?>">required for moderated games</span>):
 	</li>
 	<li class="formlistfield">
 		<ul>
@@ -533,6 +592,7 @@ else
 
 		<strong>Default:</strong> No password set
 	</li>
+
 <!-- 
 	<li class="formlisttitle">
 		No moves received options:

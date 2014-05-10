@@ -190,6 +190,11 @@ class Members
 			if ( $Member->countryID != 0 )
 				$this->ByCountryID[$Member->countryID] = $Member;
 		}
+		
+		// Small hack to enable country selection if moderated CYOC-game with 0 members.
+		if ($this->Game->phase == 'Pre-game' && count($this->ByCountryID) == 0 && $this->Game->chooseYourCountry == 'Yes')
+			$this->ByCountryID[999] = 0;
+		
 	}
 	public function load()
 	{

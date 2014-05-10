@@ -98,7 +98,7 @@ class BiddingStart_processOrderBuilds extends processOrderBuilds
 					$newOrders[] = "(".$Game->id.", ".$Member->countryID.", '".$type."',NULL)";
 			}
 		
-			if ( count($newOrders) )
+			if ( isset($newOrders) && count($newOrders) )
 				$DB->sql_put("INSERT INTO wD_Orders
 								(gameID, countryID, type, toTerrID)
 								VALUES ".implode(', ', $newOrders));		

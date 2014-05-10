@@ -11,7 +11,7 @@ class GobbleEarthVariant extends WDVariant {
 	public $author     = 'Christian Günther-Hanssen';
 	public $adapter    = 'The same aided by Oliver Auth';
 	public $version    = '1';
-	public $codeVersion= '1.2';
+	public $codeVersion= '1.2.2';
 
 	public $countries=array('Austria','England','France','Germany','Italy','Russia','Turkey','China','Japan','Brazil','Argentina','Colombia','Mexico','USA');
 

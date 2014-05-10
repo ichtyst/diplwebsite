@@ -39,6 +39,16 @@ class adminActionsVDip extends adminActions
 				'description' => 'Lock (or unlock) a game to prevent users to enter orders.',
 				'params' => array('gameID'=>'GameID')
 			),
+			'replaceCoutries' => array(
+				'name' => 'Replace country-player.',
+				'description' => 'Replace one player in a given game with another one.',
+				'params' => array('gameID'=>'GameID','userID'=>'userID','replaceID'=>'replace User ID')
+			),
+			'ChangeDirectorLicense' => array(
+				'name' => 'Change director license',
+				'description' => 'Manually grand or remove the license to create moderated games.',
+				'params' => array('userID'=>'User ID','newLicense'=>'change license to (Yes, No or NULL)'),
+			),
 		);
 		
 		adminActions::$actions = array_merge(adminActions::$actions, $vDipActions);
@@ -49,17 +59,13 @@ class adminActionsVDip extends adminActions
 		global $DB;
 		
 		$userID = (int)$params['userID'];
+		$CDtakeover = (int)$params['CDtakeover'];
 
 		list($CDtakeoverOld) = $DB->sql_row("SELECT CDtakeover FROM wD_Users WHERE id=".$userID);
 
-		$CDtakeover= ($params['CDtakeover']=='' ? $CDtakeoverOld : (int)$params['CDtakeover']);
-		
-		$DB->sql_put("UPDATE wD_Users SET 
-			CDtakeover = ".$CDtakeover." 
-			WHERE id=".$userID);
+		$DB->sql_put("UPDATE wD_Users SET CDtakeover = ".$CDtakeover." WHERE id=".$userID);
 
-		return 'This users reliability was changed to:'.
-			($params['CDtakeover'] == '' ? '' : '<br>Left Balanced: '.$leftBalancedOld.' => '.$CDtakeover);
+		return 'This users CDtakeovers got changed from <b>'.$CDtakeoverOld.'</b> to <b>'.$CDtakeover.'</b>.';
 	}
 	
 	public function changeReliabilityConfirm(array $params)
@@ -67,14 +73,11 @@ class adminActionsVDip extends adminActions
 		global $DB;
 		
 		$userID = (int)$params['userID'];
+		$CDtakeover = (int)$params['CDtakeover'];
 		
-		list($CDtakeoverOld) 
-			= $DB->sql_row("SELECT CDtakeover FROM wD_Users WHERE id=".$userID);
+		list($CDtakeoverOld) = $DB->sql_row("SELECT CDtakeover FROM wD_Users WHERE id=".$userID);
 
-		$CDtakeover= ($params['CDtakeover']=='' ? $leftBalancedOld : (int)$params['CDtakeover']);
-
-		return 'This users reliability will be changed:'.
-			($params['CDtakeover'] == '' ? '' : '<br>CD takeover: '.$CDtakeoverOld.' => '.$CDtakeover);
+		return 'This users CDtakeovers will be changed from <b>'.$CDtakeoverOld.'</b> to <b>'.$CDtakeover.'</b>.';
 	}
 	
 	public function changeTargetSCs(array $params)
@@ -135,7 +138,67 @@ class adminActionsVDip extends adminActions
 		
 		return 'This game is now '.( $status == 'No' ? 'locked' : 'unlocked').'.';
 	}
-	
 
+	public function replaceCoutries(array $params)
+	{
+		global $DB;
+		
+		$gameID    = (int)$params['gameID'];
+		$userID    = (int)$params['userID'];
+		$replaceID = (int)$params['replaceID'];
+
+		list($gameName)    = $DB->sql_row("SELECT name FROM wD_Games WHERE id=".$gameID);
+		list($userName)    = $DB->sql_row("SELECT username FROM wD_Users WHERE id=".$userID);
+		list($replaceName) = $DB->sql_row("SELECT username FROM wD_Users WHERE id=".$replaceID);
+		
+		list($bet) = $DB->sql_row("SELECT bet FROM wD_Members WHERE userID=".$userID." AND gameID=".$gameID);
+		list($replacePoints) = $DB->sql_row("SELECT points FROM wD_Users WHERE id=".$replaceID);
+		list($userPoints) = $DB->sql_row("SELECT points FROM wD_Users WHERE id=".$userID);
+
+		$newPoints = $replacePoints - $bet;
+		if ($newPoints < 0) $newPoints = 0;
+		
+		$DB->sql_put("UPDATE wD_Users SET points = ".$newPoints." WHERE id=".$replaceID);
+		$DB->sql_put("UPDATE wD_Users SET points = ".($userPoints + $bet)." WHERE id=".$userID);
+		$DB->sql_put("UPDATE wD_Members SET userID = ".$replaceID." WHERE userID=".$userID." AND gameID=".$gameID);
+
+		return 'In game '.$gameName.' (id='.$gameID.') the user '.$userName.' was removed and replaced by '.$replaceName.'.';
+	}
+	
+	public function replaceCoutriesConfirm(array $params)
+	{
+		global $DB;
+		
+		$gameID    = (int)$params['gameID'];
+		$userID    = (int)$params['userID'];
+		$replaceID = (int)$params['replaceID'];
+		
+		list($gameName)    = $DB->sql_row("SELECT name FROM wD_Games WHERE id=".$gameID);
+		list($userName)    = $DB->sql_row("SELECT username FROM wD_Users WHERE id=".$userID);
+		list($replaceName) = $DB->sql_row("SELECT username FROM wD_Users WHERE id=".$replaceID);
+		
+		return 'In game '.$gameName.' (id='.$gameID.') the user '.$userName.' will be removed and replaced by '.$replaceName.'.';
+	}
+	
+	public function ChangeDirectorLicense(array $params)
+	{
+
+		$userID = (int)$params['userID'];
+		$params['newLicense'] = strtoupper(substr($params['newLicense'],0,1));
+		switch($params['newLicense']) {
+			case 'Y':
+				$newLicense = 'Yes';
+				break;
+			case 'N':
+				$newLicense = 'No';
+				break;
+			default:
+				$newLicense = 'NULL';
+		}
+	
+		$DB->sql_put("UPDATE wD_Users SET directorLicense = '".$newLicense."' WHERE id=".$userID);
+
+		return l_t('This users director license was set to %s.',$newLicense);
+	}
 }
 ?>

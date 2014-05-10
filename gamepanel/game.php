@@ -54,6 +54,7 @@ class panelGame extends Game
 		print '
 		<div class="gamePanel variant'.$this->Variant->name.'">
 			'.$this->header().'
+			'.$this->description().'
 			'.$this->members().'
 			'.$this->votes().'
 			'.$this->links().'
@@ -240,15 +241,16 @@ class panelGame extends Game
 				'<span class="gameName">'.$this->titleBarName().'</span>';
 
 		$leftBottom = '<div class="titleBarLeftSide">';
+
 		
 		if ($this->pot > 0)
 			$leftBottom .= l_t('Pot:').' <span class="gamePot">'.$this->pot.' '.libHTML::points().'</span> - ';
 			//<span class="gamePotType" title="'.$this->potType.'">('.($this->potType=='Points-per-supply-center'?'PPSC':'WTA').')</span>';
 		else
 			$leftBottom .= '<i><a class="light" href="features.php#4_4">'.l_t('Unrated').'</a></i> - ';
-		
+
 		$leftBottom .= $date;
-		
+
 		$leftTop .= '</div>';
 		$leftBottom .= '</div>';
 
@@ -283,6 +285,8 @@ class panelGame extends Game
 			$alternatives[]=l_t('Public Press');
 		if( $this->anon=='Yes' )
 			$alternatives[]=l_t('Anon');
+		if( $this->chooseYourCountry=='Yes' )
+			$alternatives[]=l_t('ChooseYourCountry');
 		if( $this->chessTime > 0)
 			$alternatives[]=l_t('Chess:'.$this->chessTime." min.");
 			
@@ -312,6 +316,10 @@ class panelGame extends Game
 			$alternatives[]=l_t('OnlyFriends');
 		if( $this->missingPlayerPolicy=='Wait' )
 			$alternatives[]=l_t('Wait for orders');
+			
+		if( $this->noProcess != '')
+			$alternatives[]=l_t('noProcess:'.str_replace(array('1', '2', '3', '4', '5', '6', '0'), 
+					array(l_t('Mon'), l_t('Tue'), l_t('Wed'), l_t('Thu'), l_t('Fri'), l_t('Sat'), l_t('Sun')), $this->noProcess));
 
 		if ( $alternatives )
 			return '<div class="titleBarLeftSide" style="float:left">
@@ -577,6 +585,51 @@ class panelGame extends Game
 			<input type="hidden" name="gameID" value="'.$this->id.'" />
 			<input type="submit" value="" class="form-submit" />
 			</div></form>';
+	}
+	
+	/**
+	 * A bar with a button letting people view the game
+	 * @return string
+	 */
+	public function description()
+	{
+		if ($this->description == "" && $this->directorUserID == 0) return;
+	
+		global $User;
+		
+		$buf = '<div class="bar titleBar" '.($this instanceof panelGameBoard ? '' : 'style="background-color:#FAFAFA"').'>';
+		
+		if ($this->directorUserID != 0)
+		{
+			$director = new User($this->directorUserID);
+			$buf .= 'This is a moderated game. Gamedirector: '.$director->profile_link();
+			if (isset($this->Members->ByUserID[$this->directorUserID]))
+				$buf .= ' (is playing too)';
+			$buf .= '.';
+		}
+
+		if ($this->description != "")
+		{
+			if ($this->isJoinable() || $this->phase == 'Pre-game' || !$this->Members->isJoined() )
+			{
+				$buf .= '<div class="hr"></div>'.$this->description.'</span>';
+			}
+			else
+			{
+				$buf .= '<span id="DescriptionButton">
+							<a href="#" onclick="$(\'Description\').show(); $(\'DescriptionButton\').hide(); return false;">
+								<br>Click here to view game description.
+							</a>
+						</span>';
+						
+				$buf .= '<span id="Description" style="'.libHTML::$hideStyle.'">
+							<div class="hr"></div>
+							'.$this->description.'</span>';
+			}
+		}	
+		$buf .= '</div><div style="font-size:5px; clear:both"><br></div>';
+	
+		return $buf;
 	}
 }
 

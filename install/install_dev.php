@@ -891,9 +891,28 @@ $sql[]="ALTER TABLE `wD_Backup_Games` DROP COLUMN `maxLeft`;";
 // VDip: 42
 $sql[]="ALTER TABLE `wD_ModForumMessages` ADD `assigned` mediumint(8) unsigned DEFAULT 0;";
 
+// VDip: 43
+$sql[]="ALTER TABLE `wD_Games` ADD `chooseYourCountry` enum('Yes','No') NOT NULL DEFAULT 'No';";
+$sql[]="ALTER TABLE `wD_Backup_Games` ADD `chooseYourCountry` enum('Yes','No') NOT NULL DEFAULT 'No';";
+
+// VDip: 44
+$sql[]="ALTER TABLE `wD_ForceReply` ADD `status` enum('Sent','Read','Replied') CHARACTER SET utf8 NOT NULL DEFAULT 'Sent';";
+$sql[]="ALTER TABLE `wD_ForceReply` ADD `readIP`  int(10) unsigned NOT NULL;";
+$sql[]="ALTER TABLE `wD_ForceReply` ADD `readTime` int(10) unsigned NOT NULL;";
+$sql[]="ALTER TABLE `wD_ForceReply` ADD `replyIP` int(10) unsigned NOT NULL;";
+
+// VDip: 45
+$sql[]="ALTER TABLE `wD_Games` ADD `description` text NOT NULL;";
+$sql[]="ALTER TABLE `wD_Backup_Games` ADD `description` text NOT NULL;";
+$sql[]="ALTER TABLE `wD_Users` ADD `directorLicense` enum('Yes','No') DEFAULT NULL;";
+
+// VDip: 46
+$sql[]="ALTER TABLE `wD_Games` ADD `noProcess` set('1', '2', '3', '4', '5', '6', '0' )  NOT NULL DEFAULT '';";
+$sql[]="ALTER TABLE `wD_Backup_Games` ADD `noProcess` set('1', '2', '3', '4', '5', '6', '0') NOT NULL DEFAULT '';";
+
 // Set the correct version-information in the database	
 $sql[]="UPDATE `wD_Misc`     SET `value` = '135' WHERE `name` = 'Version';";
-$sql[]="UPDATE `wD_vDipMisc` SET `value` = '42'  WHERE `name` = 'Version';";
+$sql[]="UPDATE `wD_vDipMisc` SET `value` = '46'  WHERE `name` = 'Version';";
 
 // Create a default Admin-Account
 require_once ('lib/auth.php');

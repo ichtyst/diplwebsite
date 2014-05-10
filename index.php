@@ -247,8 +247,9 @@ class libHome
 		global $User, $DB;
 
 		$tabl=$DB->sql_tabl("SELECT g.* FROM wD_Games g
-			INNER JOIN wD_Members m ON ( m.userID = ".$User->id." AND m.gameID = g.id )
+			INNER JOIN wD_Members m ON ( (m.userID = ".$User->id." OR g.directorUserID = ".$User->id.") AND m.gameID = g.id )
 			WHERE NOT g.phase = 'Finished'
+			GROUP BY g.id
 			ORDER BY g.processTime ASC");
 		$buf = '';
 

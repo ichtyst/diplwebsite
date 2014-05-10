@@ -33,6 +33,12 @@ class ModForum
 							WHERE forceReply = "Yes"
 								AND toUserID = '.$User->id.' 
 								AND id = '.(int)$_REQUEST['replyID']);
+								
+			$DB->sql_put("UPDATE wD_ForceReply
+							SET status = 'Replied', replyIP = INET_ATON('".$_SERVER['REMOTE_ADDR']."')
+							WHERE toUserID = ".$User->id." 
+								AND id = ".(int)$_REQUEST['replyID']."
+								AND status = 'Read'");
 			
 		}
 
@@ -98,6 +104,12 @@ class ModForum
 		while( $message = $DB->tabl_hash($tabl) )
 		{
 			$switch = 3-$switch; // 1,2,1,2,1,2...
+
+			$DB->sql_put("UPDATE wD_ForceReply
+							SET status = 'Read', readTime = ".time().", readIP = INET_ATON('".$_SERVER['REMOTE_ADDR']."')
+							WHERE toUserID = ".$User->id." 
+								AND id = ".$message['id']."
+								AND status = 'Sent'");
 			
 			print '<div class="thread threadID'.$message['id'].' threadborder'.$switch.' threadalternate'.$switch.'">';
 			print '<div class="leftRule message-head threadalternate'.$switch.'">

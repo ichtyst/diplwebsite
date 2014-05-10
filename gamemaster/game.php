@@ -305,6 +305,10 @@ class processGame extends Game
 		,$chessTime
 		,$minNoCD
 		,$minNoNMR
+		,$moderator
+		,$chooseYourCountry
+		,$description
+		,$noProcess
 		)
 	{
 		global $DB;
@@ -369,7 +373,11 @@ class processGame extends Game
 						specialCDcount = ".$specialCDcount.", 
 						chessTime = ".$chessTime.", 
 						minNoCD = ".$minNoCD.", 
-						minNoNMR = ".$minNoNMR.", 
+						minNoNMR = ".$minNoNMR.",
+						directorUserID = ".$moderator.",
+						chooseYourCountry = '".$chooseYourCountry."',
+						description = '".$description."',
+						noProcess = '".$noProcess."',
 						rlPolicy = '".($anon == 'Yes' ? 'Strict' : 'None' )."'");
 
 		$gameID = $DB->last_inserted();
@@ -456,12 +464,19 @@ class processGame extends Game
 			$minimumBet = $this->Members->pointsLowestCD();
 		}
 
+		// All players joined this game, set minimumBet to NULL
+		if ( count($this->Members->ByStatus['Left']) == 0 )
+		{
+			$DB->sql_put("UPDATE wD_Games SET minimumBet = NULL WHERE id=".$this->id);
+			$this->minimumBet = null;
+		}
 		// The new value isn't the same, and it isn't comparing false with null (which are the same in this case)
-		if ( $minimumBet != $this->minimumBet && !( $minimumBet==false && is_null($this->minimumBet)) )
+		elseif ( $minimumBet != $this->minimumBet && !( $minimumBet==false && is_null($this->minimumBet)) )
 		{
 			$DB->sql_put("UPDATE wD_Games SET minimumBet = ".($minimumBet?$minimumBet:'NULL')." WHERE id=".$this->id);
 			$this->minimumBet = $minimumBet;
 		}
+		
 	}
 
 	/**
@@ -606,7 +621,11 @@ class processGame extends Game
 						WHERE m.gameID = ".$this->id);
 
 			$this->processTime = time() + $this->phaseMinutes*60;
-
+			
+			// Extend the processTime by a day if no processing is allowed.
+			while (strpos( $this->noProcess, date("w", $this->processTime)) !== FALSE)
+				$this->processTime += 86400;
+			
 			$DB->sql_put("UPDATE wD_Games SET processTime = ".$this->processTime." WHERE id = ".$this->id);
 			
 			// Set the "lastProcessed"-time for the chessClock

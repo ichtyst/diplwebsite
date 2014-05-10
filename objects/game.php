@@ -254,6 +254,30 @@ class Game
 	public $adminLock;
 	
 	/**
+	 * directorUserID, The userID of the Director for this game or "0" if there is none.
+	 *
+	 * @var string
+	 */
+	public $directorUserID;
+	
+	/**
+	 * chooseYourCountry (Yes or No), do the players get to choose their starting countries or is it random.
+	 *
+	 * @var string
+	 */
+	public $chooseYourCountry;
+	
+	/**
+	 * Description of the game and special rules...
+	 */
+	public $description;
+	
+	/**
+	 * Set of weekdays not to process the game (0=Sunday, 6=Saturday)
+	 */
+	public $noProcess;
+	
+	/**
 	 * @param int/array $gameData The game ID of the game to load, or the array of its database row
 	 * @param string[optional] $lockMode The database locking phase to use; no locking by default
 	 */
@@ -380,6 +404,10 @@ class Game
 			g.minNoCD,
 			g.minNoNMR,
 			g.adminLock,
+			g.directorUserID,
+			g.chooseYourCountry,
+			g.description,
+			g.noProcess,
 			g.missingPlayerPolicy
 			FROM wD_Games g
 			WHERE g.id=".$this->id.' '.$this->lockMode);

@@ -4,7 +4,13 @@ if(!in_array('header.php', get_required_files())){
     require_once('header.php');
 }
 
-class IAmap {
+require_once 'map/drawmap.php';
+    
+
+/*
+ * extends drawMap to acces some useful protected functions inside the drawMap-Class (for BuildIcon_generation)
+ */
+class IAmap extends drawMap {
 
     protected $mapName;
 
@@ -96,13 +102,13 @@ class IAmap {
 
     protected function colorTerritories() {
         foreach ($this->territoryPositions as $terrID => $terrPos) {
-            $this->usedColors[$terrID] = $this->colorTerritory($terrID);
+            $this->usedColors[$terrID] = $this->IA_colorTerritory($terrID);
             $color = imagecolorallocate($this->map, $this->usedColors[$terrID]['r'], $this->usedColors[$terrID]['g'], $this->usedColors[$terrID]['b']);
             imagefill($this->map, $terrPos[0], $terrPos[1], $color);
         }
     }
 
-    protected function colorTerritory($terrID) {
+    protected function IA_colorTerritory($terrID) {
         $territories = array_keys($this->usedColors, $this->usedColors[$terrID]);
         if (count($territories) > 1) {
             return $this->newColor();
@@ -210,6 +216,10 @@ class IAmap {
         echo file_get_contents('variants/' . $this->Variant->name . '/cache/IA_mapData.map');
     }
     
+    /*
+     * variant-specific JS-scripts for interactiveMap
+     */
+    
     protected function jsLoadBasicIAScripts() {
         libHTML::$footerIncludes[] = '../interactiveMap/javascript_1.0/interactiveMap.js';
 	libHTML::$footerIncludes[] = '../interactiveMap/javascript_1.0/interactiveMapDraw.js';
@@ -252,6 +262,74 @@ class IAmap {
         
         $this->jsFooterScript();
     }
+    
+    /*
+     * Autogeneration of Build-Buttons (with variant-typical unit-icons)
+     */
+    protected $buildButtonAutogeneration = false;
+    
+    //equivalent to drawMap->resources()
+    protected function resources(){
+        return array(
+                'army'=>l_s('contrib/smallarmy.png'),
+                'fleet'=>l_s('contrib/smallfleet.png')
+        );
+    }
+    
+    //equivalent to drawMap->loadImages()
+    protected function loadImages(){
+        $resources = $this->resources();
+      
+        $this->army = $this->loadImage($resources['army']);
+        $this->fleet = $this->loadImage($resources['fleet']);
+        
+        $this->imagesLoaded = true;
+    
+    }
+    
+    protected $imagesLoaded = false;    
+    
+    public function serveBuildIcon($unitType = 'Army') {
+        if(!$this->buildButtonAutogeneration) return;
+            
+        if(!file_exists('variants/'.$this->Variant->name.'/interactiveMap/IA_BuildIcon_'.$unitType.'.png'))
+                $this->generateBuildIcons();
+        
+        require_once('lib/html.php');
+        
+        define('DELETECACHE', 0);
+
+        libHTML::serveImage('variants/' . $this->Variant->name . '/interactiveMap/IA_BuildIcon_'.$unitType.'.png');
+    }
+    
+    protected function generateBuildIcons(){
+        $this->loadImages();
+        
+        $this->setTransparancies();
+        
+        $this->territoryPositions['0'] = array(5,10);//position of unit on button
+        
+        $this->generateBuildIcon('Army');
+        $this->generateBuildIcon('Fleet');
+       
+    }
+    
+    protected function generateBuildIcon($unitType){
+        //The image which stores the generated Build-Button
+        $this->map = array(     'image' => imagecreatetruecolor(15, 15),
+                                'width' => 15,
+                                'height'=> 15
+        );
+        imagefill($this->map['image'], 0, 0, imagecolorallocate($this->map['image'], 255, 255, 255));
+        $this->setTransparancy($this->map);
+        
+        $this->drawCreatedUnit(0, $unitType);
+        $this->write('variants/'.$this->Variant->name.'/interactiveMap/IA_BuildIcon_'.$unitType.'.png');   
+        
+        imagedestroy($this->map['image']);
+    }
+    
+    public function __destruct() {}
 }
 
 function getIAmapObject(){

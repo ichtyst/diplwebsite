@@ -1,22 +1,21 @@
 <?php
 /*
-	Copyright (C) 2010 Oliver Auth
+	Copyright (C) 2011 Oliver Auth
 
-	This file is part of the Claccic-Fog-of-War variant for webDiplomacy
+	This file is part of the 1066 variant for webDiplomacy
 
-	The Claccic-Fog-of-War variant for webDiplomacy is free software: you can
-	redistribute it and/or modify it under the terms of the GNU Affero General Public
-	License as published by the Free Software Foundation, either version 3 of the License,
+	The 1066 variant for webDiplomacy is free software: you can redistribute
+	it and/or modify it under the terms of the GNU Affero General Public License 
+	as published by the Free Software Foundation, either version 3 of the License,
 	or (at your option) any later version.
 
-	The Claccic-Fog-of-War variant for webDiplomacy is distributed in the hope that 
-	it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+	The 1066 variant for webDiplomacy is distributed in the hope that it will be
+	useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 	See the GNU General Public License for more details.
 
 	You should have received a copy of the GNU Affero General Public License
-	along with webDiplomacy. If not, see <http://www.gnu.org/licenses/>.
-
+	along with webDiplomacy. If not, see <http://www.gnu.org/licenses/>.		
 */
 
 if( !isset($_REQUEST['variantID']) && ( !isset($_REQUEST['gameID']) || !isset($_REQUEST['turn']) ) )
@@ -37,12 +36,6 @@ if( isset($_REQUEST['uncache'])||isset($_REQUEST['profile']) )
 else
 	define('DELETECACHE',0);
 
-// Check if we should hide the move arrows. (Preview do not need the old move-arrows too...)
-if( isset($_REQUEST['hideMoves']) || isset($_REQUEST['preview']))
-	define('HIDEMOVES',1);
-else
-	define('HIDEMOVES',0);
-
 chdir ('../../../');
 
 // Cache isn't an option; set things up to draw the map
@@ -50,14 +43,6 @@ require_once('header.php');
 
 if( DELETECACHE && !$User->type['Admin'] )
 	die('Disable-cacheing flags set, but you are not an admin.');
-
-if ( isset($_REQUEST['DATC']) )
-{
-	if( $Misc->Maintenance )
-		define('DATC', 1);
-	else
-		die('Cannot render DATC maps outside of maintenance mode.');
-}
 
 /*
  * Map drawing:
@@ -70,15 +55,11 @@ if ( isset($_REQUEST['DATC']) )
  * - Output map
  */
 
-
 ini_set('memory_limit',"14M");
-ini_set('max_execution_time','12');
+ini_set('max_execution_time','20');
 
 if( !isset($_REQUEST['variantID']) )
 {
-	/*
-	 * Get the two required parameters; game ID and turn
-	 */
 	require_once('objects/game.php');
 	require_once('lib/html.php');
 	require_once('lib/cache.php');
@@ -113,9 +94,6 @@ if( !isset($_REQUEST['variantID']) )
 	// We might be able to fetch the map from the cache
 	$filename = Game::mapFilename((int)$_REQUEST['gameID'], (int)$_REQUEST['turn']) ;
 	$filename = str_replace(".map","-".$verify.".map",$filename);
-        // Map without arrows 
-	if (HIDEMOVES)
-		$filename = str_replace(".map","-hideMoves.map",$filename);
 	if( file_exists($filename) )
 	{
 		header("Last-Modified: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -136,8 +114,10 @@ if( !isset($_REQUEST['variantID']) )
 	 */
 
 	// Determine the turn number:
-	if ( $Game->phase == 'Diplomacy' ) $latestTurn = $Game->turn-1;
-	else $latestTurn = $Game->turn;
+	if ( $Game->phase == 'Diplomacy' )
+		$latestTurn = $Game->turn-1;
+	else
+		$latestTurn = $Game->turn;
 
 	$turn = $latestTurn;
 
@@ -162,9 +142,10 @@ $noFog = array();
 
 if ($verify != "fog") {
 
+	// TerrID5 = Hadrian's Wall needs special treatment, as it has no SC and needs to unhide it's neighbours in the first -1 turn too
 	if( $turn == -1 )	{
 		$sql="SELECT toTerrID,fromTerrID from wD_Borders WHERE mapID=".$Variant->mapID." AND fromTerrID IN
-					(SELECT t.id FROM wD_Territories t WHERE t.supply='Yes' AND t.countryID=".$mcountry." AND t.mapID=".$Variant->mapID.")
+					(SELECT t.id FROM wD_Territories t WHERE (t.supply='Yes' OR t.id=5) AND t.countryID=".$mcountry." AND t.mapID=".$Variant->mapID.")
 				UNION (SELECT id,NULL from wD_Territories WHERE countryID=".$mcountry." AND mapID=".$Variant->mapID.")";								
 	} elseif ( $turn == $latestTurn ) {
 		$sql="SELECT toTerrID, fromTerrID from wD_Borders WHERE mapID=".$Variant->mapID." AND fromTerrID IN
@@ -187,6 +168,21 @@ if ($verify != "fog") {
 		{
 			$noFog[] = $Variant->deCoast($terrID1);
 			$noFog[] = $Variant->deCoast($terrID2);
+			
+			// Hadrians's Wall can see the surounding Seas
+			if ($terrID2 == '5')
+			{
+				$noFog[] = '22';
+				$noFog[] = '31';
+			}	
+			elseif ($terrID2 == '31' || $terrID2 == '22')
+				$noFog[] = '5';
+			// Special treatment for CI in the first turn (was not able to see through the fog)
+			elseif ( ( $terrID1 == '37' || $terrID2 == '37' ) && $turn == -1 && $mcountry == 2)
+			{
+				$noFog[] = '23'; $noFog[] = '26'; $noFog[] = '27';			
+				$noFog[] = '51'; $noFog[] = '55'; $noFog[] = '56';
+			}
 		}
 	} else {
 		for ($i=0; $i<500; $i++)
@@ -202,7 +198,7 @@ if ( $mapType == 'xml' )
 }
 elseif ( $mapType == 'json' )
 {
-	require_once('variants/ClassicFog/resources/jsonBoardData.php');
+	require_once('variants/TenSixtySix/resources/jsonBoardData.php');
 	$filename=Game::mapFilename($Game->id, $turn, 'json');
 	$filename = str_replace(".map","-".$verify.".map",$filename);
 	file_put_contents($filename, jsonBoardData::getBoardTurnData($Game->id,$noFog));
@@ -245,7 +241,7 @@ while(list($terrID, $terrName, $terrType, $countryID, $standoff) = $DB->tabl_row
 		{
 			// Set owner to false so that units will draw their countryID flag
 			$owners[$terrID] = 0;
-			$drawMap->colorTerritory($terrID, 9);
+			$drawMap->colorTerritory($terrID, 6);
 		}
 		else
 		{
@@ -257,10 +253,10 @@ while(list($terrID, $terrName, $terrType, $countryID, $standoff) = $DB->tabl_row
 		if ( isset($Game) && $Game->phase == 'Retreats' or $mapType!='small' )
 		{
 			// Only draw standoffs if we're in the retreats phase, or we're viewing that large map
-			if ( !HIDEMOVES && $standoff == 'Yes' ) $drawMap->drawStandoff($terrID);
+			if ( $standoff == 'Yes' ) $drawMap->drawStandoff($terrID);
 		}
 	} else {
-		$drawMap->colorTerritory($terrID, 8);
+		$drawMap->colorTerritory($terrID, 5);
 	}	
 }
 
@@ -383,11 +379,11 @@ while(list($moveType, $terrID,
 			if ( $success ) $drawToTerrID = $toTerrID;
 			else $drawToTerrID = $terrID;
 
-			if (!HIDEMOVES) $drawMap->drawMove($terrID, $toTerrID, $success);
+			$drawMap->drawMove($terrID, $toTerrID, $success);
 		}
 		elseif ( $moveType == 'Retreat' )
 		{
-			if (!HIDEMOVES) $drawMap->drawRetreat($terrID, $toTerrID, $success);
+			$drawMap->drawRetreat($terrID, $toTerrID, $success);
 
 			if ( $success ) $drawToTerrID = $toTerrID;
 			else continue;
@@ -408,20 +404,20 @@ while(list($moveType, $terrID,
 
 		if ( $moveType == 'Support hold' )
 		{
-			if (!HIDEMOVES) $drawMap->drawSupportHold($terrID,
+			$drawMap->drawSupportHold($terrID,
 				isset($deCoastMap['SupportHoldToTerrID'][$toTerrID]) ? $deCoastMap['SupportHoldToTerrID'][$toTerrID] : $toTerrID,
 				$success);
 		}
 		elseif ( $moveType == 'Support move' )
 		{
-			if (!HIDEMOVES) $drawMap->drawSupportMove($terrID,
+			$drawMap->drawSupportMove($terrID,
 				isset($deCoastMap['SupportMoveFromTerrID'][$fromTerrID]) ? $deCoastMap['SupportMoveFromTerrID'][$fromTerrID] : $fromTerrID,
 				isset($deCoastMap['SupportMoveToTerrID'][$fromTerrID.'-'.$toTerrID]) ? $deCoastMap['SupportMoveToTerrID'][$fromTerrID.'-'.$toTerrID] : $toTerrID,
 				$success);
 		}
 		elseif ( $moveType == 'Convoy' )
 		{
-			if (!HIDEMOVES) $drawMap->drawConvoy($terrID, $fromTerrID, $toTerrID, $success);
+			$drawMap->drawConvoy($terrID, $fromTerrID, $toTerrID, $success);
 		}
 
 		/*
@@ -433,7 +429,6 @@ while(list($moveType, $terrID,
 			and ( isset($drawToTerrID) and ! isset($fullTerrID[$drawToTerrID]) ) 
 			and in_array($Variant->deCoast($drawToTerrID),$noFog) )
 		{
-                        if(HIDEMOVES && in_array($Variant->deCoast($drawToTerrID), $destroyedTerrs)) continue;
 			/*
 			 * We're drawing a unit onto the board
 			 */
@@ -450,14 +445,15 @@ while(list($moveType, $terrID,
 
 foreach( $destroyedTerrs as $terrID )
 	if (in_array($Variant->decoast($terrID),$noFog))
-		if (!HIDEMOVES)$drawMap->drawDestroyedUnit(isset($deCoastMap['DestroyToTerrID'][$terrID]) ? $deCoastMap['DestroyToTerrID'][$terrID] : $terrID );
+		$drawMap->drawDestroyedUnit(isset($deCoastMap['DestroyToTerrID'][$terrID]) ? $deCoastMap['DestroyToTerrID'][$terrID] : $terrID );
 
 foreach( $dislodgedTerrs as $terrID )
 	if (in_array($Variant->decoast($terrID),$noFog))
-		if (!HIDEMOVES)$drawMap->drawDislodgedUnit($terrID);
+		$drawMap->drawDislodgedUnit($terrID);
+		
 foreach( $builtTerrs as $terrID=>$unitType ) 
 	if (in_array($Variant->decoast($terrID),$noFog))
-		if (!HIDEMOVES)$drawMap->drawCreatedUnit($terrID, $unitType);
+		$drawMap->drawCreatedUnit($terrID, $unitType);
 
 // support hold to, support move from, support move to, build/destroy fleet
 
@@ -469,7 +465,6 @@ foreach( $builtTerrs as $terrID=>$unitType )
 // Territory names
 $drawMap->addTerritoryNames();
 
-
 if( DELETECACHE )
 {
 	$drawMap->caption(
@@ -480,7 +475,6 @@ if( DELETECACHE )
 elseif( $Game->phase == 'Finished' and $turn == $latestTurn )
 	$drawMap->caption($Game->gameovertxt(TRUE));
 
-
 /*
  * All done; save map to disk, then generate a new JavaScript list
  * of available maps which includes the new map, and finally output
@@ -489,8 +483,6 @@ elseif( $Game->phase == 'Finished' and $turn == $latestTurn )
 
 $filename = Game::mapFilename($Game->id, $turn);
 $filename = str_replace(".map","-".$verify.".map",$filename);
-if (HIDEMOVES)
-	$filename = str_replace(".map","-hideMoves.map",$filename);
 
 if( defined('DATC') && $mapType!='small')
 	$drawMap->saveThumbnail($filename.'-thumb');

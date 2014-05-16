@@ -21,6 +21,8 @@
 // Current turn, -2 is undefined, -1 is pre-game
 var turn=-2;
 
+var noMoves = '';
+
 // Increment or decrement the turn safely, factoring in the limits, then load the new turn
 function loadMapStep(verify, gameID, currentTurn, step)
 {
@@ -86,6 +88,8 @@ function loadMap(verify, gameID, currentTurn, newTurn)
 		
 		$('History').show();
 	}
+        
+        newTurn = newTurn + noMoves;
 	
 	// Update the link to the large map
 	$('LargeMapLink').innerHTML = 
@@ -96,4 +100,17 @@ function loadMap(verify, gameID, currentTurn, newTurn)
 	
 	// Update the source for the map image
 	$('mapImage').src = 'variants/TenSixtySix/resources/fogmap.php?verify='+verify+'&gameID='+gameID+'&turn='+newTurn;
+}
+
+// Toggle the display of the Move arrows.
+function toggleMoves(verify, gameID, currentTurn) {
+	if (noMoves == '') {
+		noMoves = '&hideMoves';
+		$('NoMoves').src = 'images/historyicons/showmoves.png';
+	} else {
+		noMoves = '';
+		$('NoMoves').src = 'images/historyicons/hidemoves.png';
+	}
+	loadMapStep(verify, gameID, currentTurn, 0)	
+	loadMap(verify, gameID, currentTurn, turn)
 }

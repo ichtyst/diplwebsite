@@ -52,7 +52,7 @@ class IAmap extends drawMap {
     protected function loadMap($mapName = '') {
         $mapName = ($mapName == '') ? $this->sourceMapName : $mapName;
 
-        $map = imagecreatefrompng('variants/' . $this->Variant->name . '/interactiveMap/' . $mapName);
+        $map = imagecreatefrompng('variants/' . $this->Variant->name . '/resources/' . $mapName);
 
         $map2 = imagecreatetruecolor(imagesx($map), imagesy($map));
 

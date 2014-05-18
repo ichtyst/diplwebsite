@@ -243,7 +243,7 @@ class panelGame extends Game
 		$leftBottom = '<div class="titleBarLeftSide">';
 
 		
-		if ($this->pot > 0)
+		if ($this->pot > 0 || ($this->pot == 0 && count($this->Members->ByID) == 0 && $this->minimumBet != 0) )
 			$leftBottom .= l_t('Pot:').' <span class="gamePot">'.$this->pot.' '.libHTML::points().'</span> - ';
 			//<span class="gamePotType" title="'.$this->potType.'">('.($this->potType=='Points-per-supply-center'?'PPSC':'WTA').')</span>';
 		else

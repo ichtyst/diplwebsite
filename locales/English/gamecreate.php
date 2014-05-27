@@ -52,7 +52,14 @@ Start a new game; you decide the name, how long it runs, and how much it's worth
 	<li class="formlistfield">
 		<select id="phaseMinutes" name="newGame[phaseMinutes]" onChange="
 			document.getElementById('wait').selectedIndex = this.selectedIndex; 
-			if (this.selectedIndex == 28) $('phaseHoursText').show(); else $('phaseHoursText').hide();" >
+			if (this.selectedIndex < 5) {
+				$('fixStart').value= 'Yes';
+				$('fixStart').disabled= true;
+			} else { 
+				$('fixStart').value= 'No';
+				$('fixStart').disabled= false;
+			}
+			if (this.selectedIndex == 28) $('phaseHoursText').show(); else $('phaseHoursText').hide();">
 		<?php
 			$phaseList = array(5, 10, 15, 20, 30,
 				60, 120, 240, 360, 480, 600, 720, 840, 960, 1080, 1200, 1320,
@@ -313,6 +320,11 @@ else
 				print '<option value="'.$i.'"'.($i==1440 ? ' selected' : '').'>'.$opt.'</option>';
 			}
 		?>
+		</select>
+		- 
+		<select id="fixStart" name="newGame[fixStart]">
+			<option value="No" selected>Start as soon as enough players have joined.</option>';
+			<option value="Yes">Wait for the given starting time and day.</option>';
 		</select>
 	</li>
 	<li class="formlistdesc">
@@ -622,6 +634,6 @@ else
 <div class="hr"></div>
 
 <p class="notice">
-	<input type="submit" class="form-submit" value="Create">
+	<input type="submit" onClick="$('fixStart').disabled = false;" class="form-submit" value="Create">
 </p>
 </form>

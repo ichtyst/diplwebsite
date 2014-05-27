@@ -65,6 +65,7 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 						,'moderated'
 						,'description'
 						,'noProcess'
+						,'fixStart'
 					);
 
 		if ( !isset($form['noProcess']) )
@@ -221,6 +222,8 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 			throw new Exception("Games need at least one weekday for processing allowed.");
 		}	
 		
+		$input['fixStart'] = ( (strtolower($input['fixStart']) == 'yes') ? 'Yes' : 'No' );
+		
 		// Create Game record & object
 		require_once(l_r('gamemaster/game.php'));
 		$Game = processGame::create(
@@ -247,6 +250,7 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 			,$input['chooseYourCountry']
 			,$input['description']
 			,$input['noProcess']
+			,$input['fixStart']
 		);
 
 		/**

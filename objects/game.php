@@ -278,6 +278,11 @@ class Game
 	public $noProcess;
 	
 	/**
+	 * Should the game wait for the full pregame duration to start? (Yes/No)
+	 */
+	public $fixStart;
+	
+	/**
 	 * @param int/array $gameData The game ID of the game to load, or the array of its database row
 	 * @param string[optional] $lockMode The database locking phase to use; no locking by default
 	 */
@@ -408,6 +413,7 @@ class Game
 			g.chooseYourCountry,
 			g.description,
 			g.noProcess,
+			g.fixStart,
 			g.missingPlayerPolicy
 			FROM wD_Games g
 			WHERE g.id=".$this->id.' '.$this->lockMode);
@@ -510,6 +516,7 @@ class Game
 	 **/
 	function isLiveGame()
 	{
+		if ($this->fixStart == 'Yes') return true;
 		return $this->phaseMinutes < 60;
 	}
 

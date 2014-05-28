@@ -145,8 +145,13 @@ class panelGame extends Game
 		$timerCount++;
 
 		if( $this->phase == 'Pre-game' )
-			$buf = '<span class="gameTimeRemainingNextPhase">'.l_t('Start:').'</span> '.
-				$this->processTimetxt().' ('.libTime::text($this->processTime).') - '.($this->fixStart == 'Yes' ? 'fixed' : 'or if full');
+		{
+			$buf = '<span class="gameTimeRemainingNextPhase">';
+			if( $this->fixStart == 'Yes' )
+				$buf .= l_t('Start:').'</span> '.$this->processTimetxt().' ('.libTime::text($this->processTime).')';
+			else
+				$buf .= l_t('Start: <b>If full</b> - Expires: ').' </span>'.$this->processTimetxt().' ('.libTime::text($this->processTime).')</span>';
+		}	
 		else
 		{
 			$buf = '<span class="gameTimeRemainingNextPhase">'.l_t('Next:').'</span> '.

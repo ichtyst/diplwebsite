@@ -12,7 +12,7 @@ class ChromaticVariant extends WDVariant {
 	public $adapter    = 'Tristan';
 	public $homepage       ='http://dipwiki.com/index.php?title=Chromatic';
 	public $version    = '1';
-	public $codeVersion= '1.0';
+	public $codeVersion= '1.0.1';
 		
 	public $countries=array('Blue','Yellow','Dark','Light','Red');
 

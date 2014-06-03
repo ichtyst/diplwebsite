@@ -309,6 +309,7 @@ class processGame extends Game
 		,$chooseYourCountry
 		,$description
 		,$noProcess
+		,$fixStart
 		)
 	{
 		global $DB;
@@ -378,6 +379,7 @@ class processGame extends Game
 						chooseYourCountry = '".$chooseYourCountry."',
 						description = '".$description."',
 						noProcess = '".$noProcess."',
+						fixStart = '".$fixStart."',
 						rlPolicy = '".($anon == 'Yes' ? 'Strict' : 'None' )."'");
 
 		$gameID = $DB->last_inserted();
@@ -465,7 +467,7 @@ class processGame extends Game
 		}
 
 		// All players joined this game, set minimumBet to NULL
-		if ( count($this->Members->ByStatus['Left']) == 0 )
+		if ( $this->phase != 'Pre-game' && count($this->Members->ByStatus['Left']) == 0 )
 		{
 			$DB->sql_put("UPDATE wD_Games SET minimumBet = NULL WHERE id=".$this->id);
 			$this->minimumBet = null;

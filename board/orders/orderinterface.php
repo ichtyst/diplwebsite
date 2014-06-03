@@ -334,12 +334,12 @@ class OrderInterface
 
 		foreach(array('loadTerritories','loadBoardTurnData','loadModel','loadBoard','loadOrdersModel','loadOrdersForm','loadOrdersPhase') as $jf)
 			libHTML::$footerScript[] = l_jf($jf).'();';
-			
-                if($User->pointNClick=='Yes'){
-                        require_once(l_r('interactiveMap/php/interactiveMap.php'));
-                        $IAmap = getIAmapObject();
-                        $IAmap->jsLoadInteractiveMap();
-                }
+
+		if($User->pointNClick=='Yes'){
+			require_once(l_r('interactiveMap/php/interactiveMap.php'));
+			$IAmap = getIAmapObject();
+			$IAmap->jsLoadInteractiveMap();
+		}
 	}
 
 	protected function jsInitForm() {

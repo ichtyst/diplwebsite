@@ -106,9 +106,9 @@ class libTime
                         $minutes = 0;
 
                         if ( $hours > 0 )
-                                return l_t('%s days, %s hours',$days,$hours);
+                                return l_t('%s day'.($days>1?'s':'').', %s hour'.($hours>1?'s':''),$days,$hours);
                         else
-                                return l_t('%s days', $days);
+                                return l_t('%s day'.($days>1?'s':''), $days);
                 }
                 elseif ( $hours > 0 )
                 {
@@ -117,17 +117,17 @@ class libTime
                         $seconds = 0;
 
                         if ( $minutes > 0 )
-                        	return l_t('%s hours, %s minutes',$hours,$minutes);
+                        	return l_t('%s hour'.($hours>1?'s':'').', %s minute'.($minutes>1?'s':''),$hours,$minutes);
 						else 
-							return l_t('%s hours',$hours);
+							return l_t('%s hour'.($hours>1?'s':''),$hours);
                 }
                 else
                 {
                         // M, S
                         if ( $seconds > 0 )
-							return l_t('%s minutes, %s seconds',$minutes,$seconds);
+							return l_t('%s minute'.($minutes>1?'s':'').', %s second'.($seconds>1?'s':''),$minutes,$seconds);
 						else
-							return l_t('%s minutes',$minutes);
+							return l_t('%s minute'.($minutes>1?'s':''),$minutes);
                 }
         }
 

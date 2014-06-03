@@ -308,7 +308,7 @@ $territoryRawData=array(
 foreach($territoryRawData as $territoryRawRow)
 {
 	list($name, $type, $supply, $countryID, $x, $y, $sx, $sy)=$territoryRawRow;
-	new InstallTerritory($name, $type, $supply, $countryID, $x, $y, $sx, $sy);
+	new InstallTerritory($name, $type, $supply, $countryID, $x, $y, $x, $y);
 }
 unset($territoryRawData);
 

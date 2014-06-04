@@ -345,7 +345,7 @@ class panelGame extends Game
 		$buf = l_t('<strong>%s</strong> /phase',libTime::timeLengthText($this->phaseMinutes*60)).
 			' <span class="gameTimeHoursPerPhaseText">(';
 
-		if ( $this->isLiveGame() )
+		if ( $this->isLiveGame() && $this->fixStart == 'No' )
 			$buf .= l_t('live');
 		elseif ( $this->phaseMinutes < 6*60 )
 			$buf .= l_t('very fast');
@@ -497,13 +497,16 @@ class panelGame extends Game
 			return l_t('A newly registered account can join this game; '.
 				'<a href="register.php" class="light">register now</a> to join.');
 
-		if ( $this->isLiveGame() )
+		if ( $this->isLiveGame() && $this->fixStart == 'No' )
 		{
 			$question = l_t('This is a live game.').'\n'.l_t('The game will start at the scheduled time even if all %s players have joined.', count($this->Variant->countries));
 		}
 		else
 		{
-			$question = l_t('The game will start when all %s players have joined.', count($this->Variant->countries));
+			if ($this->fixStart == 'No')
+				$question = l_t('The game will start when all %s players have joined.', count($this->Variant->countries));
+			else
+				$question = l_t('The game will start at the scheduled time even if all %s players have joined.', count($this->Variant->countries));
 			
 			list($turns,$games) = $DB->sql_row('SELECT SUM(turn), COUNT(*) FROM wD_Games WHERE variantID='.$this->Variant->id.' AND phase = "Finished"');
 			if ($games > 3)

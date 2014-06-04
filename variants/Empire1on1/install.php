@@ -512,6 +512,7 @@ $bordersRawData=array(
 	array('Michigan','Lake Erie','Yes','No'),
 	array('Michigan','Ohio','Yes','Yes'),
 	array('Lake Michigan','Lake Huron','Yes','No'),
+	array('Lake Superior','Lake Huron','Yes','No'),
 	array('Lake Erie','Ohio','Yes','No'),
 	array('Ohio','West Virginia','No','Yes'),
 	array('Ohio','Kentucky','Yes','Yes'),

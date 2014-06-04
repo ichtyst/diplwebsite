@@ -3,13 +3,14 @@
 defined('IN_CODE') or die('This script can not be run by itself.');
 
 class DutchRevoltVariant extends WDVariant {
-	public $id         ='32';
-	public $mapID      ='32';
-	public $name       ='DutchRevolt';
-	public $fullName   ='The Dutch Revolt';
-	public $description='The Diplomacy map of the Low Countries halfway the 16th century.';
-	public $author     ='sqrg (with help from Oli)';
-	public $version = '2.0.1';
+	public $id          ='32';
+	public $mapID       ='32';
+	public $name        ='DutchRevolt';
+	public $fullName    ='The Dutch Revolt';
+	public $description ='The Diplomacy map of the Low Countries halfway the 16th century.';
+	public $author      ='sqrg (with help from Oli)';
+	public $version     = '1';
+	public $codeVersion = '2.0.2';
 
 	public $countries=array('England', 'France', 'Spain', 'Munster', 'Holland');
 
@@ -22,6 +23,7 @@ class DutchRevoltVariant extends WDVariant {
 		$this->variantClasses['drawMap']            = 'DutchRevolt';
 		// Start with a build phase:
 		$this->variantClasses['processGame']        = 'DutchRevolt';
+
 		// 1st Buildphase has special unit-placing:
 		$this->variantClasses['OrderInterface']     = 'DutchRevolt';
 		$this->variantClasses['processOrderBuilds'] = 'DutchRevolt';

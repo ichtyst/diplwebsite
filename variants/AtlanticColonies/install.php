@@ -281,6 +281,7 @@ $bordersRawData=array(
 	array('Angola','Kongo','No','Yes'),
 	array('Namib Desert','Cape of Good Hope','Yes','Yes'),
 	array('Namib Desert','Sea of Angola','Yes','No'),
+	array('Namib Desert','Southern Ocean','Yes','No'),
 	array('Namib Desert','Kongo','No','Yes'),
 	array('Cape of Good Hope','Southern Ocean','Yes','No'),
 	array('Greater Gulf of Guinea','Sea of Angola','Yes','No'),

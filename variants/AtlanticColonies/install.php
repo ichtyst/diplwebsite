@@ -288,6 +288,7 @@ $bordersRawData=array(
 	array('Greater Gulf of Guinea','Southwestern Atlantic','Yes','No'),
 	array('Sea of Angola','Southern Atlantic','Yes','No'),
 	array('Sea of Angola','Southern Ocean','Yes','No'),
+	array('Sea of Angola','Kongo','Yes','No'),
 	array('Southern Atlantic','Southern Ocean','Yes','No'),
 	array('Southern Atlantic','Southwestern Atlantic','Yes','No'),
 	array('Southern Atlantic','Coast of Brazil','Yes','No'),

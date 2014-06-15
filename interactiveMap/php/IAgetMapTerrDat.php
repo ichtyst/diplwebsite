@@ -5,7 +5,7 @@ require_once('interactiveMap.php');
 
 $IAmap = getIAmapObject();
 
-$IAmap->createMapData();
+$IAmap->createMapData(isset($_REQUEST['uncache']));
 
 $IAmap->serveMapData();
 

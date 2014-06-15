@@ -27,6 +27,10 @@ class IAmap extends drawMap {
     protected $usedColors;
 
     public function drawMap() {
+        //check if there is a cached version. Delete it (it's only needed for development)
+        if(file_exists('variants/' . $this->Variant->name . '/cache/temp_' . $this->mapName))
+            unlink('variants/' . $this->Variant->name . '/cache/temp_' . $this->mapName);
+        
         if (!file_exists('variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName)) {
             ini_set("memory_limit", "1024M");
 
@@ -44,6 +48,8 @@ class IAmap extends drawMap {
                 die($cC);
 
             $this->saveMap();
+            
+            $this->deleteMapData(); //after the map has been updated, the MapData is propably inaccurate
         }
     }
 
@@ -145,20 +151,58 @@ class IAmap extends drawMap {
 
         return $newColor;
     }
+    
+    protected function getTerritoryNames() {
+        global $DB;
+
+        $territoryPositionsSQL = "SELECT id, coast, name FROM wD_Territories WHERE mapID=" . $this->Variant->mapID;
+
+        $territoryNames = array();
+        $tabl = $DB->sql_tabl($territoryPositionsSQL);
+        while (list($terrID, $coast, $name) = $DB->tabl_row($tabl)) {
+            if ($coast != 'Child') {
+                $territoryNames[$terrID] = $name;
+            }
+        }
+
+        return $territoryNames;
+    }
 
     protected function coloredCorrectly() {
+        $errors = array();
+        
         $this->usedColors = $this->getColors();
         foreach ($this->usedColors as $color) {
             $territories = array_keys($this->usedColors, $color);
             if (count($territories) > 1) {
-                return "Unable to load " . $this->mapName . " </br> The following territories aren't separated by a border: (only IDs)</br>" . print_r($territories, TRUE) . "</br> Please report this to an admin!";
+                $errors[] = $territories;
             }
         }
+        if(count($errors) > 0){
+            $terrNames = $this->getTerritoryNames();
+            
+            $errorString = "Unable to load ".$this->mapName."<br> The following territories aren't separated by a border: <br>";
+            foreach($errors as $index=>$error){
+                $errorString .= "<p> ".$index.":<br>";
+                foreach($error as $terrID){
+                    $errorString .= $terrNames[$terrID] . "(" . $terrID ."), ";
+                }
+                $errorString .= "</p>";
+            }
+            
+            return $errorString;
+        }
+        
         return null;
     }
 
     protected function saveMap() {
-        imagepng($this->map, 'variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName);
+        if(file_exists('variants/' . $this->Variant->name . '/interactiveMap/'))
+            imagepng($this->map, 'variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName);
+        else
+            //there is now interactiveMap directory yet -> created a temp version in the cache directory
+            imagepng($this->map, 'variants/' . $this->Variant->name . '/cache/temp_' . $this->mapName );
+        
         imagedestroy($this->map);
     }
 
@@ -167,10 +211,21 @@ class IAmap extends drawMap {
         
         define('DELETECACHE', 0);
 
-        libHTML::serveImage('variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName);
+        if(file_exists('variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName))
+            libHTML::serveImage('variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName);
+        else
+            libHTML::serveImage('variants/' . $this->Variant->name . '/cache/temp_' . $this->mapName);
+    }
+    
+    protected function deleteMapData(){
+        if(file_exists('variants/' . $this->Variant->name . '/cache/IA_mapData.map'))
+            unlink('variants/' . $this->Variant->name . '/cache/IA_mapData.map');
     }
 
-    public function createMapData() {
+    public function createMapData($uncache = false) {
+        if($uncache)
+            $this->deleteMapData();
+        
         if (!file_exists('variants/' . $this->Variant->name . '/cache/IA_mapData.map')) {
             ini_set("memory_limit", "1024M");
             set_time_limit(30);

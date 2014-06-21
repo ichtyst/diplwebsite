@@ -27,7 +27,7 @@ class WWIV_V6Variant_processOrderBuilds extends WWIVVariant_processOrderBuilds
 		'Argentina' => array ('Patagonia (pat)'=>'Fleet', 'Rosario (rsr)'=>'Army', 'Buenos-Aries (bue)'=>'Army'),
 		'Australia' => array ('Perth (per)'=>'Fleet', 'Sydney (syd)'=>'Fleet', 'Melbourne (mel)'=>'Army'),
 		'Brazil' => array ('Sao Paulo (sao)'=>'Army', 'Rio De Janeiro (rio)'=>'Fleet', 'Belo Horizonte (blh)'=>'Army'),
-		'California' => array ('San Francisco (sf)'=>'Fleet', 'Los Angeles (la)'=>'Army', 'Nevada (nev)'=>'Army'),
+		'California' => array ('San Francisco (sf)'=>'Fleet', 'Los Angeles (la)'=>'Army', 'Las Vegas (lv)'=>'Army'),
 		'Canada' => array ('Edmonton (edm)'=>'Army', 'Vancouver (van)'=>'Fleet', 'Calgary (clg)'=>'Army'),
 		'Catholica' => array ('Marseilles (mar)'=>'Army', 'Rome (rom)'=>'Fleet', 'Spain (spa) (South Coast)'=>'Fleet'),
 		'Central-Asia' => array ('Kazakhstan (kaz)'=>'Army', 'Almaty (alm)'=>'Army', 'Uzbekistan (uzb)'=>'Army'),

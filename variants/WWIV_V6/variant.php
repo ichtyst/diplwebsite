@@ -22,6 +22,7 @@
 	Changelog:
 	1.0:   initial release
 	1.1.1: Problem with the new default builds fixed.
+	1.1.2: Problem with the new default builds fixed.
 */
 
 defined('IN_CODE') or die('This script can not be run by itself.');
@@ -35,7 +36,7 @@ class WWIV_V6Variant extends WWIVVariant {
 	public $author     = 'Tom Reinecker';
 	public $adapter    = 'kaner406 & Oliver Auth';
 	public $version    = '6.2';
-	public $codeVersion= '1.1.1';
+	public $codeVersion= '1.1.2';
 	public $homepage   = 'http://www.freewebs.com/tomahaha/ww4.htm';
 	
 	public $countries=array('Amazon-Empire', 'Argentina', 'Australia', 'Brazil', 'California', 'Canada', 'Catholica', 'Central-Asia', 'Colombia', 'Kongo', 'Cuba', 'North-Africa', 'Germany', 'Central-States', 'Inca-Empire', 'India', 'Indonesia', 'Iran', 'Japan', 'East-Africa', 'Manchuria', 'Mexico', 'Nigeria', 'Oceania', 'Philippines', 'Quebec', 'Russia', 'Sichuan-Empire', 'Song-Empire', 'South-Africa', 'Texas', 'Thailand', 'Turkey', 'United-Kingdom', 'United-States', 'Saudi-Arabia');

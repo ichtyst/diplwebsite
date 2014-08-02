@@ -4,7 +4,13 @@ if(!in_array('header.php', get_required_files())){
     require_once('header.php');
 }
 
-class IAmap {
+require_once 'map/drawmap.php';
+    
+
+/*
+ * extends drawMap to acces some useful protected functions inside the drawMap-Class (for BuildIcon_generation)
+ */
+class IAmap extends drawMap {
 
     protected $mapName;
 
@@ -21,6 +27,10 @@ class IAmap {
     protected $usedColors;
 
     public function drawMap() {
+        //check if there is a cached version. Delete it (it's only needed for development)
+        if(file_exists('variants/' . $this->Variant->name . '/cache/temp_' . $this->mapName))
+            unlink('variants/' . $this->Variant->name . '/cache/temp_' . $this->mapName);
+        
         if (!file_exists('variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName)) {
             ini_set("memory_limit", "1024M");
 
@@ -38,6 +48,8 @@ class IAmap {
                 die($cC);
 
             $this->saveMap();
+            
+            $this->deleteMapData(); //after the map has been updated, the MapData is propably inaccurate
         }
     }
 
@@ -46,7 +58,7 @@ class IAmap {
     protected function loadMap($mapName = '') {
         $mapName = ($mapName == '') ? $this->sourceMapName : $mapName;
 
-        $map = imagecreatefrompng('variants/' . $this->Variant->name . '/interactiveMap/' . $mapName);
+        $map = imagecreatefrompng('variants/' . $this->Variant->name . '/resources/' . $mapName);
 
         $map2 = imagecreatetruecolor(imagesx($map), imagesy($map));
 
@@ -96,13 +108,13 @@ class IAmap {
 
     protected function colorTerritories() {
         foreach ($this->territoryPositions as $terrID => $terrPos) {
-            $this->usedColors[$terrID] = $this->colorTerritory($terrID);
+            $this->usedColors[$terrID] = $this->IA_colorTerritory($terrID);
             $color = imagecolorallocate($this->map, $this->usedColors[$terrID]['r'], $this->usedColors[$terrID]['g'], $this->usedColors[$terrID]['b']);
             imagefill($this->map, $terrPos[0], $terrPos[1], $color);
         }
     }
 
-    protected function colorTerritory($terrID) {
+    protected function IA_colorTerritory($terrID) {
         $territories = array_keys($this->usedColors, $this->usedColors[$terrID]);
         if (count($territories) > 1) {
             return $this->newColor();
@@ -139,20 +151,58 @@ class IAmap {
 
         return $newColor;
     }
+    
+    protected function getTerritoryNames() {
+        global $DB;
+
+        $territoryPositionsSQL = "SELECT id, coast, name FROM wD_Territories WHERE mapID=" . $this->Variant->mapID;
+
+        $territoryNames = array();
+        $tabl = $DB->sql_tabl($territoryPositionsSQL);
+        while (list($terrID, $coast, $name) = $DB->tabl_row($tabl)) {
+            if ($coast != 'Child') {
+                $territoryNames[$terrID] = $name;
+            }
+        }
+
+        return $territoryNames;
+    }
 
     protected function coloredCorrectly() {
+        $errors = array();
+        
         $this->usedColors = $this->getColors();
         foreach ($this->usedColors as $color) {
             $territories = array_keys($this->usedColors, $color);
             if (count($territories) > 1) {
-                return "Unable to load " . $this->mapName . " </br> The following territories aren't separated by a border: (only IDs)</br>" . print_r($territories, TRUE) . "</br> Please report this to an admin!";
+                $errors[] = $territories;
             }
         }
+        if(count($errors) > 0){
+            $terrNames = $this->getTerritoryNames();
+            
+            $errorString = "Unable to load ".$this->mapName."<br> The following territories aren't separated by a border: <br>";
+            foreach($errors as $index=>$error){
+                $errorString .= "<p> ".$index.":<br>";
+                foreach($error as $terrID){
+                    $errorString .= $terrNames[$terrID] . "(" . $terrID ."), ";
+                }
+                $errorString .= "</p>";
+            }
+            
+            return $errorString;
+        }
+        
         return null;
     }
 
     protected function saveMap() {
-        imagepng($this->map, 'variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName);
+        if(file_exists('variants/' . $this->Variant->name . '/interactiveMap/'))
+            imagepng($this->map, 'variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName);
+        else
+            //there is now interactiveMap directory yet -> created a temp version in the cache directory
+            imagepng($this->map, 'variants/' . $this->Variant->name . '/cache/temp_' . $this->mapName );
+        
         imagedestroy($this->map);
     }
 
@@ -161,10 +211,21 @@ class IAmap {
         
         define('DELETECACHE', 0);
 
-        libHTML::serveImage('variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName);
+        if(file_exists('variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName))
+            libHTML::serveImage('variants/' . $this->Variant->name . '/interactiveMap/' . $this->mapName);
+        else
+            libHTML::serveImage('variants/' . $this->Variant->name . '/cache/temp_' . $this->mapName);
+    }
+    
+    protected function deleteMapData(){
+        if(file_exists('variants/' . $this->Variant->name . '/cache/IA_mapData.map'))
+            unlink('variants/' . $this->Variant->name . '/cache/IA_mapData.map');
     }
 
-    public function createMapData() {
+    public function createMapData($uncache = false) {
+        if($uncache)
+            $this->deleteMapData();
+        
         if (!file_exists('variants/' . $this->Variant->name . '/cache/IA_mapData.map')) {
             ini_set("memory_limit", "1024M");
             set_time_limit(30);
@@ -210,6 +271,10 @@ class IAmap {
         echo file_get_contents('variants/' . $this->Variant->name . '/cache/IA_mapData.map');
     }
     
+    /*
+     * variant-specific JS-scripts for interactiveMap
+     */
+    
     protected function jsLoadBasicIAScripts() {
         libHTML::$footerIncludes[] = '../interactiveMap/javascript_1.0/interactiveMap.js';
 	libHTML::$footerIncludes[] = '../interactiveMap/javascript_1.0/interactiveMapDraw.js';
@@ -252,6 +317,74 @@ class IAmap {
         
         $this->jsFooterScript();
     }
+    
+    /*
+     * Autogeneration of Build-Buttons (with variant-typical unit-icons)
+     */
+    protected $buildButtonAutogeneration = false;
+    
+    //equivalent to drawMap->resources()
+    protected function resources(){
+        return array(
+                'army'=>l_s('contrib/smallarmy.png'),
+                'fleet'=>l_s('contrib/smallfleet.png')
+        );
+    }
+    
+    //equivalent to drawMap->loadImages()
+    protected function loadImages(){
+        $resources = $this->resources();
+      
+        $this->army = $this->loadImage($resources['army']);
+        $this->fleet = $this->loadImage($resources['fleet']);
+        
+        $this->imagesLoaded = true;
+    
+    }
+    
+    protected $imagesLoaded = false;    
+    
+    public function serveBuildIcon($unitType = 'Army') {
+        if(!$this->buildButtonAutogeneration) return;
+            
+        if(!file_exists('variants/'.$this->Variant->name.'/interactiveMap/IA_BuildIcon_'.$unitType.'.png'))
+                $this->generateBuildIcons();
+        
+        require_once('lib/html.php');
+        
+        define('DELETECACHE', 0);
+
+        libHTML::serveImage('variants/' . $this->Variant->name . '/interactiveMap/IA_BuildIcon_'.$unitType.'.png');
+    }
+    
+    protected function generateBuildIcons(){
+        $this->loadImages();
+        
+        $this->setTransparancies();
+        
+        $this->territoryPositions['0'] = array(5,10);//position of unit on button
+        
+        $this->generateBuildIcon('Army');
+        $this->generateBuildIcon('Fleet');
+       
+    }
+    
+    protected function generateBuildIcon($unitType){
+        //The image which stores the generated Build-Button
+        $this->map = array(     'image' => imagecreatetruecolor(15, 15),
+                                'width' => 15,
+                                'height'=> 15
+        );
+        imagefill($this->map['image'], 0, 0, imagecolorallocate($this->map['image'], 255, 255, 255));
+        $this->setTransparancy($this->map);
+        
+        $this->drawCreatedUnit(0, $unitType);
+        $this->write('variants/'.$this->Variant->name.'/interactiveMap/IA_BuildIcon_'.$unitType.'.png');   
+        
+        imagedestroy($this->map['image']);
+    }
+    
+    public function __destruct() {}
 }
 
 function getIAmapObject(){

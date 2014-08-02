@@ -53,6 +53,7 @@ class ClassicFogVariant_panelGameBoard extends panelGameBoard
 
 		$map = str_replace("loadMap(","loadMap('".$verify."',",$map);
 		$map = str_replace("loadMapStep(","loadMapStep('".$verify."',",$map);
+                $map = str_replace("toggleMoves(","toggleMoves('".$verify."',",$map);
 		
 		return $map;
 	}

@@ -15,13 +15,14 @@
 	See the GNU General Public License for more details.
 
 	You should have received a copy of the GNU Affero General Public License
-	along with webDiplomacy. If not, see <http://www.gnu.org/licenses/>.		
+	along with webDiplomacy. If not, see <http://www.gnu.org/licenses/>.
 */
 
 defined('IN_CODE') or die('This script can not be run by itself.');
 
-class Fog_panelGameBoard extends panelGameBoard
+class TenSixtySixVariant_panelGameBoard extends panelGameBoard
 {
+
 	// Load our custom map.php that revales only parts of the map
 	function mapHTML() {
 
@@ -51,6 +52,7 @@ class Fog_panelGameBoard extends panelGameBoard
 
 		$map = str_replace("loadMap(","loadMap('".$verify."',",$map);
 		$map = str_replace("loadMapStep(","loadMapStep('".$verify."',",$map);
+                $map = str_replace("toggleMoves(","toggleMoves('".$verify."',",$map);
 		
 		return $map;
 	}
@@ -82,8 +84,7 @@ class Fog_panelGameBoard extends panelGameBoard
 			</td><td><tr>';
 		return $buf;
 	}
+	
+	
 }
 
-class TenSixtySixVariant_panelGameBoard extends Fog_panelGameBoard {}
-
-?>

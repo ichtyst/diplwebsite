@@ -20,8 +20,9 @@ $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '' ;
 // Users can only access these 3 directories.
 $basedir = isset($_REQUEST['basedir']) ? $_REQUEST['basedir'] : '/'; 
 switch($basedir) {
-	case '/classes/'  : $basedir = '/classes/';   break;
-	case '/resources/': $basedir = '/resources/'; break;
+	case '/classes/'        : $basedir = '/classes/';       break;
+	case '/resources/'      : $basedir = '/resources/';     break;
+        case '/interactiveMap/' : $basedir = '/interactiveMap/';break;
 	default           : $basedir = '/';
 }
 
@@ -95,8 +96,10 @@ if ($action == 'download' && $variantID != '0') {
 		$zip->addEmptyDir($variant->name.'/cache');
 		$zip->addEmptyDir($variant->name.'/classes');
 		$zip->addEmptyDir($variant->name.'/resources');
+                if(file_exists($variant->name.'/interactiveMap')) $zip->addEmptyDir($variant->name.'/interactiveMap');
 		foreach (glob($variant->name. '/classes/*') as $file) $zip->addFile($file);
 		foreach (glob($variant->name. '/resources/*') as $file) $zip->addFile($file);
+                if(file_exists($variant->name.'/interactiveMap')) foreach (glob($variant->name. '/interactiveMap/*') as $file) $zip->addFile($file);
 		$zip->addFile($variant->name. '/variant.php');
 		$zip->addFile($variant->name. '/install.php');
 		if (file_exists($variant->name. '/rules.html'))
@@ -253,6 +256,7 @@ if ($variantID != 0)
 						rename($variantbase.$basedir.$file.' (wait for verify)', $variantbase."/cache/".date("ymd-His")."-upl-".$file);
 					if (!stripos($file, 'php') === false)
 						$file .= ' (wait for verify)';
+                                        if($basedir == '/interactiveMap/' && !file_exists($variantbase.$basedir)) mkdir($variantbase.'/interactiveMap', 0755);
 					rename ($uploadtmp, $variantbase.$basedir.$file);
 					chmod($variantbase.$basedir.$file, 0644);
 				}
@@ -281,10 +285,11 @@ if ($variantID != 0)
 			<input type="hidden" name="action" value="upload" />
 			Upload file: <input type="file" name="upload" /> - directory:
 			<select name="basedir">
-			<option value="/" selected>  /           </option>
-			<option value="/classes/">   /classes/   </option>
-			<option value="/resources/"> /resources/ </option>
-			</select>
+			<option value="/" selected>             /               </option>
+			<option value="/classes/">              /classes/       </option>
+			<option value="/resources/">            /resources/     </option>
+                        './*(file_exists($variantbase.'/interactiveMap')?*/'<option value="/interactiveMap/">       /interactiveMap/</option>'/*:'')*/.
+			'</select>
 			<input type="submit" value="Upload File" />
 			</form>';
 	}
@@ -293,7 +298,8 @@ if ($variantID != 0)
 	// print the variant-files in a nice grid
 	print '<li class="formlisttitle">Variant-Files:';
 	print("<TABLE border=1 cellpadding=5 cellspacing=0 class=whitelinks>\n");
-	foreach (array("/","/classes/", "/resources/") as $dirname) {
+	foreach (array("/","/classes/", "/resources/","/interactiveMap/") as $dirname) {
+                if(!file_exists($variantbase.$dirname)) continue;
 		print("<TH>" . $dirname . "</TH><TR>\n");
 		
 		$files = array();

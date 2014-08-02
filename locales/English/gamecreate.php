@@ -33,6 +33,10 @@ Start a new game; you decide the name, how long it runs, and how much it's worth
 </div>
 </div>
 <div class="content content-follow-on">
+<p class="intro">
+ATTENTION:<br>The <u>default</u> Pot-Type for all games was changed from "points per supply center" to "winner takes all".
+Read more about these 2 different ways to distribute the points between the remaining players <a href='points.php#ppscwta'>here</a> and make an informed decision about this setting during the gamecreation.
+<br><br></p>
 <form method="post">
 <ul class="formlist">
 
@@ -225,14 +229,14 @@ else
 	<div id="potType">
 		<li class="formlisttitle">Pot type:</li>
 		<li class="formlistfield">
-			<input type="radio" name="newGame[potType]" value="Points-per-supply-center" checked > Points-per-supply-center (PPSC)<br />
-			<input type="radio" name="newGame[potType]" value="Winner-takes-all"> Winner-takes-all (WTA)
+			<input type="radio" name="newGame[potType]" value="Points-per-supply-center"> Points-per-supply-center (PPSC)<br />
+			<input type="radio" name="newGame[potType]" value="Winner-takes-all" checked > Winner-takes-all (WTA)
 		</li>
 		<li class="formlistdesc">
 			Should the winnings be split up according to who has the most supply centers, or should the winner
 			get everything (<a href="points.php#ppscwta" class="light">read more</a>).<br /><br />
 
-			<strong>Default:</strong> Points-per-supply-center (PPSC)
+			<strong>Default:</strong> Winner-takes-all (WTA)
 		</li>
 	</div>
 

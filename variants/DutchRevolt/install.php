@@ -332,7 +332,7 @@ $bordersRawData=array(
 	array('Noordenveld','Bentheim','No','Yes'),
 	array('Noordenveld','Coevoorden','No','Yes'),
 	array('Noordenveld','Kampen','No','Yes'),
-	array('Noordenveld','Eastergoa','Yes','Yes'),
+	array('Noordenveld','Eastergoa','No','Yes'),
 	array('Bentheim','Twenthe','No','Yes'),
 	array('Bentheim','Coevoorden','Yes','Yes'),
 	array('Bentheim','Salland','Yes','Yes'),
@@ -416,5 +416,6 @@ $DB->sql_put('DELETE FROM wD_Borders        WHERE mapID='.$this->mapID.' AND toT
 $DB->sql_put('DELETE FROM wD_CoastalBorders WHERE mapID='.$this->mapID.' AND toTerrID=9');
 
 ?>
+
 
 

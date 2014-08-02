@@ -84,31 +84,28 @@ if ($User->phasesPlayed < 100 && libReliability::integrityRating($User) > -1) {
 	<?php
 	if (libReliability::integrityRating($User) <= -1)
 	{
-		print '<p class="intro">';
-		if ($unballancedCDs > 0 && $unballancedNMR > 0) {
-			print 'With <b>'.$unballancedCDs.'</b> unbalanced CDs and <b>'.$unballancedNMR.'</b> unbalanced NMRs';
-		} elseif ($unballancedCDs > 0) {
-			print 'With <b>'.$unballancedCDs.'</b> unbalanced CDs';
-		} else {
-			print 'With <b>'.$unballancedNMR.'</b> unbalanced NMRs';
-		}
-		if ($User->phasesPlayed < 100)
-		{
-			print ' and <b>'.$User->phasesPlayed.'</b> phases played';
-		}
-		print '	you can play a maximum of <b>'.libReliability::gameLimits($User).'</b> game'.(libReliability::gameLimits($User) == 1 ? '' : 's').' at once.
-			2-player games are not affected by this restrictions.
-			If you want to to increase the number of games you can join you may take over 
-			<a href="gamelistings.php?page-games=1&gamelistType=Joinable">open spots in ongoing games</a> or reclaim your CDed
-			countries if they have not been taken.</p>
-			<p>To calculate how many games you can join we use your <b>CDtakeovers</b> and subtract your <b>missed moves * 0.2</b> and your <b>CDs * 0.6</b>
-			(as 1 CD most of the time has 2 missed moves before). Based on this results the following restrictions are in effect:
+			print '<p class="intro">To calculate how many games you can join we use your CD-takeovers and subtract your missed moves * 0.2 and your CDs * 0.6
+			(as 1 CD most of the time has 2 missed moves before).</p>
+			
+			<p class="intro">Using your current stats we get:
+			<ul><li>CD-takeover = '.$User->CDtakeover.'</li>
+			<li>NMRs = '.$User->missedMoves.'</li>
+			<li>CDs = '.$User->gamesLeft.'</li></ul></p>
+			<p class="intro">
+			Your final score is: <b>'.$User->CDtakeover.'</b> - (<b>'.$User->missedMoves.'</b> * 0.2 + <b>'.$User->gamesLeft.'</b> * 0.6) = <b>'.($User->CDtakeover - ( $User->missedMoves * 0.2 + $User->gamesLeft * 0.6)).
+			'</b><br>
+			<p class="intro">Based on this results the following restrictions are in effect:
 			<ul><li>greater than -1 => no restrictions</li>
 			<li>between -1 and -2 => max 6 games</li>
 			<li>between -2 and -3 => max 5 games</li>
 			<li>between -3 and -4 => max 3 games</li>
 			<li>and lower than -4 => max 1 game </li>
-			</ul></p>';
+			</ul></p>
+			
+			<p class="intro">If you want to to increase the number of games you can join you may take over 
+			<a href="gamelistings.php?page-games=1&gamelistType=Joinable">open spots in ongoing games</a> or reclaim your CDed
+			countries if they have not been taken. Every country taken does improve your score by <b>1</b></p>';
+			
 	}
 }
 ?>

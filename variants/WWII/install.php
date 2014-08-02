@@ -661,6 +661,7 @@ $bordersRawData=array(
 	array('Alexandria','Suez','Yes','Yes'),
 	array('Alexandria','Red Sea','Yes','No'),
 	array('Suez','Palestine','Yes','Yes'),
+	array('Suez','Red Sea','Yes','No'),
 	array('Aegean Sea','Izmir','Yes','No'),
 	array('Aegean Sea','Thessalonica (East Coast)','Yes','No'),
 	array('Aegean Sea','Athens (East Coast)','Yes','No'),

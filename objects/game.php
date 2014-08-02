@@ -278,6 +278,11 @@ class Game
 	public $noProcess;
 	
 	/**
+	 * Set some votes to be blocked for the game.
+	 */
+	public $blockVotes;
+	
+	/**
 	 * Should the game wait for the full pregame duration to start? (Yes/No)
 	 */
 	public $fixStart;
@@ -414,6 +419,7 @@ class Game
 			g.description,
 			g.noProcess,
 			g.fixStart,
+			g.blockVotes,
 			g.missingPlayerPolicy
 			FROM wD_Games g
 			WHERE g.id=".$this->id.' '.$this->lockMode);

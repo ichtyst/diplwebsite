@@ -2,7 +2,7 @@
 defined('IN_CODE') or die('This script can not be run by itself.');
 
 // Split the Home-View after 9 Countries for a better readability.
-class SplitCountries_panelMembersHome extends panelMembersHome
+class WWIVsealanesVariant_panelMembersHome extends panelMembersHome
 {
 
 	function membersList()
@@ -80,5 +80,3 @@ class SplitCountries_panelMembersHome extends panelMembersHome
 	}
 
 }
-
-class WWIVsealanesVariant_panelMembersHome extends SplitCountries_panelMembersHome {}

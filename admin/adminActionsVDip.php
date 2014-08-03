@@ -44,6 +44,12 @@ class adminActionsVDip extends adminActions
 				'description' => 'Replace one player in a given game with another one.',
 				'params' => array('gameID'=>'GameID','userID'=>'userID','replaceID'=>'replace User ID')
 			),
+			'disableVotes' => array(
+				'name' => 'Disable some or all vote buttons',
+				'description' => 'Disable or enable some or all vote-buttons.<br />
+				If you want enable all vote buttons again use "none"',
+				'params' => array('votes'=>'Comma separated list of votes you want disabled'),
+			),			
 			'ChangeDirectorLicense' => array(
 				'name' => 'Change director license',
 				'description' => 'Manually grand or remove the license to create moderated games.',
@@ -179,6 +185,58 @@ class adminActionsVDip extends adminActions
 		
 		return 'In game '.$gameName.' (id='.$gameID.') the user '.$userName.' will be removed and replaced by '.$replaceName.'.';
 	}
+	
+	public function disableVotes(array $params)
+	{
+		global $DB;
+
+		$gameID = intval($this->fixedGameID);
+
+		$Variant=libVariant::loadFromGameID($gameID);
+		$Game = $Variant->Game($gameID);
+		$votes=strtoupper($params['votes']);
+
+		if (strpos($votes,'NONE')!== false)
+			$changeVotes='';
+		else
+		{
+			$changeVotesArr=array();
+			if (strpos($votes,'DRAW')!== false)
+				$changeVotesArr[]="Draw";
+			if (strpos($votes,'PAUSE')!== false)
+				$changeVotesArr[]="Pause";
+			if (strpos($votes,'CANCEL')!== false)
+				$changeVotesArr[]="Cancel";
+			if (strpos($votes,'EXTEND')!== false)
+				$changeVotesArr[]="Extend";
+			if (strpos($votes,'CONCEDE')!== false)
+				$changeVotesArr[]="Concede";
+
+			$changeVotes= implode ( ',' , $changeVotesArr );
+			foreach ($changeVotesArr as $removeVote)
+			{
+				foreach ($Game->Members->ByID as $Member)
+				{
+					if(in_array($removeVote, $Member->votes))
+					{
+						unset($Member->votes[array_search($removeVote, $Member->votes)]);
+						$DB->sql_put("UPDATE wD_Members SET votes='".implode(',',$Member->votes)."' WHERE id=".$Member->id);
+					}
+				}
+			}
+		}
+		
+		$DB->sql_put(
+			"UPDATE wD_Games
+			SET blockVotes = '".$changeVotes."'
+			WHERE id = ".$Game->id
+		);
+
+		if ($changeVotes == '')
+			$changeVotes = 'None';
+		
+		return l_t('Disabled votes successfully set to %s.',$changeVotes);
+	}	
 	
 	public function ChangeDirectorLicense(array $params)
 	{

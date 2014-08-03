@@ -82,6 +82,12 @@ class adminActionsTD extends adminActionsForms
 					Also the next process time is reset to the new phase length.',
 				'params' => array('phaseMinutes'=>'Minutes per phase'),
 			),
+			'disableVotes' => array(
+				'name' => 'Disable some or all vote buttons',
+				'description' => 'Disable or enable some or all vote-buttons.<br />
+				If you want enable all vote buttons again use "none"',
+				'params' => array('votes'=>'Comma separated list of votes you want disabled'),
+			),
 			'alterMessaging' => array(
 				'name' => 'Alter game messaging',
 				'description' => 'Change a game\'s messaging settings, e.g. to convert from gunboat to public-only or all messages allowed.',
@@ -467,6 +473,57 @@ class adminActionsTD extends adminActionsForms
 
 		return l_t('This user put into civil-disorder in this game');
 	}
+	public function disableVotes(array $params)
+	{
+		global $DB;
+
+		$gameID = intval($this->fixedGameID);
+
+		$Variant=libVariant::loadFromGameID($gameID);
+		$Game = $Variant->Game($gameID);
+		$votes=strtoupper($params['votes']);
+
+		if (strpos($votes,'NONE')!== false)
+			$changeVotes='';
+		else
+		{
+			$changeVotesArr=array();
+			if (strpos($votes,'DRAW')!== false)
+				$changeVotesArr[]="Draw";
+			if (strpos($votes,'PAUSE')!== false)
+				$changeVotesArr[]="Pause";
+			if (strpos($votes,'CANCEL')!== false)
+				$changeVotesArr[]="Cancel";
+			if (strpos($votes,'EXTEND')!== false)
+				$changeVotesArr[]="Extend";
+			if (strpos($votes,'CONCEDE')!== false)
+				$changeVotesArr[]="Concede";
+
+			$changeVotes= implode ( ',' , $changeVotesArr );
+			foreach ($changeVotesArr as $removeVote)
+			{
+				foreach ($Game->Members->ByID as $Member)
+				{
+					if(in_array($removeVote, $Member->votes))
+					{
+						unset($Member->votes[array_search($removeVote, $Member->votes)]);
+						$DB->sql_put("UPDATE wD_Members SET votes='".implode(',',$Member->votes)."' WHERE id=".$Member->id);
+					}
+				}
+			}
+		}
+		
+		$DB->sql_put(
+			"UPDATE wD_Games
+			SET blockVotes = '".$changeVotes."'
+			WHERE id = ".$Game->id
+		);
+
+		if ($changeVotes == '')
+			$changeVotes = 'None';
+		
+		return l_t('Disabled votes successfully set to %s.',$changeVotes);
+	}	
 	public function setCivilDisorderConfirm(array $params)
 	{
 		global $DB;

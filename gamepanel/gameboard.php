@@ -203,6 +203,8 @@ class panelGameBoard extends panelGame
 		$buf .= '<div class="memberUserDetail">';
 		foreach($vVote as $vote)
 		{
+			if (strpos($this->blockVotes,$vote)!== false) continue;			
+			
 			if ( $vote == 'Pause' && $this->processStatus == 'Paused' )
 				$vote = 'Unpause';
 

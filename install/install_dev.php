@@ -918,9 +918,13 @@ $sql[]="ALTER TABLE `wD_Backup_Games` ADD `fixStart` enum('Yes','No') CHARACTER 
 $sql[]="ALTER TABLE `wD_Games` ADD `blockVotes` set('Draw','Pause','Cancel','Extend','Concede') CHARACTER SET utf8 NOT NULL;";
 $sql[]="ALTER TABLE `wD_Backup_Games` ADD `blockVotes` set('Draw','Pause','Cancel','Extend','Concede') CHARACTER SET utf8 NOT NULL;";
 
+// VDip: 49
+$sql[]="ALTER TABLE `wD_MovesArchive` ADD `orderID` int(10) unsigned NOT NULL FIRST;";
+$sql[]="ALTER TABLE `wD_Backup_MovesArchive` ADD `orderID` int(10) unsigned NOT NULL FIRST;";
+
 // Set the correct version-information in the database	
 $sql[]="UPDATE `wD_Misc`     SET `value` = '135' WHERE `name` = 'Version';";
-$sql[]="UPDATE `wD_vDipMisc` SET `value` = '48'  WHERE `name` = 'Version';";
+$sql[]="UPDATE `wD_vDipMisc` SET `value` = '49'  WHERE `name` = 'Version';";
 
 // Create a default Admin-Account
 require_once ('lib/auth.php');

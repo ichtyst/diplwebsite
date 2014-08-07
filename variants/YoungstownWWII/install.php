@@ -265,6 +265,7 @@ $bordersRawData=array(
 	array('Akito','Tokyo','Yes','Yes'),
 	array('Akito','Kyoto','Yes','Yes'),
 	array('Akito','Sea of Japan','Yes','No'),
+	array('Akito','North Pacific Ocean','Yes','No'),
 	array('Tokyo','Kyoto','No','Yes'),
 	array('Tokyo','Shizuoko','Yes','Yes'),
 	array('Tokyo','South Pacific Ocean','Yes','No'),
@@ -779,6 +780,7 @@ if (!file_exists('variants/'.$this->name.'/cache/sampleMap.png'))
 	copy ('variants/'.$this->name.'/resources/sampleMap.png','variants/'.$this->name.'/cache/sampleMap.png');
 
 ?>
+
 
 
 

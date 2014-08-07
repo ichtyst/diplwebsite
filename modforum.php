@@ -574,9 +574,11 @@ while( $message = $DB->tabl_hash($tabl) )
 	else
 		print '<strong>'.$message['subject'].'</strong>';
 
-	if ($message['modname'] != "") 
-		print '<strong> - assigned to: '.$message['modname'].'</strong>';
-		
+	if ($message['modname'] != "")
+		print '<strong> - assigned'.($User->type['Moderator'] ? ' to: '.$message['modname'] : '').'</strong>';
+	elseif($message['status']!= "New" && strpos($message['userType'],'Moderator')===false)
+		print '<strong> - in internal discussion.</strong>';
+	
 	print '</div>
 		
 		<div class="message-body threadalternate'.$switch.'">

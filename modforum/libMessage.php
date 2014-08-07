@@ -83,7 +83,7 @@ class ModForumMessage
 		else
 			$DB->sql_put("UPDATE wD_ModForumMessages SET latestReplySent = id WHERE id = ".$id);
 			
-		if ($User->type['Moderator'] && $adminReply=='No')
+		if ($User->type['Moderator'])
 		{
 			$DB->sql_put("UPDATE wD_ModForumMessages SET status='Open' WHERE status='New' AND id = ".$toID);
 		}

@@ -36,7 +36,7 @@ class BalkanWarsVIVariant extends WDVariant {
 	public $author     ='Brad Wilson based on earlier designs by Fred Davis and others...';
 	public $adapter    ='Oliver Auth';
 	public $version    ='6';
-	public $codeVersion='1.0.3';
+	public $codeVersion='1.0.4';
 	public $homepage   ='http://members.cox.net/boris_spider/hrules/BW6.html';
 	
 	public $countries=array('Albania','Bulgaria','Greece','Rumania','Serbia','Turkey');

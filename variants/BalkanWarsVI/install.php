@@ -35,7 +35,7 @@ $territoryRawData=array(
 	array('Oltenia', 'Land', 'No', 4, 782, 294, 391, 147),
 	array('Plovdiv', 'Land', 'Yes', 2, 920, 404, 460, 202),
 	array('Rhodes', 'Coast', 'Yes', 0, 1088, 778, 544, 389),
-	array('Salonika', 'Coast', 'Yes', 0, 700, 530, 350, 265),
+	array('Salonika', 'Coast', 'Yes', 3, 700, 530, 350, 265),
 	array('Skopje', 'Land', 'Yes', 5, 634, 436, 317, 218),
 	array('Smyrna', 'Coast', 'Yes', 6, 1050, 592, 525, 296),
 	array('Sofia', 'Land', 'Yes', 2, 802, 384, 401, 192),

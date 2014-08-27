@@ -171,8 +171,15 @@ if( ! $User->type['User'] ) {
 		<li><input type="submit" class="form-submit" value="'.l_t('Log on').'"></li>
 		</ul>
 		</form>
-		<p><a href="logon.php?forgotPassword=1" class="light">'.l_t('Forgot your password?').'</a><br>
-		<a href="logon.php?resendUsername=1" class="light">'.l_t('Forgot your username?').'</a></p>';
+		<div class="hr"></div>
+		<p><b>Troubleshooting:</b>
+			<ul>
+				<li>If you forgot your password, use the lost password finder <a href="logon.php?forgotPassword=1">here</a>.</li>
+				<li>If you forgot your username, use the username recovery <a href="logon.php?resendUsername=1">here</a>.</li>
+				<li>If you forgot both, first use the username recovery <a href="logon.php?resendUsername=1">here</a>, and than the lost password finder <a href="logon.php?forgotPassword=1">here</a>.</li>
+				<li>If you are still unable to log in, contact the mods here: <a href="mailto:'.(isset(Config::$modEMail) ? Config::$modEMail : Config::$adminEMail).'">'.(isset(Config::$modEMail) ? Config::$modEMail : Config::$adminEMail).'</a></li>
+			</ul>
+		</p>';
 } else {
 	print libHTML::pageTitle('Log off','Log out of your webDiplomacy account, to prevent other users of this computer accessing it.');
 	print '<form action="./logon.php" method="get">

@@ -38,8 +38,9 @@ if( isset($_REQUEST['forgotPassword']) and $User->type['Guest'] )
 		if ( $_REQUEST['forgotPassword'] == 1 )
 		{
 			print '<p>'.l_t('Enter your username here, and an e-mail will be sent to the address you registered with, with an '.
-			'activation link that will set a new password.').'</p>
-
+			'activation link that will set a new password.').
+			'</p>
+			
 			<form action="./logon.php?forgotPassword=2" method="post">
 				<ul class="formlist">
 				<li class="formlisttitle">'.l_t('Username').'</li>
@@ -47,7 +48,8 @@ if( isset($_REQUEST['forgotPassword']) and $User->type['Guest'] )
 				<li class="formlistdesc">'.l_t('The webDiplomacy username of the account which you can\'t log in to.').'</li>
 				<li><input type="submit" class="form-submit" value="'.l_t('Send code').'"></li>
 				</ul>
-			</form>';
+			</form>
+			<a href="logon.php?resendUsername=1" class="light">'.l_t('Forgot your username? Recover it here.').'</a>';
 		}
 		elseif ( $_REQUEST['forgotPassword'] == 2 && isset($_REQUEST['forgotUsername']) )
 		{
@@ -98,7 +100,52 @@ l_t("You can use this link to get a new password generated:")."<br>
 	libHTML::footer();
 }
 
+if( isset($_REQUEST['resendUsername']) and $User->type['Guest'] )
+{
+	print libHTML::pageTitle(l_t('Recover your username'),l_t('Resend your username to your e-mail account, in-case you forgot it.'));
 
+	try
+	{
+		if ( $_REQUEST['resendUsername'] == 1 )
+		{
+			print '<p>'.l_t('Enter your eMail address here, and an e-mail with the corresponding username will be sent.').'</p>
+
+			<form action="./logon.php?resendUsername=2" method="post">
+				<ul class="formlist">
+				<li class="formlisttitle">'.l_t('eMail').'</li>
+				<li class="formlistfield"><input type="text" tabindex="1" maxlength=30 size=15 name="resendEMail"></li>
+				<li class="formlistdesc">'.l_t('The eMail address of the account which you forgot the username.').'</li>
+				<li><input type="submit" class="form-submit" value="'.l_t('Recover username').'"></li>
+				</ul>
+			</form>';
+		}
+		elseif ( $_REQUEST['resendUsername'] == 2 && isset($_REQUEST['resendEMail']) )
+		{
+			$eMail = $DB->escape($_REQUEST['resendEMail']);
+			list($username) = $DB->sql_row("SELECT username FROM wD_Users WHERE email='".$DB->escape($_REQUEST['resendEMail'])."'");
+			if ($username == '')
+				throw new Exception(l_t("Cannot find an account for the given eMail address. Please ".
+					"<a href='logon.php?resendUsername=1' class='light'>go back</a> and check your spelling."));
+
+			require_once(l_r('objects/mailer.php'));
+			$Mailer = new Mailer();
+			$Mailer->Send(array($eMail=>$username), l_t('vDiplomacy recover username.'),
+				l_t("The username linked to this eMail address is:")."<br>".$username."<br><br>".
+				l_t("If you have any further problems contact the server's mods at %s.",(isset(Config::$modEMail) ? Config::$modEMail : Config::$adminEMail))."<br>");
+
+			print '<p>'.l_t('An e-mail with your username has been sent to %s. ',$eMail).'<br>'.
+				l_t('If you can\'t find the e-mail in your inbox try your junk folder/spam-box.'.
+				"If you have any further problems contact the server's mods at %s.",(isset(Config::$modEMail) ? Config::$modEMail : Config::$adminEMail)).'</p>';
+		}
+	}
+	catch(Exception $e)
+	{
+		print '<p class="notice">'.$e->getMessage().'</p>';
+	}
+
+	print '</div>';
+	libHTML::footer();
+}
 
 if( ! $User->type['User'] ) {
 	print libHTML::pageTitle(l_t('Log on'),l_t('Enter your webDiplomacy account username and password to log into your account.'));
@@ -124,7 +171,8 @@ if( ! $User->type['User'] ) {
 		<li><input type="submit" class="form-submit" value="'.l_t('Log on').'"></li>
 		</ul>
 		</form>
-		<p><a href="logon.php?forgotPassword=1" class="light">'.l_t('Forgot your password?').'</a></p>';
+		<p><a href="logon.php?forgotPassword=1" class="light">'.l_t('Forgot your password?').'</a><br>
+		<a href="logon.php?resendUsername=1" class="light">'.l_t('Forgot your username?').'</a></p>';
 } else {
 	print libHTML::pageTitle('Log off','Log out of your webDiplomacy account, to prevent other users of this computer accessing it.');
 	print '<form action="./logon.php" method="get">

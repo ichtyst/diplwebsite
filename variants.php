@@ -79,6 +79,10 @@ if(!(isset($_REQUEST['variantID'])))
 	foreach( $variantsOn as $variantName )
 	{
 		$Variant = libVariant::loadFromVariantName($variantName);
+		
+		if (isset(Config::$hiddenVariants) && in_array($Variant->id,Config::$hiddenVariants) && $User->type['Guest'])
+			continue;
+			
 		list($players)=$DB->sql_row(
 			'SELECT COUNT(*) FROM wD_Members m
 				INNER JOIN wD_Games g ON (g.id = m.gameID) 
@@ -94,6 +98,9 @@ if(!(isset($_REQUEST['variantID'])))
 	}
 	print '</TABLE>';
 
+/* Do not show the deactivated variants, it causes all sort of problems with unfinnished maps on the lab and
+ * it's not really that interesting.
+ 
 	if( count($variantsOff) )
 	{
 		print '<h4>Disabled variants</h4>';
@@ -102,18 +109,24 @@ if(!(isset($_REQUEST['variantID'])))
 		foreach( $variantsOff as $variantName )
 		{
 			$Variant = libVariant::loadFromVariantName($variantName);
+			if (isset(Config::$hiddenVariants) && in_array($Variant->id,Config::$hiddenVariants) && $User->type['Guest'])
+				continue;
+				
 			print '<li>' . $Variant->name . '</a> (' . count($Variant->countries) . ' Players)</li>';
 		}
 		print '</ul>';
 	}
+*/
 
 	print '<div class="hr"></div>';
 }
 else
 {
 	$id=intval($_REQUEST['variantID']);
-	if (!(isset(Config::$variants[$id])))
+	
+	if (!(isset(Config::$variants[$id])) || (isset(Config::$hiddenVariants) && in_array($id,Config::$hiddenVariants) && $User->type['Guest']) )
 		foreach (array_reverse(Config::$variants,true) as $id => $name);
+		
 	$Variant = libVariant::loadFromVariantID($id);
 	print libHTML::pageTitle($Variant->fullName . ' (' . count($Variant->countries) . ' players)',$Variant->description);
 	print '<div style="text-align:center"><span id="Image_'. $Variant->name . '"> <a href="';
@@ -128,9 +141,6 @@ else
 		print 'map.php?variantID=' . $Variant->id;
 	print '" alt="Open large map" title="The map for the '. $Variant->name .' Variant" /></a></span> </div><br />';
 
-				
-	
-	
 	print '<table>
 		<td style="text-align:left">Search for games: 		
 			<form style="display: inline" action="gamelistings.php" method="POST">
@@ -213,6 +223,12 @@ else
 	{
 		print '<p><strong>Special rules/information:</strong></p>';
 		print '<div>'.file_get_contents('variants/'. $Variant->name .'/rules.html').'</div>';
+	}
+	elseif (file_exists('variants/'. $Variant->name .'/rules.php'))
+	{
+		print '<p><strong>Special rules/information:</strong></p><div>';
+		include_once('variants/'. $Variant->name .'/rules.php');
+		print '</div>';
 	}
 }
 

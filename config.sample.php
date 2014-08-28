@@ -214,6 +214,17 @@ class Config
 	);
 	
 	/**
+	 * An array of variants that are blocked for guests on the server.
+	 * If you browse the gamelist or variantpage as a guest you can't see the variants listed here.
+	 * This is for adding variants that you do not want to be found by web-bots or random guests.
+	 *
+	 * @var array
+	 */
+	public static $hiddenVariants=array(
+//		62, // TenSixtySix
+	);
+	
+	/**
 	 * Messages to display when different flags are set via the admin control panel.
 	 *
 	 * If ServerOffline is set it will be displayed and the script will not start.

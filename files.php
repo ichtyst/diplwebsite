@@ -13,7 +13,8 @@ $uploadtmp = UPTMP;
 // The Variant-ID for the map
 $variantID = isset($_REQUEST['variantID']) ? $_REQUEST['variantID'] : '0'; 
 if (!(isset(Config::$variants[$variantID]))) $variantID = 0;
-
+if (isset(Config::$hiddenVariants) && in_array($variantID,Config::$hiddenVariants) && $User->type['Guest']) $variantID = 0;
+ 
 // What to do
 $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '' ; 
 
@@ -134,6 +135,10 @@ asort(Config::$variants);
 
 foreach ( Config::$variants as $id=>$name )
 {
+
+	if (isset(Config::$hiddenVariants) && in_array($id,Config::$hiddenVariants) && $User->type['Guest'])
+		continue;
+ 
 	if (isset(Config::$devs))
 	{
 		if (array_key_exists($User->username, Config::$devs))

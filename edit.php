@@ -100,6 +100,9 @@ $zoom_y = (isset($_REQUEST['zoom_y'])) ? (int)$_REQUEST['zoom_y'] : '0'; // chan
 $version = (isset($_REQUEST['version'])) ? $_REQUEST['version'] : ''; // Change the version number
 $version = preg_replace('/[^0-9\.]/i', '', $version);
 
+if (isset(Config::$hiddenVariants) && in_array($variantID,Config::$hiddenVariants) && $User->type['Guest'])
+	$variantID = 0;			
+
 if ($variantID != 0)
 {
 	global $Variant;
@@ -426,7 +429,7 @@ function check_edit() {
 
 function display_interface() {
 
-    global $DB, $Variant, $variantID, $mapID, $terrID, $mode, $mapsize, $mapmode, $edit;
+    global $DB, $Variant, $variantID, $mapID, $terrID, $mode, $mapsize, $mapmode, $edit, $User;
 
     // Start the page:
     libHTML::starthtml();
@@ -435,7 +438,12 @@ function display_interface() {
     // Generate an array with all variants available:
     $all_variants = array();
     foreach (Config::$variants as $id => $name)
+	{
+		if (isset(Config::$hiddenVariants) && in_array($id,Config::$hiddenVariants) && $User->type['Guest'])
+			continue;
         $all_variants[$id] = $name;
+	}
+	
     if ($variantID == 0)
         $all_variants[0] = ' Choose a variant...';
     asort($all_variants);

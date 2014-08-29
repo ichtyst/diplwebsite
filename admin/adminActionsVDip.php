@@ -42,7 +42,7 @@ class adminActionsVDip extends adminActions
 			'replaceCoutries' => array(
 				'name' => 'Replace country-player.',
 				'description' => 'Replace one player in a given game with another one.',
-				'params' => array('gameID'=>'GameID','userID'=>'userID','replaceID'=>'replace User ID')
+				'params' => array('gameID'=>'GameID', 'userID'=>'UserID to be replaced','replaceID'=>'UserID replacing')
 			),
 			'disableVotes' => array(
 				'name' => 'Disable some or all vote buttons',

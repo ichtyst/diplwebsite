@@ -212,6 +212,9 @@ switch($page)
 			<p>Enter the username and password you want, and any of the optional details/settings, into the screen below to
 			complete the registration process.")."</p>";
 
+			print "<p><b>".l_t("Attention:")."</b> ".
+				l_t("Changing your username is not possible. If you want a different username, you need to contact the mods. So choose carefully.")."</p>";
+
 	case 'userForm':
 		print '<form method="post"><ul class="formlist">';
 		print '<input type="hidden" name="emailToken" value="'.$_REQUEST['emailToken'].'" />';

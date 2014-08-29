@@ -622,8 +622,26 @@ print '<li>&nbsp;</li>';
 //print '<li>&nbsp;</li>';
 
 if ( $User->type['Moderator'])
-	print '<li><a href="profile.php?detail=relations&userID='.$UserProfile->id.'" class="light">View/edit relations of this user.</a></li>';
+{
+	if ($UserProfile->rlGroup != 0)
+	{
+		print '<li><a href="profile.php?detail=relations&userID='.$UserProfile->id.'" class="light">'.$UserProfile->username.' is currently in a RL-Group.</a>
+			(<img src="images/icons/'.($UserProfile->rlGroup < 0 ? 'bad':'').'friends.png">)</li>';
 
+		list($rlNotes)=$DB->sql_row("SELECT note FROM wD_ModeratorNotes WHERE linkIDType='rlGroup' AND linkID=".abs($UserProfile->rlGroup));
+		if ($rlNotes!= '')
+		print '
+		<TABLE>
+			<TD style="border: 1px solid #666">
+				<span id="EditNoteText">'.$rlNotes.'</span>
+			</TD>
+		</TABLE>';
+	}
+	else
+	{
+		print '<li><a href="profile.php?detail=relations&userID='.$UserProfile->id.'" class="light">'.$UserProfile->username.' is currently in no RL-Group.</a></li>';
+	}
+}
 print '</li></ul></p></div><div style="clear:both"></div></div>';
 
 

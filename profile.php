@@ -425,7 +425,14 @@ foreach($rankingDetails['stats'] as $name => $status)
 		$total -= $rankingDetails['anon'][$name];
 }
 
-if( $total )
+if (isset($rankingDetails['stats']['Playing']))
+{
+	$playing = $rankingDetails['stats']['Playing'];
+	if (!$showAnon && isset($rankingDetails['anon']['Playing']))
+		$playing -= $rankingDetails['anon']['Playing'];
+}
+
+if( $total || (isset($playing) && $playing) )
 {
 	print '<li><strong>'.l_t('Game stats:').'</strong> <ul class="gamesublist">';
 
@@ -438,7 +445,8 @@ if( $total )
 		print '</li>';
 	}
 
-	print '<li>'.l_t('Total (finished): <strong>%s</strong>',$total).'</li>';
+	if ($total)
+		print '<li>'.l_t('Total (finished): <strong>%s</strong>',$total).'</li>';
 
 	foreach($rankingDetails['stats'] as $name => $status)
 	{

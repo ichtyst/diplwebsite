@@ -442,6 +442,22 @@ class searchIsAnonymous extends searchItemRadio
 	protected $defaults=array('Profile'=>'No');
 	protected $locks=array('Profile');
 
+	// Show Anon games on the profile-page.
+	function __construct($searchType)
+	{
+		global $User;
+
+		if ( ($searchType == 'Profile') && ($User->type['Moderator']) )
+		{
+			$this->locks=array();
+			$this->defaults=array();
+		}
+
+		parent::__construct($searchType);
+
+	}
+	
+	
 	function sql(&$TABLES,&$WHERE,&$ORDER)
 	{
 		if($this->value == 'No')

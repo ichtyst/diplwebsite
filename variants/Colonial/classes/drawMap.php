@@ -1,6 +1,6 @@
 <?php
 /*
-	Copyright (C) 2010 Oliver Auth
+	Copyright (C) 2010 Oliver Auth / 2014 Tobias Florin
 
 	This file is part of the Colonial variant for webDiplomacy
 
@@ -21,7 +21,186 @@
 
 defined('IN_CODE') or die('This script can not be run by itself.');
 
-class ColonialVariant_drawMap extends drawMap {
+class SuezCanal_drawMap extends drawMap 
+{
+        /*
+         * Do not draw the neutral Suez unit
+         */
+        public function addUnit($terrID, $unitType) {
+                if($terrID == '126') return;
+                
+                parent::addUnit($terrID, $unitType);
+        }
+        
+        public function countryFlag($terrID, $countryID) {
+                if($terrID == '126') return;
+                
+                parent::countryFlag($terrID, $countryID);
+        }
+        
+        /*
+         * Do not draw the support order from the Suez unit (the order that symbolizes a premission to use the SC)
+         * Draw small arrow to symbolize the direction of the permission (down for Med, up for Red Sea)
+         */
+        public function drawSupportHold($fromTerrID, $toTerrID, $success) {
+                if($fromTerrID == '126') return $this->drawSuezPermission($toTerrID);
+                
+                parent::drawSupportHold($fromTerrID, $toTerrID, $success);
+        }
+        
+        public function drawSuezPermission($toTerrID){
+                //the arrow should point into the direction of the targetting territory
+                if($toTerrID == '99') $toTerrID = '101';
+                elseif($toTerrID == '101') $toTerrID = '99';    
+                
+                list($fromX, $fromY) = $this->territoryPositions[126]; //SuezCanal
+		list($toX, $toY) = $this->territoryPositions[$toTerrID];
+
+		$this->drawOrderArrow(array($fromX, $fromY), array($fromX+($toX-$fromX)/20, $fromY+($toY-$fromY)/20), 'SuezPermission');
+        }
+        
+        /*
+         * Do an arrow 'along the Suez Canal' for SuezMoves to symbolize that the unit used
+         * or tried to use the Suez Canal
+         */
+        public function drawMove($fromTerrID, $toTerrID, $success) {
+                if(($fromTerrID == '99' && $toTerrID == '101') || ($fromTerrID == '101' && $toTerrID == '99'))
+                        return $this->drawMoveSuez($fromTerrID, $toTerrID, $success);
+                
+                parent::drawMove($fromTerrID, $toTerrID, $success);
+        }
+        
+        public function drawMoveSuez($fromTerrID, $toTerrID, $success) {
+                list($fromX, $fromY) = $this->territoryPositions[$fromTerrID];
+		list($toX, $toY) = $this->territoryPositions[$toTerrID];
+                list($SuezX, $SuezY) = $this->territoryPositions[126];
+
+		$this->drawOrderArrow(array($fromX, $fromY), array($SuezX, $SuezY), 'MoveSuez');
+                $this->drawOrderArrow(array($SuezX, $SuezY), array($toX, $toY), 'Move');
+
+		if ( !$success ){
+                        $this->drawFailure(array($fromX, $fromY), array($SuezX, $SuezY));
+                        $this->drawFailure(array($SuezX, $SuezY), array($toX, $toY));
+                }
+        }
+        
+        public function drawMoveGrey($fromTerrID, $toTerrID, $success) {
+                if(($fromTerrID == '99' && $toTerrID == '101') || ($fromTerrID == '101' && $toTerrID == '99'))
+                        return $this->drawMoveGreySuez($fromTerrID, $toTerrID, $success);
+                
+                parent::drawMoveGrey($fromTerrID, $toTerrID, $success);
+        }
+        
+        public function drawMoveGreySuez($fromTerrID, $toTerrID, $success) {
+                list($fromX, $fromY) = $this->territoryPositions[$fromTerrID];
+		list($toX, $toY) = $this->territoryPositions[$toTerrID];
+                list($SuezX, $SuezY) = $this->territoryPositions[126];
+
+		$this->drawOrderArrow(array($fromX, $fromY), array($SuezX, $SuezY), 'MoveGreySuez');
+                $this->drawOrderArrow(array($SuezX, $SuezY), array($toX, $toY), 'MoveGrey');
+
+		if ( !$success ){
+                        $this->drawFailure(array($fromX, $fromY), array($SuezX, $SuezY));
+                        $this->drawFailure(array($SuezX, $SuezY), array($toX, $toY));
+                }
+        }
+        
+        public function drawSupportMove($terrID, $fromTerrID, $toTerrID, $success) {
+                if(($fromTerrID == '99' && $toTerrID == '101') || ($fromTerrID == '101' && $toTerrID == '99'))
+                        return parent::drawSupportMove($terrID, '126', $toTerrID, $success);
+                
+                parent::drawSupportMove($terrID, $fromTerrID, $toTerrID, $success);
+        }
+        
+        public function __construct($smallmap) {
+                
+                $this->orderArrows['SuezPermission'] = array('color'=>array(4,113,160),
+                                                        'thickness'=>array(2,4),
+                                                        'headAngle'=>7,
+                                                        'headStart'=>0.1,
+                                                        'headLength'=>array(12,30),
+                                                        'border'=>array(0,0)
+                                                );
+                $this->orderArrows['MoveSuez'] = array('color'=>array(196,32,0),  //0, 153, 2),//
+                                                        'thickness'=>array(2,4),
+                                                        'headAngle'=>7,
+                                                        'headStart'=>.1,
+                                                        'headLength'=>array(0,0),
+                                                        'border'=>array(0,0)
+                                                );
+                $this->orderArrows['MoveGreySuez'] = array('color'=>array(100,100,100),  
+                                                        'thickness'=>array(2,4),
+                                                        'headAngle'=>7,
+                                                        'headStart'=>.1,
+                                                        'headLength'=>array(0,0),
+                                                        'border'=>array(0,0)
+                                                );
+                
+                parent::__construct($smallmap);
+        }
+}
+
+class TSR_drawMap extends SuezCanal_drawMap {
+        
+        public function drawMove($fromTerrID, $toTerrID, $success) {
+                global $Game, $DB;
+                
+                if(in_array($fromTerrID, ColonialVariant::$transSibTerritories) && in_array($toTerrID, ColonialVariant::$transSibTerritories) && isset($Game)) //might be a TSR-move
+                {
+                        //$turn = $Game->turn - 1;
+                        if ( $Game->phase == 'Diplomacy' ) $turn = $Game->turn-1;
+                        else $turn = $Game->turn;
+                        
+                        $tabl = $DB->sql_tabl(" SELECT
+                                                countryID, fromTerrID, viaConvoy
+                                        FROM wD_MovesArchive
+                                        WHERE 
+                                                terrID = ".$fromTerrID."
+                                                AND toTerrID = ".$toTerrID."
+                                                AND success = '".(($success)?"Yes":"No")."'
+                                                AND gameID = ".$Game->id." AND turn = ".$turn);
+                        
+                        list($countryID, $fromTerr, $viaConvoy) = $DB->tabl_row($tabl);
+                        
+                        if($countryID == '6' && isset($fromTerr) && $viaConvoy == 'No'){ //it is a TSR-move
+                                $this->drawMoveTSR($fromTerrID, $toTerrID, $success, $fromTerr);
+                                return;
+                        }
+                }
+                parent::drawMove($fromTerrID, $toTerrID, $success);
+        }
+        
+        public function drawMoveTSR($fromTerrID, $toTerrID, $success, $initialTargetTerrID)
+        {
+                
+                list($fromX, $fromY) = $this->territoryPositions[$fromTerrID];
+		list($toX, $toY) = $this->territoryPositions[$toTerrID];
+                list($initialToX, $initialToY) = $this->territoryPositions[$initialTargetTerrID];
+
+		$this->drawOrderArrow(array($fromX, $fromY), array($toX, $toY), 'MoveTSR');
+
+		if ( !$success ) $this->drawFailure(array($fromX, $fromY), array($toX, $toY));
+                
+                if($initialTargetTerrID != $toTerrID){
+                        $this->drawOrderArrow(array($toX, $toY), array($initialToX, $initialToY), 'MoveTSR');
+                        $this->drawFailure(array($toX, $toY), array($initialToX, $initialToY));
+                }
+        }
+        
+        public function __construct($smallmap) {
+                $this->orderArrows['MoveTSR'] = array('color'=>array(255, 156,   0),
+                                                        'thickness'=>array(2,4),
+                                                        'headAngle'=>7,
+                                                        'headStart'=>.1,
+                                                        'headLength'=>array(12,30),
+                                                        'border'=>array(0,0)
+                                                );
+                
+                parent::__construct($smallmap);
+        }
+}
+
+class ColonialVariant_drawMap extends TSR_drawMap {
 
 	protected $countryColors = array(
 		0 => array(226, 198, 158), /* Neutral */
@@ -31,7 +210,8 @@ class ColonialVariant_drawMap extends drawMap {
 		4 => array(160, 138, 117), /* Holland */
 		5 => array(164, 196, 153), /* Japan   */
 		6 => array(168, 126, 159), /* Russia  */
-		7 => array(234, 234, 175)  /* Turkey  */
+		7 => array(234, 234, 175), /* Turkey  */
+		8 => array(0,0,0)		   /* Neutral Suez (invisible) */
 	);
 	
 	protected function resources() {
@@ -141,22 +321,6 @@ class ColonialVariant_drawMap extends drawMap {
 		
 		parent::countryFlag($terrID, $countryID);
 	}
-	
-	
-	protected function color(array $color, $image=false)
-	{
-
-		if ( ! is_array($image) )
-			$image = $this->map;
-
-		list($r, $g, $b) = $color;
-
-		$colorRes = imagecolorexact($image['image'], $r, $g, $b);
-		if ($colorRes == -1)
-			$colorRes = imageColorAllocate($image['image'], $r, $g, $b);
-
- 		return $colorRes;
- 	}
 	
 }
 

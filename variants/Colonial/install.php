@@ -130,7 +130,8 @@ $territoryRawData=array(
 	array('Gulf of Siam', 'Sea', 'No', 0, 1060, 720, 422, 289),
 	array('Sunda Sea', 'Sea', 'No', 0, 1160, 753, 464, 297),
 	array('Java Sea', 'Sea', 'No', 0, 1125, 890, 459, 366),
-	array('Timor Sea', 'Sea', 'No', 0, 1330, 965, 531, 383)
+	array('Timor Sea', 'Sea', 'No', 0, 1330, 965, 531, 383),
+	array('Suez Canal', 'Sea', 'No', 8, 130, 448, 52, 179)
 );
 
 foreach($territoryRawData as $territoryRawRow)

@@ -1,4 +1,4 @@
-<p>The Colonial Diplomacy variant of diplomacy follows the most of the rules as standard diplomacy with a modified map, and with 3 additional rules.  The game is the first commercially published true simple Diplomacy variant.</p>
+<p>The Colonial Diplomacy variant of diplomacy follows the most of the rules as standard diplomacy with a modified map, and with 5 additional rules. The game is the first commercially published true simple Diplomacy variant.</p>
      
 <p><b>Rules:</b></p>
 
@@ -8,7 +8,49 @@
 <li>The Caspian Sea, Lake Baykal and any other unnamed space is not passable.</li>
 <li>This version of Colonial is based on the Moulmein Convention, so land bridges have been added between Otaru and Akita, and Sakalin and Otaru.</li>
 <li>Hong Kong is a British home supply center. It counts as a supply center for any country except China. If China is in possession of Hong Kong, it counts as a non-supply neutral territory. </li>
-<li>The Suez-Canal rule is not implemented. Egypt is analogous to Kiel, Constantinople or Denmark in the standard diplomacy.</li>
-<li>This map does not use the Trans-Siberian Railway rule.</li>
-<li>There are neutral SC's on the starting map on colored territories. These SC's are marked with a neutral colored box (<img id="NSC" src="variants/Colonial/resources/sc_small.png"/>) drawn around them. Once occupied they count as any other SC.</li>
+<li><b>The Suez-Canal:</b><br>
+The player who controls Egypt can move an own or foreign fleet directly from the Mediterranean to the Red Sea (and vice versa), through the Suez Canal. Therefore he can set an extra order to accord permission to a fleet in the Mediterranean or Red Sea.<br>
+A fleet can only move directly between the Mediterranean and Red Sea if it gains permission by the player of the fleet that occupies Egypt. If there is no fleet in Egypt, there is no way to use the Suez Canal.<br>
+On the map the given permission will be symbolized by a blue arrow around the Suez Canal pointing into that direction, a fleet could pass the Suez Canal (e.g. pointing towards the Red Sea, if the fleet in the Mediterranean Sea is allowed to use the Suez Canal).<br>
+<b>Important:</b> Unlike stated in the original rules, you do not have to hold Egypt for the whole turn to be able to use the Suez Canal in this implementation. This decision was made to avoid tons of paradoxes which could occur with such conditional moves.<br>
+Apart from this rule Egypt is analogous to Kiel, Constantinople or Denmark in the standard diplomacy.</li>
+<li><b>The Trans-Siberian Railroad (TSR):</b>
+        <ul>
+                <li>The Trans-Siberian Railroad (TSR) runs from Moscow to Vladivostok and may be used by the Russian player to quickly move units across his empire.</li>
+                <li>Only the Russian player may use the TSR.</li>
+                <li>Only one unit may use the TSR per turn</li>
+                <li>A unit using the TSR can move from one territory with access to the TSR to any other territory along the TSR.</li>
+                <li>The targetted territory has to be unoccupied when the unit arrives. You cannot use the TSR to attack a holding unit or cut supports. If the occupying unit leaves the territory it can be entered via the TSR in the same turn.</li>
+                <li>If there is any foreign unit between the unit and its targetted territory or the targetted territory is occupied, the route of the TSR is interrupted and the unit has to stop in the nearest empty province.<br>
+                Example:<br>
+                Russia: A Oms xxx, A Mos - Irk via TSR<br>
+                China: A Mon - Kra<br>
+                There will be a standoff in Kra between A Mos and A Mon. As Omsk is occupied by another Russian army, A Mos will stop in Perm.</li>
+                <li>Russian units along the route do not block the TSR.</li>
+                <li>A standoff between equal forces along the route does not disrupt the TSR-move.</li>
+                <li>The unit using the TSR may receive a support to avoid a standoff with another unit that tried to enter the targetted territory. The support only counts for the targetted territory and has no influence on any other territories along the route which could be blocked.</li>
+                <li>If a foreign unit at least tries to leave a territory along the route, it does not block the TSR. This might be unexpected but the territory can be considered as temporary unoccupied when the TSR passes it.<br>
+                Examples:
+                <ul>
+                        <li>Russia: A Mos - Irk via TSR<br>
+                        China: A Kra - Irk<br>
+                        Kra is temporary open so A Mos moves through it and bounces with A Kra in Irk. There will be a standoff in Irk and as Kra is occupied by the returning Chinese army, A Mos will stay in Omsk.</li>
+                        <li>Russia: A Mos - Irk via TSR, A Vla S A Mos - Irk<br>
+                        China: A Kra - Irk<br>
+                        As Kra was temporary unoccupied A Mos was able to take Irk with support from Vla.</li>
+                        <li>Russia: A Mos - Vla via TSR, A Oms - Akm<br>
+                        China: A Kra - Akm<br>
+                        This time A Mos can reach Vladivostok as Kra tried to leave the route.</li>
+                        <li>Russia: A Mos - Vla via TSR, A Oms - Akm<br>
+                        China: A Kra - Akm, A Mon - Kra<br>
+                        A Mos stops in Perm because A Mon still blocks Kra even though it cannot finally enter it as A Kra returns.</li>
+                </ul>
+                </li>   
+                <li>An exeption of the rule above are HeadToHead-Moves. If a unit in a territory on the TSR next to the origin of the current TSR-move directly moves into the origin, it temporary leaves its territory open, but blocks the unit on the TSR even on the half way.<br>
+                Such moves will be adjudicated like normal HeadToHead-Moves without supporters for the TSR-unit.</li>
+                <li>TSR orders are set like convoy orders but with 'via TSR' instead of 'via convoy'. If there is already one TSR order set, the player will not be able to set another move via TSR unless he unsets the first one.</li>
+                <li>TSR moves are displayed as orange arrows on the map. The arrows might be split into two parts if the route was blocked at some point.</li>
+        </ul>
+</li>
+<li>There are neutral SC's on the starting map on coloured territories. These SC's are marked with a neutral coloured box (<img id="NSC" src="variants/Colonial/resources/sc_small.png"/>) drawn around them. Once occupied they count as any other SC.</li>
 </ol>

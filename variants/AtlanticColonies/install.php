@@ -184,7 +184,6 @@ $bordersRawData=array(
 	array('Northwestern Atlantic','Nova Scotia','Yes','No'),
 	array('Northwestern Atlantic','Montreal','Yes','No'),
 	array('Northwestern Atlantic','Newfoundland','Yes','No'),
-	array('Northwestern Atlantic','Hudson Bay','Yes','No'),
 	array('Northwestern Atlantic','Western Atlantic','Yes','No'),
 	array('Northwestern Atlantic','Eastern Seaboard','Yes','No'),
 	array('Portugal','Castilla y Leon','Yes','Yes'),

@@ -129,7 +129,8 @@ class libRelations {
 				<span id="EditNoteBox" style="display:none;">
 					<form method="post" style="display:inline;">
 						<input hidden name="groupID" value="'.$groupID.'">
-						<textarea name="EditNote" style="width:100%;height:200px">'.str_ireplace("</textarea>", "<END-TA-DO-NOT-EDIT>", str_ireplace("<br />", "\n", $notes)).'</textarea><br />
+						<textarea name="EditNote" style="width:100%;height:200px">'.str_ireplace("</textarea>", "<END-TA-DO-NOT-EDIT>", str_ireplace("<br />", "\n",
+							preg_replace('#<a href..modforum.php.viewthread.*class..light.>(.*)</a>#i','\1',$notes))).'</textarea><br />
 						<input type="Submit" value="Submit" />
 					</form>				
 				</span>
@@ -194,6 +195,7 @@ class libRelations {
 	static function commonGamesHTML($groupID)
 	{
 		global $DB, $User;
+		ini_set('memory_limit',"20M");
 		$html = '';
 		
 		$games = self::getCommonGames($groupID,false);
@@ -280,6 +282,7 @@ class libRelations {
 	static function reportsDisplay($userID)
 	{
 		global $User, $DB;
+		ini_set('memory_limit',"12M"); // 8M is the default
 
 		if( !$User->type['Moderator'] )
 			return 'Only Mods can see/view/edit the RLgroups settings...';
@@ -375,7 +378,11 @@ class libRelations {
 		{
 			$notes=$DB->msg_escape($_REQUEST['EditNote'],false);
 			$groupID=abs((int)$_REQUEST['groupID']);
-			$DB->sql_put("DELETE FROM wD_ModeratorNotes WHERE linkIDType='rlGroup' AND linkID=".$groupID);			
+			$DB->sql_put("DELETE FROM wD_ModeratorNotes WHERE linkIDType='rlGroup' AND linkID=".$groupID);	
+
+			$notes = preg_replace('#(modforum.php.*viewthread[:= _]?)([0-9]+)#i',
+				'<a href="modforum.php?viewthread=\2#\2" class="light">\1\2</a>',$notes);
+			
 			$DB->sql_put("INSERT INTO wD_ModeratorNotes SET 
 				note='".$notes."',
 				linkID=".$groupID.",

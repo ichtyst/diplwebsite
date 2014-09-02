@@ -67,6 +67,7 @@ if(!(isset($_REQUEST['variantID'])))
 				<THEAD>
 					<TH style="border: 1px solid #000" class="sortfirstasc">Name</TH>
 					<TH style="border: 1px solid #000">Players</TH>
+					<TH style="border: 1px solid #000">IAMap</TH>
 					<TH style="border: 1px solid #000">Games finished</TH>
 					<TH style="border: 1px solid #000">avg. Turns</TH>
 					<TH style="border: 1px solid #000">Rating*</TH>
@@ -91,6 +92,7 @@ if(!(isset($_REQUEST['variantID'])))
 		list($hot) = $DB->sql_row('SELECT COUNT(*) FROM wD_Games WHERE variantID='.$Variant->id.' AND phase != "Finished" AND phase != "Pre-game"');
 		print '<TR><TD style="border: 1px solid #666">'.$Variant->link().'</TD>';
 		print '<TD style="border: 1px solid #666">'.($games==0?count($Variant->countries):round($players/$games,2)) .' players</TD>';
+		print '<TD style="border: 1px solid #666" align="center">'.((file_exists('variants/'.$Variant->name.'/interactiveMap')) ? '<img src="images/icons/tick.png"' : '-').'</TD>';
 		print '<TD style="border: 1px solid #666">'.$games.' game'.($games!=1?'s':'').'</TD>';
 		print '<TD style="border: 1px solid #666">'.($games==0?'0.00':number_format($turns/$games,2)).' turns</TD>';
 		print '<TD style="border: 1px solid #666">'.$players.'</TD>';

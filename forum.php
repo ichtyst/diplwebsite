@@ -458,9 +458,9 @@ while( $message = $DB->tabl_hash($tabl) )
 		print $messageAnchor;
 	}
 
-	print '<div class="leftRule message-head threadalternate'.$switch.'">
-
-		<a href="profile.php?userID='.$message['fromUserID'].'">'.$message['fromusername'].
+	print '<div class="leftRule message-head threadalternate'.$switch.'">'.
+		(($message['points'] == '??') ? '<a href="features.php#2_7">' : '<a href="profile.php?userID='.$message['fromUserID'].'">').
+			$message['fromusername'].
 			' '.libHTML::loggedOn($message['fromUserID']).
 				' ('.$message['points'].' '.libHTML::points().User::typeIcon($message['userType']).')</a>'.
 			'<br />

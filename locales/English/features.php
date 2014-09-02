@@ -49,8 +49,9 @@ $globalFaq = array(
 	"Much improved variant-page" =>
 		"You can browse many information and statistics for all variants and view and download the code for the variant.",
 	"Anonymous posts in forum" =>
-		"You can make an anonymous post in the forum (to search for players in an anon game for example) by linking to an anon game.
+		"You can make an anonymous post in the forum (to search for players in an anon game for example) by linking to an anon game you have joined.
 		If you link to the game in the subject line all posts are labeled as anon, if you link to an anon game in the post only this post is anon.
+		At the moment only the first gameID provided will trigger the Anon-post (So if you link to an non-anon game and an anon the post will still be non anon.)
 		Be careful, the mods still can see your real username, so don't misuse this feature.",
 	"Color enhancer for colorblind people" =>
 		"On the settings page you can select between 3 different types of colorblindnes to enhance the map of each variant.",

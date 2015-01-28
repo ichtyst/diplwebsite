@@ -125,7 +125,7 @@ else
 if ( isset($_REQUEST['viewArchive']) )
 {
 	// Start HTML with board gamepanel header
-	print '</div>';
+	//print '</div>';
 	print '<div class="content-bare content-board-header">';
 	print '<div class="boardHeader">'.$Game->contentHeader().'</div>';
 	print '</div>';
@@ -348,7 +348,7 @@ $Game = $Game->Variant->panelGameBoard($Game->id);//*/
  * Now there is $orders, $form, and $map. That's all the HTML cached, now begin printing
  */
 
-print '</div>';
+//print '</div>';
 
 if (isset(Config::$hiddenVariants) && in_array($Game->Variant->id,Config::$hiddenVariants) && $User->type['Guest'])
 {

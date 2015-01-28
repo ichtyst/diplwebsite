@@ -25,62 +25,58 @@ defined('IN_CODE') or die('This script can not be run by itself.');
  * @subpackage Static
  */
 
-print libHTML::pageTitle('Developer/webmaster info','If you want to fix/improve/install webDiplomacy all the info you need to make it happen is here.');
+print libHTML::pageTitle('Entwickler/Webmaster Info','Wenn du webDiplomacy verbessern/installieren m&ouml;chtest, findest du hier alle n&ouml;tigen Informationen.');
 
 ?>
 
 <h4>Links</h4>
 
-<p><a href="http://forum.webdiplomacy.net" class="light">forum.webdiplomacy.net</a> - The forum for developers.</p>
+<p><a href="http://forum.webdiplomacy.net" class="light">forum.webdiplomacy.net</a> - Das Forum f&uuml;r Entwickler (englisch).</p>
 
-<p><a href="http://sourceforge.net/projects/phpdiplomacy" class="light">forum.webdiplomacy.net</a> - The sourceforge.net project page.</p>
+<p><a href="http://sourceforge.net/projects/phpdiplomacy" class="light">forum.webdiplomacy.net</a> - Die sourceforge.net Projektseite.</p>
 
-<p><a href="https://github.com/kestasjk/webDiplomacy" class="light">github.com/kestasjk/webDiplomacy</a> - The github .</p>
+<p><a href="https://github.com/kestasjk/webDiplomacy" class="light">github.com/kestasjk/webDiplomacy</a> - GitHub .</p>
 
 <div class="hr"></div>
 
 <h4>Webmasters</h4>
 
-<p><a href="http://webdiplomacy.net/README.txt" class="light">README.txt</a> - Installation data for webmasters</p>
+<p><a href="http://webdiplomacy.net/README.txt" class="light">README.txt</a> - Installation f&uuml;r Webmasters</p>
 
-<p><a href="http://webdiplomacy.net/AGPL.txt" class="light">AGPL.txt</a> - The license protecting this code, if you make
-	changes to the code you've got to share those changes.</p>
+<p><a href="http://webdiplomacy.net/AGPL.txt" class="light">AGPL.txt</a> - Die Lizenz f&uuml;r diesen Code. Ver&auml;nderungen am Code m&uuml;ssen mitgeteilt werden.</p>
 
 <div class="hr"></div>
 
-<p>Some of the data below may apply mainly to 0.8x, and not be up to date for 0.9x, but the differences are mostly minor.</p>
+<p>Einige der Informationen unten beziehen sich haupts&auml;chlich auf die Versionen 0.8x, aber Unterschiede sind meistens nur geringf&uuml;gig.</p>
 
 <div class="hr"></div>
 
 <h4>Layout</h4>
 
-<p>If you want to make a change this is where you should start. The two images and text files below will give you a feel
-for where everything is and how webDip is structured, so you know where to go to find whatever you need to change.</p>
+<p>M&ouml;chtest du etwas ver&auml;ndern, solltest du hier starten. Die folgenden beiden Bielder und Textdateien sollten dir die Struktur von webDip etwas verst&auml;ndlicher machen.</p>
 
 <p><a href="http://webdiplomacy.net/doc/layout-code.png" class="light">layout-code.png</a>, <a href="http://webdiplomacy.net/doc/layout-code.txt" class="light">layout-code.txt</a>
-- File/directory layout image and text file; how the code is structured and what different files do</p>
+- Aufbau des Codes und Funktion der einzelnen Files</p>
 
 <p><a href="http://webdiplomacy.net/doc/layout-database.png" class="light">layout-database.png</a>,
 <a href="http://webdiplomacy.net/doc/layout-database.txt" class="light">layout-database.txt</a>
- - The database layout image and text file; how the database is structured and what different tables do</p>
+ - Aufbau der Datenbank und Funktion der einzelnen Tabellen</p>
 
 <div class="hr"></div>
 
-<h4>Guidelines</h4>
-<p>To get a patch submitted first check that the idea is okay. If it's not in the todo-list at forum.webdiplomacy.net post
-it to the ideas section.</p>
+<h4>Richtlinien</h4>
+<p>Um einen Patch entwickeln, &uuml;berpr&uuml;fe erst die Idee. Wenn sie nicht in der ToDo-Liste auf forum.webdiplomacy.net auftaucht, poste sie dort in der Ideas-Sektion.</p>
 
-<p>Once the patch is done post a link to a demo site where it's working, along with the code, and it'll get
-added in once it has been checked.</p>
+<p>Wenn der Patch fertiggestellt ist, poste einen Link zu einer Demoseite, auf der der Patch l&auml;uft, zusammen mit dem Code und der Patch wird nach &Uuml;berpr&uuml;fung zu webDiplomacy hinzugef&uuml;gt.</p>
 
 <div class="hr"></div>
 
-<h4>Misc notes</h4>
+<h4>Sonstiges</h4>
 
-<p><a href="http://webdiplomacy.net/doc/javascript.txt" class="light">javascript.txt</a> - JavaScript info</p>
+<p><a href="http://webdiplomacy.net/doc/javascript.txt" class="light">javascript.txt</a> - JavaScript Info</p>
 
-<p><a href="http://webdiplomacy.net/doc/gotchas.txt" class="light">gotchas.txt</a> - Annoying quirks</p>
+<p><a href="http://webdiplomacy.net/doc/gotchas.txt" class="light">gotchas.txt</a> - Eigenarten</p>
 
-<p><a href="http://webdiplomacy.net/doc/archive.txt" class="light">archive.txt</a> - Info on the archive tables</p>
+<p><a href="http://webdiplomacy.net/doc/archive.txt" class="light">archive.txt</a> - Info zu den archive-Tabellen</p>
 
-<p><a href="http://webdiplomacy.net/doc/coasts.txt" class="light">coasts.txt</a> - Info on how coasts are handled</p>
+<p><a href="http://webdiplomacy.net/doc/coasts.txt" class="light">coasts.txt</a> - Info &uuml;ber die Behandlung von K&uuml;sten</p>

@@ -21,42 +21,41 @@
 defined('IN_CODE') or die('This script can not be run by itself.');
 
 ?>
-	<li class="formlisttitle">Territory-grey-out:</li>
+	<li class="formlisttitle">Hervorgehobene Gebiete:</li>
 	<li class="formlistfield">
-		<input type="radio" name="userForm[terrGrey]" value="all" <?php if($User->terrGrey=='all') print "checked"; ?>>Always on
-		<input type="radio" name="userForm[terrGrey]" value="selected"  <?php if($User->terrGrey=='selected')  print "checked"; ?>>Only for selected units
-		<input type="radio" name="userForm[terrGrey]" value="off"  <?php if($User->terrGrey=='off')  print "checked"; ?>>Off
+		<input type="radio" name="userForm[terrGrey]" value="all" <?php if($User->terrGrey=='all') print "checked"; ?>>Immer
+		<input type="radio" name="userForm[terrGrey]" value="selected"  <?php if($User->terrGrey=='selected')  print "checked"; ?>>Nur f&uuml;r ausgew&auml;hlte Einheiten
+		<input type="radio" name="userForm[terrGrey]" value="off"  <?php if($User->terrGrey=='off')  print "checked"; ?>>Nie
 		</li>
 	<li class="formlistdesc">
-		If set to "always on", everything apart from your own units will be greyed out if you have to select a new unit for an order and territories which can
-		not be accessed for a selected unit with a selected order will be greyed-out.<br>
-		If set to "only for selected units" your own units won't be highlighted so you can see a clear map.
+		"Immer": Egene Einheiten werden bei der Auswahl einer Einheit und m&ouml;gliche Zielgebiete bei der Befehlsvergabe hervorgehoben.<br>
+		"Nur f&uuml;r ausgew&auml;hlte Einheiten": Die eigenen Einheiten werden nicht hervorgehoben. Ist keine Einheit ausgew&auml;hlt, erscheint die normale Karte sieht.
 	</li>
 	
-	<li class="formlisttitle">Grey-out intensity:</li>
+	<li class="formlisttitle">Intensit&auml;t der ausgegrauten Gebiete:</li>
 	<li class="formlistfield">
 		<input type="text" name="userForm[greyOut]" size=3 maxlength=2 value="<?php print $User->greyOut ?>">%
 	</li>
 	<li class="formlistdesc">
-		The intensety of the grey overlay in %. Input any number between 10% (light grey) and 90%(dark grey)
+		Die Intensit&auml;t beim Ausgrauen zur Hervorhebung der eigenen Einheiten in %. Gebe eine Zahl zwischen 10% (hell) und 90% (dunkel) ein.
 	</li>
 	
-	<li class="formlisttitle">Scrollbars on map:</li>
+	<li class="formlisttitle">Scrollbars auf Karte:</li>
 	<li class="formlistfield">
-		<input type="radio" name="userForm[scrollbars]" value="Yes" <?php if($User->scrollbars=='Yes') print "checked"; ?>>Yes
-		<input type="radio" name="userForm[scrollbars]" value="No"  <?php if($User->scrollbars=='No')  print "checked"; ?>>No
+		<input type="radio" name="userForm[scrollbars]" value="Yes" <?php if($User->scrollbars=='Yes') print "checked"; ?>>Ja
+		<input type="radio" name="userForm[scrollbars]" value="No"  <?php if($User->scrollbars=='No')  print "checked"; ?>>Nein
 	</li>
 	<li class="formlistdesc">
-		Adds or removes scrollbars if the interactive map is activated, so large maps can be displayed on the whole screen or only in a small frame.
+		F&uuml;gt wahlweise Scrollbars hinzu, wenn die Interactive Map aktiviert ist, sodass gro&szlig;e Karten auf dem ganzen Bildschirm oder nur in einem schmalen Ausschnitt dargestellt werden.
 	</li>
 
-	<li class="formlisttitle">Opt out:</li>
+	<li class="formlisttitle">Aktivierung:</li>
 	<li class="formlistfield">
-		<input type="radio" name="userForm[pointNClick]" value="Yes" <?php if($User->pointNClick=='Yes') print "checked"; ?>>Use the interactive map if possible
-		<input type="radio" name="userForm[pointNClick]" value="No"  <?php if($User->pointNClick=='No')  print "checked"; ?>>No, thanks.
+		<input type="radio" name="userForm[pointNClick]" value="Yes" <?php if($User->pointNClick=='Yes') print "checked"; ?>>Benutze nach M&ouml;glichkeit das Interactive Map Interface
+		<input type="radio" name="userForm[pointNClick]" value="No"  <?php if($User->pointNClick=='No')  print "checked"; ?>>Nein, danke.
 	</li>
 	<li class="formlistdesc">
-		Opt out of the interactive map.
+		Aktivierung der Interactive Map.
 	</li>
 		
 <?php
@@ -68,7 +67,7 @@ print '</ul>
 
 <div class="hr"></div>
 
-<input type="submit" class="form-submit notice" value="Update">
+<input type="submit" class="form-submit notice" value="Anwenden">
 </form>';
 
 ?>

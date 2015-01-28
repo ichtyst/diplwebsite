@@ -1060,6 +1060,14 @@ foreach($bordersRawData as $borderRawRow)
 }
 unset($bordersRawData);
 
+// Custom footer not changed by edit tool
+
+// Just create the database as usual:
 InstallTerritory::runSQL($this->mapID);
 InstallCache::terrJSON($this->territoriesJSONFile(),$this->mapID);
+
+// Copy the smallmap-sample to the cache-directory to avoid a screwed variantpage (there is no smallmap available)
+if (!file_exists('variants/'.$this->name.'/cache/sampleMap.png'))
+	copy ('variants/'.$this->name.'/resources/sampleMap.png','variants/'.$this->name.'/cache/sampleMap.png');
+
 ?>

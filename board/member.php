@@ -111,6 +111,7 @@ class userMember extends panelMember
 		global $DB;
 		
 		if ($this->Game->adminLock == 'Yes') return;
+		if (strpos($this->Game->blockVotes,$voteName)!== false) return;			
 			
 		$voteText = $voteName;
 		

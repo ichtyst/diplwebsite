@@ -4,7 +4,7 @@ if(!in_array('header.php', get_required_files())){
     require_once('header.php');
 }
 
-require_once 'map/drawmap.php';
+require_once 'map/drawMap.php';
     
 
 /*

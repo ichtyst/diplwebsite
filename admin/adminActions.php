@@ -988,6 +988,13 @@ class adminActions extends adminActionsForms
 						'to wait, so the game isn\'t held up unnecessarily!');
 				}
 			}
+			
+			// IF the game is still running first remove the player from the game and reset the minimum bet so other can join.
+			if( $Game->phase != 'Finished' && $Game->phase != 'Pre-game')
+			{
+				$Game->Members->ByUserID[$userID]->setLeft();
+				$Game->resetMinimumBet();
+			}
 
 			libGameMessage::send('Global','GameMaster', $banMessage);
 
@@ -995,7 +1002,7 @@ class adminActions extends adminActionsForms
 		}
 
 		$DB->sql_put("UPDATE wD_Members SET status = 'Left', orderStatus=CONCAT(orderStatus,',Ready')
-					WHERE userID = ".$userID." AND status = 'Playing'");
+					WHERE userID = ".$userID." AND status = 'Playing'" );
 		$DB->sql_put("UPDATE wD_Orders o INNER JOIN wD_Members m ON ( m.gameID = o.gameID AND m.countryID = o.countryID )
 					SET o.toTerrID = NULL, o.fromTerrID = NULL
 					WHERE m.userID = ".$userID);

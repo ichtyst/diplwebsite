@@ -1,6 +1,6 @@
 <?php
 /*
-	Copyright (C) 2010 Oliver Auth
+	Copyright (C) 2010 Oliver Auth / 2014 Tobias Florin
 
 	This file is part of the Colonial variant for webDiplomacy
 
@@ -22,11 +22,6 @@
 	Rules for the The Colonial Variant by Peter Hawes:
 	http://www.dipwiki.com/index.php?title=Colonial
 
-	There are 2 unimplementet rules:
-	 - the suez canal -> Egyp is just a canal (like constantinople in the original game)
-	 - the transsibirian railroad
-	If you have some time and programming knowledge feel free to contact me.
-
 	Changelog:
 	1.0: initial release
 	1.1: corrected some spelling mistake
@@ -45,6 +40,9 @@
 	1.7.6: Fixed absolute-link in rules.html
 	1.7.7: missing Borders added, land bridges allow movement for fleets too
 	1.7.8: missing Borders added
+        
+	2.0: implemented special-rules "Trans-Siberian Railroad", "Suez Canal" (new variant: "Colonial Diplomacy - Original Rules")
+	2.1: adjustments for the new interactive map directory structure
 
 */
 
@@ -57,17 +55,46 @@ class ColonialVariant extends WDVariant {
 	public $fullName='Colonial Diplomacy';
 	public $description='Diplomacy with the colonial countries sparring over the lands and riches of the Far East.';
 	public $author='Peter Hawes';
-	public $adapter='Oliver Auth';
-	public $version='1.7.9';
+	public $adapter='Oliver Auth, Tobias Florin (Trans-Siberian Railroad, Suez Canal)';
+	public $version='2.1';
 	public $homepage='http://www.dipwiki.com/index.php?title=Colonial';
 
 	public $countries=array('Britain','China','France','Holland','Japan','Russia','Turkey');
 
+	static $transSibTerritories = array('28','35','29','39','40','30');
+        
 	public function __construct() {
 		parent::__construct();
-		$this->variantClasses['drawMap'] = 'Colonial';
-		$this->variantClasses['adjudicatorPreGame'] = 'Colonial';
-		$this->variantClasses['processMembers'] = 'Colonial';
+		$this->variantClasses['drawMap']               = 'Colonial';
+		$this->variantClasses['adjudicatorPreGame']    = 'Colonial';
+		$this->variantClasses['processMembers']        = 'Colonial';
+                
+		//Trans-Sib Railroad
+		$this->variantClasses['drawMap']               = 'Colonial';
+		$this->variantClasses['OrderArchiv']           = 'Colonial';
+		$this->variantClasses['OrderInterface']        = 'Colonial';
+		$this->variantClasses['adjudicatorDiplomacy']  = 'Colonial';
+		$this->variantClasses['processOrderDiplomacy'] = 'Colonial';
+		$this->variantClasses['userOrderDiplomacy']    = 'Colonial';
+                
+		//Suez Canal                       
+		$this->variantClasses['drawMap']               = 'Colonial';
+		$this->variantClasses['OrderArchiv']           = 'Colonial';
+                
+		$this->variantClasses['adjudicatorPreGame']    = 'Colonial';
+                
+		$this->variantClasses['processMembers']        = 'Colonial';
+                
+		$this->variantClasses['OrderInterface']        = 'Colonial'; 
+		$this->variantClasses['adjudicatorDiplomacy']  = 'Colonial';
+	}
+        
+        public function countryID($countryName)
+	{
+		if ($countryName == 'Neutral Suez')
+			return count($this->countries)+1;
+		
+		return parent::countryID($countryName);
 	}
 
 	public function initialize() {

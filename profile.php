@@ -331,6 +331,10 @@ if ( $User->type['Moderator'])
 		}
 		else
 		{
+		
+			$notes = preg_replace('#(modforum.php.*viewthread[:= _]?)([0-9]+)#i',
+				'<a href="modforum.php?viewthread=\2#\2" class="light">\1\2</a>',$notes);
+
 			$DB->sql_put("INSERT INTO wD_ModeratorNotes SET 
 				note='".$notes."',
 				linkID=".$UserProfile->id.",
@@ -367,7 +371,8 @@ if ( $User->type['Moderator'])
 				<span id="EditNoteText">'.$notes.'</span>
 				<span id="EditNoteBox" style="display:none;">
 					<form method="post" style="display:inline;">
-						<textarea name="EditNote" style="width:100%;height:200px">'.str_ireplace("</textarea>", "<END-TA-DO-NOT-EDIT>", str_ireplace("<br />", "\n", $notes)).'</textarea><br />
+						<textarea name="EditNote" style="width:100%;height:200px">'.str_ireplace("</textarea>", "<END-TA-DO-NOT-EDIT>", str_ireplace("<br />", "\n",
+							preg_replace('#<a href..modforum.php.viewthread.*class..light.>(.*)</a>#i','\1',$notes))).'</textarea><br />
 						<TABLE>
 							<TD><input type="checkbox" name="alert" value="on" '.($UserProfile->type['ModAlert'] ? 'checked="checked"':'').'> ModAlert</TD>
 							<TD align="right"><input type="Submit" value="Submit" /></TD>
@@ -425,7 +430,14 @@ foreach($rankingDetails['stats'] as $name => $status)
 		$total -= $rankingDetails['anon'][$name];
 }
 
-if( $total )
+if (isset($rankingDetails['stats']['Playing']))
+{
+	$playing = $rankingDetails['stats']['Playing'];
+	if (!$showAnon && isset($rankingDetails['anon']['Playing']))
+		$playing -= $rankingDetails['anon']['Playing'];
+}
+
+if( $total || (isset($playing) && $playing) )
 {
 	print '<li><strong>'.l_t('Game stats:').'</strong> <ul class="gamesublist">';
 
@@ -438,7 +450,8 @@ if( $total )
 		print '</li>';
 	}
 
-	print '<li>'.l_t('Total (finished): <strong>%s</strong>',$total).'</li>';
+	if ($total)
+		print '<li>'.l_t('Total (finished): <strong>%s</strong>',$total).'</li>';
 
 	foreach($rankingDetails['stats'] as $name => $status)
 	{
@@ -622,8 +635,26 @@ print '<li>&nbsp;</li>';
 //print '<li>&nbsp;</li>';
 
 if ( $User->type['Moderator'])
-	print '<li><a href="profile.php?detail=relations&userID='.$UserProfile->id.'" class="light">View/edit relations of this user.</a></li>';
+{
+	if ($UserProfile->rlGroup != 0)
+	{
+		print '<li><a href="profile.php?detail=relations&userID='.$UserProfile->id.'" class="light">'.$UserProfile->username.' is currently in a RL-Group.</a>
+			(<img src="images/icons/'.($UserProfile->rlGroup < 0 ? 'bad':'').'friends.png">)</li>';
 
+		list($rlNotes)=$DB->sql_row("SELECT note FROM wD_ModeratorNotes WHERE linkIDType='rlGroup' AND linkID=".abs($UserProfile->rlGroup));
+		if ($rlNotes!= '')
+		print '
+		<TABLE>
+			<TD style="border: 1px solid #666">
+				<span id="EditNoteText">'.$rlNotes.'</span>
+			</TD>
+		</TABLE>';
+	}
+	else
+	{
+		print '<li><a href="profile.php?detail=relations&userID='.$UserProfile->id.'" class="light">'.$UserProfile->username.' is currently in no RL-Group.</a></li>';
+	}
+}
 print '</li></ul></p></div><div style="clear:both"></div></div>';
 
 

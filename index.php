@@ -395,6 +395,9 @@ class libHome
 
 		if( $buf )
 		{
+			// First remove the mod-alerts from the home-forum-view.
+			$buf = str_replace('<img src="images/icons/alert_minor.png" alt="(!)" title="ModAlert" />','',$buf);
+			// Than return the buffer.
 			return $buf;
 		}
 		else

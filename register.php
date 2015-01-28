@@ -48,7 +48,7 @@ libHTML::starthtml();
 
 $page = 'firstValidationForm';
 
-if ( isset($_COOKIE['imageToken']) && isset($_REQUEST['imageText']) && isset($_REQUEST['emailValidate']) )
+if ( isset($_COOKIE['imageToken']) && isset($_REQUEST['imageText']) && isset($_REQUEST['emailValidate']) && isset($_REQUEST['rulesValidate']) )
 {
 	try
 	{
@@ -70,6 +70,11 @@ if ( isset($_COOKIE['imageToken']) && isset($_REQUEST['imageText']) && isset($_R
 			throw new Exception(l_t("This anti-script code has expired, please submit it within 3 minutes"));
 		}
 
+		// Did he enter the two basic rules?
+		$rules = strtolower(preg_replace ("[^A-Za-z]", "", $_REQUEST['rulesValidate'] ));
+		if ( (strpos($rules, 'multiaccounting') === false) || (strpos($rules, 'metagaming') === false) )
+			throw new Exception(
+				l_t("You did not enter the two rules. Please read and try again."));
 
 		// The user's imageText is validated; he's not a robot. But does he have a real e-mail address?
 		$email = $DB->escape($_REQUEST['emailValidate']);
@@ -166,16 +171,6 @@ switch($page)
 		print '<p>'.l_t('So that we can all enjoy fun, fair games we need to quickly double check that '.
 				'you\'re a human and that you have an e-mail address. It only takes a moment '.
 				'and it keeps the server free of spam and cheaters! :-)').'</p>';
-		//Rules-section:
-		print '
-		<h2>No Multi-Accounting</h2>
-		<p>
-		  You may only have <em>one account</em>, second accounts are not allowed under <em>any circumstances</em>, and will be banned. This may also lead to your first account also being banned.&nbsp; If you forget your password, use the lost password finder <a class="light" href="logon.php?forgotPassword=1">here</a>. If you are still unable to log in, contact the mods.
-		</p>
-		<h2>No Meta-gaming</h2>
-		<p>
-		  You can\'t make alliances <em>for reasons outside a game</em>, such as because you are friends, relatives or in return for a favour in another game.&nbsp; This is known as metagaming and is against the rules because it gives an unfair advantage to those involved.&nbsp; If you are worried that you can\'t stab someone because you want to stay friends, then that\'s fair enough but you can\'t join a game with them.
-		</p>';
 
 	case 'validationForm':
 
@@ -216,6 +211,9 @@ switch($page)
 		print "<p>".l_t("Alright; you're a human with an e-mail address!</p>
 			<p>Enter the username and password you want, and any of the optional details/settings, into the screen below to
 			complete the registration process.")."</p>";
+
+			print "<p><b>".l_t("Attention:")."</b> ".
+				l_t("Changing your username is not possible. If you want a different username, you need to contact the mods. So choose carefully.")."</p>";
 
 	case 'userForm':
 		print '<form method="post"><ul class="formlist">';

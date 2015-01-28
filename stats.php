@@ -22,12 +22,19 @@ print '<b>Map: </b>
 	<input type="hidden" name="variantID" value="'.$variantID.'">
 	<select name=variantID onchange="this.form.submit();">';
 foreach ( Config::$variants as $id=>$name ) {
+
+	if (isset(Config::$hiddenVariants) && in_array($id,Config::$hiddenVariants) && $User->type['Guest'])
+		continue;
+ 
 	print '<option value="'.$id.'"';
 	if ($id == $variantID) 
 		print ' selected';
 	print '>'.$name.'</option>';
 }
 print '</select></form>';
+
+if (isset(Config::$hiddenVariants) && in_array($variantID,Config::$hiddenVariants) && $User->type['Guest'])
+	$variantID = 0;			
 
 if ($variantID != 0)
 {

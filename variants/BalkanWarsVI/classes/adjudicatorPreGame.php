@@ -26,7 +26,7 @@ class BalkanWarsVIVariant_adjudicatorPreGame extends adjudicatorPreGame
 	protected $countryUnits = array(
 //		'Albania' => array(                                                                    ),
 		'Bulgaria'=> array('Sofia'    =>'Army' , 'Varna'    =>'Fleet', 'Plovdiv'       =>'Army'),
-		'Greece'  => array('Solonika' =>'Army' , 'Sparta'   =>'Fleet'                          ),
+		'Greece'  => array('Salonika' =>'Army' , 'Sparta'   =>'Fleet'                          ),
 		'Rumania' => array('Constanta'=>'Fleet', 'Bucharest'=>'Army' , 'Galati'        =>'Army'),
 		'Serbia'  => array('Belgrade' =>'Army' , 'Nish'     =>'Army' , 'Skopje'        =>'Army'),
 		'Turkey'  => array('Smyrna'   =>'Fleet', 'Izmit'    =>'Fleet', 'Constantinople'=>'Army')

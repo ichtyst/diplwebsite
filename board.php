@@ -349,6 +349,14 @@ $Game = $Game->Variant->panelGameBoard($Game->id);//*/
  */
 
 print '</div>';
+
+if (isset(Config::$hiddenVariants) && in_array($Game->Variant->id,Config::$hiddenVariants) && $User->type['Guest'])
+{
+	print '</div>';
+	libHTML::footer();
+	exit;
+}
+
 print '<div class="content-bare content-board-header">';
 print '<div class="boardHeader">'.$Game->contentHeader().'</div>';
 print '</div>';

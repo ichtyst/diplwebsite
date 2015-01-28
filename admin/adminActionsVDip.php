@@ -42,8 +42,14 @@ class adminActionsVDip extends adminActions
 			'replaceCoutries' => array(
 				'name' => 'Replace country-player.',
 				'description' => 'Replace one player in a given game with another one.',
-				'params' => array('gameID'=>'GameID','userID'=>'userID','replaceID'=>'replace User ID')
+				'params' => array('userID'=>'UserID to be replaced','replaceID'=>'UserID replacing','gameIDs'=>'GameID (all active if empty)', )
 			),
+			'disableVotes' => array(
+				'name' => 'Disable some or all vote buttons',
+				'description' => 'Disable or enable some or all vote-buttons.<br />
+				If you want enable all vote buttons again use "none"',
+				'params' => array('votes'=>'Comma separated list of votes you want disabled'),
+			),			
 			'ChangeDirectorLicense' => array(
 				'name' => 'Change director license',
 				'description' => 'Manually grand or remove the license to create moderated games.',
@@ -143,42 +149,140 @@ class adminActionsVDip extends adminActions
 	{
 		global $DB;
 		
-		$gameID    = (int)$params['gameID'];
+		$gameIDs   = (int)$params['gameIDs'];
 		$userID    = (int)$params['userID'];
 		$replaceID = (int)$params['replaceID'];
 
-		list($gameName)    = $DB->sql_row("SELECT name FROM wD_Games WHERE id=".$gameID);
-		list($userName)    = $DB->sql_row("SELECT username FROM wD_Users WHERE id=".$userID);
-		list($replaceName) = $DB->sql_row("SELECT username FROM wD_Users WHERE id=".$replaceID);
-		
-		list($bet) = $DB->sql_row("SELECT bet FROM wD_Members WHERE userID=".$userID." AND gameID=".$gameID);
-		list($replacePoints) = $DB->sql_row("SELECT points FROM wD_Users WHERE id=".$replaceID);
-		list($userPoints) = $DB->sql_row("SELECT points FROM wD_Users WHERE id=".$userID);
+		$games = array();
 
-		$newPoints = $replacePoints - $bet;
-		if ($newPoints < 0) $newPoints = 0;
+		$tabl = $DB->sql_tabl(
+			'SELECT gameID FROM wD_Members
+				WHERE status = "Playing" AND userID = "'.$userID.'"'.($gameIDs != 0 ? ' AND gameID = "'.$gameIDs.'"':'') );
+		while(list($gameID) = $DB->tabl_row($tabl))
+			$games[] = $gameID;
 		
-		$DB->sql_put("UPDATE wD_Users SET points = ".$newPoints." WHERE id=".$replaceID);
-		$DB->sql_put("UPDATE wD_Users SET points = ".($userPoints + $bet)." WHERE id=".$userID);
-		$DB->sql_put("UPDATE wD_Members SET userID = ".$replaceID." WHERE userID=".$userID." AND gameID=".$gameID);
+		// Load the two users as Userobjects.
+		try
+		{
+			$SendToUser = new User($replaceID);
+		}
+		catch (Exception $e)
+		{
+			$error = l_t("Invalid user ID given.");
+		}
+		
+		try
+		{
+			$SendFromUser = new User($userID);
+		}
+		catch (Exception $e)
+		{
+			$error = l_t("Invalid user ID given.");
+		}
 
-		return 'In game '.$gameName.' (id='.$gameID.') the user '.$userName.' was removed and replaced by '.$replaceName.'.';
+		$ret = '';
+		
+		foreach ($games AS $gameID)
+		{
+			$Variant=libVariant::loadFromGameID($gameID);
+			$Game = $Variant->Game($gameID);
+		
+			list($blocked) = $DB->sql_row("SELECT count(*) FROM wD_Members AS m
+											LEFT JOIN wD_BlockUser AS f ON ( m.userID = f.userID )
+											LEFT JOIN wD_BlockUser AS t ON ( m.userID = t.blockUserID )
+										WHERE m.gameID = ".$Game->id." AND (f.blockUserID =".$SendToUser->id." OR t.userID =".$SendToUser->id.")");
+
+			// Check for additional requirements:
+			require_once(l_r('lib/reliability.php'));		 
+			if ( $Game->minRating > libReliability::getReliability($SendToUser) )
+				$ret .= '<b>Error:</b> The reliability of '.$SendToUser->username.' is not high enough to join the game <a href="board.php?gameID='.$Game->id.'">'.$Game->name.'</a>.<br>';
+			elseif ( array_key_exists ( $SendToUser->id , $Game->Members->ByUserID))
+				$ret .= '<b>Error:</b> '.$SendToUser->username.' is already a member of the game <a href="board.php?gameID='.$Game->id.'">'.$Game->name.'</a>.<br>';
+			elseif ($blocked > 0)
+				$ret.= '<b>Error:</b> '.$SendToUser->username.' is blocked by someone in game <a href="board.php?gameID='.$Game->id.'">'.$Game->name.'</a>.<br>';
+			else
+			{
+				list($bet) = $DB->sql_row("SELECT bet FROM wD_Members WHERE userID=".$userID." AND gameID=".$gameID);
+				$newPoints = $SendToUser->points - $bet;
+				if ($newPoints < 0) $newPoints = 0;
+
+				$DB->sql_put("UPDATE wD_Users SET points = ".$newPoints." WHERE id=".$SendToUser->id);
+				$DB->sql_put("UPDATE wD_Users SET points = ".($SendFromUser->points + $bet)." WHERE id=".$SendFromUser->id);
+				$DB->sql_put("UPDATE wD_Members SET userID = ".$SendToUser->id." WHERE userID=".$SendFromUser->id." AND gameID=".$Game->id);
+				$ret.= 'In game <a href="board.php?gameID='.$Game->id.'">'.$Game->name.'</a> the user '.$SendFromUser->username.' was removed and replaced by '.$SendToUser->username.'.<br>';
+			}
+		}
+		return $ret;
 	}
-	
 	public function replaceCoutriesConfirm(array $params)
 	{
 		global $DB;
 		
-		$gameID    = (int)$params['gameID'];
 		$userID    = (int)$params['userID'];
 		$replaceID = (int)$params['replaceID'];
+		$gameIDs   = (int)$params['gameIDs'];
 		
-		list($gameName)    = $DB->sql_row("SELECT name FROM wD_Games WHERE id=".$gameID);
 		list($userName)    = $DB->sql_row("SELECT username FROM wD_Users WHERE id=".$userID);
 		list($replaceName) = $DB->sql_row("SELECT username FROM wD_Users WHERE id=".$replaceID);
 		
-		return 'In game '.$gameName.' (id='.$gameID.') the user '.$userName.' will be removed and replaced by '.$replaceName.'.';
+		if ($gameIDs == 0)
+			return 'The user '.$userName.' will be removed and replaced by '.$replaceName.' in all his active games.';
+
+		list($gameName) = $DB->sql_row("SELECT name FROM wD_Games WHERE id=".$gameIDs);
+		return 'In game '.$gameName.' (id='.$gameIDs.') the user '.$userName.' will be removed and replaced by '.$replaceName.'.';
 	}
+	
+	public function disableVotes(array $params)
+	{
+		global $DB;
+
+		$gameID = intval($this->fixedGameID);
+
+		$Variant=libVariant::loadFromGameID($gameID);
+		$Game = $Variant->Game($gameID);
+		$votes=strtoupper($params['votes']);
+
+		if (strpos($votes,'NONE')!== false)
+			$changeVotes='';
+		else
+		{
+			$changeVotesArr=array();
+			if (strpos($votes,'DRAW')!== false)
+				$changeVotesArr[]="Draw";
+			if (strpos($votes,'PAUSE')!== false)
+				$changeVotesArr[]="Pause";
+			if (strpos($votes,'CANCEL')!== false)
+				$changeVotesArr[]="Cancel";
+			if (strpos($votes,'EXTEND')!== false)
+				$changeVotesArr[]="Extend";
+			if (strpos($votes,'CONCEDE')!== false)
+				$changeVotesArr[]="Concede";
+
+			$changeVotes= implode ( ',' , $changeVotesArr );
+			foreach ($changeVotesArr as $removeVote)
+			{
+				foreach ($Game->Members->ByID as $Member)
+				{
+					if(in_array($removeVote, $Member->votes))
+					{
+						unset($Member->votes[array_search($removeVote, $Member->votes)]);
+						$DB->sql_put("UPDATE wD_Members SET votes='".implode(',',$Member->votes)."' WHERE id=".$Member->id);
+					}
+				}
+			}
+		}
+		
+		$DB->sql_put(
+			"UPDATE wD_Games
+			SET blockVotes = '".$changeVotes."'
+			WHERE id = ".$Game->id
+		);
+
+		if ($changeVotes == '')
+			$changeVotes = 'None';
+		
+		return l_t('Disabled votes successfully set to %s.',$changeVotes);
+	}	
 	
 	public function ChangeDirectorLicense(array $params)
 	{

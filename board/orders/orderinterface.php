@@ -335,7 +335,7 @@ class OrderInterface
 		foreach(array('loadTerritories','loadBoardTurnData','loadModel','loadBoard','loadOrdersModel','loadOrdersForm','loadOrdersPhase') as $jf)
 			libHTML::$footerScript[] = l_jf($jf).'();';
 			
-		if($User->pointNClick=='Yes'){
+		if($User->pointNClick=='Yes' && !(isset($Game) && $Game->name=='DATC-Adjudicator-Test')){
 			require_once(l_r('interactiveMap/php/interactiveMap.php'));
 			$IAmap = getIAmapObject();
 			$IAmap->jsLoadInteractiveMap();

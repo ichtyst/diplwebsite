@@ -87,9 +87,9 @@ function acceptCookies() {
 	"use strict";
 
 	document.getElementById("cookiesWarning").appendChild(newCookiesWarningDiv).setAttribute("id", "cookiesWarningActive");
-	document.getElementById("cookiesWarningActive").innerHTML = "<strong id='text'>In order for this site to work properly we need to store small files (called cookies) on your computer </strong>.<br/> Over 90% of all websites do this, however, since the 25th of May 2011 we are required by EU regulations<br>to obtain your consent first (<span id='readMoreURL'></span>). What do you say?<form name='cookieAgreement'><input type='checkbox' name='agreed' value='Agreed' class='checkbox'>I accept cookies from this site.<input type='submit' value='Continue' onclick='getAgreementValue(); return false;' class='button'></form>";
+	document.getElementById("cookiesWarningActive").innerHTML = "<strong id='text'>Damit du das Angebot dieser Internetseite nutzen kannst, ist es notwendig,<br />dass kleine Dateien (Cookies genannt) auf deinem Computer gespeichert werden.</strong><br />Über 90% aller Webseiten tuen das, aber seit dem 25. Mai 2011 erfordert eine EU-Richtlinie,<br /> dass zunächst dein Einverständnis eingeholt wird (<span id='readMoreURL'></span>). Was sagst du?<form name='cookieAgreement'><input type='checkbox' name='agreed' value='Agreed' class='checkbox'>Ich akzeptiere Cookies von dieser Seite.<input type='submit' value='Weiter' onclick='getAgreementValue(); return false;' class='button'></form>";
 	// Change the URL of "Read more..." here
-	document.getElementById("readMoreURL").innerHTML = "<a href='http://www.ico.gov.uk/for_organisations/privacy_and_electronic_communications/the_guide/cookies.aspx' title='ICO - New EU cookie law (e-Privacy Directive)' target='_blank' rel='nofollow'>Read more...</a>";
+	document.getElementById("readMoreURL").innerHTML = "<a href='http://www.ico.org.uk/for_organisations/privacy_and_electronic_communications/the_guide/cookies.aspx' title='ICO - New EU cookie law (e-Privacy Directive)' target='_blank' rel='nofollow'>Erfahre mehr...</a>";
 }
 
 function acceptCookiesTickBoxWarning() {
@@ -97,9 +97,9 @@ function acceptCookiesTickBoxWarning() {
 
 	setCookie("AllowCookies", "Yes", "", "1 Jan 2000 00:00:00");
 	document.getElementById("cookiesWarning").appendChild(newCookiesWarningDiv).setAttribute("id", "cookiesWarningActive");
-	document.getElementById("cookiesWarningActive").innerHTML = "<strong id='text'>In order for this site to work properly we need to store small files (called cookies) on your computer </strong>.<br/> Over 90% of all websites do this, however, since the 25th of May 2011 we are required by EU regulations<br>to obtain your consent first (<span id='readMoreURL'></span>). What do you say?<form name='cookieAgreement'><p id='warning'><small>You must tick the 'I accept cookies from this site' box to accept. This site does not work without them.<br>If you do not want this site to make use of cookies please search on <a href='http://google.com'>Google</a> for alternatives.</small></p><input type='checkbox' name='agreed' value='Agreed' class='checkbox'>I accept cookies from this site.<input type='submit' value='Continue' onclick='getAgreementValue()' class='button'></form>";
+	document.getElementById("cookiesWarningActive").innerHTML = "<strong id='text'>Damit du das Angebot dieser Internetseite nutzen kannst, ist es notwendig,<br />dass kleine Dateien (Cookies genannt) auf deinem Computer gespeichert werden.</strong><br />Über 90% aller Webseiten tuen das, aber seit dem 25. Mai 2011 erfordert eine EU-Richtlinie,<br /> dass zunächst dein Einverständnis eingeholt wird (<span id='readMoreURL'></span>). Was sagst du?<form name='cookieAgreement'><p id='warning'><small>Du musst ein Häckchen bei 'Ich akzeptiere Cookies von dieser Seite' setzen. Diese Webseite funktioniert nicht ohne sie.<br>Wenn du keine Cookies dieser Seite akzeptieren möchtest, dann suche auf <a href='http://google.com'>Google</a> nach alternativen</small></p><input type='checkbox' name='agreed' value='Agreed' class='checkbox'>Ich akzeptiere Cookies von dieser Seite.<input type='submit' value='Weiter' onclick='getAgreementValue()' class='button'></form>";
 	// Change the URL of "Read more..." here
-	document.getElementById("readMoreURL").innerHTML = "<a href='http://www.ico.gov.uk/for_organisations/privacy_and_electronic_communications/the_guide/cookies.aspx' title='ICO - New EU cookie law (e-Privacy Directive)' target='_blank' rel='nofollow'>Read more...</a>";
+	document.getElementById("readMoreURL").innerHTML = "<a href='http://www.ico.org.uk/for_organisations/privacy_and_electronic_communications/the_guide/cookies.aspx' title='ICO - New EU cookie law (e-Privacy Directive)' target='_blank' rel='nofollow'>Erfahre mehr...</a>";
 }
 
 // Check if cookie has been set before //
@@ -117,7 +117,7 @@ function checkCookieExist() {
 	} else {
 		// Display warning if cookies are disabled on browser
 		document.getElementById("cookiesWarning").appendChild(newCookiesWarningDiv).setAttribute("id", "cookiesWarningActive");
-		document.getElementById("cookiesWarningActive").innerHTML = "<span id='cookiesDisabled'><strong>Cookies are disabled. We use cookies to give you the best online experience.</strong><br /> Your browser currently not accepting cookies.</span>";
+		document.getElementById("cookiesWarningActive").innerHTML = "<span id='cookiesDisabled'><strong>Cookies sind deaktiviert. Diese Seite nutzt Cookies, damit du ihr Angebot nutzen kannst.</strong><br /> Dein Browser akzeptiert derzeit keine Cookies.</span>";
 	}
 }
 

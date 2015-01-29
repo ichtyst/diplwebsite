@@ -810,7 +810,7 @@ class libHTML
 	{
 		global $DB;
 
-		print '<div id="footer">';
+		print '</div><!--centerc--><div id="footer">';
 
 		if( is_object($DB) )
 		{

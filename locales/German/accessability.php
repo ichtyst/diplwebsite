@@ -21,51 +21,51 @@
 defined('IN_CODE') or die('This script can not be run by itself.');
 
 ?>
-	<li class="formlisttitle">Sort order for units:</li>
+	<li class="formlisttitle">Reihenfolge der Befehle:</li>
 	<li class="formlistfield">
-		Unit type:<select name="userForm[unitOrder]">
-			<option value='Mixed'<?php if($User->unitOrder=='Mixed') print "selected"; ?>>Mixed</option>
-			<option value='FA'   <?php if($User->unitOrder=='FA')    print "selected"; ?>>Fleets -> Armies</option>
-			<option value='AF'   <?php if($User->unitOrder=='AF')    print "selected"; ?>>Armies -> Fleets</option>
+		Einheitentyp:<select name="userForm[unitOrder]">
+			<option value='Mixed'<?php if($User->unitOrder=='Mixed') print "selected"; ?>>Gemischt</option>
+			<option value='FA'   <?php if($User->unitOrder=='FA')    print "selected"; ?>>Flotten -> Armeen</option>
+			<option value='AF'   <?php if($User->unitOrder=='AF')    print "selected"; ?>>Armeen -> Flotten</option>
 		</select> - 
-		Sort by: <select name="userForm[sortOrder]">
-			<option value='BuildOrder'<?php if($User->sortOrder=='BuildOrder') print "selected"; ?>>Build Order</option>
-			<option value='TerrName'  <?php if($User->sortOrder=='TerrName')   print "selected"; ?>>Territory Name</option>
-			<option value='NorthSouth'<?php if($User->sortOrder=='NorthSouth') print "selected"; ?>>North -> South</option>
-			<option value='EastWest'  <?php if($User->sortOrder=='EastWest')   print "selected"; ?>>East -> West</option>
+		Sortieren nach: <select name="userForm[sortOrder]">
+			<option value='BuildOrder'<?php if($User->sortOrder=='BuildOrder') print "selected"; ?>>Alter</option>
+			<option value='TerrName'  <?php if($User->sortOrder=='TerrName')   print "selected"; ?>>Gebietsname</option>
+			<option value='NorthSouth'<?php if($User->sortOrder=='NorthSouth') print "selected"; ?>>Norden -> S&uuml;den</option>
+			<option value='EastWest'  <?php if($User->sortOrder=='EastWest')   print "selected"; ?>>Osten -> Westen</option>
 		</select>
 	</li>
 	<li class="formlistdesc">
-		How should the units be sorted in the command overview.
+		Reihenfolge der Einheiten und ihrer Befehle in der Befehls&uuml;bersicht.
 	</li>
 	
-	<li class="formlisttitle">Show countryname:</li>
+	<li class="formlisttitle">Zeige L&auml;ndername:</li>
 	<li class="formlistfield">
-		<strong>In global chat:</strong>
-		<input type="radio" name="userForm[showCountryNames]" value="Yes" <?php if($User->showCountryNames=='Yes') print "checked"; ?>>Yes
-		<input type="radio" name="userForm[showCountryNames]" value="No"  <?php if($User->showCountryNames=='No')  print "checked"; ?>>No
+		<strong>Im globalen Chat:</strong>
+		<input type="radio" name="userForm[showCountryNames]" value="Yes" <?php if($User->showCountryNames=='Yes') print "checked"; ?>>Ja
+		<input type="radio" name="userForm[showCountryNames]" value="No"  <?php if($User->showCountryNames=='No')  print "checked"; ?>>Nein
 	</li>
 	<li class="formlistfield">
-		<strong>On the map:</strong>
-		<input type="radio" name="userForm[showCountryNamesMap]" value="Yes" <?php if($User->showCountryNamesMap=='Yes') print "checked"; ?>>Yes
-		<input type="radio" name="userForm[showCountryNamesMap]" value="No"  <?php if($User->showCountryNamesMap=='No')  print "checked"; ?>>No
+		<strong>Auf der Karte:</strong>
+		<input type="radio" name="userForm[showCountryNamesMap]" value="Yes" <?php if($User->showCountryNamesMap=='Yes') print "checked"; ?>>Ja
+		<input type="radio" name="userForm[showCountryNamesMap]" value="No"  <?php if($User->showCountryNamesMap=='No')  print "checked"; ?>>Nein
 	</li>
 	<li class="formlistdesc">
-		Instead of colored chatmessages print the countryname in front of the text and use only black text.
-		Print the countryname on the map.
+		Verwende L&auml;ndernamen und schwarzen Text anstelle der farbigen Nachrichten im Chat.
+		Schreibe die L&auml;ndernamen direkt auf die Karte.
 	</li>
 
-	<li class="formlisttitle">Color vision deficiency setting:</li>
+	<li class="formlisttitle">Farbenfehlsichtigkeitseinstellungen:</li>
 	<li class="formlistfield">
 		<select name="userForm[colorCorrect]">
-			<option value='Off'        <?php if($User->colorCorrect=='Off')         print "selected"; ?>>Off</option>
-			<option value='Protanope'  <?php if($User->colorCorrect=='Protanope')   print "selected"; ?>>Protanope</option>
-			<option value='Deuteranope'<?php if($User->colorCorrect=='Deuteranope') print "selected"; ?>>Deuteranope</option>
-			<option value='Tritanope'  <?php if($User->colorCorrect=='Tritanope')   print "selected"; ?>>Tritanope</option>
+			<option value='Off'        <?php if($User->colorCorrect=='Off')         print "selected"; ?>>aus</option>
+			<option value='Protanope'  <?php if($User->colorCorrect=='Protanope')   print "selected"; ?>>Protanop</option>
+			<option value='Deuteranope'<?php if($User->colorCorrect=='Deuteranope') print "selected"; ?>>Deuteranop</option>
+			<option value='Tritanope'  <?php if($User->colorCorrect=='Tritanope')   print "selected"; ?>>Tritanop</option>
 		</select>
 	</li>
 	<li class="formlistdesc">
-		Does enhance the colors of the maps for different types of color blindness. (Does not work for the Haven variant, sorry)
+		Verbessert die Farben auf der Karte f&uuml;r verschiedene F&auml;lle von Farbenblindheit. (Funktioniert leider nicht bei allen Varianten)
 	</li>
 
 <?php
@@ -77,7 +77,7 @@ print '</ul>
 
 <div class="hr"></div>
 
-<input type="submit" class="form-submit notice" value="Update">
+<input type="submit" class="form-submit notice" value="Anwenden">
 </form>';
 
 ?>

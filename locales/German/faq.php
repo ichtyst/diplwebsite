@@ -36,142 +36,97 @@ if( isset(Config::$faq) && is_array(Config::$faq) && count(Config::$faq) )
 }
 
 $globalFaq = array(
-"I'm new here" => "Sub-section",
-"What is this site about?" => "The easiest way to understand is to look at
-	<a href='http://webdiplomacy.net/doc/0.90-screenshot.png' class='light'>an in-game screenshot</a>. If the concept is still strange
-	read <a href='intro.php' class='light'>the intro to webDiplomacy</a>.",
-"How do I play?" => "The gameplay is quite self explanatory, but if you're unsure about something read
-	<a href='intro.php' class='light'>the intro to webDiplomacy</a>, and feel free
-	to ask for help or clarification in <a href='forum.php' class='light'>the public forum</a>.",
-"What's the software license?" => "The <a href='AGPL.txt' class='light'>GNU Affero General License</a>
-	(<a href='http://www.opensource.org/licenses/agpl-v3.html' class='light'>Open Source Initiative</a> approved),
-	which basically says you can download and change the code as you like, and put it up on your
-	own website, but you can't claim you wrote it, and you have to give any changes
-	you make back to the community.<br /><br />
-	See <a href='credits.php' class='light'>the credits</a> for information about the
-	small elements which are under different licenses.",
+"Ich bin neu hier" => "Sub-section",
+"Worum geht es bei Diplomacy eigentlich?" => "Diplomacy ist ein Brettspiel von Allan B. Calhamer, welches den ersten Weltkrieg in Europa simuliert.
+	Wichtiger als strategisches Geschick sind bei diesem Spiel vor allem das F&uuml;hren diplomatischer Verhandlungen und das geschickte Aushandeln von B&uuml;ndnissen zwischen den verschiedenen Spielern. Da es nur einen Sieger bei diesem Spiel gibt, ist man fr&uuml;her oder sp&auml;ter gezwungen, die B&uuml;ndnisse wieder zu brechen.
+	Diplomacy's Website bietet die M&ouml;glichkeit, dieses Kultspiel vollkommen kostenlos, online mit seinen Freunden oder neuen Mitspielern zu spielern.",
+"Wie spielt man Diplomacy?" => "Das Spielprinzip ist eigentlich selbsterkl&oauml;rend, jedenfalls nach einem Blick auf die kurze
+	<a href='intro.php' class='light'>Einleitung</a>. Grunds&auml;tzlich kann es aber nicht schaden, sich auch einmal die offiziellen
+	<a href='http://diplomacy.s-website.de/redirect.php?g=1' target='_blank'>Diplomacy-Regeln</a> durchzulesen.
+	Und nicht zuletzt steht auch unser kleines <a href='forum.php' class='light'>Forum</a>dazu bereit, auch deine letzten Fragen noch geduldig zu beantworten!.",
+"Wie gebe ich meine Z&uuml;ge ein?" => "Die Zugeingabe, das Erteilen der Befehle, ist sehr einfach und im Grunde selbsterkl&auml;rend. Wenn dein Spiel gestartet wurde, erh&auml;ltst du im Fenster deines Spiels ein Drop-down-Men&uuml; f&uuml;r jede deiner Einheiten. Hier w&auml;hlst du den entsprechenden Befehl, z.B &quot;move&quot; aus und danach das Zielterritorium, in die die Einheit diesen Befehl aus&uuml;ben soll. Genauso verf&auuml;hrt so mit Hold, Support oder Convoy- Befehlen. Danach kannst Du Deine Befehle speichern oder erteilen.<br />Die erteilten Befehle kann man solange widerrufen und &auml;ndern, bis alle Mitspieler ihre Befehle erteilt haben oder die aktuelle Spielphase abgelaufen ist; also bis das Spiel ausgewertet wird.",
+"Muss ich meine Z&uuml;ge an einen Spielleiter schicken?" => "Nein. Die Befehlseinfabe erfolgt wie oben beschrieben und die Auswertung erfolgt automatisch. Verschiedenfarbige Pfeile in der Karte geben an, was welche Einheit durchf&uuml;hren wollte, und ob sie erfolgreich war. Au&szlig;erdem wird die Zughistory (Befehlsaufzeichnung) um den laufenden Zug erweitert. Diese und die Entwicklung des Spiels auf der Karte je Zug kannst du dir auch in allen <a href=\"/gamelisting.php\" targe=\"_self\">laufenden oder abgeschlossenen Spielen</a> ansehen.",
+"Wie k&ouml;nnen Spieler miteinander kommunizieren?" => "Je nach Einstellung des Spiels finden sich im Spiel verschiedene Chatfenster, &uuml;ber die die Spieler miteinander chatten k&ouml;nnen. Sind alle Nachrichten erlaubt kann man private Nachrichten an jeden Mitspieler und globale Nachrichten an alle Spieler des aufgerufenen Spiels senden. Diese M&ouml;glichkeiten kann man getrennt von einander f&uuml;r jedes Spiel abschalten. <br /> Dar&uuml;ber hinaus k&ouml;nnen alle Spieler nat&uuml;rlich auch andere Kommunikationswege wie Email oder Telefon nutzen. Allerdings sollte der Fainess-halber allen Mitspielern Bescheid gegeben werden, wenn sich zwei oder mehr Spieler auch RL kennen, bzw. &quot;verk&uuml;rzte&quot; Kommunikationswege zur Vefr&uuml;gung haben.",
+"Muss ich eine bestimmte Software zum Spielen downloaden?" => "Nein. Du brauchst lediglich Deinen Browser. Das Spiel, deine Zugabgabe, die Kommunikation usw. l&auml;uft direkt &uuml;ber Diplomacy's Website.",
+#"What's the software license?" => "The <a href='AGPL.txt' class='light'>GNU Affero General License</a>
+#	(<a href='http://www.opensource.org/licenses/agpl-v3.html' class='light'>Open Source Initiative</a> approved),
+#	which basically says you can download and change the code as you like, and put it up on your
+#	own website, but you can't claim you wrote it, and you have to give any changes
+#	you make back to the community.<br /><br />
+#	See <a href='credits.php' class='light'>the credits</a> for information about the
+#	small elements which are under different licenses.",
 
-"Is this software related to phpDiplomacy?" => "This software used to be called phpDiplomacy until version 0.9.
-	Sorry for the confusion, we hate name changes too, but for our user-base the old 'php' prefix wasn't
-	the immidiately recognizable label that was intended.",
+#"Is this software related to phpDiplomacy?" => "This software used to be called phpDiplomacy until version 0.9.
+#	Sorry for the confusion, we hate name changes too, but for our user-base the old 'php' prefix wasn't
+#	the immidiately recognizable label that was intended.",
 
 
-"The interface" => "Sub-section",
-"What are those green circles next to peoples names?" => "The green icon appears when a player is logged into the server. This
-	means that if the player has accessed the server in the last ~10-15 minutes they will have the green icon next to their name.",
-"What the hell is that thing? (<img src='images/icons/online.png' />, <img src='images/icons/mail.png' />, etc)" => "If you see an icon/button/image and don't understand what it means try hovering your mouse over it,
-	it may give you a tool-tip helping explain it. If it doesn't feel free to ask on the <a href='forum.php' class='light'>forum</a>.",
-"Why do my order choices turn from green to red?" => "Red order choices are unsaved; if you see a lot of red in your orders you should
-	save, or you might forget and lose them by closing the browser window or chatting to someone.",
-"What do 'Save' and 'Ready' mean?" => "'Save' saves your order; your red, unsaved order choices will turn green once they're successfully
-	saved. 'Ready' means you have finished entering your orders, and are ready to continue to the next turn. If everyone is 'Ready' the
-	game continues right away, speeding up the game.",
-"What are the codes which can add HTML into forum messages? (icons, game links, etc)" => "Often in the forum people discuss points, or
-	want to link others to games/user accounts/other forum threads. To make this easier certain forum-codes are recognized and replaced
-	with proper links/icons:
-	<ul><li><strong>'<em>[number]</em> points'</strong>/<strong>'<em>[number]</em> D'</strong> will result in
-	<strong>'points'</strong> / <strong>'D'</strong> being replaced with the points icon (".libHTML::points().").</li>
-	<li><strong>'gameID=<em>[number]</em>'</strong> / <strong>'threadID=<em>[number]</em>'</strong> / <strong>'userID=<em>[number]</em>'</strong> will have
-	a link to the appropriate game/thread/profile substituted into the message.</li></ul>",
-"Why do some things appear to change just after the page has loaded?" => "After a page is loaded JavaScript runs, making a few changes
-	(e.g. putting GMT/UTC times into your computer's timezone, making your posts bold, etc) which enhance the page.",
+"Die Spiel-Ansicht" => "Sub-section",
+"Was bedeutet der gr&uuml;ne Kreis neben den Namen mancher Leute?" => "Der gr&uuml;ne Kreis erscheint, wenn sich der Spieler auf der Dipomacy's Website angemeldet hat.
+	Spieler mit einem gr&uuml;nen Kreis am Benutzernamen sind oder waren in den letztn zehn bis 15 Minuten am Server angemeldet.",
+"Was bedeuten diese Symbole? (<img src='images/icons/online.png' />, <img src='images/icons/mail.png' />, etc)" => "Wenn du ein Symbol/Bild/Button siehst, und sich dir dessen Bedeutung nicht direkt erschlie&szlig;t, fahre mit Maus dar&uuml;ber und dir wird neben dem Mauszeiger eine kleine Erkl&auml;rung angezeigt. Falls das nicht passiert, frage gerne im <a href='forum.php' class='light'>Forum</a> nach oder kontaktiere die Administratoren.",
+"Warum wechseln meine Befehle die Farbe?" => "Rote Befehle sind nicht gespeichert. Wenn viele deiner Befehle rot angezeigt werden, solltest du auf &quot;speichern&quot; klicken, oder die bereits eingegebenen Befehle gehen verloren wenn du das Browserfenster schlie&szlig;t oder einem Mitspieler eine Nachricht schreibst. Gr&uuml;ne Befehle sind gespeichert und flie&szlig;en nach Ablauf der Spielphase in die Auswertung mit ein.",
+"Was bedeuten &quot;speichern&quot; und &quot;erteilen&quot;" => "&quot;Speichern&quot; speichert deine Befehle. Deine roten, ungespeicherten Befehle werden gr&uuml;n, wenn du sie speicherst. &quot;Erteilen&quot; bedeutet, dass du alle deine Befehle vollst&auml;ndig eingegeben hast und bereit f&uuml;r die Auswertung, bzw. n&auml;chste Spielphase bist.  &quot;Erteilen&quot; alle Spieler ihre Befehle, wird die Spielphase direkt ausgewertet.",
+"Wie kann man in Foren-Beitr&auml;gen oder Nachrichten Verweise einf&uuml;gen?" => "Um Verweise auf Spiele, Benutzer oder Foren-&quot;Threads&quot; in Nachrichten und Foren-Beitr&auml;gen einzubinden kann man folgenden Code benutzen, der automatisch in einen klickbaren Verweis (Link) abge&auml;ndert wird:
+	<strong>'gameID=<em>[number]</em>'</strong> / <strong>'threadID=<em>[number]</em>'</strong> / <strong>'userID=<em>[number]</em>'</strong> erzeugt einen Link zu dem entsprechenden Spiel, Foren-Eintrag oder Nutzer-Profil. Bei <ul><li><strong>'<em>[number]</em> points'</strong>/<strong>'<em>[number]</em> D'</strong> wird au&szlig;erdem <strong>'points'</strong> / <strong>'D'</strong> durch den Punkte-Icon ersetzt (".libHTML::points().").</li>",
+"Warum erscheinen manche Dinge auf der Seite erst nachdem sie bereits fertig geladen ist?" => "Nach dem laden der Seite wird JavaScript ausge&uuml;hrt, der einige Dinge in der Spiel-Anzeige ver&auml;ndert. So werden beispielsweise alle Zeite in GMT/UTC auf dem Server gespeichert und f&uuml;r jeden Spieler per JavaScript in die entsprechende Zeitzone umgerechnet.",
 
-"Game rules" => "Sub-section",
-"I want to learn the basic rules" => "See the <a href='intro.php' class='light'>intro page</a>.",
-"I want to learn the complete rules" => "See Avalon Hill's <a href='http://www.wizards.com/avalonhill/rules/diplomacy.pdf' class='light'>rulebook</a>.",
-"I want to learn the exact specifics of the rules" => "We use the DATC to lay out exactly how all sorts of tricky
-	situations are processed, in the cases where there is ambiguity in the rules. (This sort of stuff doesn't come up
-	in usual play though.)<br />
-	See our DATC page <a href='datc.php' class='light'>here</a>.",
-"If someone has to destroy a unit, but doesn't enter destroy orders, what unit is destroyed?" => "It's done as the DATC recommends:
-	It's the furthest from your home supply centers. Distance is defined as the smallest number of moves to get from the unit's position
-	to a home supply center. When calculating the smallest number of moves armies can move across seas, but fleets can only move across
-	seas and coasts. If there are two units both the same distance from a home supply center the territory which is first alphabetically
-	is removed first.",
-"If a convoy is attacked does the convoy fail?" => "No; for a convoy to fail it has to be dislodged, and there must be no other convoys
-	the the army being convoyed can go through instead.",
-"What happens if I order to build/destroy two units in the same territory?" => "The first build order will be accepted, the second won't",
-"What happens if two units retreat to the same place?" => "They will both be disbanded",
-"Can I dislodge my own units?" => "No; you cannot dislodge your own units, or support the dislodgement of your own units",
-"Any other rules I should bear in mind?" => "There is a full list of rules on the <a href='rules.php' class='light'>rules</a> page,
-	listing a few extra non-game rules you have to follow to help keep the site fun for everyone.",
 
-"Points" => "Sub-section",
-"What happens when I run out?" => "You can't run out: Your total number of points include the number of points which you have 'bet' into games you're currently playing in,
-	as well as the points you have in your account. Your total number of points never falls below 100; whenever it does
-	you're given your points back.<br /><br />
-	To put it another way; any player who isn't currently playing in any games will always have at least 100 points, so
-	you won't run out!",
-"How are the points split in a draw?" => "In a draw the points are split evenly among all the survivors still in the game,
-	regardless of the number of supply centers each player has.<br/>
-	Read <a href='points.php' class='light'>the points guide</a> for more info about the points system.",
-"I have an idea for a better system" => "We constantly get new ideas for the points system, but usually they're either missing
-	out in some aspect (the points system serves multiple functions), or they improve in one area but are worse in another.<br /><br />
-	The points system does the job fine, so it's unlikely to be replaced.
-	(See <a href='http://forum.webdiplomacy.net/viewtopic.php?p=288#p288' class='light'>this page</a> for an
-	explanation regarding the role of the existing system, and what a replacement would have to do.)<br /><br />
-	There's no real way to express how good a player really is in a single number, the points system as it is is
-	probably good enough for now, and there's definitely no agreement on what would replace it.",
-"Can you draw the game, but give 2/3rds of the points to this player and ..." => "Draws can only be given one way; an even split to
-	all survivors.",
+"Spielregeln" => "Sub-section",
+"Ich m&ouml;chte die grundlegenden Regeln lernen" => "Sieh dir dazu unsere kurze <a href='intro.php' class='light'>Einf&uuml;hrung</a> in Diplomacy an.",
+"Ich m&ouml;chte tiefer in die Diplomacy-Regeln eintauchen" => "Schau dir dazu am Besten die offiziellen Spielregen. Hier sind sie als <a href='/redirect.php?g=1' target='_blank'>pdf-Dokument</a> hinterlegt.",
+"Welche genauen Regeln liegen der Auswertung der Befehle auf Dipomacy's Website zugrunde?" => "webDiplomacy, die Software die hier &quot;unter der Haube&quot; l&auml;uft&quot; nutzt die &quot;Diplomacy Adjudicator Test Cases&quot;, kurz DATC, um die Befehle auszuwerten und gegeneinander abzuw&auml;gen. Damit besteht auch f&uuml;r die sehr seltenen F&auml;lle eine nachvollziebare Auswertungs-Grundlage, wo das Regelwerk mehrdeutig ausgelegt werden k&ouml;nnte. N&auml;here Information zu den DATC finden sich <a href='/redirect.php?g=2' target='_blank' class='light'>hier</a>.",
+"Wenn jemand eine Einheit zerst&ouml;ren muss, aber keine Befehle eingibt, welche Einheit wird dann zerst&ouml;rt?" => "Hier wird verfahren, wie in den DATC vorgeschrieben: Die Einheit, die am weitesten von den heimischen Versorgungslagern entfernt ist, wird zerst&ouml;rt. Die zugrunde liegende Entfernung ist die geringst-m&ouml;gliche Anzahl von Z&uuml;gen, die ben&ouml;tigt wird, um von den Position der Einheit zum n&auml;chsten, heimischen Versorgungslager zu gelangen. Bei der Berechnung wird davon ausgegangen, dass Armeen sich auch &uuml;ber Wasser bewegen, Flotten allerdings nur &uuml;ber Wasser und K&uuml;sten bewegen k&ouml;nnen. Sind zwei Einheiten gleichweit von einem heimischen Versorgungszentrum enfernt, wird in alphabetischer Reihenfolge der Territorien-Namen, in denen die Einheiten stehen entschieden.",
+"Wird ein Konvoi unterbrochen, wenn er angegriffen wird?" => "Nein; um einen Konvoi zu unterbrechen (dabei schl&auml;gt er vollst&auml;ndig fehl) muss mindestens eine Flotte von ihrer Position vertrieben werden und es darf kein anderer Konvoi-Weg an dessen Stelle treten k&ouml,nnen.",
+"Was passiert, wenn ich zwei Einheiten Befehle zum bauen/zerst&ouml;ren innerhalb des selben Territoriums erteile?" => "Der erste Befehl wird akzeptiert, der zweite nicht.",
+"Was passiert, wenn sich zwei Einheiten Befehle zum R&uuml;ckzug in das selbe Territorium erhalten?" => "Sie werden beide zerst&ouml;rt",
+"Kann ich meine eigenen Einheiten vertreiben?" => "Nein; man kann seine eigenen Einheiten nicht vertreiben, oder das Vertreiben der eigenen Einheit durch einen Mitspieler &quot;supporten&quot;.",
+"Beim Diplomacy-Brettspiel wird zum &quot;Abh&ouml;hren&quot; ermutigt; hier auch?" => "Hier, auf Diplomacy's Website befinden sich die Spieler nicht im selben Raum. Die technischen Voraussetzungen sind hier im Netz also v&ouml;llig andere. Es ist gesetzlich verboten, Handlungen zu unternehmen, um sich unerlaubten Zugang zu jeglicher Form von Web-Accounts zu verschaffen. Der Versuch, die Nachrichten anderer Spieler auf Diplomacy's Website mitzulesen, w&auml;re also ein Straftat bestand und w&uuml;rde zur Anzeige gebracht werden. Passw&ouml;rter auszusp&auml;hen oder Sicherheitsl&ouml;cher zu finden kann nicht mit dem Versuch, diplomatische Verhandlungen abh&ouml;ren zu wollen, entschuldigt werden.",
 
-"Bugs" => "Sub-section",
-"My game has crashed!" => "Sometimes (usually only shortly after code updates) a software bug or server error may occur while a
-	game is being processed.
-	When this happens the problem is detected, all changes are undone, and the game is marked as crashed.<br /><br />
-	Admins will see a message whenever a game crashes, and information about the crash is saved so that the problem that caused it can be fixed quickly.
-	Once a mod or admin has marked the game as OK the game will continue where it left off again.<br /><br />
 
-	If your game has been crashed for a long time try asking about it in the forum.",
-"The phase ends \"Now\"? \"Processing has been paused\"?" => "When the server detects that no games have processed for a while
-	(over 30 minutes or so), or a moderator/admin sees a problem and his the panic button, all game processing is disabled until
-	the problem is resolved.<br />
-	After the all-clear is given games will usually be given time to make up for any during which orders couldn't be entered, and
-	processing will resume. Until that point if a game says it will be processed 'Now' that means it would process now, except
-	processing is disabled.<br /><br />
+"Punkte" => "Sub-section",
+"Was passiert, wenn ich keine Punkte mehr habe?" => "das kann nicht passieren: die Gesamtzahl deiner Punkte setzt aus der denen zusammen, die du als Einsatz in deinen Spiele hast und denen, die du in deinem Account hast.
+	Diese Gesamtzahl kann niemals unter 100 fallen. Tut sie das, 
+	bekommst du die Eins&auml;tze aus deinen Spielen zur&uuml;ck.<br /><br />
+	Oder anders ausgedr&uuml;ckt: ein Spieler, der an keinen Spielen teilnimmt hat <u>immer</u> mindestens 100 Punkte.
+	Du kannst also nicht alle deine Punkte verzocken!",
+"Wie werden die Punkte bei einem Unentschieden aufgeteilt?" => "Bei einem Unentschieden werden die Punkte unter allen bis zu diesem Punkt &uuml;berlebenden Spilern aufgeteilt.
+	Das passiert unabh&auml;ngug von der Anzahl an Versorgungszentren, die die einzelnen Spieler haben.<br/>
+	Lie&szlig; <a href='points.php' class='light'>den Punkte-Plan</a> um mehr &uuml;ber die Punkte hier herauszufinden.",
+"Ich habe eine gute Idee, wie man das Punkte-System verbessern k&ouml;nnte" => "Es werden immer wieder einige gute Ideen zum Thema Punkte diskutiert.
+	Aber genau wie das Punkte-System, das momentan hier zum Einsatz kommt haben auch alle neuen Ideen ihre Vor- und Nachteile.<br /><br />
+	Nat&uuml;rlich zeigt auch unser System nicht wirklich an, wie gut ein Spieler tats&auml;chlich ist. Aber das wird auch kein anderes Punkte-System perfekt schaffen.
+	Deswegen werden wir weiterhin so weitermachen, wie bisher und das Punktesystem nicht umstellen.<br /><br />
+	Eine Diskussion, die feststellen sollte, welche neue Punkte-Vergabe zu benutzen w&auml;re w&uuml;rde sowieso nie einen absoluten Konsens zwischen allen Usern auf dieser Seite finden.",
+"Kann man ein Spiel f&uuml;r unentschieden erkl&auml;ren und die Punkte geziehlt / nach eigenen Vorgaben aussch&uuml;tten?" => "Ein Unentschieden f&uuml;hrt immer zu einer Aufteilung zwischen allen &uuml;berlebenden Spielern.
+	Eine andere Aufteilung der Punkte ist nicht m&ouml;glich - egal wie unterschiedlich &quote;gut&quote; die einzelnen Spieler waren.",
 
-	You may also see it if you a games timer counted down to 0 while you were viewing the page, in which
-	case you should refresh the page to view the newly processed game.",
-"I didn't enter those orders!" => "Occasionally we get this complaint, but every time we have checked the
-	input logs to see what order was actually entered it turns out to be the mistaken order.
-	Also the mistaken orders are often the 'Bulgaria'/'Budapest' sort of mistake which are easier to
-	imagine human error than a bug.<br /><br />
-	Try finalizing your orders and then checking them over, so you can be sure of what you entered.",
-"Someone says their orders messed up, and I'm paying the price!" => "
-	Unfortunately it does seem that sometimes people will claim that their orders came out wrong to cover up the intention of
-	their actions. (e.g. \"I was going to stab you, then read your message and changed my orders so I wasn't going to stab you,
-	but my old orders came out instead of the new ones! Oh so sorry about that!\")<br /><br />
+"Fehler" => "Sub-section",
+"Mein Spiel ist &quot;crashed&quot;!" => "Es kann passieren, dass ein Software- oder Serverfehler auftritt, w&auml;hrend ein Spiel ausgewertet wird. Falls das passieren sollte, werden alle &Auml;nderungen/Eingaben r&uuml;ckg&auml;nging gemacht und das Spiel als gecrasht markiert. <br />Die Administration wird automatisch &uuml;ber gecrashte Spiele informiert und versucht, das Problem zu heben. Danach wird kann das Spiel von einem Administrator wieder frei gegeben werden und l&auml;uft weiter. Sollte sich kein Admin umgehend um das gecrashte Spiel k&uuml;mmern, schreibe am Besten ins <a href=\"modforum.php\">Mod-Forum</a>!",
+/*"The phase ends 'Now'?" => "Non-live (>15 minutes per phase) games are processed every 5 minutes; if a game's time run out it'll say the phase ends 'Now' until
+	the game proccessor runs. If the server is especially busy the game may be put-off for a short while, but it should
+	move onto the next phase within 0-5 minutes.<br />
+	Live games should continue immidiately.",*/
+"Diese Befehle habe ich nie eingeben!" => "Immer mal wieder h&ouml;rt man diesen Vorwurf. Wir haben das oft &uuml;berpr&uuml;ft, aber bisher stellte es sich immer heraus, dass der Fehler vor dem Bildschirm lag. Vergewissere dich vor dem Befehle-Erteilen immer zweimal, ob das, was im Formular steht auch wirklich das ist, was du befehlen m&ouml;chtest. Manchmal verwechselt man Territorien wie Budapest und Bulgarien... Sowas ist jedem schon mal irgendwann passiert.",
+"Meine Befehle wurde falsch ausgewertet." => "Bevor du uns wegen eines Software-Fehlers anschreibst &uuml;berpr&uuml;fe erst, ob du deine Befehle korrekt erteilt hast (benutze auch die Befehls-Historie, erreichbar in jedem Spiel ganz unten). Und dann lie&szlig; dir die Regeln (s.o.) noch einmal durch um dich zu vergewissern, dass der Fehler nicht vielleicht doch bei dir lag. Zu 99% liegt einfach ein Missverst&auml;ndnis vor.",
+"Einige Teile des Spiels sehen in einem alternativen Browser merkw&uuml;rdig aus" => "Diplomacy's Website orientiert sich an g&auml;ngigen Web-Standards. Aber nat&uuml;rlich kann es mal vorkommen, dass ein Browser etwas aus der Reihe tanzt. Sollte dir eine unsch&ouml;ne Unstimmigkeit auffallen, unterrichte die Admins davon und f&uuml;ge am besten einen Screenshot mit an.",
 
-	This is against <a href='rules.php' class='light'>the rules</a>, as it makes work for admins over made up bugs. When someone
-	tells you a bug caused a mistake in their orders you should reserve some skepticism, and remember that the official server alone
-	receives and processes over 20,000 orders per day (as of Feb 2010) without mistake every minute of every day for years on
-	end, so sudden bugs which change whole order-sets around simply don't seem to genuinely happen ever, despite checking every
-	single report.
-",
-"My orders gave the wrong results!" => "Before reporting this as a bug double check that you entered your orders correctly and you're
-	not misunderstanding the rules. 99.999% of the time \"adjudicator bugs\" turn out to be a misunderstanding.<br />
-	If you're still positive there's a problem let us know in the <a class='light' href='forum.php'>forum</a>.",
-"A part of the site looks wrong in an alternative browser" => "webDiplomacy isn't currently completely web standards compliant,
-	so there may be glitches. We would like to get webDiplomacy working on everything (within reason) but we need users
-	of alternative browsers to let us know what's wrong and tell us how to make it look right in that browser.",
-"This site seems to slow my computer down" => "See Help > What is Plura? for a likely cause and fix.",
+"Allgemein" => "Sub-section",
+"Ist Diplomacy's Website wirklich kostenlos?" => "<b>Ja</b>. Diplomacy's Website ist gestartet, als Plattform, um mit ein paar Freunden Diplomacy spielen zu k&ouml;nnen, ohne an Terminfindungsschwierigkeiten zu scheitern. Dass dieser &quot;Service&quot; auch von Fremden entdeckt und gerne genutzt wurde hat die Plattform nat&uuml;rlich f&uuml;r alle interessanter gemacht: mehr Spieler -> mehr Abwechslung -> mehr Spiele.<br /><br /><b>Nein</b>, denn nat&uuml;rlich kosten Server und Bandbreite etwas. Es wird dennoch in keiner Weise irgendeine Geb&uuml;hr erhoben. Wir hoffen, dass die entstehenden Kosten durch Spenden und Werbeklicks wieder reinkommen. Unten mehr dazu.",
+"Wie kann man Diplomacy's Website unterst&uuml;tzen" => "Unterst&uuml;tzen kann man dieses Projekt auf verschiedene Weise. An erster und wichtigster Stelle steht die Devise: Spiele fair! Wenn alle Spieler untereinander gut auskommen, ist das der gr&ouml;&szlig;te Gewinn, den du beitragen kannst!<br />Und dann:&quot;Spread the Word!&quot; Je mehr Menschen von Diplomacy's Website erfahren und hier anfangen zu spielen, desto gr&ouml;&szlig;er die Abwechslung und das Angebot an Spielen. Sag deinen Freunden, Bekannten und Verwandten bescheid, dass man hier kostenlos Diplomacy spielen kann!!!",
+"Wie kann ich Diplomacy's Website finanziell unterst&uuml;tzen?" => "Die einfachste Art, Diplomacy's Website finanziell zu unterst&uuml;tzen ist, f&uuml;r alle deine Amazon-Eink&auml;ufe diesen Referal-Link zu verwenden: <a href=\"http://amzn.to/wXEIWG\" title=\"Amazon Referal-Link\">http://amzn.to/wXEIWG</a>. Dadurch bekommen wir einen kleinen Prozentbetrag des Einkaufwertes von Amazon als Werbekosten-R&uuml;ckerstattung ausgezahlt.<br /><br />
+	Unten auf Diplomacy's Website findet du ein paar Links (vorausgesetzt, du verwendest keinen Werbeblocker!). Vielleicht findest du dort ab und zu etwas interessantes zum anklicken. Wenn du dort regelm&auml;&szlig;ig einem Link folgst, werden die Kosten, die auf dem Server durch deine Spiele entstehen, von Werbetreibenden &uuml;bernommen.<br /><br />
+	Wenn du etwas Geld &uuml;brig hast und es an Diplomacy's Website spenden m&ouml;chtest, kannst du das gerne &uuml;ber Paypal machen:
+	<div style='text-align:center'><form action='https://www.paypal.com/cgi-bin/webscr' method='post'><input type='hidden' name='cmd' value='_s-xclick'><input type='hidden' name='hosted_button_id' value='4HPLWGNY47LDJ'><input type='image' src='https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif' border='0' name='submit' alt='Jetzt einfach, schnell und sicher online bezahlen â€“ mit PayPal.'><img alt='' border='0' src='https://www.paypalobjects.com/de_DE/i/scr/pixel.gif' width='1' height='1'></form></div>",
+"Wie kann ich meinen Account auf Diplomacy's Website l&ouml;schen?" => "Du kannst deinen Account auf Diplomacy's Website stilllegen und die mit dem Account verbundenen Daten l&ouml;schen. Das Stilllegen ist unwiderruflich! Mehr Informationen und die M&ouml;glichkeit zum Stilllegen findest du <a href=\"http://diplomacy.s-website.de/delaccount.php\">hier</a>",
+/*
 
 "Feature Requests" => "Sub-section",
 "Better forum" => "A better forum would be good, but getting it to fit in and appear as part of webDiplomacy, rather than just
-	a separate site, is difficult, and would likely use more server resources than our efficient but lightweight built-in forum.<br />
-	At the moment we are trying to improve our existing forum in small incrememnts.",
+	a separate site, is difficult.",
 "A point and click interactive map" => "This is being worked on, but progress is slow. If you know JavaScript and SVG/Canvas why not
 	carry on the work on the <a href='http://forum.webdiplomacy.net/' class='light'>development forum</a>?",
 "Translations" => "Eventually translations will be supported, but it is a long process and not a top priority.",
-"New variants" => "If a variant has lasting appeal, is well balanced, isn't gimmicky, has been tried and tested on another server, and was
-	created by a reputable developer, then it's up for consideration to be included in the standard release.<br />
-	You can discuss this in the variants section of the webDiplomacy
-	<a href='http://forum.webdiplomacy.net/' class='light'>developers forum</a>.<br /><br />
-
-	Also creating your own variants or porting
-	existing variants to the webDiplomacy variants system is easier than ever, from simple map-change variants all the
-	way to strange rule-changing variants, the system is flexible enough to accomadate your varaint ideas.
-	",
 "Can I suggest a feature?" => "Feature suggestions are best made in the <a class='light' href='http://forum.webdiplomacy.net/'>developer forums</a>,
 	elsewhere they're likely to be missed. Remember that unless you can back-up your suggestion with code even good ideas may not get far.",
 
@@ -179,15 +134,35 @@ $globalFaq = array(
 "Can I help develop the software?" => "You sure can: if you're an HTML/CSS/JavaScript/PHP 5/MySQL/SVG/Canvas developer,
 	graphics/icon artist, or want to learn, check out the <a class='light' href='http://webdiplomacy.net/developers.php'>dev info</a>,
 	and if you get lost you can get help/discuss ideas in the <a class='light' href='http://forum.webdiplomacy.net/'>developer forums</a>.",
-"Can I donate?" => "See the server-specific section for a donate link, thanks!",
-"Do I get anything for being a donator?" => "Markers are given for donators based on total donated to date; this lets everyone
-see who is helping keep the site online and who has put value in their webDiplomacy account, but no extra
-functionality is available to donators.",
-/*"How much do you need to donate to get a silver/gold mark?" => "
-We'd rather people donate whatever/whenever they feel is appropriate, rather than aiming for a certain mark.
-",*/
+"Can I donate?" => "If you enjoy the site and want to help out, but can't code, you can donate to the project via
+PayPal, and this is student-ware so all donations are appreciated. :-)</p>
+<div style='text-align:center'>
+<form action='https://www.paypal.com/cgi-bin/webscr' method='post'>
+<input type='hidden' name='cmd' value='_s-xclick'>
+<input type='image' src='https://www.paypal.com/en_US/i/btn/x-click-but21.gif' border='0' name='submit' alt='Make payments with PayPal - it's fast, free and secure!'>
+<img alt='' border='0' src='https://www.paypal.com/en_AU/i/scr/pixel.gif' width='1' height='1'>
+<input type='hidden' name='encrypted' value='-----BEGIN PKCS7-----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-----END PKCS7-----
+'>
+</form></div><p class=\"answer\">A big thanks to all the past donors who helped make all '07-'08 server fees community paid!",
 "How else can I help?" => "Tell your friends about webDiplomacy, put links on your website, help new players out in the forums,
 	and give helpful feedback to developers. Thanks!",
+"What's the Plura icon at the bottom?" => "To pay for this hosting (which is already pretty cheap for what it is
+	thanks to Dreamhost) we use Plura Processing; instead of ads thrust in your face Plura is a Java applet which silently
+	does number-crunching for Plura without bothering you, and they pay a fraction of a cent per unit of computer work the
+	applet does.<br />
+	This all adds up and lets webdiplomacy.net be self-sufficient without having to scroll past ads every time you view a page.<br /><br />
+
+	Ideally it should use 70% of a computer's idle-time (so it shouldn't affect your browsing experience), and isn't detectable or
+	intrusive at all, but in reality people with slower computers may notice a slow-down. Because of this people can opt themselves
+	out of helping the site with Plura, because there's no point if it makes the site unusable.<br />
+	You can opt-out via the link below, but remember that when your computer is running the (mostly unnoticeable) applet it's helping
+	to keep this place online. Thanks :-)<br />
+	<a href='usercp.php?optout=on' class='light'>Opt-out</a> (And you can <a href='usercp.php?optout=off' class='light'>
+	opt back in</a> if you change your mind.)",
+"I don't see any Plura icon at the bottom, but it sounds like a good idea" => "You probably either don't have
+	<a href='http://java.com/' class='light'>Java installed</a>, or you're using a browser with an ad-blocker
+	that uses a public filter list (anything with 'affiliate' in the URL is blocked by some lists).",
+
 
 "Map" => "Sub-section",
 "Why are some orders missing from the map?" => "Not all orders are drawn on the small map. Below the small map there is a set of icons;
@@ -195,15 +170,39 @@ We'd rather people donate whatever/whenever they feel is appropriate, rather tha
 	Also at the bottom of the board page is a link to open up a textual list of all the orders entered in the game, if you can't see
 	something in the large map.",
 "I can't tell the difference between Germany and Austria" => "Color-blind people may have trouble distinguishing Germany and Austria's
-	colors. We hope to fix this problem in the future."
-);
+	colors. We hope to fix this problem in the future.",
+
+"Multi-accounters" => "Sub-section",
+"What is a multi-accounter" => "Someone who has more than one account (this is banned).",
+"Is that like a meta-gamer?" => "A meta-gamer is someone in more than one game who lets one of his games influence how he plays in
+	another one. The classic example is threatening a stronger player in a weak game with a country in a different game where the tables
+	are turned.<br/>
+	Meta-gaming is usually frowned on, but is acceptable in some cases and not seen as being as bad as multi-accounting.",
+"What action is taken against multi-accounters" => "Data is logged which makes it possible to spot multi-accounters. Eventually they're
+	spotted and banned, and their points are removed. Because of this the players with the most points are the least likely to be
+	multi-accounters, but in reality multi-accounter problems are very rare (accusations of multi-accounting are far more common).",
+"I think someone is a multi-accounter" => "Double-check and try and get lots of good reasons for your suspicion, then talk to the
+	'multi-accounter'. If you're still sure then e-mail your evidence to <a href='mailto:webdipmod@gmail.com' class='light'>webdipmod@gmail.com</a>.<br /><br />
+	Lots more people are accused of being multi-accounters than actually are multi-accounters. It's actually very rare, so please make
+	sure you have good reasons for accusing someone of multi-accounting before you do.", // TODO: webdipmod@gmail.com can't be officially released
+"I play on the same computer as someone else, I dont want to get banned" => "The data used to tell whether someone is a multi-accounter
+	is a lot more thorough than just IPs. More evidence than just having the same IP is needed for a ban.<br/>
+	However if you know the other player well you may want to avoid playing in games with them, or you'll have an unfair advantage. You
+	should at least let the other players in the game know that you know the other player in real life.",
+"Can I pretend to be a multi as a diplomacy tactic?"=>"Nope; this is just about the only extra restriction we add to in-game
+	messages, because multi-account accusations take lots of moderator time to look up and check. With so many more accusations
+	than multi-accounters the number of false accusations should be limited."
+*/);
+
+$i=1;
+
 
 foreach($globalFaq as $Q=>$A)
 	$faq[$Q]=$A;
 
 $i=1;
 
-print libHTML::pageTitle('Frequently Asked Questions','Answers to the questions people often ask in the forums; click on a question to expand the answer.');
+print libHTML::pageTitle('Frequently Asked Questions','Hier haben wir Antworten zu h&auml;ufig gestellten Fragen zusammengestellt. Klicke auf eine Frage, um ihre Antwort angezeigt zu bekommen.');
 
 
 $sections = array();

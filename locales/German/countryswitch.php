@@ -45,18 +45,18 @@ if ( isset($_REQUEST['newSwitch']) )
 
 	<a name="Switch"></a>
 	<form method="post"><ul class="formlist">
-	<li class="formlisttitle">Countries given away:</li>
+	<li class="formlisttitle">Vergebene L&auml;nder:</li>
 	<li class="formlistfield"><?php print libSwitch::allSwitchesHTML($User->id);?></li>
-	<li class="formlistdesc">All active switches.</li>
+	<li class="formlistdesc">Alle aktiven T&auml;usche.</li>
 
 	<?php if (isset($error) && ($error != '')) {?>
 		<li class="formlisttitle">ERROR:</li>
 		<li class="formlistfield"><?php print $error;?></li>
 		<br>
 	<?php }?>
-	<li class="formlisttitle">Create new Country Switch:</li>
+	<li class="formlisttitle">Erstelle neuen L&auml;ndertausch:</li>
 	<li class="formlistfield">
-	<TABLE> <THEAD><TH>GameName / ID</TH><TH>Send to UserID</TH><TH> </TH></THEAD><TR>
+	<TABLE> <THEAD><TH>Spielname / ID</TH><TH>Gesendet an UserID</TH><TH> </TH></THEAD><TR>
 	<TD><select name="newSwitch[gameID]">
 		<?php
 		$sql='SELECT m.gameID, g.name FROM wD_Members m
@@ -69,11 +69,11 @@ if ( isset($_REQUEST['newSwitch']) )
 		?>
 	</select></TD>
 	<TD><input type="text" name="newSwitch[toID]" size="5"><br></TD>
-	<TD><input type="submit" class="form-submit notice" value="Submit"></TD></TR></TABLE>
-	<li class="formlistdesc">Select the game you want to switch to another user. You can claim back your game at any time.</li>
+	<TD><input type="submit" class="form-submit notice" value="Anwenden"></TD></TR></TABLE>
+	<li class="formlistdesc">W&auml;hle das Spiel aus, das an einen anderen Benuter gesendet werden soll. Das Spiel kann jederzeit zur&uuml;ckgefordert werden.</li>
 	
-	<li class="formlisttitle">How does this work?</li>
-	<li class="formlistfield">The country-switch-tool allows you to give your position in a game to another player. When this tool is used the receiving player is sent a request notification, if they accept they will take over your position in the game. The position can be returned to the original player anytime during the game by either player. If the game ends the position will be automatically returned to the original player.</li>
-	<li class="formlistfield">Since this tool is designed to find replacements you cannot join new games until all your switched game positions have been returned to you.</li>
+	<li class="formlisttitle">So funktioniert's:</li>
+	<li class="formlistfield">Das Country-Switch-Tool erm&ouml;glicht es dir, bestimmte Spiele an andere Spieler zu senden. Der ausgew&auml;hlte Spieler bekommt dann eine Nachricht und kann die &Uuml;bernahme des Spiels akzeptieren. Beide beteiligten Spieler k&ouml;nnen jederzeit das Spiel an den eigentlichen Spieler zur&uuml;ck senden. Endet das Spiel, wird es automatisch zur&uuml;ckgeschickt.</li>
+	<li class="formlistfield">Da das Tool zum Finden von tempor&auml;ren Ersatzspielern entwickelt wurde, ist es dir nicht m&ouml;glich, w&auml;hrend der Benutzung des Tools neuen Spielen beizutreten.</li>
 </ul>
 

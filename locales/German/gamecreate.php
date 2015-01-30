@@ -145,6 +145,7 @@ Read more about these 2 different ways to distribute the points between the rema
 	</li>
 	
 <?php
+$first='';
 if( count(Config::$variants)==1 )
 {
 	foreach(Config::$variants as $variantID=>$variantName) ;
@@ -166,7 +167,6 @@ else
 		{
 			<?php
 			$checkboxes=array();
-			$first='';
 			foreach(Config::$variants as $variantID=>$variantName)
 			{
 				if (isset(Config::$blockedVariants) && in_array($variantID,Config::$blockedVariants))

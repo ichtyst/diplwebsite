@@ -227,4 +227,6 @@ if ($variantID != 0)
 	}
 }
 
+libHTML::footer();
+
 ?>

@@ -34,7 +34,7 @@ if(!(isset($_REQUEST['variantID'])))
 	$variantsOn=array();
 	$variantsOff=array();
 
-	foreach(glob('variants/*') as $variantDir)
+	foreach(glob('variants/*', GLOB_ONLYDIR) as $variantDir)
 	{
 		if( file_exists($variantDir.'/variant.php') )
 		{

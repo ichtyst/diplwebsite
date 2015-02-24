@@ -24,11 +24,11 @@ defined('IN_CODE') or die('This script can not be run by itself.');
 class SouthAmerica8Variant_adjudicatorPreGame extends adjudicatorPreGame {
 
 	protected $countryUnits = array(
-		'Argentina' => array('Buenos Aires'=>'Fleet','Cordoba'  =>'Army' ,'Salta'=>'Army'),
-		'Bolivia'   => array('Antofagasta' =>'Fleet','La Paz'   =>'Army'),
-		'Brazil'    => array('Manaus'      =>'Army' ,'Slv'      =>'Fleet','Rio de Janeiro'=>'Army','Sao Paulo'=>'Fleet'),
-		'Chile'     => array('Valparaiso'  =>'Fleet','Santiago' =>'Army'),
-		'Colombia'  => array('Cartagena'   =>'Fleet','Bogota'   =>'Army ','Cali'=>'Fleet'),
+		'Argentinien' => array('Buenos Aires'=>'Fleet','Cordoba'  =>'Army' ,'Salta'=>'Army'),
+		'Bolivien'   => array('Antofagasta' =>'Fleet','La Paz'   =>'Army'),
+		'Brasilien'    => array('Manaus'      =>'Army' ,'Salvador'      =>'Fleet','Rio de Janeiro'=>'Army','Sao Paulo'=>'Fleet'),
+		'Chile'     => array('Valparaiso'  =>'Fleet','Santiago de Chile' =>'Army'),
+		'Kolumbien'  => array('Cartagena'   =>'Fleet','Bogota'   =>'Army ','Cali'=>'Fleet'),
 		'Paraguay'  => array('Concepcion'  =>'Army' ,'Asuncion' =>'Army'),
 		'Peru'      => array('Trujillo'    =>'Army' ,'Lima'     =>'Fleet'),
 		'Venezuela' => array('Caracas'     =>'Fleet','Maracaibo'=>'Army'),

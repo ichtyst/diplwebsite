@@ -26,17 +26,14 @@ defined('IN_CODE') or die('This script can not be run by itself.');
 ?>
 <div class="content-bare content-board-header content-title-header">
 <div class="pageTitle barAlt1">
-	Create a new game
+	Neues Spiel erstellen
 </div>
 <div class="pageDescription barAlt2">
-Start a new game; you decide the name, how long it runs, and how much it's worth.
+Beginne ein neues Spiel; du entscheidest, wie es heißt, wie lange die Phasen dauern, und was es wert ist.
 </div>
 </div>
 <div class="content content-follow-on">
-<p class="intro">
-ATTENTION:<br>The <u>default</u> Pot-Type for all games was changed from "points per supply center" to "winner takes all".
-Read more about these 2 different ways to distribute the points between the remaining players <a href='points.php#ppscwta'>here</a> and make an informed decision about this setting during the gamecreation.
-<br><br></p>
+
 <form method="post">
 <ul class="formlist">
 
@@ -47,11 +44,11 @@ Read more about these 2 different ways to distribute the points between the rema
 		<input type="text" name="newGame[name]" value="" size="30" onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13">
 	</li>
 	<li class="formlistdesc">
-		The name of your game
+		Der Name des Spiels
 	</li>
 	
 	<li class="formlisttitle">
-		Phase length: (5 minutes - 10 days)
+		Phasen-Länge: (5 Minuten - 10 Tage)
 	</li>
 	<li class="formlistfield">
 		<select id="phaseMinutes" name="newGame[phaseMinutes]" onChange="
@@ -75,10 +72,10 @@ Read more about these 2 different ways to distribute the points between the rema
 				print '<option value="'.$i.'"'.($i==1440 ? ' selected' : '').'>'.$opt.'</option>';
 			}
 		?>
-		<option value="0">Custom</option>
+		<option value="0">Individuell</option>
 		</select>
 		<span id="phaseHoursText" style="display:none">
-			 - Phase length: <input type="text" id="phaseHours" name="newGame[phaseHours]" value="24" size="4" style="text-align:right;"
+			 - Phasen-Länge: <input type="text" id="phaseHours" name="newGame[phaseHours]" value="24" size="4" style="text-align:right;"
 			 onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13"
 			 onChange="
 			  this.value = parseInt(this.value);
@@ -86,19 +83,20 @@ Read more about these 2 different ways to distribute the points between the rema
 			  if (this.value < 1 ) this.value = 1;
 			  document.getElementById('phaseMinutes').selectedIndex = 28;
 			  document.getElementById('phaseMinutes').options[28].value = this.value * 60;
-			  document.getElementById('wait').selectedIndex = 17;" > hours.
+			  document.getElementById('wait').selectedIndex = 17;" > Stunden.
 		</span>
 
 	</li>
 	<li class="formlistdesc">
-		The maximum number of hours allowed for players to discuss and enter orders each phase.<br />
-		Longer phase hours means more time to make careful decisions and negotiations, but makes a game take longer. Shorter
-		phase hours results in a faster game, but requires that players in the game are available to check the game frequently.<br /><br />
-		<strong>Default:</strong> 24 hours/1 day
+		Die Zeit, die die Spieler pro Phase maximal für Diskussionen und das Abgeben von Zügen haben.<br />
+		Längere Spiel-Phasen bedeuten mehr Zeit für sorgfälltige Überlegungen und Absprachen - aber brauchen schlichtweg mehr Zeit.
+		Kürzere Phasen bringen ein schnelleres Spiel mit sich. Die Spieler, die an einem schnellen Spiel teilnehmen, müssen aber auch die Zeit mitbringen, sich in kurzen Abständen am Spiel zu beteiligen.<br /><br />
+
+		<strong>Standard:</strong> 24 Stunden/1 Tag
 	</li>
 
 	<li class="formlisttitle">
-		Bet size: (2<?php print libHTML::points(); ?> -
+		Einsatz: (2<?php print libHTML::points(); ?> -
 			<?php print $User->points.libHTML::points(); ?>)
 	</li>
 	<li class="formlistfield">
@@ -111,37 +109,37 @@ Read more about these 2 different ways to distribute the points between the rema
 				if (this.value < 2) this.value = 2;
 				if (this.value > <?php print $User->points; ?>) this.value = <?php print $User->points; ?>;"
 			/> / 
-			<input type="button" value="Play unrated game."
+			<input type="button" value="Ohne Pott und Wertung."
 				onclick="$('bet').value = '0';
 						$('betinput').hide(); $('potType').hide(); $('bet_unrated').show();">
 	</div>
-	<div id="bet_unrated" style="<?php print libHTML::$hideStyle; ?>" >This is an unrated game.</div>
+	<div id="bet_unrated" style="<?php print libHTML::$hideStyle; ?>" >Dies ist ein Spiel ohne Pott und Wertung.</div>
 	</li>
 	<li class="formlistdesc">
-		The bet required to join this game. This is the amount of points that all players, including you,
-		must put into the game's "pot" (<a href="points.php" class="light">read more</a>).<br />
+		Der Einsatz, der von jedem Spieler gesetzt werden muss, um einem Spiel beizutreten.
+		Die Summe der Einsätze aller Spieler (auch deiner!) bilden den "Pott", um den in dieser Partie gespielt wird. (<a href="points.php" class="light">mehr Infos</a>).<br />
 		<?php
 			if (isset(Config::$limitBet))
 			{
-				print 'There are some restrictions how many '.libHTML::points().' are allowed based on how many players are in your game.<br />';
+				print 'Für Spiele mit Varianten, die nur eine geringe Spieleranzahl vorraussetzen, ist der Einsatz begrenzt.</br>';
 				$first=true;
 				foreach (Config::$limitBet as $limit=>$bet)
 				{
 					if ($first)
 					{
-						print '('.$limit.'-player variants allow a maximum betsize of '.$bet.libHTML::points().',';
+						print '('.$limit.'-Spieler-Varianten dürfen mit einem Maximaleinsatz von '.$bet.libHTML::points().' gespielt werden,';
 						$first = false;
 					}
 					else
-						print $limit.'-players: '.$bet.libHTML::points().', ';
+						print $limit.'-Spieler: '.$bet.libHTML::points().', ';
 				}
-				print 'variants with more players have no such limit.)';
+				print 'Varianten mit einer größeren Spieleranzahl haben kein solches Limit.)';
 				print '<br />';
 			}
 		?>
 		<br />
 
-		<strong>Default:</strong> <?php print $defaultPoints.libHTML::points(); ?>
+		<strong>Standard:</strong> <?php print $defaultPoints.libHTML::points(); ?>
 	</li>
 	
 <?php
@@ -173,14 +171,14 @@ else
 					continue;
 					
 				$Variant = libVariant::loadFromVariantName($variantName);
-				$checkboxes[$variantName] = '<option value="'.$variantID.'"'.(($first=='')?' selected':'').'>'.$variantName.'</option>';
+				$checkboxes[$variantName] = '<option value="'.$variantID.'"'.(($first=='')?' selected':'').'>'.$Variant->fullName.'</option>';
 				if($first=='') {
 					$first='"'.$variantID.'"';
 					$defaultName=$variantName;
 				}
 				print "case \"".$variantID."\":\n";
 				print 'document.getElementById(\'desc\').innerHTML = "<a class=\'light\' href=\'variants.php?variantID='.$variantID.'\'>'.$Variant->fullName.'</a><hr style=\'color: #aaa\'>'.$Variant->description.'";'."\n";		
-				print "document.getElementById('countryID').options[0]=new Option ('Random','0');";
+				print "document.getElementById('countryID').options[0]=new Option ('Zufall','0');";
 				for ($i=1; $i<=count($Variant->countries); $i++)
 					print "document.getElementById('countryID').options[".$i."]=new Option ('".$Variant->countries[($i -1)]."', '".$i."');";
 				print "break;\n";		
@@ -201,25 +199,26 @@ else
 	</tr></table>
 	</li>
 	<li class="formlistdesc">
-		Select which type of Diplomacy game you would like to play from a selection of maps and alternate rule settings
-		available on this server.<br /><br />
+		Wähle aus dieser Liste verfügbarer Spiel-Varianten/-Regeln, welche Art von Diplomacy-Partie du starten
+		möchtest.<br /><br />
 
-		Click any of the variant names to view the details on the variants page.<br /><br />
+		Klicke auf einen Varianten-Namen, um mehr Details über die Variante zu erfahren.<br /><br />
 
-		<strong>Default:</strong> <?php print $defaultName;?>
+		<strong>Standard:</strong> <?php print $Variant->fullName; ?>
 	</li>
 <?php
 }
 ?>
-	<li class="formlisttitle">Country assignment:</li>
+	<li class="formlisttitle">Länderzuweisung:</li>
 	<li class="formlistfield">
 		<select id="countryID" name="newGame[countryID]">
 		</select>
 	</li>
 
 	<li class="formlistdesc">
-		Random distribution of each country, or players pick their country (gamecreator gets the selected country).<br /><br />
-		<strong>Default:</strong> Random
+		Zufällige Verteilung der Länder oder Möglichkeit, dass jeder Spieler sein Land selbst auswählt (Spielersteller erhält ausgewähltes Land).<br /><br />
+		
+		<strong>Standard:</strong> Zufall
 	</li>
 	
 	<script type="text/javascript">
@@ -227,64 +226,64 @@ else
 	</script>
 	
 	<div id="potType">
-		<li class="formlisttitle">Pot type:</li>
+		<li class="formlisttitle">Pott-Typ:</li>
 		<li class="formlistfield">
-			<input type="radio" name="newGame[potType]" value="Points-per-supply-center"> Points-per-supply-center (PPSC)<br />
-			<input type="radio" name="newGame[potType]" value="Winner-takes-all" checked > Winner-takes-all (WTA)
+			<input type="radio" name="newGame[potType]" value="Points-per-supply-center" checked > Points-per-supply-center<br />
+			<input type="radio" name="newGame[potType]" value="Winner-takes-all"> Winner-takes-all
 		</li>
 		<li class="formlistdesc">
-			Should the winnings be split up according to who has the most supply centers, or should the winner
-			get everything (<a href="points.php#ppscwta" class="light">read more</a>).<br /><br />
+			Soll der Gewinn unter den am Ende des Spiels übrigen Spielern aufgeteilt werden (Points-per-supply-center)
+			oder bekommt der Gewinner den gesammten Pott (Winner-takes-all)? (<a href="points.php#ppscwta" class="light">Mehr Infos zu Pott-Typen</a>).<br /><br />
 
-			<strong>Default:</strong> Winner-takes-all (WTA)
+			<strong>Standard:</strong> Points-per-supply-center
 		</li>
 	</div>
 
 	<li class="formlisttitle">
-		Anonymous players:
+		Anonyme Spieler:
 	</li>
 	<li class="formlistfield">
-		<input type="radio" name="newGame[anon]" value="No" checked>No
-		<input type="radio" name="newGame[anon]" value="Yes">Yes
+		<input type="radio" name="newGame[anon]" value="No" checked>Nein
+		<input type="radio" name="newGame[anon]" value="Yes">Ja
 	</li>
 	<li class="formlistdesc">
-		If enabled players will not see each others names and user information, players are anonymous until the game ends.<br /><br />
+		Wenn auf "Ja" gesetzt werden im Spiel keine Namen und Benutzer-Infos angezeigt. Die Spieler bleiben bis zum Ende der Partie anonym.<br /><br />
 
-		<strong>Default:</strong> No, players aren't anonymous
+		<strong>Standard:</strong> Nein, die Spieler sind nicht anonym.
 	</li>
 	
 	<li class="formlisttitle">
-		Disable in-game messaging:
+		Spielnachrichten deaktivieren:
 	</li>
 	<li class="formlistfield">
-		<input type="radio" name="newGame[pressType]" value="Regular" checked>Allow all
-		<input type="radio" name="newGame[pressType]" value="PublicPressOnly">Global messages only, no private chat/press (Public Press)
-		<input type="radio" name="newGame[pressType]" value="NoPress">No in-game messaging (Gunboat)
+		<input type="radio" name="newGame[pressType]" value="Regular" checked>Alle erlauben
+		<input type="radio" name="newGame[pressType]" value="PublicPressOnly">Nur globale Nachrichten, keine privaten
+		<input type="radio" name="newGame[pressType]" value="NoPress">Keine Nachrichten
 	</li>
 	<li class="formlistdesc">
-		Disable some types of messaging; allow only global in-game messages, or allow no in-game messages.
+		Deaktiviert einige Arten von Nachrichten, die Spieler sich im Spiel schicken können. Je nach Auswahl werden alle, nur globale oder gar keine Nachrichten erlaubt.
 
-		<br /><br /><strong>Default:</strong> Allow all
+		<br /><br /><strong>Standard:</strong> Alle erlauben
 	</li>
 	
 	<li class="formlisttitle">
-		Do not process the game on:
+		Keine Spielauswertung an:
 	</li>
 	<li class="formlistfield">
-		<input type="checkbox" name="newGame[noProcess][]" value="1">Mon
-		<input type="checkbox" name="newGame[noProcess][]" value="2">Tue
-		<input type="checkbox" name="newGame[noProcess][]" value="3">Wed
-		<input type="checkbox" name="newGame[noProcess][]" value="4">Thu
-		<input type="checkbox" name="newGame[noProcess][]" value="5">Fri
-		<input type="checkbox" name="newGame[noProcess][]" value="6">Sat
-		<input type="checkbox" name="newGame[noProcess][]" value="0">Sun
+		<input type="checkbox" name="newGame[noProcess][]" value="1">Mo
+		<input type="checkbox" name="newGame[noProcess][]" value="2">Di
+		<input type="checkbox" name="newGame[noProcess][]" value="3">Mi
+		<input type="checkbox" name="newGame[noProcess][]" value="4">Do
+		<input type="checkbox" name="newGame[noProcess][]" value="5">Fr
+		<input type="checkbox" name="newGame[noProcess][]" value="6">Sa
+		<input type="checkbox" name="newGame[noProcess][]" value="0">So
 	</li>
 	<li class="formlistdesc">
-		If you do not want this game to process on specific days of the week, then check the appropriate day or days to restrict processing. <br />
-		If a current phase falls on any of the selected days it will be extended by 24 hours until a day that is available for processing. However if all players 'ready' their orders the game will process as usual regardless of whether or not the extended 24 hours has been reached. <br />
-		Days are processed according to standard CET time.
-	
-		<br /><br /><strong>Default:</strong> Nothing selected. Process on all days of the week.
+		Wenn das Spiel an bestimmten Tagen nicht ausgewertet werden soll, können hier entsprechende Tage ausgewählt werden. <br />
+		Sollte die aktuelle Phasenfrist auf einen gewählten Tag fallen, wird die Phase automatisch um 24 Stunden verlängert. Es besteht weiterhin die Möglichkeit, vorzeiting in die nächste Phase voranzuschreiten, indem alle Spieler ihre Befehle mit "Fertig" markieren. <br />
+		Tage werden in CET-Zeit (Central European Time) angegeben.
+		
+		<br /><br /><strong>Standard:</strong> Keine Auswahl. Auswertung an allen Tagen der Woche.
 	</li>
 	
 </ul>
@@ -295,50 +294,51 @@ else
 <ul class="formlist">
 	<li class="formlisttitle">
 		<a href="#" onclick="$('AdvancedSettings').show(); $('AdvancedSettingsButton').hide(); return false;">
-		Open Advanced Settings
+		Erweiterte Einstellungen öffnen
 		</a>
 	</li>
 	<li class="formlistdesc">
-		Advanced settings allowing extra customization of games for seasoned players, allowing
-		different map choices, alternate rules, and non-standard timing options.<br /><br />
+		Die erweiterten Einstellungen erlauben weitere Anpassungen für gestandene Spieler,
+		 wie z.B. verschiedene Karten-Typen, alternative Regeln oder besondere Zeit-Optionen.<br /><br />
 
-		The default settings are fine for <strong>new players</strong>.
+		Die Standard-Einstellungen sind genau richtig für <strong>neue Spieler</strong>.
 	</li>
 </ul>
 </div>
 
 <div id="AdvancedSettings" style="<?php print libHTML::$hideStyle; ?>">
 
-<h3>Advanced settings</h3>
+<h3>Erweiterte Einstellungen</h3>
 
 <ul class="formlist">
 
 	<li class="formlisttitle">
-		Joining pre-game period length: (5 minutes - 10 days)
+		Länge der Beitrittsphase: (5 Minuten - 10 Tage)
 	</li>
 	<li class="formlistfield">
 		<select id="wait" name="newGame[joinPeriod]">
 		<?php
 			foreach ($phaseList as $i) {
 				$opt = libTime::timeLengthText($i*60);
+
 				print '<option value="'.$i.'"'.($i==1440 ? ' selected' : '').'>'.$opt.'</option>';
 			}
 		?>
 		</select>
 		- 
 		<select id="fixStart" name="newGame[fixStart]">
-			<option value="No" selected>Start as soon as enough players have joined.</option>';
-			<option value="Yes">Wait for the given starting time and day.</option>';
+			<option value="No" selected>Das Spiel wird gestartet, sobald genug Spieler beigetreten sind.</option>';
+			<option value="Yes">Das Spiel startet erst, wenn das Start-Datum und die Start-Zeit erreicht ist.</option>';
 		</select>
 	</li>
 	<li class="formlistdesc">
-		The amount of time to wait for people to join. For 5 minute games you may want to give players longer than 5 minutes to join.
+		Die länge der Phase, die Benutzer haben, um diesem Spiel beizutreten (=Vorspiel-Phase). Diese Option besteht, um beispielsweise auch in Fünf-Minuten-Spielen den Benutzern mehr Zeit zum Beitreten einzuräumen. 
 
-		<br /><br /><strong>Default:</strong> The same as phase length
+		<br /><br /><strong>Standard:</strong> Gleiche Länge wie die übrigen Spielphasen
 	</li>
 	
 	<li class="formlisttitle">
-		Rating requirements:
+		Reliability-Rating Vorraussetzungen:
 	</li>
 	<script type="text/javascript">
 		function changeReliabilitySelect(i){
@@ -354,13 +354,13 @@ else
 			}
 			else {
 				document.getElementById('minPhases').options[0].value = '0';
-				document.getElementById('minPhases').options[0].text  = 'none';
+				document.getElementById('minPhases').options[0].text  = 'keine';
 				document.getElementById('ReliabilityInput').value = i;
 			}
 		}
 	</script>
 	<li class="formlistfield">
-		ReliabilityRating: R
+		Minimum Reliability-Rating: R
 <?php
 /*		
 		<span id="ReliabilitySelect" style="display:inline">
@@ -386,10 +386,10 @@ else
 					if (this.value > 100 ) this.value = 100;
 					changeReliabilitySelect(this.value)" 
 				onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13;">
-			or better.
+			oder besser.
 		</span>
 		<br>
-		NoNMR: <input id="minNoNMR" type="text" name="newGame[minNoNMR]" size="2" value="0"
+		Keine NMRs: <input id="minNoNMR" type="text" name="newGame[minNoNMR]" size="2" value="0"
 			style="text-align:right;"
 			onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13"
 			onChange="
@@ -397,8 +397,8 @@ else
 				if (this.value == 'NaN' ) this.value = 0;
 				if (this.value < 0 ) this.value = 0;
 				if (this.value > 100 ) this.value = 100;
-				"/>% or better. - 
-		NoCD: <input type="text" id="minNoCD" name="newGame[minNoCD]" size="2" value="0"
+				"/>% oder besser. - 
+		Keine CDs: <input type="text" id="minNoCD" name="newGame[minNoCD]" size="2" value="0"
 			style="text-align:right;"
 			onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13"
 			onChange="
@@ -406,9 +406,9 @@ else
 				if (this.value == 'NaN' ) this.value = 0;
 				if (this.value < 0 ) this.value = 0;
 				if (this.value > 100 ) this.value = 100;
-				"/>% or better.<br>
-		Min Phases: <select id="minPhases" name="newGame[minPhases]">
-			<option value=0 selected>none</option>
+				"/>% oder besser.<br>
+		Minimum gespielte Phasen: <select id="minPhases" name="newGame[minPhases]">
+			<option value=0 selected>keines</option>
 			<option value=50>50+</option>
 			<option value=100>100+</option>
 			<option value=300>300+</option>
@@ -416,22 +416,23 @@ else
 			</select>
 	</li>
 	<li class="formlistdesc">
-		You can set some requirements that the players for your game need to fulfill.		
+		Hier können bestimmte Vorraussetzungen ausgewählt werden, die Spieler erfüllen müssen, um dem Spiel beitreten zu können.		
 		<ul>
-			<li><b>Min Rating:</b> The minimum reliability a player must have to join your game.</li>
-			<li><b>Min Phases:</b> How many phases a player must have played to join your game.</li>
+			<li><b>Minimum Reliability-Rating:</b> Die Zuverlässigkeit (Reliability-Rating), die ein Spieler mindestens erfüllen soll.</li>
+			<li><b>Minimum gespielte Phasen:</b> Die Anzahl an Phasen, die ein Spieler mindestens gespielt haben soll.</li>
 		</ul>
-		This might lead to not enough people able to join your games, so choose your options wisely.<br /><br />
-		<strong>Default:</strong> No restrictions:
+		Diese Einstellungen können dazu führen, dass nicht genug Spieler beitreten können. Die Einschränkungen sollten also mit Bedacht gewählt werden.<br /><br />
+		
+		<strong>Standard:</strong> Keine Vorraussetzungen:
 	</li>
 
 	<li class="formlisttitle">
-		NMR policy:
+		NMR - Umgang:
 	</li>
 	<li class="formlistfield">
 		<?php 
-			$specialCDturnsTxt = ( Config::$specialCDturnsDefault == 0 ? 'off' : (Config::$specialCDturnsDefault > 99 ? '&infin;' : Config::$specialCDturnsDefault) );
-			$specialCDcountTxt = ( Config::$specialCDcountDefault == 0 ? 'off' : (Config::$specialCDcountDefault > 99 ? '&infin;' : Config::$specialCDcountDefault) );
+			$specialCDturnsTxt = ( Config::$specialCDturnsDefault == 0 ? 'aus' : (Config::$specialCDturnsDefault > 99 ? '&infin;' : Config::$specialCDturnsDefault) );
+			$specialCDcountTxt = ( Config::$specialCDcountDefault == 0 ? 'aus' : (Config::$specialCDcountDefault > 99 ? '&infin;' : Config::$specialCDcountDefault) );
 		?>
 		
 		<input type="hidden" id="specialCDturn"  name="newGame[specialCDturn]"  value="<?php print $specialCDturnsTxt;?>">
@@ -446,78 +447,78 @@ else
 					opt = this.value.split('/');
 					document.getElementById('specialCDturn').value  = opt[0];
 					document.getElementById('specialCDcount').value = opt[1];
-					if (opt[0] == 0) opt[0] = 'off'; if (opt[0] > 90) opt[0] = '&infin;'; 
-					if (opt[1] == 0) opt[1] = 'off'; if (opt[1] > 90) opt[1] = '&infin;'; 
+					if (opt[0] == 0) opt[0] = 'aus'; if (opt[0] > 90) opt[0] = '&infin;'; 
+					if (opt[1] == 0) opt[1] = 'aus'; if (opt[1] > 90) opt[1] = '&infin;'; 
 					document.getElementById('specialCDturnCustom').value  = opt[0];
 					document.getElementById('specialCDcountCustom').value = opt[1];
-					document.getElementById('NMRpolicyText').innerHTML = ' - Turns: <b>' + opt[0] + '</b> - Delay: <b>' + opt[1] + '</b>';
+					document.getElementById('NMRpolicyText').innerHTML = ' - Runden: <b>' + opt[0] + '</b> - Verlängerung: <b>' + opt[1] + '</b>';
 					$('NMRpolicyCustom').hide();
 					$('NMRpolicyText').show();
 				}
 			">
-			<option value="0/0">Off</option>
-			<option value="<?php print $specialCDturnsTxt;?>/<?php print $specialCDcountTxt;?>" selected>Default</option>
-			<option value="5/2">Committed</option>
-			<option value="99/99">Serious</option>
-			<option value="c/c">Custom</option>
+			<option value="0/0">Aus</option>
+			<option value="<?php print $specialCDturnsTxt;?>/<?php print $specialCDcountTxt;?>" selected>Standard</option>
+			<option value="5/2">Verpflichtend</option>
+			<option value="99/99">Ernst</option>
+			<option value="c/c">Individuell</option>
 		</select>
 		
 		
 		<span id="NMRpolicyCustom" style="display:none">
-			 - Turns: </b><input 
+			 - Runden: </b><input 
 							type="text" 
 							id="specialCDturnCustom" 
 							size="2" 
 							value='<?php print $specialCDturnsTxt; ?>'
 							onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13"
 							onChange="document.getElementById('NMRpolicy').selectedIndex = 4;
-								if (this.value == 'off') this.value = 0;
+								if (this.value == 'aus') this.value = 0;
 								this.value = parseInt(this.value);
 								document.getElementById('specialCDturn').value  = this.value;
 								if (this.value > 90) this.value = '&infin;';
-								if (this.value == 0) this.value = 'off';"
+								if (this.value == 0) this.value = 'aus';"
 							>
-			 - Delay: </b><input
+			 - Verlängerung: </b><input
 							type="text"
 							id="specialCDcountCustom"
 							value = '<?php print $specialCDcountTxt; ?>'
 							onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13"
 							onChange="document.getElementById('NMRpolicy').selectedIndex = 4;
-								if (this.value == 'off') this.value = 0;
+								if (this.value == 'aus') this.value = 0;
 								this.value = parseInt(this.value);
 								document.getElementById('specialCDcount').value = this.value;
 								if (this.value > 90) this.value = '&infin;';
-								if (this.value == 0) this.value = 'off';"
+								if (this.value == 0) this.value = 'aus';"
 							size="2"
 							> 
 		</span>
 		<span id="NMRpolicyText">
-			 - Turns: <b><?php print $specialCDturnsTxt;?></b> - Delay: <b><?php print $specialCDcountTxt;?></b>
+			 - Runden: <b><?php print $specialCDturnsTxt;?></b> - Verlängerung: <b><?php print $specialCDcountTxt;?></b>
 		</span>
 	</li>
 	<li class="formlistdesc">
-		This rule will send a players into Civil Disorder (CD) if there are No Moves Received (NMR) from them.
+		Diese Einstellung ermöglicht es, Spieler auf Civil Disorder (CD) zu setzen, wenn keine Befehle (NMR) von ihnen abgeschickt wurden.
 		<ul>
-		<li><strong>Turns:</strong> How many turns this action will be in effect for. Be carefull, a turn has up to three phases.
-		Example: A two will send the country in CD for the diplomacy, retreat and build phase of the first 2 turns (usually Spring and Autumn).</li>
-		<li><strong>Delay:</strong> How much time to advertise and find a replacement player (the current phase will be extended by the current phase length that many times).
-		A zero will send the country in CD, but proceed with the turn as usual. Countries with 1 or less SCs will not hold back the game from processing.</li>
+		<li><strong>Runden:</strong> Die Anzahl an Runden, innerhalb der Spieler sofort auf CD gesetzt werden. Eine Runde kann bis zu 3 Phasen haben.
+			Beispiel: Eine 2 bewirkt, dass Spieler innerhalb des ersten Spieljahres (Frühling, Herbst, inkl. Rückzugs- und Bauphase) sofort auf CD gesetzt werden, wenn eine NMR vorliegt.</li>
+		<li><strong>Verlängerung:</strong> Die zusätzliche Zeit zum Werben und Finden eines Ersatzspielers (die aktuelle Phase wird x-mal verlängert).
+			Eine 0 wird zwar einen Spieler auf CD gesetzt wird, das Spiel aber trotzdem wie üblich fortgesetzt wird. Spieler mit einem oder keinem VZ haben keinen Einfluss auf diese Einstellungen und werden ignoriert.</li>
 		</ul>
-		Any value greater 90 will set the value to &infin;, a value of 0 will set this to off.
-		<br /><br /><strong>Default:</strong> <?php print $specialCDturnsTxt;?> / <?php print $specialCDcountTxt;?>
+		Jeder Wert über 90 wird auf $infin; gesetzt, ein Wert von 0 deaktiviert diese Einstellung.
+		<br /><br /><strong>Standard:</strong> <?php print $specialCDturnsTxt;?> / <?php print $specialCDcountTxt;?>
 	</li>
 
 	<li class="formlisttitle">
-		Alternate winning conditions:
+		Alternative Siegesbedingungn:
 	</li>
 	<li class="formlistfield"> 
-		<b>Target SCs: </b><input type="text" name="newGame[targetSCs]" size="4" value="0"
+		<b>Ziel-VZs: </b><input type="text" name="newGame[targetSCs]" size="4" value="0"
 			onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13"
 			onChange="
 				this.value = parseInt(this.value);
 				if (this.value == 'NaN' ) this.value = 0;"
-		/> (0 = default)<br>
-		<b>Max. turns: </b><input type="text" name="newGame[maxTurns]" size="4" value="0"
+		/> (0 = Standard)<br>
+		<b>Max. Runden: </b><input type="text" name="newGame[maxTurns]" size="4" value="0"
 			onkeypress="if (event.keyCode==13) this.blur(); return event.keyCode!=13"
 			onChange="
 				this.value = parseInt(this.value);
@@ -527,13 +528,14 @@ else
 		/> (4 < maxTurns < 200)
 	</li>
 	<li class="formlistdesc">
-		This setting lets you limit how many turns are played and/or how many SCs need to be conquered before a winner is declared.
-		Please check the variant-description for infomation about the average turns or the default SCs for a win.<br />
-		The winning player is decided by who has the most SCs after that turn's diplomacy phase.
-		If 2 or more player have the same SCs at the end of the game, the game checks for the turn before, and so on.
-		If player's SC counts are the same throughout the whole game the winner is decided at random.
-		<br />A value of "0" (the default) ends the game as usual, as soon as one player reach the default target SCs.
-		<br /><br /><strong>Default:</strong> 0 (no fixed game duration / default number of SCs needed)
+		Diese Einstellung ermöglicht es, Spiele nach einer bestimmten Anzahl an Runden und/oder bei Erreichen einer von den Standardregeln abweichenden VZ-Anzal zu beenden.
+		Es ist hierbei sinnvoll, die in der Variantenbeschreibung angegebene durchschnittlich Rundenzahl dieser Variante zu berücksichtigen.<br />
+		
+		Bei einer Rundenbegrenzung wird der Sieger nach der Diplomatie-Phase ermittelt.
+		Bei zwei oder mehr Spielern mit derselben Anzahl an VZs zählt die Anzahl in der vorherigen Runde.
+		Hatten mehrere Spieler zu jeder Zeit gleich viele VZs, werden ein zufälliger Sieger aus diesen gewählt.
+		<br />Ein Wert von "0" (Standard) beendet das Spiel wie üblich, wenn ein Spieler die benötigten Ziel-VZs erreicht hat.
+		<br /><br /><strong>Standard:</strong> 0 (keine Rundenbegrenzung / Standardanzahl an VZs für Sieg nötig)
 	</li>
 
 	<?php
@@ -556,32 +558,32 @@ else
 	?>
 	
 	<li class="formlisttitle">
-		Moderated game:
+		Moderiertes Spiel:
 	</li>
 	<li class="formlistfield">
 		<input type="radio" name="newGame[moderated]" 
 			onclick="$('GDoptions').hide();	$('PWReq').hide(); $('PWOpt').show();"
-			value="No" checked>No
+			value="No" checked>Nein
 		<input type="radio" name="newGame[moderated]" value="Yes" 
 			onclick="$('GDoptions').show(); $('PWReq').show(); $('PWOpt').hide();"
-			<?php if (!$User->DirectorLicense()) print "disabled"; ?> >Yes
+			<?php if (!$User->DirectorLicense()) print "disabled"; ?> >Ja
 	</li>
 	<li class="formlistdesc">
-		If set to yes you are given extra moderator-powers to manage this game.<br />
-		You need to have at least <b>25</b> non-live games with more than 2 players completed and a reliability-rating of <b>R97</b> or better to moderate a game.
+		Ist "Ja" ausgewählt, erhälts Du besondere Moderatoren-Rechte, um dieses Spiel zu verwalten.<br />
+		Um ein Spiel zu moderieren, müssen mindestens <b>25</b> Nicht-Live-Spiele mit mehr als zwei Spielern von Dir beendet worden sein und Du musst ein Reliability-Rating von <b>R97</b> oder besser vorweisen können.
 		<br /><br />
-		<strong>Default:</strong> No, there is no moderator for this game.
+		<strong>Standard:</strong> Nein, das Spiel wird nicht moderiert.
 	</li>
 
 	<span id="GDoptions" style="<?php print libHTML::$hideStyle; ?>">
 	
 		<li class="formlisttitle">
-			Game description (required for moderated games):
+			Spielbeschreibung (notwendig für moderierte Spiele):
 		</li>
 		<li class="formlistfield">
 			<TEXTAREA name="newGame[description]" ROWS="4"></TEXTAREA>
 		<li class="formlistdesc">
-			Please enter a brief description about your game and custom rules here.
+			Bitte gebe hier eine kurze Beischreibung Deines Spiels und spezieller Regeln ein.
 		</li>
 	
 	</span>
@@ -594,19 +596,20 @@ else
 		If you want to enable the players to choose their countries select any country in the "Country assignment" list. You will still need to join this game once it's created.
 -->
 	
+
 	<li class="formlisttitle">
-		<img src="images/icons/lock.png" alt="Private" /> Password protect (<span id="PWOpt">optional</span><span id="PWReq" style="<?php print libHTML::$hideStyle;?>">required for moderated games</span>):
+		<img src="images/icons/lock.png" alt="Private" /> Passwort-Schutz (<span id="PWOpt">optional</span><span id="PWReq" style="<?php print libHTML::$hideStyle;?>">notwendig für moderierte Spiele</span>):
 	</li>
 	<li class="formlistfield">
 		<ul>
-			<li>Password: <input type="password" name="newGame[password]" value="" size="30" /></li>
-			<li>Confirm: <input type="password" name="newGame[passwordcheck]" value="" size="30" /></li>
+			<li>Passwort: <input type="password" name="newGame[password]" value="" size="30" /></li>
+			<li>Noch einmal: <input type="password" name="newGame[passwordcheck]" value="" size="30" /></li>
 		</ul>
 	</li>
 	<li class="formlistdesc">
-		<strong>This is optional.</strong> If you set this only people who know the password will be able to join.<br /><br />
+		<strong>Ein Passwort ist optional.</strong> Wird hier ein Passwort gesetzt können nur Benutzer, denen du das Passwort mitteilst, an diesem Spiel teilnehmen.<br /><br />
 
-		<strong>Default:</strong> No password set
+		<strong>Standard:</strong> Kein Passwort
 	</li>
 
 <!-- 

@@ -29,56 +29,54 @@ print libHTML::pageTitle('Intro to webDiplomacy','A quick &amp; easy guide to ge
 
 print '
 <p>
-Diplomacy is a game which is easy to learn but impossible to master. The rules are all very intuitive,
-lots of people pick them up just by playing, but this document will familiarize you more quickly.
+Diplomacy ist ein Spiel, das leicht zu erlernen, aber unm&ouml;glich zu meistern ist. Die Regeln sind intuitiv, die meisten Leute lernen sie direkt beim Spielen. Dieses Kurzanleitung hilft, sie noch ein wenig schneller zu verstehen. 
 </p>
 
 <div class="hr"></div>';
 
 ?>
-<p style="text-align:center"><a href="#Objective">Objective</a> - <a href="#Units">Units</a> -
-	<a href="#Moves">Moves</a> - <a href="#Rules">Rules</a> - <a href="#Play">Play</a></p>
+<p style="text-align:center"><a href="#Objective">Ziel des Spiels</a> - <a href="#Units">Einheiten</a> -
+	<a href="#Moves">Befehle</a> - <a href="#Rules">Regeln</a> - <a href="#Play">Spielen</a></p>
 
 <div class="hr"></div>
 
 <a name="Objective"></a>
-<h3>Objective</h3>
+<h3>Ziel des Spiels</h3>
 <p>
-The objective of Diplomacy is to be the first to get 18 supply centers. For each supply center
-you occupy you get a new unit, and you lose a unit whenever a supply center you own gets
-occupied by someone else.<br /><br />
-You can recognize the supply centers with the markers which are placed on them.</p>
+ Das Ziel bei Diplomacy ist es, 18 Versorgungszentren inne zu haben. F&uuml;r jedes Versorgunszentrum gewinnst du eine Einheit; du verlierst eine Einheit, wenn eines deiner Versorgungszentren von jemand anderem besetzt wird.
+<br>
+<br>
+Die Versorgungszentren sind gesondert markierte Landabschnitte.</p>
 <p style="text-align:center;">
-	<img src="images/intro/supply.png" alt=" " title="Supply centers are marked (large map)" />
-	<img src="images/intro/supply2.png" alt=" " title="Supply centers are marked (small map)" />
+	<img src="images/intro/supply.png" alt=" " title="Versorgungszentren sind markiert (gro&szlig;e Karte)" />
+	<img src="images/intro/supply2.png" alt=" " title="Versorgungszentren sind markiert (kleine Karte)" />
 </p>
 
 <div class="hr"></div>
 
 <a name="Units"></a>
-<h3>Units</h3>
+<h3>Einheiten</h3>
 <ul class="formlist">
-	<li class="formlisttitle">Army <img src="<?php print STATICSRV; ?>contrib/army.png"
+	<li class="formlisttitle">Armee <img src="<?php print STATICSRV; ?>contrib/army.png"
 		alt=" "  title="An army unit icon" /></li>
 	<li class="formlistdesc">
-		This unit can only move on land.
+		Diese Einheit kann nur &uuml;ber Land bewegt werden.
 	</li>
 
-	<li class="formlisttitle">Fleet <img src="<?php print STATICSRV; ?>contrib/fleet.png"
+	<li class="formlisttitle">Flotte <img src="<?php print STATICSRV; ?>contrib/fleet.png"
 		alt=" " title="A fleet unit icon" /></li>
 	<li class="formlistdesc">
-		This unit can only move in the sea, and in coastal territories. It
-		can also convoy armies across sea territories using the convoy move.
+		Diese Einheit lann nur auf See und in K&uuml;sten-Territorien bewegt werden. Sie kann zudem Armee &uuml;ber die See-Gebiete hinweg bef&ouml;rdern mittels des "convoy"-Befehls. 
 	</li>
 </ul>
 
 <div class="hr"></div>
 <a name="Moves"></a>
-<h3>Moves</h3>
+<h3>Befehle</h3>
 <ul class="formlist">
 	<li class="formlisttitle">Hold</li>
 	<li class="formlistdesc">
-		The unit will defend if its territory is attacked, but otherwise do nothing.
+		Die Einheit verteidigt das Territorium, falls es angegriffen wird. Sonst tut es nichts.
 		<p style="text-align:center;">
 			<img src="<?php print STATICSRV; ?>datc/maps/801-large.map-thumb" alt=" " title="An army holds in Naples" />
 		</p>
@@ -87,7 +85,7 @@ You can recognize the supply centers with the markers which are placed on them.<
 
 	<li class="formlisttitle">Move</li>
 	<li class="formlistdesc">
-		The unit tries to move into(/attack) an adjacent territory.
+		Die Einheit versucht in ein angrenzendes Territorium zu ziehen / es zu anzugreifen. 
 		<p style="text-align:center;">
 			<img src="<?php print STATICSRV; ?>datc/maps/802-large.map-thumb" alt=" " title="An army in Naples moves to Rome" />
 		</p>
@@ -96,86 +94,100 @@ You can recognize the supply centers with the markers which are placed on them.<
 
 	<li class="formlisttitle">Support hold, support move</li>
 	<li class="formlistdesc">
-		Support is what Diplomacy is all about. As no one unit is stronger than another you need to
-		combine the strength of multiple units to attack other territories.<br />
-		<em>(Try hovering your mouse over the more complex battles to get more explanation.)</em>
+		 Support ist das, worum es in Diplomacy eigentlich geht. Da alle Einheiten im Spiel die gleiche St&auml;rke haben muss man die Kraft mehrerer Einheiten vereinen um Territorien angreifen zu k&ouml;nnen.
+		<br>
+		<em>
+		(Fahre mit der Maus &uuml;ber die komplexeren Schlachten f&uuml;r eine genauere Erkl&auml;uterung.) </em>
 		<p style="text-align:center;">
 			<img src="<?php print STATICSRV; ?>datc/maps/803-large.map-thumb" alt=" "
-				title="A yellow support-move lets the army in Venice overpower the army holding in Rome" />
+				title="Ein gelber Support move l&auml;sst die Armee in Venedig, die Armee in Rom besiegen." />
 			<img src="<?php print STATICSRV; ?>datc/maps/804-large.map-thumb" alt=" "
-				title="A green support-hold from the fleet in Tyrrhenian Sea lets Rome hold against an equally well-supported Venice" />
+				title="Ein gr&uuml;ner Support move der Flotte im Tyrrhenischen Meer l&auml;sst die Armee in Rom gegen den unterst&uuml;tzten Angriff der Armee in Venedig bestehen (unentschieden)." />
 		</p>
 	</li>
 
 
 	<li class="formlisttitle">Convoy</li>
 	<li class="formlistdesc">
-		You can use fleets to carry army units across sea territories, this is called a convoy. You
-		can also string multiple convoys together to move an army unit large distances overseas in a single
-		turn.
-
+		Man kann Flotten nutzen, um Armeen &uuml;ber See-Territorien zu geleiten (im Enlischen "convoy"). Mehrere Flotten hintereinander k&ouml;nnen in einem einzigen Zug eine Armee auch weitere Strecken &uuml;ber See bewegen.
 		<p style="text-align:center;">
 			<img src="<?php print STATICSRV; ?>datc/maps/805-large.map-thumb" alt=" "
-				title="An army in Venice moves to Tunis, convoyed by the fleets in Adriatic Sea and Ionian Sea" />
+				title="Eine Armee zieht von Venedig nach Tunis, convoyed von einer Flotte in der Adria und einer im Ionischen Meer." />
 		</p>
 	</li>
 </ul>
 
 <div class="hr"></div>
 <a name="Rules"></a>
-<h3>Rules</h3>
+<h3>Regeln</h3>
 <ul class="formlist">
 <li class="formlistdesc">
-	In diplomacy no army or fleet is stronger than another, and a <strong>holding</strong>
-	unit will always beat a <strong>moving</strong> unit of equal support.
+	 In Dipomacy sind alle Armeen und Flotten gleich stark, eine verteidigende (
+	<strong>hold</strong>
+	) Einheit besiegt immer eine bewegende (
+	<strong>moving</strong>
+	) mit gleicher Unterst&uuml;tzung (
+	<strong>support</strong>
+	). 
 	<p style="text-align:center;">
 		<img src="<?php print STATICSRV; ?>datc/maps/806-large.map-thumb" alt=" "
-			title="An army in Naples attempts to move to Rome, but has no support, so the defending army is not dislodged" />
+			title="Eine Armee in Neapel soll nach Rom ziehen, wird aber nicht unterst&uuml;tzt und kann so die Einheit in Rom nicht vertreiben." />
 		<img src="<?php print STATICSRV; ?>datc/maps/807-large.map-thumb" alt=" "
-			title="The fleet and army are both equally matched in their attempt to move into Apulia, so neither succeeds" />
+			title="Die Flotte und die Armee sind gleich stark, daher kann keiner nach Apulien ziehen." />
 	</p>
 </li>
 
 
 <li class="formlistdesc">
-	The only way to win a battle is by supporting a <strong>moving</strong> unit with another unit, using a yellow
-	<strong>support move</strong> order.
+	 Die einzige M&ouml;glichkeit, einen Angriff zu gewinnen ist, eine angreifende (
+	<strong>moving</strong>
+	) Einheit mit einer anderen zu unterst&uuml;tzen indem man letzter einen gelben
+	<strong>support move</strong>
+	befielt. 
 	<p style="text-align:center;">
 		<img src="<?php print STATICSRV; ?>datc/maps/803-large.map-thumb" alt=" "
-				title="A yellow support-move lets the army in Venice overpower the army holding in Rome" />
+				title="Ein gelber Support move l&auml;sst die Armee in Venedig, die haltende Armee in Rom besiegen." />
 	</p>
 </li>
 
 
 <li class="formlistdesc">
-	And support can be given to <strong>holding</strong> units, with a green <strong>support hold</strong> order.
+	Verteidigende (
+	<strong>holding</strong>
+	) Einheiten k&ouml;nnen mit einem gr&uuml;nen
+	<strong>support hold</strong>
+	-Befehl unterst&uuml;tzt werden. 
 	<p style="text-align:center;">
 		<img src="<?php print STATICSRV; ?>datc/maps/804-large.map-thumb" alt=" "
-				title="A green support-hold from the fleet in Tyrrhenian Sea lets Rome hold against an equally well-supported Venice" />
+				title="Ein gr&uuml;ner Support hold der Flotte im Tyrrhenischen Meer l&Auml;sst die Armee in Rom gegen den unterst&uuml;tzten Angriff der Armee in Venedig bestehen (unentschieden)." />
 	</p>
 </li>
 
-
 <li class="formlistdesc">
-	If the number of <strong>support moves</strong> are greater than the number of <strong>support holds</strong>
-	the move will succeed, otherwise it will fail.
+	  Ist die Anzahl der
+	<strong>support moves</strong>
+	-Befehle gr&ouml;&szlig;er als die Anzahl der
+	<strong>support holds</strong>
+	-Befehle gl&uuml;ckt der move-Befehl, andernfalls scheitert er. 
 	<p style="text-align:center;">
 		<img src="<?php print STATICSRV; ?>datc/maps/808-large.map-thumb" alt=" "
-				title="The fleet moving from Trieste to Venice has two support-moves, and the fleet in Venice has only one support-hold, so Trieste succeeds" />
+				title="Die Flotte, die aus Triest nach Venedig angreift, hat zwei Support moves, die haltende Flotte in Venedig aber nur einen support hold. Also gewinnt die angreifende Flotte." />
 		<img src="<?php print STATICSRV; ?>datc/maps/809-large.map-thumb" alt=" "
-				title="The fleet moving from Trieste to Venice has two support-moves, but the fleet in Venice has two support-holds, so Trieste and Venice are equally matched and the attacker is blocked" />
+				title="Sowohl der Angriff aus Triest, als auch die Abwehr in Venedig werden zweimal unterst&uuml;tzt. Es steht unentschieden, also kann der Verteidiger bleiben." />
 	</p>
 </li>
 
 <li class="formlistdesc">
-	Also; if a unit is being attacked it has to defend itself by <strong>holding</strong>, and can't support another unit.
+	 Wichtig: wird eine Einheit angegriffen verteidigt sie sich automatisch, f&uuml;hrt also den
+	<strong>hold</strong>
+	-Befehl aus und kann keine weitere Einheit mehr unterst&uuml;tzen. 
 	<p style="text-align:center;">
 		<img src="<?php print STATICSRV; ?>datc/maps/808-large.map-thumb" alt=" "
-				title="No supporting units are being attacked, all of them count: Trieste 2 - Venice 1; Trieste moves" />
+				title="Keine unterst&uuml;tzenden Einheiten werden angegriffen, alle Z&auml;hlen: Triest 2 - Venedig 1; Triest darf ziehen" />
 		<img src="<?php print STATICSRV; ?>datc/maps/810-large.map-thumb" alt=" "
-				title="An army from Munich attacks Tyrolia, preventing it from supporting Trieste: Trieste 1 - Venice 1; Trieste stays" />
+				title="Eine Armee aus M&uuml;nchen greift Tirol an und verhindert so, dass die dortige Einheit unterst&uuml;tzen kann: Triest 1 - Venedig 1; Triest muss bleiben" />
 		<img src="<?php print STATICSRV; ?>datc/maps/811-large.map-thumb" alt=" "
-				title="A fleet in the Tyrrhenian Sea attacks Rome, preventing it from supporting Venice: Trieste 1 - Venice 0; Trieste moves" />
+				title="Eine Flotte im Tyrrhenischen Meer greift Rom an und verhindert, dass es Venedig unterst&uuml;tzt: Triest 1 - Venedig 0; Triest darf ziehen" />
 	</p>
 </li>
 
@@ -184,13 +196,16 @@ You can recognize the supply centers with the markers which are placed on them.<
 <ul class="formlist">
 <li class="formlistdesc">
 	<a name="Play"></a>
-	With these rules you know everything you need to start playing Diplomacy online! After you
-	<a href="register.php" class="light">register</a> a user account you can
-	<a href="gamecreate.php" class="light">create a game</a>
-	and <a href="gamelistings.php" class="light">join existing games</a>.
+	 Mit diesen Regeln wei&szlig;t du alles, was du wissen musst, um auf Diplomacy's Website eine Partie Diplomacy zu spielen. Nachdem du dich
+	<a class="light" href="register.php">registriert</a>
+	hast kannst du ein
+	<a class="light" href="gamecreate.php">Spiel erstellen</a>
+	und an
+	<a class="light" href="gamelistings.php">offenen Spielen</a>
+	teilnehmen.
 	<p style="text-align:center;">
 		<img src="<?php print STATICSRV; ?>datc/maps/812-large.map-thumb" alt=" "
-				title="Because Prussia is support-holding the fleet in the Baltic Sea the equally supported move to the Baltic Sea from Livonia fails: This allows the fleet in the Baltic Sea to successfully convoy an army from Berlin to Sweden"  />
+				title="Weil Preussen die Flotte in der Ostsee unterst&uuml;tzt, wird sie nicht von der Flotte aus Livland vertieben. Sie kann die Armee aus Berlin erfolgreich nach Schweden geleiten."  />
 	</p>
 	</li>
 </ul>

@@ -27,11 +27,11 @@ class ClassicVariant extends WDVariant {
 	public $id=1;
 	public $mapID=1;
 	public $name='Classic';
-	public $fullName='Classic';
-	public $description='The standard Diplomacy map of Europe.';
+	public $fullName='Klassisches Diplomacy';
+	public $description='Die Standard Diplomacy Karte von Europa.';
 	public $author='Avalon Hill';
 
-	public $countries=array('England', 'France', 'Italy', 'Germany', 'Austria', 'Turkey', 'Russia');
+	public $countries=array('Grossbritannien', 'Frankreich', 'Italien', 'Deutsches Reich', 'Osterreich Ungarn', 'Osmanisches Reich', 'Russland');
 
 	public function __construct() {
 		parent::__construct();
@@ -40,20 +40,21 @@ class ClassicVariant extends WDVariant {
 		$this->variantClasses['drawMap'] = 'Classic';
 
 		/*
-		 * adjudicatorPreGame extended for country starting unit data
+		 * adjudicatorPreGame extended to add fair country-balancing, replacing the
+		 * default random allocation for classic map games.
 		 */
 		$this->variantClasses['adjudicatorPreGame'] = 'Classic';
 	}
 
 	public function turnAsDate($turn) {
-		if ( $turn==-1 ) return l_t("Pre-game");
-		else return ( $turn % 2 ? l_t("Autumn").", " : l_t("Spring").", " ).(floor($turn/2) + 1901);
+		if ( $turn==-1 ) return "Pre-game";
+		else return ( $turn % 2 ? "Herbst, " : "Fr&uuml;hling, " ).(floor($turn/2) + 1901);
 	}
 
 	public function turnAsDateJS() {
 		return 'function(turn) {
-			if( turn==-1 ) return l_t("Pre-game");
-			else return ( turn%2 ? l_t("Autumn")+", " : l_t("Spring")+", " )+(Math.floor(turn/2) + 1901);
+			if( turn==-1 ) return "Pre-game";
+			else return ( turn%2 ? "Herbst, " : "Fr&uuml;hling, " )+(Math.floor(turn/2) + 1901);
 		};';
 	}
 }

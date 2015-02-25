@@ -23,76 +23,86 @@
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1257">
     </head>
     <body>
-        <h1>Help: InteractiveMap</h1>
+        <h1>Hilfe: InteractiveMap</h1>
         <table border="1">
-            <tr><td>Requirements:</td><td>A browser that supports HTML5 and the Canvas (<a href="http://caniuse.com/#feat=canvas">Check it out!</a>).</td></tr>
-            <tr><td>How to:</td><td>To use the InteractiveMap-Interface simply select a unit by clicking on it's occupied territory. Next select the order you want to give with one 
-                    of the buttons beneath the map or alternatively with the buttons that appeare next to your cursor on the map. 
-                    Depending on the order type you selected you probably have to select one or more other territories to complete your order. You will find detailed information 
-                    below this text.<br>
-                    If you want to start a new order, but have not finished the order before, click on the "Reset-Order"-Button before you start the new order. 
-                    Beneath the "Order-Line" there should appear "[your order] ... (aborted)".<br>
-                    You can deactivate the InteractiveMap-Interface at any time by clicking on the tab for the normal DropDown-Interface.<br>
-                    After you have set your orders, you have to save them as normal. ALWAYS check if there are incomplete orders which won't be saved!<br>
-                    You can enter orders via the drop-down lists at any time. The "Reset Order"-Button will always redraw the order-arrows with the information set in the drop-down lists.<br>
-                    Some additional features like greyed-out territories or a large map without scrollbars can be set in the options. The options can be entered by
-                    pressing the "Options"-Button next to the "Help"-Button.
+            <tr><td>Vorraussetzungen:</td><td>Ein Browser, der HTML5 und Canvas unterstützt (<a href="http://caniuse.com/#feat=canvas">Überprüfe es!</a>).</td></tr>
+            <tr><td>Wie geht's:</td><td>Um das InteractiveMap-Interfase zu benutzen, muss einfach eine Einheit auf der Karte angeklickt werden und anschließend über die Buttons unterhalb
+					der Karte oder über die Buttons, die auf der Karte neben dem Cursor erscheinen, ein Befehl für diese ausgewählt werden. Abhängig vom Befehltyp müssen ggf. noch 
+					weitere Gebiete ausgewählt werden (anklicken), um den Befehl zu verfolständigen. Mehr Information dazu weiter unten.<br>
+                    Solltest Du einen neuen Befehl eingeben wollen, aber den vorherigen Befehl noch nicht verfollständigt haben, kannst du über den Button "Reset-Order" links unter der Karte 
+					die aktuelle Eingabe abbrechen. Unterhalb der Befehlsausgabezeile sollte "[dein Befehl] ... (aborted)" stehen.<br>
+					Das InteractiveMap-Interface kann jederzeit deaktiviert werden. Klicke dazu auf den Tab "DropDown-Interface".<br>
+					Nachdem die Befehle eingegeben worden sind, müssen diese wie üblich gespeichert werden. Überprüfe IMMER, ob noch unvollständige Befehle existieren. Diese werden nicht gespeichert!<br>
+					Befehle können zu jederzeit auch über die üblichen DropDown-Menüs festgelegt werden. Der "Reset Order"-Button wird immer die Befehlspfeile auf der Karte auf Grundlage der Befehle in
+					den DropDown-Menüs aktualisieren.<br>
+					Zusätzliche Features wie hervorgehobenene bzw. ausgegraute Gebiete oder eine große Karte mit oder ohne Scrollbars können in den Options-Menü konfiguriert werden. Ein Menü für temporäre
+					Änderungen kann über den "Options"-Button neben dem "Help"-Button aufgerufen werden. Die Einstellungen werden nach jedem Neuladen der Seite zurückgesetzt. Für längerfristige Einstellungen
+					müssen diese über die allgemeinen Einstellungen festgelegt werden (zu finden im Seitenmenü oben rechts).
                 </td></tr>
-            <tr><td>HOLD:</td><td>Select the unit that should hold and press the "HOLD"-Button.</td></tr>
-            <tr><td>MOVE:</td><td>Select the unit that should move, press the "MOVE"-Button and select the territory the unit should move to.<br>
-                    If you have selected a fleet that should move to a territory with two or more coasts that can be reached by the fleet, try to click on the coast
-                    the fleet should move to. Perhaps you have to try different points until you get the move you wanted. You could also set it via the drop-down list.
-                    Note that the selected coast is detected by the distance to the coast-coordinates (the positions on the map where fleets at coasts are placed).<br>
-                    If an army could reach the target territory "via convoy" or "via land", "via land" is set.<br>
-                    The normal movement-rules still apply!
+            <tr><td>HOLD:</td><td>Wähle die Einheit, die halten soll, und drücke den "HOLD"-Button.</td></tr>
+            <tr><td>MOVE:</td><td>Wähle die Einheit, die sich bewegen soll, drücke den "MOVE"-Button und wähle anschließend das Zielgebiet der Bewegung aus<br>
+					Wenn Du eine Flotte ausgewählt hast, die in ein Gebiet mit mehren Küsten ziehen soll, und mehr als eine Küste an das Ausgangsgebiet angrenzt,
+					versuche, möglichst auf die gewünschte Küste zu klicken. Die ausgewählte Küste wird vom System anhand der Distanz zu den "coast-coordinates" (die Position, an der die Flotten an der
+					entsprechenden Küste auf der Karte plaziert werden) ermittelt.<br>
+					Besteht für eine Armee die Möglichkeit, das Gebiet auch per Konvoi zu erreichen, wird automatisch "via Land" gewählt. Für Konvoi-Befehle muss der "CONVOY"-Button verwendet werden.<br>
+					Es gelten nach wie vor die normalen Bewegungsregeln!
                 </td></tr>
-            <tr><td>SUPPORT HOLD:</td><td>Select the unit that should support another unit holding, press the "SUPPORT HOLD"-Button and select the supported unit.</td></tr>
-            <tr><td>SUPPORT MOVE:</td><td>Select the unit that should support another unit moving, press the "SUPPORT MOVE"-Button, select the target territory and THEN the origin territory.<br>
-                    IMPORTANT: Note that the order for the supported unit will be changed as well, if it was different before and if it is one of your own units. This is unlike the normal way to set the orders!<br>
-                    If the supported unit could move "via convoy" or "via land", "via land" is set. If "via convoy" is set before, it will stay "via convoy" as the MOVE-Order has not been different before.<br> 
-                    Note that the same rules for fleets moving to coasts apply as with the MOVE-Order.
+            <tr><td>SUPPORT HOLD:</td><td>Wähle die Einheit, die eine andere Einheit beim Halten unterstützen soll, drücke den "SUPPORT HOLD"-Button und wähle anschließend die zu unterstützende Einheit.</td></tr>
+            <tr><td>SUPPORT MOVE:</td><td>Wähle die Einheit, die eine andere Einheit beim Bewegen unterstützen soll, drücke den "SUPPORT MOVE"-Button, wähle anschließend das Zielgebiet und ERST DANN die
+					zu unterstützende Einheit.<br>
+					WICHTIG: Durch diesen Befehl wird auch der Befehl der zu unterstützenden Einheit angepasst, falls diese Einheit ebenfalls dir gehört. Dies entspricht nicht dem bisherigen Weg der Befehlseingabe!<br>
+					Besteht für eine unterstützte Armee die Möglichkeit, das Zielgebiet auch per Konvoi zu erreichen, wird nach Möglichkeit automatisch "via Land" gewählt. Sollte vorher bereits explizit "via Konvoi"
+					gewählt worden sein, wird dies nicht mehr verändert.<br> 
+					Bei Befehlen für Flotten, die zu einer bestimmten Küste ziehen sollen, muss auf die gleiche Weise vorgegangen werden wie bei normalen Bewegungs-Befehlen.
                 </td></tr>
-            <tr><td>CONVOY:</td><td>The way to set the CONVOY-order via InteractiveMap-Interface differs most from the normal way:<br>
-                    First select the army that should be convoyed, press the "CONVOY"-Button, then select the convoying fleets in the correct order and finally select the target territory of the army.
-                    The orders for the army and every fleet involved in the convoy will be set automatically, if they are your units.<br>
-                    This is the only time, you can select a foreign unit before you give an order via a button (necessary if you want to order your fleets to convoy a foreign unit from X to Y).
+            <tr><td>CONVOY:</td><td>Das Verfahren, einen Konvoi über das InteractiveMap-Interface festzulegen, unterscheidet sich am Meisten von der bisherigen Methode:<br>
+					Zunächst muss die Armee, die geleitet werden soll, ausgewählt werden und anschließend der "CONVOY"-Button gedrückt werden. Dann müssen nacheinander in der richtigen Reihenfolge
+					alle benötigten Flotten und schließlich das Zielgebiet ausgewählt werden. Die Befehle für die Armee und alle beteiligten Flotten werden automatisch korrekt eingestellt, falls die 
+					entsprechenden Einheiten Dir gehören.<br>
+					Da auch fremde Armeen von eigenen Flotten geleitet werden können, ist dies der einzige Befehlstyp, bei dem auch fremden Einheiten über das Interface Befehle "gegeben" werden können.
+					Diese werden natürlich nicht für fremde Spieler gespeichert, sondern dienen nur der Eingabe der entsprechenden Konvois.
                 </td></tr>
-            <tr><td>REATREAT / DISBAND:</td><td>Units that have to retreat are drawn by a red "F" or "A" on a white rectangle. Perhaps you have to deactivate the interface to see the occupying unit 
-                    as the letters are drawn on it.<br>
-                    The "DISBAND"- and "RETREAT"-Buttons act similar to the "HOLD"- and "MOVE"-Buttons. A DISBAND-Order appears as a small explosion next to the unit-sign on the map.<br>
-                    The normal movement-rules for the retreat phase still apply.</td></tr>
-            <tr><td>BUILD:</td><td>Select an own, unoccupied Supply Center and press the "BUILD FLEET"- or "BUILD ARMY"-Button. A red "F" or "A" should appear next to a star on the selected territory.<br>
-                    To reset a BUILD-Order for a Supply Center, simply select the Supply center and press the "WAIT"-Button. If you try to set more builds than you are allowed, the order at the top of the drop-down lists
-                    will be overwritten with the new order.
+            <tr><td>REATREAT / DISBAND:</td><td>Einheiten, die sich zurückziehen müssen, werden mit einem roten "F" oder "A" auf einem weißen Rechteckt auf der Karte eingezeichnet. Möglicherweise wird die
+					erobernde Einheit durch die Buchstaben verdeckt, sodass das Interface erst deaktiviert werden muss, um die neue Einheit in dem Gebiet zu erkennen.<br>
+					Die "DISBAND"- und "RETREAT"-Buttons funktionieren ähnlich wie die "HOLD"- und "MOVE"-Buttons in der Diplomatie-Phase. Ein Auflösungs-Befehl wird durch eine kleine Explosion neben dem Einheitensymbol
+					auf der Karte eingezeichnet.<br>
+					Es gelten nach wie vor die normalen Bewegungsregeln der Rückzugs-Phase.</td></tr>
+            <tr><td>BUILD:</td><td>Wähle ein eigenes, unbesetztes Versorgungszentrum und drücke den "BUILD FLEET"- oder "BUILD ARMY"-Button. Ein rotes "F" bzw. "A" sollte neben einem Stern auf dem gewählten Gebiet erscheinen<br>
+					Um einen Bau-Befehl für ein bestimmtes Versorgungszentrum zurückzusetzen, wähle das Versorgungszentrum aus und drücke den "WAIT"-Button. Wenn Du versuchst mehr Bau-Befehle als erlaubt zu erteilen,
+					wird automatisch der erste Bau-Befehl (im DropDown-Interface ganz oben) mit dem neuen Befehl überschrieben.
                 </td></tr>
-            <tr><td>DESTROY:</td><td>Select an own unit and press the "DESTROY"-Button. A big explosion should appear on the the unit.<br>
-                    To reset a DESTROY-Order, simply select a different unit. The "oldest" order will be overwritten if there is no free order left.  
+            <tr><td>DESTROY:</td><td>Wähle eine eigenen Einheit und drücke den "DESTROY"-Button. Eine große Explosion sollte auf dem Einheitensymbol erscheinen.<br>
+					Um einen Auflösungs-Befehl zurückzusetzen, wähle einfach eine andere Einheit, die aufgelöst werden soll. Der "älteste" (am längsten unveränderte) Befehl wird automatisch überschrieben, wenn keine "offenen" Befehle mehr übrig sein.
                 </td></tr>
         </table>
         <br>
         <br>
         <table border="1">
-            <caption>OPTIONS</caption>
-            <tr><td>"Toggle scrollbars on map"</td><td>Adds or removes scrollbars, so large maps can be displayed on the whole screen or only in a small frame.</td></tr>
-            <tr><td>"Activate territory-grey-out"</td><td>If activated, territories which can not be accessed for a selected unit with a selected order will be greyed-out.</td></tr>  
-            <tr><td>"Activate highlighting of own units"</td><td>If activated, everything apart from your own units will be greyed out if you have to select a new unit for an order.</td></tr>
-            <tr><td>"Change grey-out intensity"</td><td>Move the handle to the right to make they grey-out darker, move it to the opposite to make the grey-out brighter.</td></tr>
+            <caption>OPTIONEN</caption>
+            <tr><td>"Toggle scrollbars on map"</td><td>Ergänzt oder entfernt Srollbars, sodass große Karten auf dem gesamte Bildschirm oder nur in einem kleinen Ausschnitt dargestellt werden können.</td></tr>
+            <tr><td>"Activate territory-grey-out"</td><td>Falls aktiviert, werden alle Gebiete, die nicht von einer gewählten Einheit erreicht werden können, ausgegraut.</td></tr>  
+            <tr><td>"Activate highlighting of own units"</td><td>Falls aktiviert, wird alles außer den eigenen Einheiten ausgegraut, falls eine neue Einheit für einen Befehl gewählt werden muss.</td></tr>
+            <tr><td>"Change grey-out intensity"</td><td>Bewege den Schieberegler, um die Intensität des Ausgrauens zu verändern.</td></tr>
         </table>
         <br>
         <br>
         <table border="1">
             <caption>TROUBLESHOOTING</caption>
-            <tr><td>Interface not visible (no buttons etc)</td><td>The interface is probably not activated for this variant. Please contact an admin of this webdip-site.</td></tr>
-            <tr><td>During the loading of the page another window opens, which displays some error messages.</td><td>The map of the variant can not be modified for the interface. Please report the error messages to an admin.</td></tr>
-            <tr><td>After activation of the interface, you are not able to select any territories.</td><td>Perhaps you clicked on a point on the map, which is not assigned to a territory. Try again, please!<br>
-                    If the problem still exists, please report this bug <a href='http://forum.webdiplomacy.net/viewtopic.php?f=27&t=1147'>here</a> or in the forum of this site.
+            <tr><td>Interface nicht sichtbar (keine Buttons etc.)</td><td>Das Interface scheint für die aktuelle Variante nicht aktiviert zu sein. Bei Fragen kontaktiere bitte einen Administrator.</td></tr>
+            <tr><td>Während des Ladens öffnet sich ein weiteres Fenster mit einer Fehlermeldung.</td><td>Die Karte der aktuellen Variante kann nicht für das Interface modifiziert werden. 
+					Bitte leite die Fehlermeldung an einen Administrator weiter.</td></tr>
+            <tr><td>Nach Aktivierung des Interfaces können keine Gebiete / Einheiten ausgewählt werden.</td><td>Möglicherweise hast DU auf einen Punkt der Karte geklickt, der nicht einem bestimmten Gebiet
+					zugeordnet ist (üblicherweise Grenzen). Bitte versuch es ein weiteres mal!<br>
+					Sollte das Problem weiterhin existieren, melde den Bug bitte <a href='http://forum.webdiplomacy.net/viewtopic.php?f=27&t=1147'>hier</a> oder im Forum diese Website.
                 </td></tr>
-            <tr><td>The wrong territory is selected.</td><td>This is probably caused by a faulty map. Please contact an admin of this webdip-site.</td></tr>
-            <tr><td>The grey-out function offers territories which cannot be selected.</td><td>If you play a FoW-variant this could be caused by changes in code to make FoW possible. You will not be 
-                    able to save such wrong orders. Because of this there will not be any fixes for this issue.
+            <tr><td>Das falsche Gebiet wurde ausgewählt.</td><td>Dieses Problem hängt wahrscheinlich mit einer fehlerhaften Karte zusammen. Bitte kontaktiere einen Administrator.</td></tr>
+            <tr><td>Die GreyOut-Funktion markiert Gebiet, die nicht ausgewählt werden können.</td><td>Wenn Du eine Variante mit Kriegsnebel (FoW) spielst, hängt dies wahrscheinlich mit Modifikation im 
+					Quellcode zusammen, die FoW ermöglichen. Es ist nicht möglich, falsche Befehle zu speichern. Da das Problem mit der Umsetzung spezieller Varianten zusammenhängt, kann es leider nicht
+					behoben werden.
                 </td></tr>
-            <tr><td>It only says "loading" when the InteractiveMap-Interface is activated.</td><td>There seem to be some problems with the map which has to be loaded. Please report this to an admin.</td></tr>
-            <tr><td>Something else</td><td>If you discover any other issues, please report them <a href='http://forum.webdiplomacy.net/viewtopic.php?f=27&t=1147'>here</a> or in the forum of this site!</td></tr>
+            <tr><td>Es erscheint lediglich der Schriftzug "loading", wenn das InteractiveMap-Interface aktiviert wird.</td><td>Es scheint Probleme mit der Karte zu geben, sodass diese nicht geladen werden kann.
+					Bitte kontaktivere einen Administrator.</td></tr>
+            <tr><td>Etwas anderes</td><td>Solltest Du irgendwelche anderen Fehler entdecken, melde diese bitte <a href='http://forum.webdiplomacy.net/viewtopic.php?f=27&t=1147'>hier</a> oder im Forum diese Website!</td></tr>
         </table>
     </body>
 </html>

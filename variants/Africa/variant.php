@@ -6,14 +6,14 @@ class AfricaVariant extends WDVariant {
 	public $id         =83;
 	public $mapID      =83;
 	public $name       ='Africa';
-	public $fullName   ='Africa';
-	public $description='Africa goes to war in 2012';
+	public $fullName   ='Afrika';
+	public $description='Im Jahre 2012 begibt sich Afrika in den Krieg';
 	public $author     ='Tristan';
-	public $adapter    ='Tristan, kaner406 & Oli';
+	public $adapter    ='Tristan, kaner406 & Oli (Übersetzung: Blondbond)';
 	public $version    ='1.0.2';
 	public $codeVersion='1.0.2';
 
-	public $countries=array('DRC','Egypt','Ethiopia','Madagascar','Mali','Morocco','Nigeria','South Africa');
+	public $countries=array('Demokratische Republik Kongo','Agypten','Athiopien','Madagaskar','Mali','Marokko','Nigeria','Sud Afrika');
 
 	public function __construct() {
 		parent::__construct();
@@ -51,13 +51,13 @@ class AfricaVariant extends WDVariant {
 	
 	public function turnAsDate($turn) {
 		if ( $turn==-1 ) return "Pre-game";
-		else return ( $turn % 2 ? "Autumn, " : "Spring, " ).(floor($turn/2) + 2012);
+		else return ( $turn % 2 ? "Herbst, " : "Fr&uuml;hling, " ).(floor($turn/2) + 2012);
 	}
 
 	public function turnAsDateJS() {
 		return 'function(turn) {
 			if( turn==-1 ) return "Pre-game";
-			else return ( turn%2 ? "Autumn, " : "Spring, " )+(Math.floor(turn/2) + 2012);
+			else return ( turn%2 ? "Herbst, " : "Fr&uuml;hling, " )+(Math.floor(turn/2) + 2012);
 		};';
 	}
 }

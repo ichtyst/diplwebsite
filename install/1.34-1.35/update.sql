@@ -10,7 +10,7 @@ CREATE TABLE `wD_VariantData` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE `wD_VariantData` ADD PRIMARY KEY ( `variantID` , `gameID`, `systemToken` , `typeID` , `userID` , `offset` ) ;
-
+   
 INSERT INTO wD_VariantData (variantID, systemToken, userID, offset, val_float )
 SELECT 1, 948379409, u.id, 1, ChanceEngland
 FROM wD_Users u

@@ -140,7 +140,7 @@ class panelMembers extends Members
 			$buf .= '<label>'.l_t('Take over:').'</label> <select name="countryID">';
 			foreach($this->ByStatus['Left'] as $Member)
 			{
-				$pointsValue = $Member->pointsValue();
+				$pointsValue = $Member->pointsValueInTakeover();
 
 				$bet = ( method_exists ('Config','adjustCD') ? Config::adjustCD($pointsValue) : $pointsValue );
 

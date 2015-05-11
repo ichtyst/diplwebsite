@@ -14,6 +14,16 @@ class adminActionsVDip extends adminActions
 				'description' => 'Enter the new phases played and missed and the new CD-count',
 				'params' => array('userID'=>'User ID', 'CDtakeover'=>'CD takeovers')
 			),
+			'updateCCIP' => array(
+				'name' => 'Recalculate CC and IP',
+				'description' => 'Recalculate the CC and IP matches for a given game.',
+				'params' => array('gameID'=>'Game ID')
+			),
+			'tempBan' => array(
+				'name' => 'Temporary ban a player',
+				'description' => 'How many days should the player be blocked from joining or creating new games.',
+				'params' => array('userID'=>'User ID', 'ban'=>'Days')
+			),
 			'changeTargetSCs' => array(
 				'name' => 'Change target SCs.',
 				'description' => 'Enter the new CD count needed for the win.',
@@ -84,6 +94,35 @@ class adminActionsVDip extends adminActions
 		list($CDtakeoverOld) = $DB->sql_row("SELECT CDtakeover FROM wD_Users WHERE id=".$userID);
 
 		return 'This users CDtakeovers will be changed from <b>'.$CDtakeoverOld.'</b> to <b>'.$CDtakeover.'</b>.';
+	}
+	
+	public function updateCCIP(array $params)
+	{
+		global $DB;
+		
+		$gameID = (int)$params['gameID'];
+		
+		$Variant=libVariant::loadFromGameID($gameID);
+		$Game = $Variant->Game($gameID);
+
+		$Game->Members->updateCCIP();
+		
+		return 'Matches recalculated.';
+	}
+	
+	public function tempBan(array $params)
+	{
+		global $DB;
+		
+		$userID = (int)$params['userID'];
+		$days   = (int)$params['ban'];
+
+		$DB->sql_put("UPDATE wD_Users SET tempBan = ". ( time() + ($days * 86400) )." WHERE id=".$userID);
+
+		if ($days == 0)
+			return 'This user is now unblocked and can join and create games again.';
+			
+		return 'This user is now blocked from joining and creating games for <b>'.$days.'</b> days.';
 	}
 	
 	public function changeTargetSCs(array $params)

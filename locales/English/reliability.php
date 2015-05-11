@@ -84,8 +84,16 @@ if ($User->phasesPlayed < 100 && libReliability::integrityRating($User) > -1) {
 	<?php
 	if (libReliability::integrityRating($User) <= -1)
 	{
-			print '<p class="intro">To calculate how many games you can join we use your CD-takeovers and subtract your missed moves * 0.2 and your CDs * 0.6
+			print '
+			<p class="intro">If you want to to increase the number of games you can join you may take over 
+			<a href="gamelistings.php?page-games=1&gamelistType=Joinable">open spots in ongoing games</a> or reclaim your CDed
+			countries if they have not been taken. Every country taken does improve your score by <b>1</b>.</p>
+			
+			<p class="intro">To calculate how many games you can join we use your CD-takeovers and subtract your missed moves * 0.2 and your CDs * 0.6
 			(as 1 CD most of the time has 2 missed moves before).</p>
+
+			<p class="intro">As we introduced these restrictions we balanced all NMRs and all CDs for your
+			existing players by adding enough CD-takeovers to their record, so this number might not actually reflect how many open spots you have taken.</p>
 			
 			<p class="intro">Using your current stats we get:
 			<ul><li>CD-takeover = '.$User->CDtakeover.'</li>
@@ -102,9 +110,7 @@ if ($User->phasesPlayed < 100 && libReliability::integrityRating($User) > -1) {
 			<li>and lower than -4 => max 1 game </li>
 			</ul></p>
 			
-			<p class="intro">If you want to to increase the number of games you can join you may take over 
-			<a href="gamelistings.php?page-games=1&gamelistType=Joinable">open spots in ongoing games</a> or reclaim your CDed
-			countries if they have not been taken. Every country taken does improve your score by <b>1</b></p>';
+';
 			
 	}
 }

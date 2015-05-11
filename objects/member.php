@@ -71,6 +71,7 @@ class Member
 	 * @var int
 	 */
 	var $points;
+	var $vpoints;
 	/**
 	 * The amount the user bet into the game
 	 * @var int
@@ -164,6 +165,13 @@ class Member
 	public $rlGroup;
 	
 	/**
+	 * CC and IP macthes of the Member
+	 * @var int
+	 */
+	public $ccMatch;
+	public $ipMatch;
+	
+	/**
 	 * ChessTimer (Countdown timer)
 	 */
 	public $chessTime;
@@ -226,13 +234,26 @@ class Member
 
 			$output .= 'href="profile.php?userID='.$this->userID.'">'.$this->username;
 		}
-		return $output.' ('.$this->points.User::typeIcon($this->userType).'/'.$this->missedMoves.')</a>';
+		return $output.' ('.$this->vpoints.User::typeIcon($this->userType).'/'.$this->missedMoves.')</a>';
 	}
 
+	/**
+	 * How much is this position worth if this game were PPSC?
+	 * @return int
+	 */
 	function pointsValue()
 	{
 		return round($this->supplyCenterNo * $this->Game->Members->pointsPerSupplyCenter());
 	}
+
+	/**
+	 * CD takeovers cost a different amount to in game positions. How much is this position worth in takeover?
+	 * @return int
+	 */
+	function pointsValueInTakeover() {
+                return round($this->pointsValue() /2);
+	}	
+
 	/**
 	 * A textual display of this user's last log-in time
 	 * @return string Last log-in time

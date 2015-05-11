@@ -190,18 +190,10 @@ class processMembers extends Members
 		{
 			assert('$Member->missedPhases >= 0 and $Member->missedPhases <= 2');
 
-			switch($Member->missedPhases)
+			if($Member->missedPhases == 2)
 			{
-				case 1:
-					/*
-					 * Players can be set to civil disorder with only one missed
-					 * phase if it looks like they're about to be defeated
-					 */
-					if( 1 < $Member->supplyCenterNo or 1 < $Member->unitNo )
-						break;
-				case 2:
-					$left=true;
-					$Member->setLeft();
+				$left=true;
+				$Member->setLeft();
 			}
 		}
 
@@ -631,6 +623,8 @@ class processMembers extends Members
 			throw new Exception("You noCD-ratio is too low to join this game. (Required:".$this->Game->minNoCD."% / You:".libReliability::noCDrating($User)."%)");
 		if ( $this->Game->minNoNMR > libReliability::noNMRrating($User) )
 			throw new Exception("You noCD-ratio is too low to join this game. (Required:".$this->Game->minNoNMR."% / You:".libReliability::noNMRrating($User)."%)");
+		if ( $User->tempBan > time() )
+			throw new Exception("You are blocked from joining new games.");
 
 		// Handle RL-relations
 		require_once ("lib/relations.php");			
@@ -753,7 +747,10 @@ class processMembers extends Members
 			}
 			$CD->send('No','No','You took over '.$CDCountryName.'! Good luck');
 		}
-			
+
+		// Recalculate CC and IP matches if a new player joins...
+		$this->updateCCIP();
+		
 		$this->Game->gamelog(l_t('New member joined'));
 
 		$this->joinedRedirect();
@@ -770,6 +767,16 @@ class processMembers extends Members
 		$message = '<p class="notice">'.l_t('You are being redirected to %s. Good luck!','<a href="board.php?gameID='.$this->Game->id.'">'.$this->Game->name.'</a>').'</p>';
 
 		libHTML::notice(l_t("Joined %s",$this->Game->name), $message);
+	}
+
+	/**
+	 * Updates the reliability stats for the users in this game.
+	 */
+	function updateReliabilityStats()
+	{
+		global $DB;
+ 		require_once(l_r('gamemaster/gamemaster.php'));      	
+		$DB->sql_put(libGameMaster::RELIABILITY_QUERY . "WHERE u.id IN (".implode(",",array_keys($this->ByUserID)) . ')');
 	}
 
 	function processSummary()

@@ -109,7 +109,7 @@ class libHome
 		if ( $message )
 			print '<p class="notice">'.$message.'</p>';
 
-		$pms = self::getType('PM');
+		$pms = self::getType('PM', 200);
 
 		if(!count($pms))
 		{
@@ -246,13 +246,15 @@ class libHome
 	{
 		global $User, $DB;
 
+		// Load all active games
 		$tabl=$DB->sql_tabl("SELECT g.* FROM wD_Games g
 			INNER JOIN wD_Members m ON ( (m.userID = ".$User->id." OR g.directorUserID = ".$User->id.") AND m.gameID = g.id )
-			WHERE NOT g.phase = 'Finished'
+			WHERE NOT g.phase = 'Finished' 
 			GROUP BY g.id
-			ORDER BY g.processTime ASC");
+			ORDER BY g.processStatus ASC, g.processTime ASC");
 		$buf = '';
-
+		$bufDef = $bufPause = $bufPregame = '';
+		
 		$count=0;
 		while($game=$DB->tabl_hash($tabl))
 		{
@@ -260,10 +262,20 @@ class libHome
 			$Variant=libVariant::loadFromVariantID($game['variantID']);
 			$Game=$Variant->panelGameHome($game);
 
-			$buf .= '<div class="hr"></div>';
-			$buf .= $Game->summary();
+			if (isset($Game->Members->ByUserID[$User->id]) && $Game->Members->ByUserID[$User->id]->status == 'Defeated')
+				$bufDef .= '<div class="hr"></div>'.$Game->summary();
+			elseif ($Game->processStatus == 'Paused')
+				$bufPause .= '<div class="hr"></div>'.$Game->summary();
+			elseif ($Game->phase == 'Pre-game')
+				$bufPregame .= '<div class="hr"></div>'.$Game->summary();
+			else
+				$buf .= '<div class="hr"></div>' . $Game->summary();
 		}
-
+		
+		if ($bufPause != '')   $buf .= $bufPause;
+		if ($bufPregame != '') $buf .= $bufPregame;
+		if ($bufDef != '')     $buf .= '<div class="hr"></div><div><p class="notice"><br />'.l_t('Defeated:').'</p></div>'.$bufDef;
+		
 		if($count==0)
 		{
 			$buf .= '<div class="hr"></div>';
@@ -289,7 +301,7 @@ class libHome
 			SELECT m.id as postID, t.id as threadID, m.type, m.timeSent, IF(t.replies IS NULL,m.replies,t.replies) as replies,
 				IF(t.subject IS NULL,m.subject,t.subject) as subject,
 				m.anon,
-				u.id as userID, u.username, u.points, IF(s.userID IS NULL,0,1) as online, u.type as userType,
+				u.id as userID, u.username, u.vpoints, IF(s.userID IS NULL,0,1) as online, u.type as userType,
 				SUBSTRING(m.message,1,100) as message, m.latestReplySent, t.fromUserID as threadStarterUserID
 			FROM wD_ForumMessages m
 			INNER JOIN wD_Users u ON ( m.fromUserID = u.id )
@@ -377,7 +389,7 @@ class libHome
 
 					<div class="homeForumPostTime">'.libTime::text($post['timeSent']).' '.$post['iconMessage'].'</div>
 					<a href="profile.php?userID='.$post['userID'].'" class="light">'.$post['username'].'</a>
-						'.libHTML::loggedOn($post['userID']) . ' ('.$post['points'].libHTML::points().
+						'.libHTML::loggedOn($post['userID']) . ' ('.$post['points'].libHTML::vpoints().
 						User::typeIcon($post['userType']).')
 
 					<div style="clear:both"></div>

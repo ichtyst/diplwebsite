@@ -1,7 +1,7 @@
 transSibTerritories = ['28','29','30','35','39','40'];
 
-interactiveMap.parameters.imgTSR = 'variants/ColonialOptionalRules/interactiveMap/TSR.png';
-interactiveMap.parameters.imgSuez = 'variants/ColonialOptionalRules/interactiveMap/Suez.png';
+interactiveMap.parameters.imgTSR = 'variants/Colonial/interactiveMap/TSR.png';
+interactiveMap.parameters.imgSuez = 'variants/Colonial/interactiveMap/Suez.png';
 
 interactiveMap.interface.createOrderButtons = function() {
     var orderButtons = new Element('div',{'id':'orderButtons'});

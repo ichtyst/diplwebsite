@@ -92,7 +92,7 @@ class MultiLayerMap_drawMap extends CustomCountryIcons_drawMap
 	}
 	
 	// Combine the 2 maps.
-	public function write($filename)
+	public function mergeMaps()
 	{
 		$w = $this->map['width'];
 		$h = $this->map['height'];
@@ -101,7 +101,18 @@ class MultiLayerMap_drawMap extends CustomCountryIcons_drawMap
 		imagecopyresampled($im, $this->map['image'], 0, 0, 0, 0, $w, $h, $w, $h);
 		imagetruecolortopalette($im, true, 256);
 		$this->map['image']=$im;
+	}
+	
+	public function write($filename)
+	{
+		$this->mergeMaps();
 		parent::write($filename);
+	}
+	
+	public function writeToBrowser()
+	{
+		$this->mergeMaps();
+		parent::writeToBrowser();
 	}
 
 }

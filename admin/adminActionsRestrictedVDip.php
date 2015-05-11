@@ -312,7 +312,7 @@ class adminActionsRestrictedVDip extends adminActionsForum
 		$tabl = $DB->sql_tabl('SELECT * FROM wD_MovesArchive WHERE gameID='.$gameID);
 		while($row = $DB->tabl_row($tabl))
 		{
-			$row[0] = '@gameID';
+			$row[1] = '@gameID';
 			if ($row[4] == '') $row[4]= 'NULL';				//
 			if ($row[8] == '') $row[8]= 'NULL';				//
 			if ($row[9] == '') $row[9]= 'NULL';				//

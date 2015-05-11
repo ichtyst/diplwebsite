@@ -60,7 +60,7 @@ $territoryRawData=array(
 	array('Oregon', 'Coast', 'Yes', 0, 257, 748, 173, 394),
 	array('Arizona Territory', 'Land', 'No', 3, 391, 937, 231, 489),
 	array('Utah Territory', 'Land', 'No', 3, 404, 826, 221, 441),
-	array('Nevada Territory', 'Land', 'No', 3, 438, 900, 183, 462),
+	array('Nevada Territory', 'Land', 'No', 3, 342, 853, 183, 462),
 	array('Colorado Territory', 'Land', 'Yes', 0, 472, 840, 282, 477),
 	array('Indian Territory', 'Land', 'No', 3, 584, 912, 350, 503),
 	array('Kansas', 'Land', 'Yes', 0, 601, 859, 342, 462),

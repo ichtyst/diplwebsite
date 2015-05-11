@@ -118,6 +118,11 @@ class libReliability
 		list($totalGames) = $DB->sql_row("SELECT COUNT(*) FROM wD_Members m, wD_Games g WHERE m.userID=".$User->id." and m.status!='Defeated' and m.gameID=g.id and g.phase!='Finished' and m.bet!=1");
 		$mG = $gL - $totalGames;
 		if ($mG < 0) { $mG = 0; }
+		
+		// If a user has a timed ban he can 
+		if ($User->tempBan > time())
+			$mG=0;
+			
 		return $mG;
 	}
 	

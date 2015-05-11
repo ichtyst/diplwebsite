@@ -61,32 +61,17 @@ class panelGameBoard extends panelGame
 		<div id="mapstore">
 			<img id="mapImage" src="'.$smallmapLink.'" alt=" " title="'.l_t('The small map for the current phase. If you are starting a new turn this will show the last turn\'s orders').'" />
 			<p class="lightgrey" style="text-align:center">
-				<a href="#" onClick="loadMap('.$this->id.','.$mapTurn.',-1); return false;">
-					<img id="Start" src="'.l_s('images/historyicons/Start_disabled.png').'" alt="'.l_t('Start').'" title="'.l_t('View the map from the first turn').'" />
-				</a>
-				<a href="#" onClick="loadMapStep('.$this->id.','.$mapTurn.',-1); return false;">
-					<img id="Backward" src="'.l_s('images/historyicons/Backward_disabled.png').'" alt="'.l_t('Backward').'" title="'.l_t('View the map from the previous turn').'" />
-				</a>
-
-				<a href="#" onClick="toggleMoves('.$this->id.','.$mapTurn.'); return false;">
-					<img id="NoMoves" src="images/historyicons/hidemoves.png" alt="NoMoves" title="Toggle movement lines" />
-				</a>
-				
-				<span id="LargeMapLink" class="lightgrey" style="width:150px"><a href="'.$largemapLink.'" target="_blank" class="light">
-					<img src="'.l_s('images/historyicons/external.png').'" alt="'.l_t('Open large map').'" title="'.l_t('This button will open the large map in a new window. The large map shows all the moves, and is useful when the small map isn\'t clear enough.').'" />
-				</a></span>
-
-				<a href="#" onClick="loadMapStep('.$this->id.','.$mapTurn.',1); return false;">
-					<img id="Forward" src="'.l_s('images/historyicons/Forward_disabled.png').'" alt="'.l_t('Forward').'" title="'.l_t('View the map from the next turn').'" />
-				</a>
-				<a href="#" onClick="loadMap('.$this->id.','.$mapTurn.','.$mapTurn.'); return false;">
-					<img id="End" src="'.l_s('images/historyicons/End_disabled.png').'" alt="'.l_t('End').'" title="'.l_t('View the map from the most recent turn').'" />
-				</a>'.
-					($this->Members->isJoined() ? 
-						'<a href="#" onClick="togglePreview('.$this->id.','.$mapTurn.'); return false;">
-							<img id="Preview" src="images/historyicons/Preview.png" alt="PreviewMoves" title="Show server side stored orders on the map" />'
-						: '').'
-				</a>
+				<a class="mapnav" href="#" onClick="loadMap('.$this->id.','.$mapTurn.',-1); return false;">
+                      <img id="Start" src="'.l_s('images/historyicons/Start_disabled.png').'" alt="'.l_t('Start').'" title="'.l_t('View the map from the first turn').'" /></a>
+				<a class="mapnav" href="#" onClick="loadMapStep('.$this->id.','.$mapTurn.',-1); return false;"><img id="Backward" src="'.l_s('images/historyicons/Backward_disabled.png').'" alt="'.l_t('Backward').'" title="'.l_t('View the map from the previous turn').'" /></a>
+                <a class="mapnav" href="#" onClick="toggleMoves('.$this->id.','.$mapTurn.'); return false;"><img id="NoMoves" src="images/historyicons/hidemoves.png" alt="NoMoves" title="Toggle movement lines" />
+                </a>
+			   <a id="LargeMapLink" class="mapnav" href="'.$largemapLink.'" target="_blank" class="light"><img src="'.l_s('images/historyicons/external.png').'" alt="'.l_t('Open large map').'" title="'.l_t('This button will open the large map in a new window. The large map shows all the moves, and is useful when the small map isn\'t clear enough.').'" /></a></span>
+                     
+				<a class="mapnav" href="#" onClick="loadMapStep('.$this->id.','.$mapTurn.',1); return false;"><img id="Forward" src="'.l_s('images/historyicons/Forward_disabled.png').'" alt="'.l_t('Forward').'" title="'.l_t('View the map from the next turn').'" /></a>
+				<a class="mapnav" href="#" onClick="loadMap('.$this->id.','.$mapTurn.','.$mapTurn.'); return false;"><img id="End" src="'.l_s('images/historyicons/End_disabled.png').'" alt="'.l_t('End').'" title="'.l_t('View the map from the most recent turn').'" /></a>'.
+				($this->Members->isJoined() ? '<a class="mapnav" href="#" onClick="togglePreview('.$this->id.','.$mapTurn.'); return false;"><img id="Preview" src="images/historyicons/Preview.png" alt="PreviewMoves" title="Show server side stored orders on the map" /></a>' : '').'
+							
 							
 			</p>
 			<p id="History" class="lightgrey"></p>
@@ -117,7 +102,7 @@ class panelGameBoard extends panelGame
 	{
 		$buf = '';
 
-		if ($this->phase != 'Pre-game')
+		if ( $this->phase != 'Pre-game') 
 			$buf .= '
 				<div class="bar archiveBar">
 					'.$this->archiveBar().'
@@ -197,10 +182,11 @@ class panelGameBoard extends panelGame
 	 */
 	function showVoteForm($vVote, $vCancel)
 	{
-		$buf = '<form action="board.php?gameID='.$this->id.'#votebar" method="post">';
+		$buf = '<form onsubmit="return confirm(\''. l_t("Are you sure you want to cast this vote?").'\');" action="board.php?gameID='.$this->id.'#votebar" method="post">';
 		$buf .= '<input type="hidden" name="formTicket" value="'.libHTML::formTicket().'" />';
 
-		$buf .= '<div class="memberUserDetail">';
+        $buf .= '<div class="memberUserDetail">';
+
 		foreach($vVote as $vote)
 		{
 			if (strpos($this->blockVotes,$vote)!== false) continue;			
@@ -210,11 +196,10 @@ class panelGameBoard extends panelGame
 
 			$buf .= '<input type="submit" class="form-submit" name="'.$vote.'" value="'.l_t($vote).'" /> ';
 		}
-		$buf .= '</div>';
+		$buf .= '</div></form>';
+		$buf .= '<form onsubmit="return confirm(\''. l_t("Are you sure you want to withdraw this vote?").'\');" action="board.php?gameID='.$this->id.'#votebar" method="post">';
+		$buf .= '<input type="hidden" name="formTicket" value="'.libHTML::formTicket().'" />';
 
-		if (count($this->Variant->countries) < 4)
-			$buf = str_replace('Concede','Concede" onClick="return confirm(\'Are you sure you want to vote for Concede?\\nIn a '.count($this->Variant->countries).' player game it usually takes effect immediately.\');',$buf);
-		
 		if( $vCancel )
 		{
 			$buf .= '<div class="memberGameDetail">'.l_t('Cancel:').' ';
@@ -229,7 +214,8 @@ class panelGameBoard extends panelGame
 			$buf .= '</div>';
 		}
 
-		$buf .= '</form><div style="clear:both"></div>';
+        $buf .= '</form><div style="clear:both"></div>';
+
 		return $buf;
 	}
 

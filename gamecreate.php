@@ -263,6 +263,13 @@ if( isset($_REQUEST['newGame']) and is_array($_REQUEST['newGame']) )
 			libHTML::notice('Reliable rating not high enough', $message);
 		}
 		// END RELIABILITY-PATCH
+
+		if ($User->tempBan > time())
+		{
+			processGame::eraseGame($Game->id);
+			libHTML::notice('You are blocked from creating new games.', 'You are blocked from creating new games.');
+		}
+		// END TempBan
 		
 		// Create first Member record & object
 		if ($input['moderator'] == 0)
@@ -309,7 +316,6 @@ if( isset($input) && isset($input['points']) )
 	$formPoints = $input['points'];
 else
 	$formPoints = $defaultPoints;
-
 
 require_once('lib/reliability.php');
 libReliability::printCDNotice($User);

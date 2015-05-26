@@ -25,54 +25,54 @@ defined('IN_CODE') or die('This script can not be run by itself.');
  * @subpackage Static
  */
 
-print libHTML::pageTitle('webDiplomacy Help and Links','Links to pages with more information about webDiplomacy and this installation.');
+print libHTML::pageTitle('Diplomacy\'s Website Hilfe','Links zu Seiten mit mehr Informationen über Diplomacy\'s Website.');
 ?>
 <ul class="formlist">
 
-<li><a href="intro.php">The intro to Diplomacy</a></li>
-<li class="formlistdesc">An introduction to playing webDiplomacy; gives details on unit types, move types,
-and the rules of webDiplomacy.</li>
+<li><a href="intro.php">Kurzanleitung "Diplomacy"</a></li>
+<li class="formlistdesc">Eine kurze Einleitung um Diplomacy's Website mit zu spielen.
+Erfahre die rudimentären Regeln über Truppen-Typen und Zugmöglichkeiten bei Diplomacy..</li>
 
 <li><a href="faq.php">FAQ</a></li>
-<li class="formlistdesc">The webDiplomacy FAQ.</li>
+<li class="formlistdesc">Die FAQ auf Diplomacy's Website.</li>
 
-<li><a href="features.php">VDiplomacy features</a></li>
-<li class="formlistdesc">Features you should be aware of (not available at webdiplomacy.net).</li>
+<li><a href="features.php">Features von vDiplomacy</a></li>
+<li class="formlistdesc">Neue Features von vDiplomacy.com (nicht in Original-Software enthalten (webdiplomacy.net)).</li>
 
-<li><a href="rules.php">Etiquette</a></li>
-<li class="formlistdesc">The webDiplomacy etiquette.</li>
+<li><a href="rules.php">Regelwerk</a></li>
+<li class="formlistdesc">Die verbindlichen Regeln für alle Spieler auf Diplomacy's Website.</li>
 
-<li><a href="hof.php">vDip Hall of fame</a></li>
-<li class="formlistdesc">The pros of this server; the top 100! based on an Elo-like algorithm</li>
+<li><a href="hof.php">Hall of fame (V-Points)</a></li>
+<li class="formlistdesc">Die hundert erfolgreichsten Spieler auf Diplomacy's Website. Bewertet mit V-Points (Elo-ähnlicher Algorithmus).</li>
 
-<li><a href="halloffame.php">Hall of fame</a></li>
-<li class="formlistdesc">The pros of this server; the top 100! based on total DPoints.</li>
+<li><a href="halloffame.php">Hall of fame (D-Points)</a></li>
+<li class="formlistdesc">Die hundert erfolgreichsten Spieler auf Diplomacy's Website. Bewertet mit D-Points (klassische Punktewertung basierend auf Einsätzen und Spieltyp (WTA, PPSC))</li>
 
-<li><a href="points.php">webDiplomacy points</a></li>
-<li class="formlistdesc">What points are for, how to win them, and how to get into the hall of fame.</li>
+<li><a href="points.php">Diplomacy Punkte</a></li>
+<li class="formlistdesc">Das Punkte-System auf Diplomacy's Website. (D-Points)</li>
 
-<li><a href="profile.php">Find a user</a></li>
-<li class="formlistdesc">Search for a user account registered on this server, if you know their ID number, username, or e-mail address.</li>
+<li><a href="profile.php">Finde einen Benutzer</a></li>
+<li class="formlistdesc">Suche einen Benutzer auf diesem Server anhand der ID, des Benutzernamens oder der Email-Adresse.</li>
 
-<li><a href="variants.php">Variant information</a></li>
-<li class="formlistdesc">A list of the variants available on this server, with credits and information on variant-specific rules.</li>
-
+<li><a href="variants.php">Varianten-Information</a></li>
+<li class="formlistdesc">Eine Liste von Varianten, die auf diesem Server spielbar sind, mit weiteren Informationen und speziellen Regeln.</li>
+<?php /*
 <li><a href="credits.php">Credits</a></li>
-<li class="formlistdesc">The credits.</li>
+<li class="formlistdesc">The credits.</li> 
 
 <li><a href="datc.php">DATC Adjudicator Tests</a></li>
-<li class="formlistdesc">For experts; the adjudicator tests which show that webDiplomacy is true to the proper rules</li>
+<li class="formlistdesc">For experts; the adjudicator tests which show that webDiplomacy is true to the proper rules</li>*/ ?>
 
-<li><a href="http://sourceforge.net/projects/phpdiplomacy">Sourceforge.net project page</a></li>
-<li class="formlistdesc">Our sourceforge.net project page. From here you can make feature requests, ask for support,
-	inform us about bugs, or help out.</li>
-
+<li><a href="tos.php">Nutzungsbedingungen</a></li>
+<li class="formlistdesc">Die Bedingungen, zu denen der Service auf 
+	Diplomacy's Website genutzt werden darf.</li>
+<?php /*
 <li><a href="http://webdiplomacy.net/developers.php">Developer info</a></li>
-<li class="formlistdesc">If you want to fix/improve/install webDiplomacy all the info you need to make it happen is here.</li>
+<li class="formlistdesc">If you want to fix/improve/install webDiplomacy all the info you need to make it happen is here.</li> */ ?>
 
 <li><a href="AGPL.txt">GNU Affero General License</a></li>
 <li class="formlistdesc">The OSI approved license which applies to the vast majority of webDiplomacy.</li>
 </ul>
 
-<p>Didn't find the help/info you were after here? Post a message in the <a href="forum.php" class="light">public forum</a>, or in the
-<a href="http://sourceforge.net/forum/forum.php?forum_id=427606" class="light">sourceforge.net</a> forum.</p>
+<p>Du konntest nicht die Hilfe finden, nach der du suchst? Dann nutze <a href="forum.php" class="light">das Forum</a>, oder wende dich bei sehr speziellen Fragen an einen Administrator:
+info@diplomacy.s-website.de</p>

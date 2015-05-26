@@ -26,7 +26,7 @@ defined('IN_CODE') or die('This script can not be run by itself.');
  */
 
 ?>
-	<li class="formlisttitle">E-mail address</li>
+	<li class="formlisttitle">Email-Adresse</li>
 	<li class="formlistfield"><input type="text" name="userForm[email]" size="50" value="<?php
 		if ( isset($_REQUEST['userForm']['email'] ) )
 		{
@@ -37,46 +37,48 @@ defined('IN_CODE') or die('This script can not be run by itself.');
 			print $User->email;
 		}
 		?>" <?php if ( isset($_REQUEST['emailToken']) ) print 'readonly '; ?> /></li>
-	<li class="formlistdesc">Your e-mail address; this will <strong>not</strong> be spammed or given out to anyone.</li>
+	<li class="formlistdesc">Deine Email-Adresse, sie wird <strong>nicht</strong> zugemüllt oder an dritte weitergegeben.</li>
 
-	<li class="formlisttitle">Hide e-mail address:</li>
+	<li class="formlisttitle">Email-Adresse verbergen:</li>
 	<li class="formlistfield">
-		<input type="radio" name="userForm[hideEmail]" value="Yes" <?php if($User->hideEmail=='Yes') print "checked"; ?>>Yes
-		<input type="radio" name="userForm[hideEmail]" value="No" <?php if($User->hideEmail=='No') print "checked"; ?>>No
+		<input type="radio" name="userForm[hideEmail]" value="Yes" <?php if($User->hideEmail=='Yes') print "checked"; ?>>Ja
+		<input type="radio" name="userForm[hideEmail]" value="No" <?php if($User->hideEmail=='No') print "checked"; ?>>Nein
 	</li>
 	<li class="formlistdesc">
-		Select whether or not you would like other users to be able
-		to see your e-mail address. If you choose to show your e-mail it
-		will be embedded into an image to prevent spam bots from picking it up,
-		so only humans can see it even if you choose to show it.
+		Darf deine eMail-Adresse anderen Benutzern angezeigt werden? 
+		Wenn du hier ja auswählst, wird deine eMail-Adresse als Grafik in deinem Profil angezeigt,
+		um zu verhindern, dass SpamBots
+		sie einsammeln können.
 	</li>
 
-	<li class="formlisttitle">Password:</li>
+	<li class="formlisttitle">Passwort:</li>
 	<li class="formlistfield">
 		<input type="password" name="userForm[password]" maxlength=30>
 	</li>
 	<li class="formlistdesc">
-		Your webDiplomacy password.
+		Dein Diplomacy Passwort.
 	</li>
 
-	<li class="formlisttitle">Password again:</li>
+	<li class="formlisttitle">Passwor wiederholen:</li>
 	<li class="formlistfield">
 		<input type="password" name="userForm[passwordcheck]" maxlength=30>
 	</li>
 	<li class="formlistdesc">
-		Re-enter your webDiplomacy password, to make sure there are no typos.
+		Gib dein Passwort noch einmal ein, um Tippfehler auszuschließen.
 	</li>
 
-	<li class="formlisttitle">Home page:</li>
+	<input type="hidden" name="locale" value="English" />
+
+	<li class="formlisttitle">Homepage:</li>
 	<li class="formlistfield">
 		<input type="text" size=50 name="userForm[homepage]" value="<?php print $User->homepage; ?>" maxlength=150>
 	</li>
 	<li class="formlistdesc">
 		<?php if ( !$User->type['User'] ) print '<strong>(Optional)</strong>: '; ?>
-		Your blog, personal website or favourite website.
+		Dein Blog, deine persönlische Website o.ä.
 	</li>
 
-	<li class="formlisttitle">Comment:</li>
+	<li class="formlisttitle">Kommentar:</li>
 	<li class="formlistfield">
 		<TEXTAREA NAME="userForm[comment]" ROWS="3" COLS="50"><?php
 			print str_replace('<br />', "\n", $User->comment);
@@ -84,7 +86,7 @@ defined('IN_CODE') or die('This script can not be run by itself.');
 	</li>
 	<li class="formlistdesc">
 		<?php if ( !$User->type['User'] ) print '<strong>(Optional)</strong>: '; ?>
-		A comment you would like to make in your profile. eg Your AIM username or ICQ number.
+		Ein Kommentar den du in deinem Profil veröffentlichen möchtest, oder dein Skype-Name o.ä.
 	</li>
 	
 <?php
@@ -98,8 +100,8 @@ if( $User->type['User'] ) {
 		$BlockedUsers[] = new User($blockUserID);
 	}
 	if( count($BlockedUsers) > 0 ) {
-		print '<li class="formlisttitle">Blocked users:</li>';
-		print '<li class="formlistdesc">The users which you blocked are unable to join your games and you can\'t join their games.</li>';
+		print '<li class="formlisttitle">Blockierte Spieler:</li>';
+		print '<li class="formlistdesc">Spieler, die blockiert sind, können deinen Spielen nicht beitreten. Ebenso kannst du ihren Spielen nicht beitreten.</li>';
 		print '<li class="formlistfield"><ul>';
 		foreach ($BlockedUsers as $BlockedUser) {
 			print '<li>'.$BlockedUser->profile_link().' '.libHTML::blocked("profile.php?userID=".$BlockedUser->id.'&toggleBlock=on&rand='.rand(0,99999).'#block').'</li>';
@@ -107,17 +109,17 @@ if( $User->type['User'] ) {
 		print '</ul></li>';
 	}
 	
-// End Patch
+// End Patch	
 	$MutedUsers = array();
 	foreach($User->getMuteUsers() as $muteUserID) {
 		$MutedUsers[] = new User($muteUserID);
 	}
 	if( count($MutedUsers) > 0 ) {
-		print '<li class="formlisttitle">Muted users:</li>';
-		print '<li class="formlistdesc">The users which you muted, and are unable to send you messages.</li>';
+		print '<li class="formlisttitle">Stummgeschaltete Benutzer:</li>';
+		print '<li class="formlistdesc">Diese Nutzer hast du stummgeschaltet; sie können dir keine Nachrichten schreiben.</li>';
 		print '<li class="formlistfield"><ul>';
 		foreach ($MutedUsers as $MutedUser) {
-			print '<li>'.$MutedUser->profile_link().' '.libHTML::muted("profile.php?userID=".$MutedUser->id.'&toggleMute=on&rand='.rand(0,99999).'#mute').'</li>';
+			print '<li>'.$MutedUser->username.' '.libHTML::muted("profile.php?userID=".$MutedUser->id.'&toggleMute=on&rand='.rand(0,99999).'#mute').'</li>';
 		}
 		print '</ul></li>';
 	}
@@ -129,8 +131,8 @@ if( $User->type['User'] ) {
 		$MutedGames[$gameID][] = $muteCountryID;
 	}
 	if( count($MutedGames) > 0 ) {
-		print '<li class="formlisttitle">Muted countries:</li>';
-		print '<li class="formlistdesc">The countries which you muted, and are unable to send you messages.</li>';
+		print '<li class="formlisttitle">Stummgeschaltete Länder:</li>';
+		print '<li class="formlistdesc">Diese Länder hast du stummgeschaltet; sie können dir keine Nachrichten schreiben.</li>';
 		print '<li class="formlistfield"><ul>';
 		$LoadedVariants = array();
 		foreach ($MutedGames as $gameID=>$mutedCountries) {
@@ -160,8 +162,8 @@ if( $User->type['User'] ) {
 	unset($tablMutedThreads);
 	
 	if( count($mutedThreads) > 0 ) {
-		print '<li class="formlisttitle"><a name="threadmutes"></a>Muted threads:</li>';
-		print '<li class="formlistdesc">The threads which you muted.</li>';
+		print '<li class="formlisttitle"><a name="threadmutes"></a>Stummgeschaltete Foren-Diskussionen:</li>';
+		print '<li class="formlistdesc">Diese Foren-Diskussionen werden dir nicht angezeigt.</li>';
 		
 		$unmuteThreadID=0;
 		if( isset($_GET['unmuteThreadID']) ) {
@@ -169,8 +171,8 @@ if( $User->type['User'] ) {
 			$unmuteThreadID = (int)$_GET['unmuteThreadID'];
 			$User->toggleThreadMute($unmuteThreadID);
 			
-			print '<li class="formlistfield"><strong>Thread <a class="light" href="forum.php?threadID='.$unmuteThreadID.'#'.$unmuteThreadID.
-				'">#'.$unmuteThreadID.'</a> unmuted.</strong></li>';
+			print '<li class="formlistfield"><strong>Diskussion <a class="light" href="forum.php?threadID='.$unmuteThreadID.'#'.$unmuteThreadID.
+				'">#'.$unmuteThreadID.'</a> wieder anzeigen.</strong></li>';
 		}
 		
 		print '<li class="formlistfield"><ul>';

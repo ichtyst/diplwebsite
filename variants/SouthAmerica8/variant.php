@@ -41,14 +41,14 @@ class SouthAmerica8Variant extends WDVariant {
 	public $id         =24;
 	public $mapID      =24;
 	public $name       ='SouthAmerica8';
-	public $fullName   ='S&uumldamerikanische Vorherrschaft';
-	public $description='Eine S&uumldamerika-Karte f&uumlr 8 Spieler.';
+	public $fullName   ='South American Supremacy';
+	public $description='A variant with a map of South America for 8 players.';
 	public $author     ='Benjamin Hester';
-	public $adapter    ='Oliver Auth (Übersetzung: Blondbond)';
+	public $adapter    ='Oliver Auth';
 	public $version    ='1.1.1';
 	public $homepage   ='http://www.variantbank.org/results/rules/s/sasupremacy.htm';
 
-	public $countries=array('Argentinien','Bolivien','Brasilien','Chile','Kolumbien','Paraguay','Peru','Venezuela');
+	public $countries=array('Argentina','Bolivia','Brazil','Chile','Colombia','Paraguay','Peru','Venezuela');
 	
 	public function __construct() {
 		parent::__construct();

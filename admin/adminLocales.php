@@ -116,7 +116,7 @@ if( isset($_FILES["file"]) ) {
 	}
 	
 	function process_string($str) {
-		return mb_convert_encoding(stripslashes($str),"UTF-8","US-ASCII");
+		return stripslashes($str); //return mb_convert_encoding(stripslashes($str),"UTF-8","US-ASCII");
 	}
 	
 	// whitespace_before -> quote

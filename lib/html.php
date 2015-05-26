@@ -67,7 +67,7 @@ class libHTML
 
 	static function platinum()
 	{
-		return ' <img src="'.l_s('images/icons/platinum.png').'" alt="(P)" title="'.l_t('Donator - platinum').'" />';
+		return ' <img src="'.l_s('images/icons/platinum.png').'" alt="(P)" title="'.l_t('Co - Site Owner').'" />';
 	}
 
 	static function gold()
@@ -137,7 +137,7 @@ class libHTML
 	static function unmuted($url=false)
 	{
 		$buf = '';
-		if($url) $buf .= '<a href="'.$url.'">';
+		if($url) $buf .= '<a onclick="return confirm(\''.l_t("Are you sure you want to mute the messages from this player?").'\');" href="'.$url.'">';
 		$buf .= '<img src="'.l_s('images/icons/unmute.png').'" alt="'.l_t('Mute player').'" title="'.l_t('Mute player').'" />';
 		if($url) $buf .= '</a>';
 		return $buf;
@@ -288,9 +288,10 @@ class libHTML
 	 * @param $actionName The name of the action
 	 * @param array $args The args in a $name=>$value array
 	 * @param $linkName The name to give the link, the URL is returned if no linkName is given
+	 * @param $confirm Boolean to determine whether the action needs javascript confirmation
 	 * @return string A link URL or an <a href>
 	 */
-	static function admincp($actionName, $args=null, $linkName=null)
+	static function admincp($actionName, $args=null, $linkName=null,$confirm=false)
 	{
 		$output = 'admincp.php?tab=Control%20Panel&amp;actionName='.$actionName;
 
@@ -310,7 +311,9 @@ class libHTML
 		$output .= '#'.$actionName;
 
 		if($linkName)
-			return '<a href="'.$output.'" class="light">'.$linkName.'</a>';
+			return '<a href="'.$output.'" '
+			      .($confirm ? 'onclick="return confirm(\''.$linkName.': '.l_t('Please confirm this action.').'\')"' :'')
+			      .' class="light">'.$linkName.'</a>';
 		else
 			return $output;
 	}
@@ -441,7 +444,9 @@ class libHTML
 		
 		<script type ="text/javascript" src="contrib/cookieWarning/warnCookies.js"></script>
 		<link href="contrib/cookieWarning/cookies.css" title="Cookies\' warning" rel="stylesheet" type="text/css" />
-		
+
+		<link href="css/chat.css" rel="stylesheet" type="text/css" />
+		<script type ="text/javascript" src="javascript/chat.js"></script>
 	</head>';
 	}
 
@@ -485,7 +490,31 @@ class libHTML
 				</div></noscript>';
 
 		print self::globalNotices();
+		
+		if (isset($User) && $User->tempBan > time())
+		{
+			print '<div class="content-notice">
+					<p class="notice"><br>'.l_t('You are blocked from joining or creating new games for %s.',libTime::remainingText($User->tempBan)).'<br><br><hr></p>
+				</div>';			
+		}
+		
+/* Disable chat.
+		if ( is_object($User) && $User->type['Moderator'] )
+		{
+			print '
+			<div class="content" id="chatresult"></div>
+		    <script language="javascript" type="text/javascript">
+				var nickName = "'.$User->username.'";
+				UpdateTimer();
+			</script>   
 
+			<div class="content-notice" id="chatsender" onkeyup="keypressed(event);">
+				Your message: <input type="text" name="msg" size="70" id="msg" />
+				<button onclick="doWork();">Send</button> - 
+				<button onclick="document.getElementById(\'chatresult\').style.height=\'250px\';">Expand</button>
+			</div>';
+		}
+*/
 		if ( is_object($User) && $User->type['User'] )
 		{
 			$gameNotifyBlock = libHTML::gameNotifyBlock();
@@ -504,6 +533,7 @@ class libHTML
 			if ( $User->notifications->ForceModMessage )
 				ModForum::printModMessages();
 		}
+				
 	}
 
 	/**
@@ -563,7 +593,7 @@ class libHTML
 			FROM wD_Members m
 			INNER JOIN wD_Games g ON ( m.gameID = g.id )
 			WHERE m.userID = ".$User->id." AND (  ( m.status='Playing' OR m.status='Left' ) OR NOT (m.newMessagesFrom+0) = 0 )
-				AND ( ( NOT m.orderStatus LIKE '%Ready%' AND NOT m.orderStatus LIKE '%None%' ) OR NOT ( (m.newMessagesFrom+0) = 0 ) )");
+				AND ( ( NOT m.orderStatus LIKE '%Ready%' AND NOT m.orderStatus LIKE '%None%' ) OR NOT ( (m.newMessagesFrom+0) = 0 ) ) ORDER BY  g.processStatus ASC, g.processTime ASC");
 
 		$gameIDs = array();
 		$notifyGames = array();
@@ -573,8 +603,6 @@ class libHTML
 			$gameIDs[] = $id;
 			$notifyGames[$id] = $game;
 		}
-
-		sort($gameIDs);
 
 		$gameNotifyBlock = '';
 
@@ -677,7 +705,7 @@ class libHTML
 		$links['map.php']=array('name'=>'Map', 'inmenu'=>FALSE);
 		$links['faq.php']=array('name'=>'FAQ', 'inmenu'=>FALSE);
 		$links['rules.php']=array('name'=>'Rules', 'inmenu'=>FALSE);
-		$links['tos.php']=array('name'=>'Nutzungsbestimmung', 'inmenu'=>FALSE);
+		$links['recentchanges.php']=array('name'=>'Recent changes', 'inmenu'=>FALSE);
 		$links['intro.php']=array('name'=>'Intro', 'inmenu'=>FALSE);
 		$links['credits.php']=array('name'=>'Credits', 'inmenu'=>FALSE);
 		$links['board.php']=array('name'=>'Board', 'inmenu'=>FALSE);
@@ -693,8 +721,10 @@ class libHTML
 		if ( is_object($User) )
 		{
 			if ( $User->type['Admin'] or $User->type['Moderator'] )
+			{
+//				$links['profile.php']=array('name'=>'Find user', 'inmenu'=>true);  // Overrides the previous one with one that appears in the menu
 				$links['admincp.php']=array('name'=>'Admin CP', 'inmenu'=>true);
-
+			}
 			$links['gamemaster.php']=array('name'=>'GameMaster', 'inmenu'=>FALSE);
 		}
 
@@ -740,7 +770,7 @@ class libHTML
 				<div id="header">
 					<div id="header-container">
 						<a href="./">
-							<img id="logo" src="'.l_s('images/logo.gif').'" alt="'.l_t('webDiplomacy').'" />
+							<img id="logo" src="'.l_s('images/logo.gif').'" alt="'.l_t('Diplomacy\'s Website').'" />
 						</a>';
 
 		if ( is_object( $User ) )
@@ -937,11 +967,9 @@ class libHTML
 		$cookiesWarning='<div id="cookiesWarning"></div><script language="JavaScript" type="text/javascript">checkCookieExist();</script>';
 	
 		// Version, sourceforge and HTML compliance logos
-		return $cookiesWarning.l_t('based on webDiplomacy version <strong>%s</strong> vDip.%s',number_format(VERSION/100,2),VDIPVERSION.'<br />');
-//			<a href="http://sourceforge.net/projects/phpdiplomacy">
-//				<img alt="webDiplomacy @ Sourceforge"
-//					src="http://sourceforge.net/sflogo.php?group_id=125692" />
-//			</a>';
+		return $cookiesWarning.l_t('based on webDiplomacy version <strong>%s</strong> vDip.%s',number_format(VERSION/100,2),VDIPVERSION.'<br />
+			<a href="http://github.com/kestasjk/webDiplomacy" class="light">GitHub Project</a> | 
+			<a href="http://github.com/kestasjk/webDiplomacy/issues" class="light">Bug reports</a>');
 	}
 
 	/*

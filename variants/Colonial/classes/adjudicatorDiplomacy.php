@@ -277,8 +277,22 @@ class SuezCanal_adjudicatorDiplomacy extends TSR_adjudicatorDiplomacy {
                                                 AND NOT suezOrder.id IS NULL
                                                 AND suezMove.gameID = ".$GLOBALS['GAMEID']);
                 
-                
-                parent::adjudicate();
+                if(!isset($this->suezMove[0]))
+				{
+					list($suezOrder) = $DB->sql_row("SELECT moveType FROM wD_Moves
+												WHERE terrID = 126
+												AND gameID = ".$GLOBALS['GAMEID']);
+					$DB->sql_put("UPDATE wD_Moves SET moveType = 'Hold' 
+									WHERE terrID = 126 AND  gameID = ".$GLOBALS['GAMEID']);
+				}
+				
+                $ret = parent::adjudicate();
+				
+                if(!isset($this->suezMove[0]))
+					$DB->sql_put("UPDATE wD_Moves SET moveType = '".$suezOrder."' 
+									WHERE terrID = 126 AND  gameID = ".$GLOBALS['GAMEID']);
+				
+				return $ret;
         }
         
         function adjLoadUnits(array &$units, $moveType, $objectName, $targetQuery = '', $multiTarget = false){ 

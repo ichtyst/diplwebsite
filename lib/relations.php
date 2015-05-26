@@ -360,7 +360,7 @@ class libRelations {
 						$usersHTML .= '<a href="profile.php?userID='.$Member->userID.'">'.$Member->username.'</a>, ';
 					}
 				}
-				$msg = '<b>Attention!</b> Removed '.$usersHTML.'from the game because of metagaming issues. The phase-timer got resetted for a full phase length. Please try to find a replacement'; 
+				$msg = '<b>Attention!</b>'.$usersHTML.' got removed from the game and the phase-timer was resetted for a full phase length. Please try to find a replacement.'; 
 				libGameMessage::send(0, 'GameMaster', $msg);
 				if( $Game->processStatus == 'Not-processing' || $Game->phase != 'Finished' )
 				{

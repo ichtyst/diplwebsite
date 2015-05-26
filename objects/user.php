@@ -177,6 +177,12 @@ class User {
 	public $points;
 
 	/**
+	 * Number of vPoints
+	 * @var int
+	 */
+	public $vpoints;
+
+	/**
 	 * Number of Missed moves and phases played by the user...
 	 * @var int
 	 */
@@ -224,11 +230,26 @@ class User {
 	 */
 	public $directorLicense;
 	
+	/*
+	 * The user is blocked from joining or creating new games till the given time
+	 * @var timestamp
+	 */
+	public $tempBan;
+	
 	/**
 	 * 'No' if the player can submit mod reports, 'Yes' if they are muted
 	 * @var string
 	 */
 	public $muteReports;
+	
+	/**
+	 * The users reliability stats; civil disorders, nmrs, civil disorders taken over, phases where moves could have been submitted, games, reliability rating.
+	 * 
+	 * Generated in libGameMaster
+	 * 
+	 * @var int/double
+	 */
+	public $cdCount, $nmrCount, $cdTakenCount, $phaseCount, $gameCount, $reliabilityRating;
 
 	/**
 	 * Give this user a supplement of points
@@ -582,6 +603,12 @@ class User {
 			u.muteReports,
 			u.silenceID,
 			u.notifications,
+			u.cdCount,
+			u.nmrCount,
+			u.cdTakenCount,
+			u.phaseCount,
+			u.gameCount,
+			u.reliabilityRating,
 			u.missedMoves,
 			u.phasesPlayed,			
 			u.gamesLeft,
@@ -598,7 +625,10 @@ class User {
 			u.greyOut,
 			u.scrollbars,
 			u.directorLicense,
-			IF(s.userID IS NULL,0,1) as online
+			u.tempBan,
+			u.vpoints,
+			IF(s.userID IS NULL,0,1) as online,
+			u.deletedCDs
 			FROM wD_Users u
 			LEFT JOIN wD_Sessions s ON ( u.id = s.userID )
 			WHERE ".( $username ? "u.username='".$username."'" : "u.id=".$this->id ));
@@ -612,6 +642,8 @@ class User {
 		{
 			$this->{$name} = $value;
 		}
+		// For display, cdCount should include deletedCDs
+		$this->{'cdCount'} = $this->{'cdCount'} + $this->{'deletedCDs'};
 
 		// Convert an array of types this user has into an array of true/false indexed by type
 		$this->type = explode(',', $this->type);
@@ -654,7 +686,7 @@ class User {
 			if ( !$welcome and $this->online )
 				$buffer.= libHTML::loggedOn($this->id);
 
-			$buffer.=' ('.$this->points.libHTML::points().$this->typeIcon($this->type).')</a>';
+			$buffer.=' ('.$this->vpoints.libHTML::vpoints().$this->typeIcon($this->type).')</a>';
 		}
 		else
 		{
@@ -722,11 +754,19 @@ class User {
 		require_once(l_r('lib/message.php'));
 		$message = message::linkify($message);
 
-		if( $this->isUserMuted($FromUser->id) )
+		if( $FromUser->isSilenced() )
+        {
+			notice::send($FromUser->id, $this->id, 'PM', 'No', 'Yes',
+                l_t('Could not deliver message, you are currently silenced.') .'('. $FromUser->getActiveSilence()->reason .')', l_t('To:') .' '. $this->username,
+                $this->id);
+            return false;
+        }
+		else if( $this->isUserMuted($FromUser->id) )
 		{
 			notice::send($FromUser->id, $this->id, 'PM', 'No', 'Yes',
 				l_t('Could not deliver message, user has muted you.'), l_t('To:').' '.$this->username,
 				$this->id);
+			return false;
 		}
 		else
 		{
@@ -738,6 +778,7 @@ class User {
 			notice::send($FromUser->id, $this->id, 'PM', 'No', 'Yes',
 				l_t('You sent:').' <em>'.$message.'</em>', l_t('To:').' '.$this->username,
 				$this->id);
+			return true;
 		}
 	}
 
@@ -891,6 +932,9 @@ class User {
 
 		list($rankingDetails['position']) = $DB->sql_row("SELECT COUNT(id)+1
 			FROM wD_Users WHERE points > ".$this->points);
+			
+		list($rankingDetails['vPosition']) = $DB->sql_row("SELECT COUNT(id)+1
+			FROM wD_Users WHERE vpoints > ".$this->vpoints);
 
 		list($rankingDetails['worth']) = $DB->sql_row(
 			"SELECT SUM(bet) FROM wD_Members WHERE userID = ".$this->id." AND status = 'Playing'");
@@ -906,6 +950,9 @@ class User {
 		{
 			$rankingDetails['stats'][$status] = $number;
 		}
+		$rankingDetails['stats']['Civil disorder'] = $this->cdCount;
+		$rankingDetails['stats']['Civil disorders taken over'] = $this->cdTakenCount;
+
 		
 		if (isset($rankingDetails['stats']['Resigned']))
 			unset ($rankingDetails['stats']['Resigned']);
@@ -918,6 +965,7 @@ class User {
 					WHERE m.userID = ".$this->id."
 						AND g.phase != 'Finished'
 						AND g.anon = 'Yes'
+						AND bet != 0
 					GROUP BY status");
 		$points=0;
 		while ( list($number, $status, $bets) = $DB->tabl_row($tabl) )
@@ -926,6 +974,9 @@ class User {
 			$rankingDetails['anon'][$status] = $number;
 		}
 		$rankingDetails['anon']['points'] = $points;
+
+		list($rankingDetails['stats']['Playing']) = $DB->sql_row("SELECT COUNT(id) FROM wD_Members WHERE userID = ".$this->id." AND status='Playing'");
+		list($rankingDetails['anon']['Playing'])  = $DB->sql_row("SELECT COUNT(m.id) FROM wD_Members m INNER JOIN wD_Games AS g ON m.gameID = g.id WHERE userID = ".$this->id." AND g.anon = 'Yes' AND status='Playing'");
 
 		list($rankingDetails['takenOver']) = $DB->sql_row(
 			"SELECT COUNT(c.userID) FROM wD_CivilDisorders c
@@ -942,6 +993,9 @@ class User {
 
 		// Calculate the percentile of the player. Smaller is better.
 		$rankingDetails['percentile'] = ceil(100.0*$rankingDetails['position'] / $rankingPlayers);
+
+		// Calculate the percentile of the player. Smaller is better.
+		$rankingDetails['vpercentile'] = ceil(100.0*$rankingDetails['vPosition'] / $rankingPlayers);
 
 		$rankingDetails['rank'] = 'Political puppet';
 

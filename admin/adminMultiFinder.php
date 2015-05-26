@@ -34,6 +34,8 @@ libRelations::checkRelationsChange();
  * @package Admin
  */
 
+$DB->get_lock('gamemaster');
+
 adminMultiCheck::form();
 
 if ( isset($_REQUEST['aUserID']) and $_REQUEST['aUserID'] )

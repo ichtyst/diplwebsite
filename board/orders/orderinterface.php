@@ -327,7 +327,7 @@ class OrderInterface
 		libHTML::$footerIncludes[] = l_j('board/load.js');
 		libHTML::$footerIncludes[] = l_j('orders/order_vDipV2.js');
 		if ($this->phase == 'Diplomacy')
-			libHTML::$footerIncludes[] = l_j('orders/phaseDiplomacy_vDip.js');
+			libHTML::$footerIncludes[] = l_j('orders/phaseDiplomacy_vDipV2.js');
 		else
 			libHTML::$footerIncludes[] = l_j('orders/phase'.$this->phase.'.js');
 		libHTML::$footerIncludes[] = l_s('../'.libVariant::$Variant->territoriesJSONFile());
@@ -335,7 +335,7 @@ class OrderInterface
 		foreach(array('loadTerritories','loadBoardTurnData','loadModel','loadBoard','loadOrdersModel','loadOrdersForm','loadOrdersPhase') as $jf)
 			libHTML::$footerScript[] = l_jf($jf).'();';
 			
-		if($User->pointNClick=='Yes' && !(isset($Game) && $Game->name=='DATC-Adjudicator-Test')){
+		if($User->pointNClick=='Yes'){
 			require_once(l_r('interactiveMap/php/interactiveMap.php'));
 			$IAmap = getIAmapObject();
 			$IAmap->jsLoadInteractiveMap();

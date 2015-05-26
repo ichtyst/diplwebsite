@@ -2,6 +2,11 @@
 .gamesList {
     margin-top: 10px;
 }
+
+.mapnav {
+  margin: 0.5em;
+}
+
 .gamePanel {
     color: rgb(51, 51, 51);
     margin: 0 auto;
@@ -233,7 +238,26 @@ div.memberBoardHeader {
     text-decoration: line-through;
 }
 .memberStatusHeader {
-    border-top: 1px solid rgb(206, 206, 206);
+	border-top: 1px solid #cecece;
+	}
+.modEyes.bar {
+	text-align: center;
+	font-weight: bold;
+	color: #eaeaea;
+	background-color:#225;
+}
+.modEyes .memberLeftSide {
+	border-left: 3px solid #777777;
+	background-color:#ddddee;
+}
+.modEyes .memberPreGameList {
+	border-left: 3px solid #777777;
+	border-right: 3px solid #777777;
+	background-color:#ddddee;
+}
+.modEyes .memberRightSide{
+	border-right: 3px solid #777777;
+	background-color:#ddddee;
 }
 .memberAlternate1 {
     background-color: rgb(234, 234, 234);

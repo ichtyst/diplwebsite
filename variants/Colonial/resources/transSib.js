@@ -1,3 +1,5 @@
+transSibTerritories = ['28','29','30','35','39','40'];
+
 function loadTransSib() {
         // Take two arrays, join them into one longer array and return it
 	function snapTogether(startArr,snapOnArr)

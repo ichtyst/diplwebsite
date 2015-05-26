@@ -11,7 +11,7 @@ class WWIVsealanesVariant extends WDVariant {
 	public $author     = '';
 	public $adapter    = '';
 	public $version    = '1';
-	public $codeVersion= '1.1';
+	public $codeVersion= '1.1.5';
 	
 	public $countries=array('Amazon-Empire', 'Argentina', 'Australia', 'Brazil', 'California', 'Canada', 'Catholica', 'Central-Asia', 'Colombia', 'Congo', 'Cuba', 'Egypt', 'Germany', 'Illinois', 'Inca-Empire', 'India', 'Indonesia', 'Iran', 'Japan', 'Kenya', 'Manchuria', 'Mexico', 'Nigeria', 'Oceania', 'Philippines', 'Quebec', 'Russia', 'Sichuan-Empire', 'Song-Empire', 'South-Africa', 'Texas', 'Thailand', 'Turkey', 'United-Kingdom', 'United-States');
 

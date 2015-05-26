@@ -467,7 +467,7 @@ class adminActionsTD extends adminActionsForms
 			if( $Game->phase == 'Pre-game' || $Game->phase == 'Finished' )
 				throw new Exception(l_t("Invalid phase to set CD"));
 
-			$Game->Members->ByUserID[$User->id]->setLeft();
+			$Game->Members->ByUserID[$User->id]->setLeft(1);
 			
 			$Game->resetMinimumBet();
 

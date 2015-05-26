@@ -334,11 +334,11 @@ $bordersRawData=array(
 	array('Tyrolia','Prague','No','Yes'),
 	array('Tyrolia','Croatia','No','Yes'),
 	array('Vienna','Prague','No','Yes'),
+	array('Vienna','Slovakia','No','Yes'),
 	array('Vienna','Hungary','No','Yes'),
 	array('Vienna','Croatia','No','Yes'),
 	array('Prague','Slovakia','No','Yes'),
 	array('Prague','Breslau','No','Yes'),
-	array('Prague','Hungary','No','Yes'),
 	array('Slovakia','Breslau','No','Yes'),
 	array('Slovakia','Hungary','No','Yes'),
 	array('Slovakia','Bessarabia','No','Yes'),
@@ -780,6 +780,7 @@ if (!file_exists('variants/'.$this->name.'/cache/sampleMap.png'))
 	copy ('variants/'.$this->name.'/resources/sampleMap.png','variants/'.$this->name.'/cache/sampleMap.png');
 
 ?>
+
 
 
 

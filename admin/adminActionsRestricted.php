@@ -140,7 +140,12 @@ class adminActionsRestricted extends adminActionsRestrictedVDip
 					running this may give unpredictable results. Please confirm with the variant maintainer before
 					using this admin action.',
 				'params' => array('mapID'=>'Map ID'),
-			)		
+			),		
+			'recalculateRR' => array(
+				'name' => 'Recalculate reliability ratings',
+				'description' => 'Updates the reliability ratings for all users.',
+				'params' => array()
+			)
 		);
 
 		adminActions::$actions = array_merge(adminActions::$actions, $restrictedActions);
@@ -571,6 +576,11 @@ class adminActionsRestricted extends adminActionsRestrictedVDip
 		return l_t('This game was moved from %s, %s back to Diplomacy, %s, and is ready to be reprocessed.',
 			$oldPhase,$Game->datetxt($oldTurn),$Game->datetxt($lastTurn));
 	}
+	public function reprocessGameConfirm(array $params)
+	{
+		$gameID = (int)$params['gameID'];
+		return 'Are you sure you want to reprocess this game?';
+	}
 	
 	public function recreateUnitDestroyIndex(array $params)
 	{
@@ -599,10 +609,12 @@ class adminActionsRestricted extends adminActionsRestrictedVDip
 		
 		return l_t('The unit destroy indexes were recreated for map ID #%s ; there were %s entries before and there are currently %s entries.', $mapID, $entriesBefore, $entriesAfter);
 	}
-	public function reprocessGameConfirm(array $params)
+	
+	public function recalculateRR(array $params)
 	{
-		$gameID = (int)$params['gameID'];
-		return 'Are you sure you want to reprocess this game?';
+		require_once(l_r('gamemaster/gamemaster.php'));
+		libGameMaster::updateReliabilityRating(true);
+		return l_t("Reliability Ratings have been recalculated");
 	}
 }
 

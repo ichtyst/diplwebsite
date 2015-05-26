@@ -214,8 +214,11 @@ class Members
 				m.supplyCenterNo as supplyCenterNo,
 				m.unitNo as unitNo,
 				m.chessTime AS chessTime,
+				m.ccMatch AS ccMatch,
+				m.ipMatch AS ipMatch,
 				u.username AS username,
 				u.points AS points,
+				u.vpoints AS vpoints,
 				u.rlGroup AS rlGroup,
 				u.missedMoves AS missedMoves,
 				u.phasesPlayed AS phasesPlayed,			
@@ -254,7 +257,7 @@ class Members
 		$pointsLowestCD = false;
 		foreach($this->ByStatus['Left'] as $Member)
 		{
-			$pointsValue = $Member->pointsValue();
+			$pointsValue = $Member->pointsValueInTakeover();
 			if( $pointsLowestCD===false or $pointsLowestCD > $pointsValue )
 				$pointsLowestCD = $pointsValue;
 		}
@@ -313,6 +316,57 @@ class Members
 			return l_t("joining/leaving games disabled while a problem is resolved");
 		else
 			return false;
+	}
+	
+	// Update the CoocieCode and IP-Match info in the Members-Info
+	function updateCCIP()
+	{
+	
+		global $DB;
+	
+		// Get all UserIDs
+		$allUserIDs = array();
+		foreach($this->ByID as $id=>$Member)
+			$allUserIDs[] = $Member->userID;
+			
+		foreach($this->ByID as $id=>$Member)
+		{
+			$sql_IPs = "SELECT ip FROM wD_AccessLog WHERE userID = ".$Member->userID." GROUP BY ip";
+			$tabl_IPs = $DB->sql_tabl($sql_IPs);
+			$IPs=array();
+			while ( list($IP) = $DB->tabl_row($tabl_IPs) )
+				$IPs[]=$IP;
+			if (count($IPs) > 0)
+			{
+				list($ipMatch) = $DB->sql_row("
+					SELECT COUNT(*) FROM 
+						(SELECT userID
+							FROM wD_AccessLog
+							WHERE ip IN ( ".implode(',',$IPs)." ) 
+								AND userID <> ".$Member->userID." 
+								AND userID IN ( ".implode(',',$allUserIDs)." ) 
+						GROUP BY userID) AS IPmatch");
+				$DB->sql_put("UPDATE wD_Members SET ipMatch = '".$ipMatch."' WHERE id = ".$Member->id);
+			}
+			
+			$sql_CCs = "SELECT cookieCode FROM wD_AccessLog WHERE userID = ".$Member->userID." GROUP BY cookieCode";
+			$tabl_CCs = $DB->sql_tabl($sql_CCs);
+			$CCs=array();
+			while ( list($CC) = $DB->tabl_row($tabl_CCs) )
+				$CCs[]=$CC;
+			if (count($CCs) > 0)
+			{
+				list($ccMatch) = $DB->sql_row("
+					SELECT COUNT(*) FROM 
+						(SELECT userID
+							FROM wD_AccessLog
+							WHERE cookieCode IN ( ".implode(',',$CCs)." ) 
+								AND userID <> ".$Member->userID." 
+								AND userID IN ( ".implode(',',$allUserIDs)." )  
+						GROUP BY userID) AS ccMatch");
+				$DB->sql_put("UPDATE wD_Members SET ccMatch = '".$ccMatch."' WHERE id = ".$Member->id);
+			}
+		}
 	}
 }
 ?>

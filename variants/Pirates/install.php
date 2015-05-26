@@ -536,6 +536,7 @@ $bordersRawData=array(
 	array('Eleuthera','West Atlantic','Yes','No'),
 	array('Eleuthera','Windward Passage','Yes','No'),
 	array('Florida Channel','Florida Keys','Yes','Yes'),
+	array('Florida Channel','Florida','Yes','Yes'),
 	array('Florida Channel','Grand Bahama','Yes','No'),
 	array('Florida Channel','Havana','Yes','Yes'),
 	array('Florida Channel','Isla de los Pinos','Yes','No'),
@@ -1159,6 +1160,7 @@ $DB->sql_put('UPDATE wD_Territories SET supply="No" WHERE mapID='.$this->mapID.'
 InstallCache::terrJSON($this->territoriesJSONFile(),$this->mapID);
 
 ?>
+
 
 
 

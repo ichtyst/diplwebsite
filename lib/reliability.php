@@ -128,9 +128,7 @@ class libReliability
 	static public function printCDNotice($User)
 	{
 		if ( self::maxGames($User) < 50 )
-			print '<p class="notice">Game-Restrictions in effect.</p>
-				<p class="notice">You can join or create '.self::maxGames($User).' additional games.<br>
-				Read more about this <a href="reliability.php">here</a>.<br><br></p>';
+			print l_t('<p class="notice">Game-Restrictions in effect.</p><p class="notice">You can join or create %s additional games.<br>Read more about this <a href="reliability.php">here</a>.<br><br></p>',self::maxGames($User));
 	}
 	
 	/**

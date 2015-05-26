@@ -113,7 +113,7 @@ class panelGameHome extends panelGameBoard
 				<span class="gamePhase">'.l_t($this->phase).'</span>
 			</div>
 			<div class="titleBarLeftSide">
-				Pot: <span class="gamePot">'.$this->pot().'</span>';
+				'.l_t('Pot').': <span class="gamePot">'.$this->pot().'</span>';
 
 		$alternatives=array();
 		if( $this->pressType=='NoPress')

@@ -30,11 +30,11 @@ libHTML::starthtml();
 if(!(isset($_REQUEST['variantID'])))
 {
 	print '<script type="text/javascript" src="contrib/tablekit/tablekit.js"></script>';
-	print libHTML::pageTitle('webDiplomacy variants','A list of the variants available on this server, with credits and information on variant-specific rules.');
+	print libHTML::pageTitle(l_t('webDiplomacy variants'),l_t('A list of the variants available on this server, with credits and information on variant-specific rules.'));
 	$variantsOn=array();
 	$variantsOff=array();
 
-	foreach(glob('variants/*') as $variantDir)
+	foreach(glob('variants/*', GLOB_ONLYDIR) as $variantDir)
 	{
 		if( file_exists($variantDir.'/variant.php') )
 		{
@@ -47,7 +47,7 @@ if(!(isset($_REQUEST['variantID'])))
 	}
 	
 	if( count($variantsOff) )
-		print '<a name="top"></a><h4>Active variants:</h4>';
+		print '<a name="top"></a><h4>'.l_t('Active variants:').'</h4>';
 	
 	print '<style type="text/css">
 			.sortcol { cursor: pointer;
@@ -65,16 +65,16 @@ if(!(isset($_REQUEST['variantID'])))
 		
 	print '<TABLE class="sortable">
 				<THEAD>
-					<TH style="border: 1px solid #000" class="sortfirstasc">Name</TH>
-					<TH style="border: 1px solid #000">Players</TH>
-					<TH style="border: 1px solid #000">IAMap</TH>
-					<TH style="border: 1px solid #000">Games finished</TH>
-					<TH style="border: 1px solid #000">avg. Turns</TH>
-					<TH style="border: 1px solid #000">Rating*</TH>
-					<TH style="border: 1px solid #000">Hot**</TH>
+					<TH style="border: 1px solid #000" class="sortfirstasc">'.l_t('Name').'</TH>
+					<TH style="border: 1px solid #000">'.l_t('Players').'</TH>
+					<TH style="border: 1px solid #000">'.l_t('IAMap').'</TH>
+					<TH style="border: 1px solid #000">'.l_t('Games finished').'</TH>
+					<TH style="border: 1px solid #000">'.l_t('avg. Turns').'</TH>
+					<TH style="border: 1px solid #000">'.l_t('Rating*').'</TH>
+					<TH style="border: 1px solid #000">'.l_t('Hot**').'</TH>
 				</THEAD>
 				<TFOOT>
-					<tr style="border: 1px solid #666"><td colspan=6><b>**Rating</b> = ("players" x "games played") - <b>**Hot</b> = Number of active games</td></tr>
+					<tr style="border: 1px solid #666"><td colspan=6>'.l_t('<b>**Rating</b> = ("players" x "games played") - <b>**Hot</b> = Number of active games').'</td></tr>
 				</TFOOT>';
 			
 	foreach( $variantsOn as $variantName )
@@ -93,8 +93,8 @@ if(!(isset($_REQUEST['variantID'])))
 		print '<TR><TD style="border: 1px solid #666">'.$Variant->link().'</TD>';
 		print '<TD style="border: 1px solid #666">'.($games==0?count($Variant->countries):round($players/$games,2)) .' players</TD>';
 		print '<TD style="border: 1px solid #666" align="center">'.((file_exists('variants/'.$Variant->name.'/interactiveMap')) ? '<img src="images/icons/tick.png"' : '-').'</TD>';
-		print '<TD style="border: 1px solid #666">'.$games.' game'.($games!=1?'s':'').'</TD>';
-		print '<TD style="border: 1px solid #666">'.($games==0?'0.00':number_format($turns/$games,2)).' turns</TD>';
+		print '<TD style="border: 1px solid #666">'.$games.($games!=1?l_t(' games'):l_t(' game')).'</TD>';
+		print '<TD style="border: 1px solid #666">'.($games==0?'0.00':number_format($turns/$games,2)).l_t(' turns').'</TD>';
 		print '<TD style="border: 1px solid #666">'.$players.'</TD>';
 		print '<TD style="border: 1px solid #666">'.$hot.'</TD></TR>';
 	}
@@ -144,7 +144,7 @@ else
 	print '" alt="Open large map" title="The map for the '. $Variant->name .' Variant" /></a></span> </div><br />';
 
 	print '<table>
-		<td style="text-align:left">Search for games: 		
+		<tr><td style="text-align:left">Search for games: 		
 			<form style="display: inline" action="gamelistings.php" method="POST">
 				<input type="hidden" name="gamelistType" value="New" />
 				<input type="hidden" name="searchOff" value="true" />
@@ -175,7 +175,7 @@ else
 			<form style="display: inline" action="files.php" method="GET">
 				<input type="hidden" name="variantID" value="'.$Variant->id.'" />
 				<input type="submit" value="View/Download code" /></form>
-		</td>
+		</td></tr>
 	</table>';
 			
 	print '<br><div><strong>Variant Parameters';
@@ -232,6 +232,7 @@ else
 		include_once('variants/'. $Variant->name .'/rules.php');
 		print '</div>';
 	}
+	print '</div>';
 }
 
 print '</div>';

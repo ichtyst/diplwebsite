@@ -770,7 +770,7 @@ class libHTML
 				<div id="header">
 					<div id="header-container">
 						<a href="./">
-							<img id="logo" src="'.l_s('images/vlogo.png').'" alt="'.l_t('vDiplomacy').'" />
+							<img id="logo" src="'.l_s('images/logo.gif').'" alt="'.l_t('Diplomacy\'s Website').'" />
 						</a>';
 
 		if ( is_object( $User ) )

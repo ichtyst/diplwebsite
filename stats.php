@@ -226,7 +226,7 @@ if ($variantID != 0)
 	
 	}
 }
-
+print '</div>';
 libHTML::footer();
 
 ?>

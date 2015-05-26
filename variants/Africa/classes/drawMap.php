@@ -29,21 +29,21 @@ class AfricaVariant_drawMap extends drawMap {
 		if( $this->smallmap )
 		{
 			return array(
-				'map'=>'variants/Africa/resources/smallmap.png',
-				'army'=>'contrib/smallarmy.png',
-				'fleet'=>'contrib/smallfleet.png',
-				'names'=>'variants/Africa/resources/smallmapNames.png',
-				'standoff'=>'images/icons/cross.png'
+				'map'=>l_s('variants/Africa/resources/smallmap.png'),
+				'army'=>l_s('contrib/smallarmy.png'),
+				'fleet'=>l_s('contrib/smallfleet.png'),
+				'names'=>l_s('variants/Africa/resources/smallmapNames.png'),
+				'standoff'=>l_s('images/icons/cross.png')
 			);
 		}
 		else
 		{
 			return array(
-				'map'=>'variants/Africa/resources/map.png',
-				'army'=>'contrib/army.png',
-				'fleet'=>'contrib/fleet.png',
-				'names'=>'variants/Africa/resources/mapNames.png',
-				'standoff'=>'images/icons/cross.png'
+				'map'=>l_s('variants/Africa/resources/map.png'),
+				'army'=>l_s('contrib/army.png'),
+				'fleet'=>l_s('contrib/fleet.png'),
+				'names'=>l_s('variants/Africa/resources/mapNames.png'),
+				'standoff'=>l_s('images/icons/cross.png')
 			);
 		}
 	}

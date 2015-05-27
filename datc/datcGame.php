@@ -57,7 +57,22 @@ class datcGame extends processGame
 		}
 		else
 		{
-			$Game = processGame::create(1, 'DATC-Adjudicator-Test', '', 5,'Winner-takes-all', 30,30,'No','Regular');
+			$Game = processGame::create(1, 'DATC-Adjudicator-Test', '', 5,'Winner-takes-all', 30,30,'No','Regular'
+				,'Normal'
+				,0 
+				,0 
+				,0 
+				,0
+				,0 
+				,0
+				,0
+				,0
+				,0
+				,0
+				,0
+				,0
+				,0
+				,0);
 			$id = $Game->id;
 			$DB->sql_put("UPDATE wD_Games SET phase = 'Diplomacy', turn = ".$testID." WHERE id = ".$id);
 		}

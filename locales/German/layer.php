@@ -91,10 +91,14 @@ class Locale_German extends Locale_Abstract {
 	function staticFile($resource) {
 		
 		// If loading up the classic map name overlays include instead the Italian names:
-		if( $resource == 'variants/Classic/resources/smallmapNames.png' )
+		/*if( $resource == 'variants/Classic/resources/smallmapNames.png' )
 			return 'locales/German/SmallMapNames.png';
 		else if ( $resource == 'variants/Classic/resources/mapNames.png')
 			return 'locales/German/LargeMapNames.png';
+		else
+			return $resource;*/
+		if(file_exists('locales/German/resources/'.$resource))
+			return 'locales/German/resources/'.$resource;
 		else
 			return $resource;
 	}

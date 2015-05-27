@@ -33,11 +33,11 @@ class TransSib_OrderArchiv extends OrderArchiv
                                 $buffer .= '<u>';       // underline failed orders
 
 
-			$buffer .= "The ".$order['unitType']." at ".$this->terrIDToName[$order['terrID']]." ".$order['type'].
-				" to ".$this->terrIDToName[$order['toTerrID']].
-				" via Trans-Siberian Railroad".
-                                ($order['toTerrID'] != $order['fromTerrID'] ? " (tried to reach ".$this->terrIDToName[$order['fromTerrID']].")" : "");
-		
+			$buffer .= l_t("The %s at %s %s",l_t($order['unitType']),l_t($this->terrIDToName[$order['terrID']]),l_t($order['type'])).
+					l_t(" to %s",l_t($this->terrIDToName[$order['toTerrID']])).
+					l_t(" via Trans-Siberian Railroad").
+								($order['toTerrID'] != $order['fromTerrID'] ? " (".l_t("tried to reach %s", l_t($this->terrIDToName[$order['fromTerrID']])).")" : "");
+					
 
                         $buffer .= '.';
 
@@ -46,10 +46,10 @@ class TransSib_OrderArchiv extends OrderArchiv
                                 $buffer .= '</u>';
 
                                 if ($order['success'] == 'No')
-                                        $buffer .= ' (fail)';
+                                        $buffer .= ' ('.l_t('fail').')';
                                 
                                 if ($order['dislodged'] == 'Yes')
-                                        $buffer .= ' (dislodged)';
+                                        $buffer .= ' ('.l_t('dislodged').')';
                         }
 
                         $buffer .= '</li>';
@@ -74,9 +74,9 @@ class SuezCanal_OrderArchiv extends TransSib_OrderArchiv
                         $buffer = '<li>';
 
                         if($order['type'] == 'hold')
-                                $buffer .= "No fleet is allowed to use the Suez Canal";
+                                $buffer .= l_t("No fleet is allowed to use the Suez Canal");
                         elseif($order['type'] == 'support hold')
-                                $buffer .= "The fleet in ".$this->terrIDToName[$order['toTerrID']]." is allowed to use the Suez Canal";
+                                $buffer .= l_t("The fleet in %s is allowed to use the Suez Canal",l_t($this->terrIDToName[$order['toTerrID']]));
 
                         $buffer .= '.';
 

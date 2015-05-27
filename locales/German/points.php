@@ -30,12 +30,13 @@ defined('IN_CODE') or die('This script can not be run by itself.');
 	title="A stack of webDiplomacy points. Points are a lot like casino chips in poker; tokens to bet with" /></div>
 
 <p class="intro">
-Diplomacy is a game that takes no time to learn, but ages to master. Because webDiplomacy is
-user friendly it gets many Diplomacy novices, but there are also lots of very good players.</p>
+Diplomacy ist ein Spiel, welches zwar leicht zu erlernen, aber schwer zu meistern ist. Da
+die webDiplomacy-Software (die auf dieser Website verwendet wird) sehr benutzerfreundlich ist,
+gibt es hier viele Anfänger, aber auch einige fortgeschrittene Spieler.</p>
 
 <p class="intro">
-Points are what let experts play with other experts, and novices play with other novices, so
-that everyone is challenged to the right amount.
+Punkte sind dazu da, dass Profis mit anderen Profis und Anfänger mit Anfängern spielen können, sodass
+jeder ein zum jeweiligen Fortschritt passendes Spiel finden kann.
 </p>
 
 <div class="hr" ></div>
@@ -43,28 +44,28 @@ that everyone is challenged to the right amount.
 <div align="center"><img src="images/points/bet.png" alt=" "
 	title="All players who want to join the game bet the same amount of points when the game begins" /></div>
 <p class="intro">
-When someone creates a game they can select how many of their points they want to "bet" on the game.<br /><br />
+Wenn man ein Spiel erstellt, kann man festlegen, wie viele Punkte "gesetzt" werden sollen.<br /><br />
 
-Only people who can bet the same number of points can join the game.<br />
-An expert player will have more points and so only other expert players can play in high-stakes games.</p>
+Nur Spieler, die den angegebenen Einsatz an Punkten leisten, können dem Spiel beitreten.<br />
+Ein Profi hat mehr Punkte und kann dementsprechend Spiele mit hohem Einsatz erstellen, denen nur andere Profis beitreten können.</p>
 
 <div align="center"><img src="images/points/play.png" alt=" "
 	title="The game begins; all players are now fighting for the 'pot' of points which they have all bet" /></div>
 
 <p class="intro">
-Once everyone who wants to join has joined the game has a large "pot" of points. If there are seven players
-the pot size will be seven times the size that each player bet.<br /><br />
+Sobald alle nötigen Spieler beigetreten sind, gibt es einen großen "Pott" an Punkten. Bei der klassischen 7-Spieler-Version ist 
+dieser zum Beispiel sieben mal so groß wie der Einsatz eines jeden Spielers.<br /><br />
 
-Once the game is over the pot is paid back to the players depending on how well they did.
+Ist das Spiel vorbei, wird der Pott wieder an die Spieler ausgezahlt, allerdings abhängig davon, wie gut ihr Spielergebnis ist.
 </p>
 
 <div align="center"><img src="images/points/win.png" alt=" "
 	title="The game is over; the amount of points each player wins depends on their success in the game" /></div>
 
 <p class="intro">
-The amount of points you get depends on how many supply centers you have at the end. If you have the 18 supply centers needed
-to win you'll get most of the points, but if you have more supply centers than you started with at the end you'll
-still win something. If you get defeated, or have to leave the game, then all the points you bet are lost.
+Die Anzahl an Punkten, die man erhält, hängt von der Anzahl der Versorgungszentren (VZ) ab, die man am Ende besitzt.
+Wenn man alle 18 VZs für einen Sieg besitzt, bekommt man die meisten Punkte, aber solange man wenigstens mehr VZs als am Start besitzt,
+bekommt man immerhin etwas an Punkten. Wurde man besiegt oder hat das Spiel verlassen, sind alle Punkte verloren.
 </p>
 
 <div class="hr" ></div>
@@ -76,55 +77,52 @@ still win something. If you get defeated, or have to leave the game, then all th
 		title="The winner takes all the points: Winner-takes-all" />
 </div>
 <p class="intro">
-For more experienced players there is a "Winner-takes-all" mode, which can be chosen instead of the default 
-"Points-per-supply-center" mode. In winner-takes-all games the winner gets all the points from the game, and
-the runners up get nothing.<br /><br />
+Für erfahrenere Spieler gibt es den "Winner-take-all"-Modus (WTA), der anstelle des Standardmodus "Points-per-supply-center" (PPSC) gewählt werden
+kann. In "Winner-takes-all"-Spielen bekommt der Sieger alle Punkte aus dem Pott und alle anderen Spieler gehen leer aus.<br /><br />
 
-While the objetive of the game (reach the target cupply-centers and win the game) stays the same in both gametypes
-there is a difference in how to play if you can't win. In order to get as many points as possible in a WTA-game you
-need to prevent the one player from winning the game and draw with your allies. In a PPSC-setting you try to get as
-many SCs as you can, and to stop a player from winning and draw can be unfavourable if you just take care of your points.<br />
+Zwar bleibt das Ziel des Spieles in beiden Modi das Selbe (die Ziel-VZ-Anzahl zu erreichen und zu gewinnen), aber
+die unterschiedlichen Modi können zu unterschiedlichen Spielweisen führen, wenn man nicht mehr gewinnen kann. So muss man
+in einem WTA-Spiel alles daran setzen, einen Spieler am Sieg zu hindern und ein Unentschieden zu erreichen, um überhaupt noch
+Punkte zu bekommen. Im PPSC-Modus kann man stattdessen einfach versuchen, noch so viele VZs wie möglich zu bekommen, um so
+womöglich sogar mehr Punkte zu erhalten, als wenn man alles mögliche gegen einen Sieg unternimmt.<br />
 
-Because of this you need more diplomatic skill to achieve a good score at a WTA-game. You have to outplay all your
-opponents or coordinate with all other players to stop the one player winning (without getting left behind).<br />
+Deshalb gelten WTA-Spiele als Spiele, die mehr Diplomatie für eine gute Bewertung erforden. Alle Mitspieler müssen
+überwunden werden oder alle bis auf einen müssen rechtzeitig zu einer Allianz gegen den stärksten Spieler vereinigt werden.<br />
 
-The WTA setting is for players who think that winner-takes-all is more true to the board game; there's no honor
-in second place, and playing for second place makes the game worse!<br /><br />
+Der WTA-Modus ist insbesondere für Spieler, die den WTA-Modus passender für das Originalspiel halten; es gibt keine Ehrung des zweiten
+Platz, alle Spieler bis auf den Sieger sind gleichwertige Verlierer.<br /><br />
 
-But remember that you are less likely to get any points back in a winner-takes-all game; even if you play
-well you might get no points back, so try to bet less on winner-takes-all games than points-per-supply-center
-games!
+Allerdings sollte nicht vergessen werden, dass die Wahrscheinlichkeit in WTA-Spielen geringer ist, überhaupt Punkte zurückzuerhalten;
+selbst wenn das Spiel einigermaßen gut läuft, könnte man leer ausgehen - im Gegensatz zu PPSC-Spielen!
 </p>
 
-<h4>Draws</h4>
+<h4>Unentschieden</h4>
 <div align="center">
 	<img src="images/points/draw.png" alt=" "
 		title="When all surviving players vote for a draw an equal share of the points are given to each surviving player" />
 </div>
 <p class="intro">
-Sometimes a game can't go any further; two or more players have arranged their units so that the other players
-can only hold their position. In these cases the game is a draw, and the points are split equally among all the
-surviving players, regardless of how many supply centers each player has.<br /><br />
+Manchmal geht es im Spiel nicht mehr weiter; zwei oder mehr Spieler haben ihre Einheiten so plaziert, dass Positionen nur noch
+gehalten werden können und eine Veränderung der Grenzen nicht mehr möglich ist. In diesem Fall handelt es sich um ein Unentschieden.
+Alle verbliebenen Spieler bekommen einen gleichen Anteil am Pott, unabhöngig von der Anzahl der VZs.<br /><br />
 
-Draws can be voted for at any time; if all the players still surviving vote for a draw the points in the game will
-be split up equally and a share given to each player still surviving. (In a draw a surviving player with 15 supply-centers will
-get the same number of points as a surviving player with only one!)
+Es kann jederzeit für ein Unentschieden gestimmt werden; sobald alle noch verbliebenen Spieler für Unentschieden stimmen, endet das Spiel
+und die Punkte aus dem Pott werden zu gleichen Anteilen an die überlebenden Spieler verteilt. (Bei einem Unentschieden erhält also ein Spieler
+mit 15 VZs die gleichen Punkte wie ein Spieler mit nur einem VZ!)
 </p>
 
 <a name="minpoints"></a>
-<h4>Minimum points</h4>
+<h4>Punkteminimum</h4>
 <p class="intro">
-New players get only 100 points to start out with, but don't worry about losing all your points! If a game ends and
-you have less than 100 points (including the points you have bet into any other games which you're still playing in) then
-you get topped back up to your starting 100 points!
+Neue Spieler erhalten zu Beginn 100 Punkte. Wenn sie ein Spiel verlieren und dadurch insgesamt weniger als 100 Punkte haben
+(inkl. Einsatz in aktiven Spielen), bekommen sie entsprechende Punkte zurück, sodass sie wieder mit 100 Punkten starten können.
 </p>
 
-<h4>Discipline!</h4>
+<h4>Disziplin!</h4>
 <p class="intro">
-As players win more points they can enter games that cost more points, and climb up the ladder towards the
-expert players. But in high stakes games you can gain and lose lots of points very quickly, so be careful
-about betting all your points!<br />
-If you're getting a good collection of points try to limit yourself to
-betting half your points at a time, especially against the expert players, or you could be back to playing with
-novices!
+Sobald Spieler Punkte gewinnen, können sie Spiele mit mehr Punkten beitreten und so an der Leiter zum Profilevel aufsteigen.
+Aber gerade in Spielen mit hohem Einsatz kann man auch viele Punkte schnell wieder verlieren, also passe auf, dass Du nicht
+alle Punkte auf einmal setzt!<br />
+Sobald Du eine gewisse Menge an Punkten angesammelt hast, versuche dich auf maximal die Hälfte deiner Einsätze zu beschränken,
+besonders gegen Profis, oder die spielst bald wieder mit den Anfängern!
 </p>

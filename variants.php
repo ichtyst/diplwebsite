@@ -47,7 +47,7 @@ if(!(isset($_REQUEST['variantID'])))
 	}
 	
 	if( count($variantsOff) )
-		print '<a name="top"></a><h4>'.l_t('Active variants:').'</h4>';
+		print '<a name="top"></a><h4>Active variants:</h4>';
 	
 	print '<style type="text/css">
 			.sortcol { cursor: pointer;

@@ -37,26 +37,26 @@ $updatedfile = isset($_REQUEST['updatedfile'])? $_REQUEST['updatedfile']: '' ;
 // a message to diaplay.
 $msg = isset($_REQUEST['msg']) ? $_REQUEST['msg'] : '' ; 
 switch($msg) {
-	case '1'  : $msg = 'Failed to save '.$basedir.$file.' !';                  break;
-	case '2'  : $msg = 'File '.$basedir.$file.' saved.';                       break;
-	case '3'  : $msg = 'File '.$basedir.$file.' uploaded.';                    break;
-	case '4'  : $msg = 'File '.$basedir.$file.' deleted.';                     break;
-	case '5'  : $msg = 'File '.$basedir.$file.' verified.';                    break;
-	case '6'  : $msg = 'Editing canceled. File '.$basedir.$file.' not saved!'; break;
+	case '1'  : $msg = l_t('Failed to save %s !',$basedir.$file);                  break;
+	case '2'  : $msg = l_t('File %s saved.',$basedir.$file);                       break;
+	case '3'  : $msg = l_t('File %s uploaded.',$basedir.$file);                    break;
+	case '4'  : $msg = l_t('File %s deleted.',$basedir.$file);                     break;
+	case '5'  : $msg = l_t('File %s verified.',$basedir.$file);                    break;
+	case '6'  : $msg = l_t('Editing canceled. File %s not saved!',$basedir.$file); break;
 	default   : $msg = '';
 }
 
 // You can't edit or upload a modified install.php. It causes all sort of strange problems.
 if (($action == 'upload' || $action == 'filesave') && $file=='install.php')
 {
-	$msg = 'Editing or uploading of a modified install.php is for experts only.<br>Please contakt an admin if you leally need to do this.';
+	$msg = l_t('Editing or uploading of a modified install.php is for experts only.<br>Please contakt an admin if you leally need to do this.');
 	$action = ''; $file='';
 }
 
 // You can't edit or upload a modified install.php. It causes all sort of strange problems.
 if (($action == 'upload' || $action == 'filesave') && $file=='variant.php' && !file_exists("variants/".Config::$variants[$variantID]."/install.php"))
 {
-	$msg = "You can't edit or upload variants.php while in edit-mode.";
+	$msg = l_t("You can't edit or upload variants.php while in edit-mode.");
 	$action = ''; $file='';
 }
 
@@ -125,11 +125,11 @@ if ($action == 'download' && $variantID != '0') {
 libHTML::starthtml();
 print '<div class="content">';
 
-print '<li class="formlisttitle">Variant: ';
+print '<li class="formlisttitle">'.l_t('Variant: ');
 print '<form style="display: inline" method="get" name="set_map">';
 print '<select name="variantID" onchange="this.form.submit();">';
 if ($variantID == 0)
-	print '<option value="0" selected>Choose a variant...</option>';
+	print '<option value="0" selected>'.l_t('Choose a variant...').'</option>';
 
 asort(Config::$variants);
 
@@ -146,7 +146,7 @@ foreach ( Config::$variants as $id=>$name )
 			foreach (Config::$devs[$User->username] as $variantName)
 			{
 				if ($name == $variantName)
-					print '<option value="'.$id.'"'.($id == $variantID ? ' selected':'').'>'.$name.'</option>';
+					print '<option value="'.$id.'"'.($id == $variantID ? ' selected':'').'>'.l_t($name).'</option>';
 			}
 		
 		}
@@ -157,14 +157,14 @@ foreach ( Config::$variants as $id=>$name )
 				foreach ($variants as $variantName)
 				{
 					if ($name == $variantName)
-						print '<option value="'.$id.'"'.($id == $variantID ? ' selected':'').'>'.$dev.': '.$name.'</option>';
+						print '<option value="'.$id.'"'.($id == $variantID ? ' selected':'').'>'.$dev.': '.l_t($name).'</option>';
 				}
 			}
 		}
 	}
 	else
 	{
-		print '<option value="'.$id.'"'.($id == $variantID ? ' selected':'').'>'.$name.'</option>';
+		print '<option value="'.$id.'"'.($id == $variantID ? ' selected':'').'>'.l_t($name).'</option>';
 	}
 }
 print '</select></form>'.($variantID == 0 ? '</li>' : '');
@@ -183,7 +183,7 @@ if ($variantID != 0)
 	print '<form style="display: inline" action="'.$_SERVER['SCRIPT_NAME'].'" method="POST">
 			<input type="hidden" name="variantID" value="'.$variantID.'" />
 			<input type="hidden" name="action" value="download" />
-			<input type="submit" value="Download as zip" /></form>
+			<input type="submit" value="'.l_t('Download as zip').'" /></form>
 			</li>';
 
 	if ($edit)
@@ -196,10 +196,10 @@ if ($variantID != 0)
 			print '
 				<li class="formlisttitle">Edit: '.$basedir.$file.': 
 					<form  style="display: inline" action="'. $_SERVER['SCRIPT_NAME'].'?variantID='.$variantID.'&msg=6&file='.$file.'&basedir='.$basedir.'" method="post">
-					<input type="submit" value="Cancel">
+					<input type="submit" value="'.l_t('Cancel').'">
 					</form>
 					<form  style="display: inline" action="'. $_SERVER['SCRIPT_NAME'] .'" method="post">
-					<input type="submit" value="Save Changes"></li>
+					<input type="submit" value="'.l_t('Save Changes').'"></li>
 					<input type="hidden" name="action" value="filesave" />
 					<input type="hidden" name="variantID" value="' . $variantID . '" />
 					<input type="hidden" name="basedir" value="'.$basedir.'"/>
@@ -288,20 +288,20 @@ if ($variantID != 0)
 				method="POST">
 			<input type="hidden" name="variantID" value="' . $variantID . '" />
 			<input type="hidden" name="action" value="upload" />
-			Upload file: <input type="file" name="upload" /> - directory:
-			<select name="basedir">
+			'.l_t('Upload file: ').'<input type="file" name="upload" /> - '.l_t('directory: ').
+			'<select name="basedir">
 			<option value="/" selected>             /               </option>
 			<option value="/classes/">              /classes/       </option>
 			<option value="/resources/">            /resources/     </option>
                         './*(file_exists($variantbase.'/interactiveMap')?*/'<option value="/interactiveMap/">       /interactiveMap/</option>'/*:'')*/.
 			'</select>
-			<input type="submit" value="Upload File" />
+			<input type="submit" value="'.l_t('Upload File').'" />
 			</form>';
 	}
 	
 
 	// print the variant-files in a nice grid
-	print '<li class="formlisttitle">Variant-Files:';
+	print '<li class="formlisttitle">'.l_t('Variant-Files:');
 	print("<TABLE border=1 cellpadding=5 cellspacing=0 class=whitelinks>\n");
 	foreach (array("/","/classes/", "/resources/","/interactiveMap/") as $dirname) {
                 if(!file_exists($variantbase.$dirname)) continue;
@@ -327,8 +327,8 @@ if ($variantID != 0)
 				// Add a delete and edit button if we have a developer: (But on on install.php, and not on variant.php if we are still in edit-mode.
 				if ($file != "install.php" && !($file == "variant.php" && !file_exists($variantbase."/install.php")))
 				{
-					print('<td><a href="' . $_SERVER['SCRIPT_NAME'].'?variantID='.$variantID.'&action=delete&file='.$file.'&basedir='.$dirname.'">Delete</a></td>');
-					print('<td><a href="' . $_SERVER['SCRIPT_NAME'].'?variantID='.$variantID.'&action=edit&file='.$file.'&basedir='.$dirname.'">Edit</a></td>');
+					print('<td><a href="' . $_SERVER['SCRIPT_NAME'].'?variantID='.$variantID.'&action=delete&file='.$file.'&basedir='.$dirname.'">'.l_t('Delete').'</a></td>');
+					print('<td><a href="' . $_SERVER['SCRIPT_NAME'].'?variantID='.$variantID.'&action=edit&file='.$file.'&basedir='.$dirname.'">'.l_t('Edit').'</a></td>');
 				}
 
 			}

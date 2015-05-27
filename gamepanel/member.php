@@ -438,7 +438,7 @@ class panelMember extends Member
 			if ( $this->missedPhases == 2 )
 				$buf .= '<br /><span class="missedPhases">'.l_t('Missed the last phase').'</span>';
 
-			$buf .= '</span>';
+			if ( !$this->isNameHidden() ) $buf .= '</span>';
 		}
 
 

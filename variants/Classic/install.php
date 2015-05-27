@@ -579,5 +579,4 @@ unset($bordersRawData);
 
 InstallTerritory::runSQL($this->mapID);
 InstallCache::terrJSON($this->territoriesJSONFile(),$this->mapID);
-
 ?>

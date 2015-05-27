@@ -24,10 +24,10 @@ require_once("lib/rating.php");
 libHTML::starthtml();
 
 print '<script type="text/javascript" src="contrib/tablekit/tablekit.js"></script>';
-print libHTML::pageTitle('Hall of fame','The webDiplomacy hall of fame; the 100 highest ranking players on this server.');
+print libHTML::pageTitle(l_t('Hall of fame'),l_t('The webDiplomacy hall of fame; the 100 highest ranking players on this server.'));
 
-print '<p align="center"><img src="images/points/vstack.png" alt=" "
-			title="webDiplomacy ranking points; who are the most skilled at gathering them from their foes?" /></p>';
+print '<p align="center"><img src="'.l_s('images/points/vstack.png').'" alt=" "
+			title="'.l_t('webDiplomacy ranking points; who are the most skilled at gathering them from their foes?').'" /></p>';
 
 print '<style type="text/css">
 		.sortcol {cursor: pointer; padding-right: 20px; background-repeat: no-repeat; background-position: right center; }
@@ -48,16 +48,16 @@ if(isset($_REQUEST['userID']))
 {
 	$userID = (int)$_REQUEST['userID'];
 	$UserProfile = new User($userID);
-	print '<b>Stats for </b>'.$UserProfile->profile_link().':<br><br>';
+	print l_t('<b>Stats for </b> %s:',$UserProfile->profile_link()).'<br><br>';
 		
 	print '<TABLE class="sortable">
 				<THEAD>
-					<TH class="cellb">Game</TH>
-					<TH class="cellb">Name</TH>
-					<TH class="cellb">Variant</TH>
-					<TH class="cellb">Status</TH>
-					<TH class="cellb">Change</TH>
-					<TH class="cellb">Total</TH>
+					<TH class="cellb">'.l_t('Game').'</TH>
+					<TH class="cellb">'.l_t('Name').'</TH>
+					<TH class="cellb">'.l_t('Variant').'</TH>
+					<TH class="cellb">'.l_t('Status').'</TH>
+					<TH class="cellb">'.l_t('Change').'</TH>
+					<TH class="cellb">'.l_t('Total').'</TH>
 				</THEAD>';
 			
 	$USER_TABL = $DB->sql_tabl("
@@ -78,7 +78,7 @@ if(isset($_REQUEST['userID']))
 				<TD class="cellg"><a href="hof.php?gameID='.$gameID.'">'.$gameID.'</a></TD>
 				<TD class="cellg"><a href="board.php?gameID='.$gameID.'">'.$gameName.'</TD>
 				<TD class="cellg"><a href="variants.php?variantID='.$variantID.'">'.Config::$variants[$variantID].'</TD>
-				<TD class="cellg">'.$status.'</TD>
+				<TD class="cellg">'.l_t($status).'</TD>
 				<TD class="cellg">'.($rating - $rating_old).'</TD>
 				<TD class="cellg">'.$rating.'</TD>
 			</TR>';
@@ -103,9 +103,9 @@ elseif(isset($_REQUEST['gameID']))
 	
 	print '<br><TABLE class="sortable">
 				<THEAD>
-					<TH class="cellb">Player</TH>
-					<TH class="cellb">Rating</TH>
-					<TH class="cellb">Status</TH>
+					<TH class="cellb">'.l_t('Player').'</TH>
+					<TH class="cellb">'.l_t('Rating').'</TH>
+					<TH class="cellb">'.l_t('Status').'</TH>
 					<TH class="cellb" align="right">Re &Oslash</TH>
 					<TH class="cellb" align="right">Rr &Oslash</TH>
 					<TH class="cellb" align="right">Ch</TH>						
@@ -135,7 +135,7 @@ elseif(isset($_REQUEST['gameID']))
 			<tr class="replyalternate'.($alternate ? '1' : '2' ).'">
 				<TD class="cellg">'.$Member['name'].'</TD>
 				<TD class="cellg">'.$Member['rating'].' -> '.($Member['rating'] + $Member['Ch']).'</TD>
-				<TD class="cellg">'.$Member['status'].(($Member['SCr'] > 0 && $Member['status'] != 'Resigned') ? ' ('.$Member['SCr'].' SC)' : '').'</TD>
+				<TD class="cellg">'.l_t($Member['status']).(($Member['SCr'] > 0 && $Member['status'] != 'Resigned') ? ' '.l_t('%s SC',$Member['SCr']) : '').'</TD>
 				<TD class="cellg" align="right">'.$Member['Re'].'%</TD>
 				<TD class="cellg" align="right">'.$Member['Rr'].'%</TD>
 				<TD class="cellg" align="right"><font color="#'.$col.'"><B>'.$Member['Ch'].'</B></font></TD>
@@ -151,7 +151,7 @@ elseif(isset($_REQUEST['gameID']))
 	{
 		print '<TABLE class="sortable">
 					<THEAD>
-						<TH class="cellb">'.$Member['name'].' ('.$Member['status'].' / '.$Member['SCr'].'SCs / '.$Member['rating'].'->'.round($Member['rating'] + $Member['change']).')</TH>
+						<TH class="cellb">'.$Member['name'].' ('.l_t($Member['status']).' / '.l_t('%s SCs',$Member['SCr']).' / '.$Member['rating'].'->'.round($Member['rating'] + $Member['change']).')</TH>
 						<TH class="cellb" align="right">Re</TH>
 						<TH class="cellb" align="right">Rr</TH>
 						<TH class="cellb" align="right">Dif</TH>
@@ -171,8 +171,8 @@ elseif(isset($_REQUEST['gameID']))
 				print '
 					<tr class="replyalternate'.($alternate ? '1' : '2' ).'">
 						<TD class="cellg">'.$Members[$userID]['name'].' ('.
-							$Members[$userID]['status'].
-							(($Members[$userID]['SCr'] > 0 && $Members[$userID]['status'] != 'Resigned') ? " / ".$Members[$userID]['SCr']. " SC " : "").
+							l_t($Members[$userID]['status']).
+							(($Members[$userID]['SCr'] > 0 && $Members[$userID]['status'] != 'Resigned') ? " / ".l_t('%s SC ',$Members[$userID]['SCr']). " SC " : "").
 							')</TD>
 						<TD class="cellg" align="right">'.(round($results['Re'],2)*100).'%</TD>
 						<TD class="cellg" align="right">'.(round($results['Rr'],2)*100).'%</TD>

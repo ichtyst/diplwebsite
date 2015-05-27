@@ -59,7 +59,7 @@ class panelMemberHome extends panelMember
 
 		$buf =array();
 		$buf[] = '<span class="country'.$this->countryID.' '.($User->id==$this->userID?'memberYourCountry':'').
-			' memberStatus'.$this->status.'">'.substr($this->country,0,3).(
+			' memberStatus'.$this->status.'">'.substr(l_t($this->country),0,3).(
 				($this->online &&!$this->isNameHidden()) ? ' '.libHTML::loggedOn($this->userID) : '').'</span>';
 
 		$buf[] = $this->memberFinalized();

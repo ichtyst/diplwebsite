@@ -64,5 +64,4 @@ class ClassicVariant_drawMap extends drawMap {
 		}
 	}
 }
-
 ?>

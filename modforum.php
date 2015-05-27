@@ -78,7 +78,7 @@ if( !isset($_REQUEST['page']) && isset($_REQUEST['viewthread']) && $viewthread )
 	unset($orderIndex);
 	list($orderIndex) = $DB->sql_row("SELECT b.latestReplySent FROM wD_ModForumMessages b WHERE b.id = ".$viewthread);
 	if(!isset($orderIndex) || !$orderIndex)
-		libHTML::notice('Thread not found', "The thread you requested wasn't found.");
+		libHTML::notice(l_t('Thread not found'), l_t("The thread you requested wasn't found."));
 
 	list($position) = $DB->sql_row(
 			"SELECT COUNT(*)-1 FROM wD_ModForumMessages a WHERE a.latestReplySent >= ".$orderIndex." AND a.type='ThreadStart' ". ($User->type['Moderator'] ? $tabs[$tab][1] : '')
@@ -120,13 +120,13 @@ AND ($_REQUEST['newmessage'] != "") ) {
 
 	if( isset($_SESSION['lastPostText']) && $_SESSION['lastPostText'] == $new['message'] && !$User->type['Moderator'])
 	{
-		$messageproblem = "You are posting the same message again, please don't post repeat messages.";
+		$messageproblem = l_t("You are posting the same message again, please don't post repeat messages.");
 		$postboxopen = !$new['sendtothread'];
 	}
 	elseif( isset($_SESSION['lastPostTime']) && $_SESSION['lastPostTime'] > (time()-20) && !$User->type['Moderator']
 		&& ! ( $new['sendtothread'] && isset($_SESSION['lastPostType']) && $_SESSION['lastPostType']=='ThreadStart' ) )
 	{
-		$messageproblem = "You are posting too frequently, please slow down.";
+		$messageproblem = l_t("You are posting too frequently, please slow down.");
 		$postboxopen = !$new['sendtothread'];
 	}
 	else
@@ -140,26 +140,26 @@ AND ($_REQUEST['newmessage'] != "") ) {
 		{
 			if ( 4 <= substr_count($new['message'], '<br />') )
 			{
-				$messageproblem = "Too many lines in this message; ".
+				$messageproblem = l_t("Too many lines in this message; ".
 					"please write a summary of the message in less than 4 ".
-					"lines and write the rest of the message as a response.";
+					"lines and write the rest of the message as a response.");
 				$postboxopen = true;
 			}
 			elseif( 500 < strlen($new['message']) )
 			{
-				$messageproblem = "Too many characters in this message; ".
+				$messageproblem = l_t("Too many characters in this message; ".
 					"please write a summary of the message in less than 500 ".
-					"characters and write the rest of the message as a response.";
+					"characters and write the rest of the message as a response.");
 				$postboxopen = true;
 			}
 			elseif( empty($new['subject']) )
 			{
-				$messageproblem = "You haven't given a subject.";
+				$messageproblem = l_t("You haven't given a subject.");
 				$postboxopen = true;
 			}
 			elseif( strlen($new['subject'])>=90 )
 			{
-				$messageproblem = "Subject is too long, please keep it within 90 characters.";
+				$messageproblem = l_t("Subject is too long, please keep it within 90 characters.");
 				$postboxopen = true;
 			}
 			else
@@ -169,8 +169,8 @@ AND ($_REQUEST['newmessage'] != "") ) {
 					$subjectWords = explode(' ', $new['subject']);
 					foreach( $subjectWords as $subjectWord )
 						if( strlen($subjectWord)> 25 )
-							throw new Exception("A word in the subject, '".$subjectWord."' is longer than 25 ".
-								"characters, please choose a subject with normal words.");
+							throw new Exception(l_t("A word in the subject, '%s' is longer than 25 ".
+									"characters, please choose a subject with normal words.",$subjectWord));
 
 					
 					$new['id'] = ModForumMessage::send(0,
@@ -183,7 +183,7 @@ AND ($_REQUEST['newmessage'] != "") ) {
 					$_SESSION['lastPostTime']=time();
 					$_SESSION['lastPostType']='ThreadStart';
 
-					$messageproblem = "Thread posted sucessfully.";
+					$messageproblem = l_t("Thread posted sucessfully.");
 					$new['message'] = "";
 					$new['subject'] = "";
 					$postboxopen = false;
@@ -226,7 +226,7 @@ AND ($_REQUEST['newmessage'] != "") ) {
 					$_SESSION['lastPostTime']=time();
 					$_SESSION['lastPostType']='ThreadReply';
 
-					$messageproblem="Reply posted sucessfully.";
+					$messageproblem=l_t("Reply posted sucessfully.");
 					$new['message']=""; $new['subject']="";
 					
 					if ($threadDetails['assigned'] == 0 
@@ -261,7 +261,7 @@ AND ($_REQUEST['newmessage'] != "") ) {
 			}
 			else
 			{
-				$messageproblem="The thread you attempted to reply to doesn't exist.";
+				$messageproblem=l_t("The thread you attempted to reply to doesn't exist.");
 			}
 			
 			unset($threadDetails);
@@ -343,7 +343,7 @@ print '
 	libHTML::$footerScript[]='setModForumMessageIcons();';
 
 if( $User->type['Guest'] )
-	print libHTML::pageTitle('ModForum', 'A place to discuss Mod topics.');
+	print libHTML::pageTitle(l_t('ModForum'), l_t('A place to discuss Mod topics.'));
 else
 	print '<div class="content">';
 
@@ -380,10 +380,10 @@ if ($ForumThreads == 0 && !$User->type['Moderator'])
 	list($posts)= $DB->sql_row("SELECT COUNT(type) FROM wD_ModForumMessages WHERE 1");
 
 	print '<div class="content-notice"><p class="notice">
-			This is where you post issues you may have with certain users, games and bugs.<br>
+			'.l_t('This is where you post issues you may have with certain users, games and bugs.<br>
 			Every thread you post here is confidential and can only be viewed by yourself and the moderators.<br>
-			All mods receive an alert when you make a post in this forum. </p><br>
-			<p class="notice">To date there have been '.$threads.' threads and a total of '.$posts.' posts made here.</p>
+			All mods receive an alert when you make a post in this forum.').' </p><br>
+			<p class="notice">'.l_t('To date there have been %s threads and a total of %s posts made here.',$threads,$posts).'</p>
 			</p></div>';
 }
 	
@@ -398,9 +398,9 @@ print '
 	<div id="forumPostbox" style="'.($postboxopen?'':libHTML::$hideStyle).'" class="thread threadalternate1 threadborder1">
 	<div style="margin:0;padding:0">
 	<div class="message-head">
-		<strong>Start a new discussion in the mod forum</strong>
+		<strong>'.l_s('Start a new discussion in the mod forum').'</strong>
 		</div>
-	<div class="message-subject"><strong>Post a new thread</strong></div>
+	<div class="message-subject"><strong>'.l_s('Post a new thread').'</strong></div>
 	<div style="clear:both;"></div>
 	</div>
 	<div class="hr"></div>';
@@ -408,10 +408,10 @@ print '
 if( $User->isSilenced() ) {
 	print '<div class="message-body postbox" style="padding-top:0; padding-left:auto; padding-right:auto">';
 	
-	print '<p>Cannot post due to a temporary silence:'.$User->getActiveSilence()->toString().'</p>
+	print '<p>'.l_s('Cannot post due to a temporary silence:').$User->getActiveSilence()->toString().'</p>
 			<div class="hr"></div>
-			<p>Please see <a class="light" href="rules.php#silenceInfo">our silenced section</a>
-			for info on how to dispute it or get the length reduced.</p>';
+			<p>'.l_t('Please see <a class="light" href="rules.php#silenceInfo">our silenced section</a> '.
+			'for info on how to dispute it or get the length reduced.').'</p>';
 	
 	print '</div>';
 }
@@ -419,12 +419,12 @@ else
 {
 	print '
 	<div class="message-body threadalternate1 postboxadvice">
-			If your post relates to a particular game please include the <strong>URL or ID#</strong>
-			of the game.<br />
-			If you are posting a <strong>feature request</strong> please check that it isn\'t mentioned in the
-			<a href="http://forum.webdiplomacy.net">todo list</a>.<br />
-			If you are posting a question please <strong>check the <a href="faq.php">FAQ</a></strong> before posting.<br />
-			If your message is long you may need to write a summary message, and add the full message as a reply.
+			'.l_t('If your post relates to a particular game please include the <strong>URL or ID#</strong>
+				of the game.').'<br />
+				'.l_t('If you are posting a <strong>feature request</strong> please check that it isn\'t mentioned in the '.
+				'<a href="http://forum.webdiplomacy.net">todo list</a>.').'<br />
+				'.l_t('If you are posting a question please <strong>check the <a href="faq.php">FAQ</a></strong> before posting.').'<br />
+				'.l_t('If your message is long you may need to write a summary message, and add the full message as a reply.').'
 
 	</div>
 	<div class="hr" ></div>
@@ -433,15 +433,15 @@ else
 
 		<form class="safeForm" action="modforum.php#postbox" method="post"><p>
 		<div style="text-align:left; width:80%; margin-left:auto; margin-right:auto; float:middle">
-		<strong>Subject:</strong><br />
+		<strong>'.l_t('Subject:').'</strong><br />
 		<input style="width:100%" maxLength=2000 size=60 name="newsubject" value="'.$_REQUEST['newsubject'].'"><br /><br />
-		<strong>Message:</strong><br />
+		<strong>'.l_t('Message:').'</strong><br />
 		<TEXTAREA NAME="newmessage" ROWS="6" style="width:100%">'.$_REQUEST['newmessage'].'</TEXTAREA>
 		<input type="hidden" name="viewthread" value="0" />
 		</div>
 		<br />
 
-		<input type="submit" class="form-submit" value="Post new thread" name="Post">
+		<input type="submit" class="form-submit" value="'.l_t('Post new thread').'" name="'.l_t('Post').'">
 		'.($User->type['Admin']?' - UserID: <input type="text" size=4 value="" name="fromUserID">':'').'
 		</p></form>
 	</div>';
@@ -451,7 +451,7 @@ print '<div class="hr"></div>
 <div class="message-foot threadalternate1">
 	<form action="modforum.php" method="get" onsubmit="$(\'forumPostbox\').hide(); $(\'forumOpenPostbox\').show(); return false;">
 		<input type="hidden" name="postboxopen" value="0" />
-		<input type="submit" class="form-submit" value="Cancel" />
+		<input type="submit" class="form-submit" value="'.l_t('Cancel').'" />
 	</form>
 </div>
 </div>';
@@ -466,7 +466,7 @@ if($User->type['User'] )
 		<p style="padding:5px;">
 			<input type="hidden" name="postboxopen" value="1" />
 			<input type="hidden" name="page" value="'.$forumPager->pageCount.'" />
-			<input type="submit" class="form-submit" value="New thread" />
+			<input type="submit" class="form-submit" value="'.l_t('New thread').'" />
 		</p>
 	</form>
 	</div>';
@@ -552,11 +552,11 @@ while( $message = $DB->tabl_hash($tabl) )
 	
 	if (isset($silence) && $silence->isEnabled())
 	{
-		$postLockedReason = "This thread has been locked; ".$silence->reason;
+		$postLockedReason = l_t("This thread has been locked; ").$silence->reason;
 	}
 	elseif( $User->isSilenced() )
 	{
-		$postLockedReason = "This account has been silenced; ".$User->getActiveSilence()->reason;
+		$postLockedReason = l_t("This account has been silenced; ").$User->getActiveSilence()->reason;
 	}
 	else
 	{
@@ -564,20 +564,20 @@ while( $message = $DB->tabl_hash($tabl) )
 	}
 	
 	if( isset($postLockedReason) ) {
-		print '<img src="images/icons/lock.png" title="'.$postLockedReason.'" /> ';
+		print '<img src="'.l_s('images/icons/lock.png').'" title="'.$postLockedReason.'" /> ';
 	}
 	
 	if ($message['status']== "Resolved")
-		print '<strong>'.$message['subject'].' (resolved)</strong>';
+		print '<strong>'.$message['subject'].' ('.l_t('resolved').')</strong>';
 	elseif ($message['status']== "New")
-		print '<strong>'.$message['subject'].' (new)</strong>';
+		print '<strong>'.$message['subject'].' ('.l_t('new').')</strong>';
 	else
 		print '<strong>'.$message['subject'].'</strong>';
 
 	if ($message['modname'] != "")
-		print '<strong> - assigned'.($User->type['Moderator'] ? ' to: '.$message['modname'] : '').'</strong>';
+		print '<strong> - '.($User->type['Moderator'] ? l_t('assigned to:').' '.$message['modname'] : l_t('assigned')).'</strong>';
 	elseif($message['status']!= "New" && strpos($message['userType'],'Moderator')===false)
-		print '<strong> - in internal discussion.</strong>';
+		print '<strong> - '.l_t('in internal discussion.').'</strong>';
 	
 	print '</div>
 		
@@ -659,7 +659,7 @@ while( $message = $DB->tabl_hash($tabl) )
 					libHTML::loggedOn($reply['fromUserID']).
 						' ('.$reply['points'].' '.libHTML::points().User::typeIcon($reply['userType']).')';
 			else
-				print '<strong><a href="modforum.php">Mod-Team';
+				print '<strong><a href="modforum.php">'.l_t('Mod-Team');
 			
 			print '</a></strong><br />';
 
@@ -693,18 +693,18 @@ while( $message = $DB->tabl_hash($tabl) )
 					$forceReplyReadTime[$toUserID] = $readTime;
 				}
 				
-				print "Send to: "; 
+				print l_t("Send to: "); 
 				$first=true;
 				foreach ($forceReplyStatus as $toUserID => $forceReply)
 				{
 					if (!$first) print " - "; $first=false;
 					print '<a href="profile.php?userID='.$toUserID.'">'.$forceReplyUsername[$toUserID].'</a> ';
 					if ($forceReply=='Yes' && $forceReplyStatus2[$toUserID] == 'Sent') 
-						print '(Waiting for reply) ';
+						print '('.l_t('Waiting for reply').') ';
 					elseif ($forceReply=='Yes' && $forceReplyStatus2[$toUserID] == 'Read')
-						print '(Waiting for reply / Read, IP='.long2ip($forceReplyReadIP[$toUserID]).', time='.libTime::text($forceReplyReadTime[$toUserID]).') ';
+						print '('.l_t('Waiting for reply / Read, IP=%s, time=%s',long2ip($forceReplyReadIP[$toUserID]),libTime::text($forceReplyReadTime[$toUserID])).') ';
 					elseif ($forceReplyStatus2[$toUserID] == 'Read')
-						print '(Read, IP='.long2ip($forceReplyReadIP[$toUserID]).', time='.libTime::text($forceReplyReadTime[$toUserID]).') ';
+						print '('.l_t('Read, IP=%s, time=%s',long2ip($forceReplyReadIP[$toUserID]),libTime::text($forceReplyReadTime[$toUserID])).') ';
 				}
 				print '<br>';
 			}
@@ -761,8 +761,8 @@ while( $message = $DB->tabl_hash($tabl) )
 							print '
 								<div class="message-body replyalternate'.$replyswitch.'" style="background-color:#ffffff;">
 									<div class="message-contents" fromUserID="'.$forceReplyMessage['fromUserID'].'">
-										Read: IP='.($forceReplyMessage['readIP']   != 0 ? long2ip($forceReplyMessage['readIP']) : '').', time='.($forceReplyMessage['readTime'] != 0 ? libTime::text($forceReplyMessage['readTime']) : '').'<br>
-										Reply: IP='.($forceReplyMessage['replyIP'] != 0 ? long2ip($forceReplyMessage['replyIP']): '').', time='.libTime::text($forceReplyMessage['timeSent']).'<br><br>
+										'.l_t('Read').': '.l_t('IP').'='.($forceReplyMessage['readIP']   != 0 ? long2ip($forceReplyMessage['readIP']) : '').', '.l_t('time').'='.($forceReplyMessage['readTime'] != 0 ? libTime::text($forceReplyMessage['readTime']) : '').'<br>
+										'.l_t('Reply').': '.l_t('IP').'='.($forceReplyMessage['replyIP'] != 0 ? long2ip($forceReplyMessage['replyIP']): '').', '.l_t('time').'='.libTime::text($forceReplyMessage['timeSent']).'<br><br>
 										'.$forceReplyMessage['message'].'
 									</div>
 								</div>
@@ -802,7 +802,7 @@ while( $message = $DB->tabl_hash($tabl) )
 			}
 
 			if (isset($newstatus) && $User->type['Moderator'])
-				print '<p class="notice">Status changed to '.$newstatus.'</p>';
+				print '<p class="notice">'.l_t('Status changed to').' '.l_t($newstatus).'</p>';
 	
 			print '<TEXTAREA NAME="newmessage" style="margin-bottom:5px;" ROWS="4">'.$_REQUEST['newmessage'].'</TEXTAREA><br />
 					<input type="hidden" value="'.libHTML::formTicket().'" name="formTicket">
@@ -810,26 +810,26 @@ while( $message = $DB->tabl_hash($tabl) )
 
 			if ($User->type['Moderator'])
 			{
-				print 'forcePM on user (IDs): 
+				print l_t('forcePM on user (IDs)').': 
 							<input type="text" size=20 value="" name="forceUserIDs">
-						 - user(s) needs to reply: <select name="forceReply">
-								<option value="Yes" selected>Yes</option>
-								<option value="No" >No</option>
+						 - '.l_t('user(s) needs to reply').': <select name="forceReply">
+								<option value="Yes" selected>'.l_t('Yes').'</option>
+								<option value="No" >'.l_t('No').'</option>
 							</select><br>';
 
-				print 'status: <select name="toggleStatus" onchange="this.form.submit();"'.
+				print l_t('status').': <select name="toggleStatus" onchange="this.form.submit();"'.
 						(($message['assigned'] == $User->id || strpos($message['userType'],'Moderator')!==false || $User->type['Admin']) ? '' : 'disabled').'>
-							<option value="Open"    '.($message['status'] == 'Open'     ? 'selected' : '').'>Open</option>
-							<option value="Resolved"'.($message['status'] == 'Resolved' ? 'selected' : '').'>Resolved</option>
-							<option value="Bugs"    '.($message['status'] == 'Bugs'     ? 'selected' : '').'>Bugs</option>
-							<option value="Sticky"  '.($message['status'] == 'Sticky'   ? 'selected' : '').'>Sticky</option>
+							<option value="Open"    '.($message['status'] == 'Open'     ? 'selected' : '').'>'.l_t('Open').'</option>
+							<option value="Resolved"'.($message['status'] == 'Resolved' ? 'selected' : '').'>'.l_t('Resolved').'</option>
+							<option value="Bugs"    '.($message['status'] == 'Bugs'     ? 'selected' : '').'>'.l_t('Bugs').'</option>
+							<option value="Sticky"  '.($message['status'] == 'Sticky'   ? 'selected' : '').'>'.l_t('Sticky').'</option>
 						</select>';
 				
 				if ($User->type['Admin']) 
 				{
-					print ' - assigned to: <select name="setAssigned" onchange="this.form.submit();"'.
+					print ' - '.l_t('assigned to').': <select name="setAssigned" onchange="this.form.submit();"'.
 						(strpos($message['userType'],'Moderator')===false ? '' : 'disabled').'>
-								<option value="None"         '.($message['assigned'] == ''      ? 'selected' : '').'>None</option>';
+								<option value="None"         '.($message['assigned'] == ''      ? 'selected' : '').'>'.l_t('None').'</option>';
 					$modsList = $DB->sql_tabl("SELECT id,username FROM wD_Users WHERE type LIKE '%Moderator%'");
 					while( list($id, $name) = $DB->tabl_row($modsList) )
 						print '<option value="'.$id.'"'.($message['assigned'] == $id ? 'selected' : '').'>'.$name.'</option>';
@@ -837,15 +837,15 @@ while( $message = $DB->tabl_hash($tabl) )
 				}
 				elseif ( $message['assigned'] == 0 || $message['assigned'] == $User->id )
 				{
-					print ' - assigned to: <select name="setAssigned" onchange="this.form.submit();"'.
+					print ' - '.l_t('assigned to').': <select name="setAssigned" onchange="this.form.submit();"'.
 						(strpos($message['userType'],'Moderator')===false ? '' : 'disabled').'>
-								<option value="None"         '.($message['assigned'] == ''        ? 'selected' : '').'>None</option>
-								<option value="'.$User->id.'"'.($message['assigned'] == $User->id ? 'selected' : '').'>Me</option>
+								<option value="None"         '.($message['assigned'] == ''        ? 'selected' : '').'>'.l_t('None').'</option>
+								<option value="'.$User->id.'"'.($message['assigned'] == $User->id ? 'selected' : '').'>'.l_t('Me').'</option>
 							</select>';
 				}
 				else
 				{
-					print ' - assigned to: <select name="setAssigned" disabled>
+					print ' - '.l_t('assigned to').': <select name="setAssigned" disabled>
 								<option value="'.$message['assigned'].'" selected>'.$message['modname'].'</option>
 							</select>';
 				}
@@ -860,7 +860,7 @@ while( $message = $DB->tabl_hash($tabl) )
 					$fromUserIDprefill=(int)$_REQUEST['fromUserID'];
 				else
 					$fromUserIDprefill='';				
-				print 'post as userID: <input type="text" size=4 value="'.$fromUserIDprefill.'" name="fromUserID"> (to make PMs or mails accessible in the modforum)<br>';
+				print l_t('post as userID: %s (to make PMs or mails accessible in the modforum)','<input type="text" size=4 value="'.$fromUserIDprefill.'" name="fromUserID">').'<br>';
 			}
 
 			print '<br>';
@@ -869,15 +869,15 @@ while( $message = $DB->tabl_hash($tabl) )
 			{
 				print '<input type="submit" ';
 				if (strpos($message['userType'],'Moderator')===false && $User->type['Moderator'])
-					print 'onclick="return confirm(\'Are you sure you want post this reply visible for the thread-starter too?\');"';
-				print 'class="form-submit" value="Post reply" name="Reply">';
+					print 'onclick="return confirm(l_t(\'Are you sure you want post this reply visible for the thread-starter too?\'));"';
+				print 'class="form-submit" value="'.l_t('Post reply').'" name="'.l_t('Reply').'">';
 				
 				if (strpos($message['userType'],'Moderator')===false && $User->type['Moderator'])
 					print ' - ';
 			}
 			
 			if (strpos($message['userType'],'Moderator')===false && $User->type['Moderator'])
-				print '<input type="submit" class="form-submit" value="Only for admins" name="ReplyAdmin">';			
+				print '<input type="submit" class="form-submit" value="'.l_t('Only for admins').'" name="'.l_t('ReplyAdmin').'">';			
 									
 			print '</p></form></div>
 					<div class="hrthin"></div>';
@@ -887,20 +887,20 @@ while( $message = $DB->tabl_hash($tabl) )
 	}
 
 	print '<div class="message-foot-notification threadalternate'.$switch.'">
-			<em><strong>'.$message['replies'].'</strong> '.($message['replies']==1?'reply':'replies').'</em>
+			<em><strong>'.$message['replies'].'</strong> '.($message['replies']==1?l_t('reply'):l_t('replies')).'</em>
 			</div>';
 
 	if ( $message['id'] == $viewthread )
 	{
 		print '<form action="modforum.php#'.$message['id'].'" method="get">
 						<input type="hidden" name="viewthread" value="0" />
-						<input type="submit" class="form-submit" value="Close" />
+						<input type="submit" class="form-submit" value="'.l_t('Close').'" />
 				</form>';
 	}
 	else
 	{
 		print '<a href="modforum.php?viewthread='.$message['id'].'#'.$message['id'].'" '.
-			'title="Open this thread to view the replies, or post your own reply">Open</a>';
+			'title="'.l_t('Open this thread to view the replies, or post your own reply').'">'.l_t('Open').'</a>';
 	}
 
 	print "</div>
@@ -913,7 +913,7 @@ print '<div class="hr"></div>';
 print '<div>';
 print $forumPager->html('bottom');
 
-print '<div><a href="#forum">Back to top</a><a name="bottom"></a></div>';
+print '<div><a href="#forum">'.l_t('Back to top').'</a><a name="bottom"></a></div>';
 
 print '<div style="clear:both;"> </div>
 		</div>';

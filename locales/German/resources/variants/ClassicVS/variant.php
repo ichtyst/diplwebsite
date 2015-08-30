@@ -74,12 +74,12 @@ class ClassicVSVariant extends WDVariant {
 			if (preg_match('#\((.*?)\)#U', $args[0]->name, $match) != 0)
 			{
 				$country=$match[1];
-				if (strpos($country,'E') !== false) $this->countries[] = 'England';
+				if (strpos($country,'G') !== false) $this->countries[] = 'England';
 				if (strpos($country,'F') !== false) $this->countries[] = 'France';
 				if (strpos($country,'I') !== false) $this->countries[] = 'Italy';
-				if (strpos($country,'G') !== false) $this->countries[] = 'Germany';
+				if (strpos($country,'D') !== false) $this->countries[] = 'Germany';
 				if (strpos($country,'A') !== false) $this->countries[] = 'Austria';
-				if (strpos($country,'T') !== false) $this->countries[] = 'Turkey';
+				if (strpos($country,'O') !== false) $this->countries[] = 'Turkey';
 				if (strpos($country,'R') !== false) $this->countries[] = 'Russia';
 
 				for ($i=0; $i<substr_count($country, '?'); $i++)
@@ -96,7 +96,7 @@ class ClassicVSVariant extends WDVariant {
 	public function css_restyle($text)
 	{
 		foreach ($this->countries as $id => $name)
-		{
+		{	
 			$text=str_replace('class="country'      .($id + 1),'class="country'      .$name, $text);
 			$text=str_replace('class="occupationBar'.($id + 1),'class="occupationBar'.$name, $text);
 			$text=str_replace('class="right country'.($id + 1),'class="right country'.$name, $text);

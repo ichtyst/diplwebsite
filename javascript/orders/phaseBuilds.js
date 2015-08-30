@@ -89,7 +89,7 @@ function loadOrdersPhase() {
 			OrderObj.toTerrHTML = function () {
 				var toTerrID=this.formDropDown('toTerrID',this.toTerrChoices,this.toTerrID);
 				if(toTerrID=='') return '';
-				else return ' at '+toTerrID;
+				else return l_t(' at %s',toTerrID);
 			};
 			
 			OrderObj.fromTerrHTML = OrderObj.fNothing;

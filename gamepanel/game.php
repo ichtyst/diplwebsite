@@ -236,7 +236,7 @@ class panelGame extends Game
 		if ($this->phase == 'Pre-game')
 		{
 			$needed = count($this->Variant->countries) - count($this->Members->ByID);
-			$date .= '<b>'.$needed.'</b> player'.($needed == 1 ? '' : 's').' (of '.count($this->Variant->countries).') missing</span>';
+			$date .= l_t('%s player'.($needed == 1 ? '' : 's').' (of %s) missing','<b>'.$needed.'</b>',count($this->Variant->countries)).'</span>';
 		}
 		else
 			$date .= l_t($this->phase).'</span>';

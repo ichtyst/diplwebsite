@@ -641,6 +641,6 @@ else
 <div class="hr"></div>
 
 <p class="notice">
-	<input type="submit" onClick="$('fixStart').disabled = false;" class="form-submit" value="Create">
+	<input type="submit" onClick="$('fixStart').disabled = false;" class="form-submit" value="Erstellen">
 </p>
 </form>

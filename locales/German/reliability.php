@@ -20,91 +20,95 @@ if ( $unballancedCDs < 0 )
 if ($User->phasesPlayed < 100 && libReliability::integrityRating($User) > -1) {
 ?>
 	<p class="intro">
-	New members of this site have some light restrictions on how many games they can join or create at once.
-	You need to play at least <strong>20 phases</strong>, before you can join more than 2 games, 
-	<strong>50 phases</strong>, before you can join more than 4 games and at least <strong>100 phases</strong>,
-	before you can join more than 7 games at once. 2-player variants are not affected by this restriction.
+	Neue Mitglieder dieser Seite werden mit einer kleinen Einschränkung bzgl. der maximal möglichen Spiele versehen, denen sie beitreten können.
+	Du musst mindestens <strong>20 Phasen</strong> spielen, bevor du mehr als zwei Spielen beitreten kannst, <strong>50 Phasen</strong>, um mehr
+	als 4 Spielen beitreten zu können, und mindestens <strong>100 Phasen</strong>, um mehr als 7 Spiele auf einmal Spielen zu können. 2-Spieler-Varianten
+	sind von dieser Regelung nicht betroffen.
 	</p>
 	
 	<p class="intro">
-	You can see your total phases played and more useful information in the reliability section of 
-	<a href="profile.php?userID=<?php print $User->id; ?>">your stats page</a>.</p>
+	Die Anzahl der gespielten Phasen sowie weitere nützliche Informationen können dem Reliability-Abschnitt <a href="profile.php?userID=<?php print $User->id; ?>">deiner Profil-Seite</a>
+	entnommen werden.</p>
 
 	<p class="intro">
-	The restrictions are in place to ensure all new members do not jump into more games then they can handle.
-	Diplomacy games can take up a lot of time so please test out several games before committing to multiple.
+	Die Einschränkungen existieren, um sicherzustellen, dass neue Mitglieder nicht mehr Spielen beitreten, als
+	sie auf einmal spielen können. Diplomacy-Spiele können sehr viel Zeit in Anspruch nehemen, probiere also 
+	erst einmal einige Spiele nacheinander aus, bevor du mehrere auf einmal startest.
 	</p>
 
 	<p class="intro">
-	PLEASE NOTE: If you fail to submit orders for your country in consecutive turns (usually 2) the country is
-	sent into "Civil disorder" which allows any site member to take over your position to ensure that the game's
-	integrity is not negatively impacted.
+	BITTE BEACHTEN: Wenn du (in der Regel) zweimal in Folge keine Befehle in einem Spiel abgibst, gibst du diese Position
+	auf und dein Land wird in "Civil disorder" (CD) gesetzt. Solange dies der Fall ist, kann jeder Spieler dieser Website
+	deine Position übernehmen, damit das Spiel nicht zu lange unter einem inaktiven Spieler leiden muss.
 	</p>
 
 	<p class="intro">
-	If you have missed turns in your games, or if your countries fell into CD then you will be restricted in the
-	number of games you can play regardless of how many phases you have completed. This is to ensure that all players
-	take care not to take on more games then they can keep up with, and to ensure that players who do not respect their
-	fellow members are not given the chance to ruin multiple games.
+	Wenn du Runden verpasst oder sogar deine Länder in CD schickst, treten obige Einschränkungen ebenfalls für dich in Kraft.
+	Dies geschieht unabhängig von den bisher gespielten Phasen und soll sicherstellen, dass kein Spieler mehr Spiele spielt,
+	als er in der Lage ist, und dass Spieler, die nicht ihre Mitspieler respektieren, nicht mehrere Spiele ruinieren können.
 	</p>
 <?php
 } else {
 	if (libReliability::integrityRating($User) <= -1)
 		print '<p class="intro">
-			Your ability to join or create a new game is limited, because you seem to be having 
-			trouble keeping up with the orders in the ones you already have.
+			Deine Rechte, Spielen beizutreten oder neue zu erstellen, wurden eingeschränkt, da 
+			du Probleme mit der rechtzeitigen Eingabe von Befehlen in deinen bisherigen Spielen
+			zu haben scheinst.
 			</p>';
 ?>
 	<p class="intro">
-	On this site we ask that all players respect their fellow players. Part of this respect includes
-	entering orders every turn in your games. Diplomacy is a game of communication, trust (and mistrust),
-	and because games usually take a long time to finish it's very important that you play the best you can
-	and don't ruin the game halfway. 
+	Auf dieser Website werden alle Spieler gebeten, ihre Mitspieler zu respektieren. Dazu gehört es auch,
+	rechtzeitig Befehle in den Spielen einzugeben. Diplomacy ist ein Spiel über Kommunikation, Vertrauen (und Misstrauen)
+	und dauert in der Regel sehr lang. Aus diesen Gründen ist es sehr wichtig, dass du deine Spiele 
+	bis zum Ende und, so gut du kannst, spielst, damit diese nicht für andere Spieler ruiniert werden.
 	</p>
 
 	<p class="intro">
-	While playing a losing position might not be as fun as a winning one, it is still your responsibility to
-	other members to continue to play. Even if you cannot win a game there are still plenty of ways to make the
-	game fun. For example: you may choose to hurt the country that sealed your defeat, help someone secure a solo
-	so that you can get a survive instead of a defeat, or use the rest of the game to practice manipulating other
-	players on the board.
+	Natürlich macht es nicht so viel Spaß, eine vermeintlich verlorene Position weiterzuspielen. Es zählt aber
+	trotzdem zu deiner Verantwortung gegenüber den anderen Spieler weiterzuspielen. Im Übrigen gibt außerdem immer
+	noch Wege, auch noch an verlorenen Spielen Spaß zu haben. Beispiel: Du kannst versuchen, dem Land, was deine 
+	Niederlage besiegelt hatte, zu schaden, indem du einem anderen Land zum Sieg verhilfst, oder du kannst versuchen,
+	deine Manipulationsfähigkeiten zu trainieren, indem du versuchst, eine möglichst starke Position bis zum Ende des Spiels
+	zu erhalten oder sogar noch einen Draw (Unentschieden) mit größeren Mächten herauszuholen.
 	</p>
 
 	<p class="intro">
-	If you fail to submit orders for your country in consecutive turns (usually 2) the country is sent into "Civil disorder"
-	and another player can take over your position to ensure that the game's integrity is not overly impacted.
+	Wenn du (in der Regel) zweimal in Folge keine Befehle in einem Spiel abgibst, gibst du diese Position
+	auf und dein Land wird in "Civil disorder" (CD) gesetzt. Solange dies der Fall ist, kann jeder Spieler dieser Website
+	deine Position übernehmen, damit das Spiel nicht zu lange unter einem inaktiven Spieler leiden muss.
 	</p>
 
 	<p class="intro">
-	If you have missed turns in your games or your countries went in CD then you will be limited in the number of games 
-	you can play. This is to ensure that players do not take on more games then they can keep up with, and to ensure that players who
-	do not respect their fellow members cannot ruin multiple games. 
+	Wenn du Runden verpasst oder sogar deine Länder in CD schickst, wirst du in der Anzahl deiner aktiven Spiele eingeschränkt.
+	Dies soll sicherstellen, dass kein Spieler mehr Spiele spielt,
+	als er in der Lage ist, und dass Spieler, die nicht ihre Mitspieler respektieren, nicht mehrere Spiele ruinieren können.
 	</p>
 
 	<?php
 	if (libReliability::integrityRating($User) <= -1)
 	{
-			print '<p class="intro">To calculate how many games you can join we use your CD-takeovers and subtract your missed moves * 0.2 and your CDs * 0.6
-			(as 1 CD most of the time has 2 missed moves before).</p>
+			print '<p class="intro">Um zu berechnen, wie vielen Spielen du beitreten kannst, werden deine CD-Übernehmen gezählt und von diesen
+				die verpassten Züge * 0.2 und die CDs * 0,6 abgezogen.</p>
 			
-			<p class="intro">Using your current stats we get:
-			<ul><li>CD-takeover = '.$User->CDtakeover.'</li>
+			<p class="intro">Mit deinen aktuellen Daten ergibt sich also:
+			<ul><li>CD-Übernahmen = '.$User->CDtakeover.'</li>
 			<li>NMRs = '.$User->missedMoves.'</li>
 			<li>CDs = '.$User->gamesLeft.'</li></ul></p>
 			<p class="intro">
-			Your final score is: <b>'.$User->CDtakeover.'</b> - (<b>'.$User->missedMoves.'</b> * 0.2 + <b>'.$User->gamesLeft.'</b> * 0.6) = <b>'.($User->CDtakeover - ( $User->missedMoves * 0.2 + $User->gamesLeft * 0.6)).
+			Deine finale Bewertung ist: <b>'.$User->CDtakeover.'</b> - (<b>'.$User->missedMoves.'</b> * 0.2 + <b>'.$User->gamesLeft.'</b> * 0.6) = <b>'.($User->CDtakeover - ( $User->missedMoves * 0.2 + $User->gamesLeft * 0.6)).
 			'</b><br>
-			<p class="intro">Based on this results the following restrictions are in effect:
-			<ul><li>greater than -1 => no restrictions</li>
-			<li>between -1 and -2 => max 6 games</li>
-			<li>between -2 and -3 => max 5 games</li>
-			<li>between -3 and -4 => max 3 games</li>
-			<li>and lower than -4 => max 1 game </li>
+			<p class="intro">Basierend auf diesem Wert treten folgende Einschränkungen in Kraft:
+			<ul><li>größer als -1 => keine Einschränkungen</li>
+			<li>zwischen -1 und -2 => max 6 Spiele</li>
+			<li>zwischen -2 und -3 => max 5 Spiele</li>
+			<li>zwischen -3 und -4 => max 3 Spiele</li>
+			<li>und kleiner als -4 => max 1 Spiel </li>
 			</ul></p>
 			
-			<p class="intro">If you want to to increase the number of games you can join you may take over 
-			<a href="gamelistings.php?page-games=1&gamelistType=Joinable">open spots in ongoing games</a> or reclaim your CDed
-			countries if they have not been taken. Every country taken does improve your score by <b>1</b></p>';
+			<p class="intro">Um deinen Wert zu verbessern, kannst du 
+			<a href="gamelistings.php?page-games=1&gamelistType=Joinable">offene Plätze in laufenden Spielen</a>
+			übernehmen oder mit deinen aufgebenen Position weiterspielen, solange diese nicht von einem Mitspieler
+			übernommen wurden. Jede übernommen Position erhöht deinen Bewertung um <b>1</b>.</p>';
 			
 	}
 }

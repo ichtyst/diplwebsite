@@ -78,6 +78,10 @@ Locale.text = function(text, args) {
 		{
 			text = ' von %s ';	
 		}
+		else if ( text == ' at %s' )
+		{
+			text = ' in %s';
+		}
 	}
 
 	return Locale._text(text, args);

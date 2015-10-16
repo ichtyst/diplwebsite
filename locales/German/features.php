@@ -65,8 +65,8 @@ $globalFaq = array(
 		
 "Reliability-Rating" => "Sub-section",
 	"Was bedeutet die Zahl hinter meinem Namen?" =>
-		"Das Reliability-Rating (\”Zuverlässigkeits-Wertung\”) basiert auf eine einfachen Algorithmuss, der deine Zuverlässigkeit im Spiel bewertet.
-		Mehr dazu erfährst Du <a href=\"reliability.php\">ier</a>.",
+		"Das Reliability-Rating (\"Zuverlässigkeits-Wertung\") basiert auf eine einfachen Algorithmuss, der deine Zuverlässigkeit im Spiel bewertet.
+		Mehr dazu erfährst Du <a href=\"reliability.php\">hier</a>.",
 		
 "Spieloptionen" => "Sub-section",
 	"Länderzuweisung" =>

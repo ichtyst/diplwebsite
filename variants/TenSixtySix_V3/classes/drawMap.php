@@ -17,21 +17,21 @@ class TenSixtySix_V3Variant_drawMap extends TenSixtySixVariant_drawMap
 		if( $this->smallmap )
 		{
 			return array(
-				'map' =>'variants/TenSixtySix_V3/resources/smallmap.png',
-				'army' =>'contrib/smallarmy.png',
-				'fleet' =>'contrib/smallfleet.png',
-				'names' =>'variants/TenSixtySix_V3/resources/smallmapNames.png',
-				'standoff'=>'images/icons/cross.png'
+				'map' =>l_s('variants/TenSixtySix_V3/resources/smallmap.png'),
+				'army' =>l_s('contrib/smallarmy.png'),
+				'fleet' =>l_s('contrib/smallfleet.png'),
+				'names' =>l_s('variants/TenSixtySix_V3/resources/smallmapNames.png'),
+				'standoff'=>l_s('images/icons/cross.png')
 			);
 		}
 		else
 		{
 			return array(
-				'map' =>'variants/TenSixtySix_V3/resources/map.png',
-				'army' =>'contrib/army.png',
-				'fleet' =>'contrib/fleet.png',
-				'names' =>'variants/TenSixtySix_V3/resources/mapNames.png',
-				'standoff'=>'images/icons/cross.png'
+				'map' =>l_s('variants/TenSixtySix_V3/resources/map.png'),
+				'army' =>l_s('contrib/army.png'),
+				'fleet' =>l_s('contrib/fleet.png'),
+				'names' =>l_s('variants/TenSixtySix_V3/resources/mapNames.png'),
+				'standoff'=>l_s('images/icons/cross.png')
 			);
 		}
 	}

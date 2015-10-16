@@ -57,27 +57,27 @@ class ClassicFogVariant_drawMap extends drawMap {
 	{
 		if ( $this->smallmap )
 			$images=array(
-				'army'    =>'contrib/smallarmy.png',
-				'fleet'   =>'contrib/smallfleet.png',
-				'names'   =>'variants/ClassicFog/resources/smallmapNames.png',
-				'standoff'=>'images/icons/cross.png');
+				'army'    =>l_s('contrib/smallarmy.png'),
+				'fleet'   =>l_s('contrib/smallfleet.png'),
+				'names'   =>l_s('variants/ClassicFog/resources/smallmapNames.png'),
+				'standoff'=>l_s('images/icons/cross.png'));
 		else
 			$images=array(
-				'army'    =>'contrib/army.png',
-				'fleet'   =>'contrib/fleet.png',
-				'names'   =>'variants/ClassicFog/resources/mapNames.png',
-				'standoff'=>'images/icons/cross.png');
+				'army'    =>l_s('contrib/army.png'),
+				'fleet'   =>l_s('contrib/fleet.png'),
+				'names'   =>l_s('variants/ClassicFog/resources/mapNames.png'),
+				'standoff'=>l_s('images/icons/cross.png'));
 		
 		if ($this->show_all || $this->all_fog) {
 			if( $this->smallmap )
-				$images['map'] ='variants/ClassicFog/resources/smallmap_noFog.png';
+				$images['map'] =l_s('variants/ClassicFog/resources/smallmap_noFog.png');
 			else
-				$images['map'] ='variants/ClassicFog/resources/map_noFog.png';
+				$images['map'] =l_s('variants/ClassicFog/resources/map_noFog.png');
 		} else {
 			if( $this->smallmap )
-				$images['map'] ='variants/ClassicFog/resources/smallmap.png';
+				$images['map'] =l_s('variants/ClassicFog/resources/smallmap.png');
 			else
-				$images['map'] ='variants/ClassicFog/resources/map.png';
+				$images['map'] =l_s('variants/ClassicFog/resources/map.png');
 		}
 		return $images;
 	}

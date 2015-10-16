@@ -21,60 +21,60 @@
 defined('IN_CODE') or die('This script can not be run by itself.');
 
 ?>
-<h2>No Multiaccounting</h2>
+<h2>Kein Multiaccounting</h2>
 <p>
-	You may only have <b>one account</b>, second accounts are not allowed under <b>any circumstances</b>, and will be banned.
-	This may also lead to your first account also being banned.
+	Du darfst nur <b>einen Account</b> besitzen. Weitere Accounts sind unter <b>keinen Umständen</b> erlaubt und werden gelöscht.
+	Es kann ebenfalls passieren, dass dann auch dein erster Account gelöscht wird.
 	<ul>
-		<li>If you forgot your password, use the lost password finder <a href="logon.php?forgotPassword=1">here</a>.</li>
-		<li>If you forgot your username, use the username recovery <a href="logon.php?resendUsername=1">here</a>.</li>
-		<li>If you forgot both, first use the username recovery <a href="logon.php?resendUsername=1">here</a>, and than the lost password finder <a href="logon.php?forgotPassword=1">here</a>.</li>
-		<li>If you are still unable to log in, contact the mods here: <a href="mailto:<?php print (isset(Config::$modEMail) ? Config::$modEMail : Config::$adminEMail)?>"><?php print (isset(Config::$modEMail) ? Config::$modEMail : Config::$adminEMail)?></a></li>
+		<li>Wenn du dein Passwort vergessen hast, lass dir <a href="logon.php?forgotPassword=1">hier</a> ein neues Passwort generieren.</li>
+		<li>Wenn du deinen Benutzernamen vergessen hast, klicke <a href="logon.php?resendUsername=1">hier</a>.</li>
+		<li>Wenn du sowohl Benutzername als auch Passwort vergessen hast, klicke zunächst <a href="logon.php?resendUsername=1">hier</a> und lass dir dann <a href="logon.php?forgotPassword=1">hier</a> ein neues Passwort generieren.</li>
+		<li>Wenn du dich immernoch nicht anmelden kannst, kontaktiere mit dieser E-Mail-Adresse die Moderatoren: <a href="mailto:<?php print (isset(Config::$modEMail) ? Config::$modEMail : Config::$adminEMail)?>"><?php print (isset(Config::$modEMail) ? Config::$modEMail : Config::$adminEMail)?></a></li>
 	</ul>
 </p>
-<h2>No Metagaming</h2>
+<h2>Kein Metagaming</h2>
 <p>
-	You can't make alliances <em>for reasons outside a game</em>, such as because you are friends, relatives or in return for a favour in another game.&nbsp; This is known as metagaming and is against the rules because it gives an unfair advantage to those involved.&nbsp; If you are worried that you can't stab someone because you want to stay friends, then that's fair enough but you can't join a game with them.
+	Du darfst keine Bündnisse wegen <em>Gründen außerhalb des Spiel</em> schließen. Solche Gründe wären zum Beipspiel, dass ihr Freunde oder Verwandte seid oder im Gegenzug in einem anderen Spiel helft. Diese Verhalten wird Metagaming genannt und ist gegen die Regeln da es einen unfairenen Vorteil für die Beteiligten hervorruft. Wenn du Bedenken hast, dass du einen Freund nicht im Spiel verraten kannst, dann ist das natürlich ok. Ihr dürft dann allerdings nicht dem gleichen Spiel beitreten.
 </p>
 
-<h2>Register and Anti-bot Validation</h2>
+<h2>Registrierung und Anti-Bot-Check</h2>
 
 <form method="post" action="register.php">
 
 	<ul class="formlist">
 
-		<li class="formlisttitle">Rules check</li>
+		<li class="formlisttitle">Regel-Check</li>
 		<li class="formlistfield"><input type="text" name="rulesValidate" size="50" value="<?php
 		        if ( isset($_REQUEST['rulesValidate'] ) )
 					print $_REQUEST['rulesValidate'];
 		        ?>"></li>
 		<li class="formlistdesc">
-			Please enter the two things that are really not allowed (see the last two paragraphs) on this server in the text field above to prove you did read and understand these.
+			Bitte gebe die beiden Dinge an, die auf keinen Fall auf dieser Website erlaubt sind (siehe oben). Damit zeigst du, dass du diese Regeln gelesen und verstanden hast.
 		</li>
 		
-		<li class="formlisttitle">Anti-script code</li>
+		<li class="formlisttitle">Anti-Bot-Check</li>
 		<li class="formlistfield">
 		        <img alt="EasyCaptcha image" src="<?php print STATICSRV; ?>contrib/easycaptcha.php" /><br />
 		        <input type="text" name="imageText" />
 		</li>
 		<li class="formlistdesc">
-			By entering the above code you protect our forum from spam-bots and other scripts
+			Durch die Eingabe der Zeichen hier oben hilfst du uns, das System z.B. vor Spam-Bots sauber zu halten.
 		</li>
 
-		<li class="formlisttitle">E-mail address</li>
+		<li class="formlisttitle">Email-Adresse</li>
 		<li class="formlistfield"><input type="text" name="emailValidate" size="50" value="<?php
 		        if ( isset($_REQUEST['emailValidate'] ) )
 					print $_REQUEST['emailValidate'];
 		        ?>"></li>
 		<li class="formlistdesc">
-			By making sure every user has a real e-mail address we stop cheaters from creating many users for themselves.
-			This will <strong>not</strong> be spammed or released, it is only used to validate you
+			Indem wir sicher stellen, dass jeder Spieler eine gültige Email-Adresse hat verringern wir die Gefahr, dass sich ein Spieler mit mehreren Accounts am System anmeldet und Spiele unfair manipulieren kann. Deine Email-Adresse wird von uns <strong>nicht</strong> zugemüllt oder an Dritte weitergeben!
 		</li>
 </ul>
 
+<iframe id="tosbox" src="/tos.php?tosbox=true" border="0" height="100px" width="600px">Bitte lese die <a href="/tos.php">Nutzungsbedingungen</a> sorgfälltig durch</iframe>
 <div class="hr"></div>
 
 <p class="notice">
-	<input type="submit" class="form-submit" value="This is my first and only account, please validate me">
+	<input type="submit" class="form-submit" value="Ich akzeptiere die Nutzungsbedingungen und registriere mich nur mit einem Account">
 </p>
 </form>

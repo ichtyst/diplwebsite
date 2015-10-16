@@ -279,7 +279,7 @@ if ( isset($_REQUEST['detail']) )
 					print "</ul>";
 				}
 				if ($UserProfile->deletedCDs != 0) {
-					print 'Additionally, there are ' . $UserProfile->deletedCDs . ' deleted CDs for this account (eg, self CD positions retaken by this user).';
+					print l_t('Additionally, there are %s deleted CDs for this account (eg, self CD positions retaken by this user).',$UserProfile->deletedCDs);
 				}
 				print '<h4>'.l_t('NMRs:').'</h4><ul>';
 				$tabl = $DB->sql_tabl("SELECT n.gameID, n.countryID, n.turn, n.bet, n.SCCount, g.name FROM wD_NMRs n LEFT JOIN wD_Games g ON n.gameID = g.id WHERE n.userID = ".$UserProfile->id);
@@ -456,16 +456,16 @@ if( $donatorMarker )
 	print '<li>&nbsp;</li><li><strong>'.l_t('Donator:').'</strong> '.$donatorMarker.'</li>';
 
 if( $UserProfile->type['DevGold'] )
-	$donatorMarker = libHTML::devgold().' - <strong>Gold</strong>';
+	$donatorMarker = libHTML::devgold().' - <strong>'.l_t('Gold').'</strong>';
 elseif( $UserProfile->type['DevSilver'] )
-	$donatorMarker = libHTML::devsilver().' - Silver';
+	$donatorMarker = libHTML::devsilver().' - '.l_t('Silver');
 elseif( $UserProfile->type['DevBronze'] )
-	$donatorMarker = libHTML::devbronze().' - Bronze';
+	$donatorMarker = libHTML::devbronze().' - '.l_t('Bronze');
 else
 	$donatorMarker = false;
 
 if( $donatorMarker )
-	print '<li>&nbsp;</li><li><strong>Developer:</strong> '.$donatorMarker.'</li>';
+	print '<li>&nbsp;</li><li><strong>'.l_t('Developer:').'</strong> '.$donatorMarker.'</li>';
 	
 print '<li>&nbsp;</li>';
 
@@ -507,9 +507,6 @@ if( $total || (isset($playing) && $playing) )
 		if ($total > 0) print ' ( '.round(($status/$total)*100).'% )';
 		print '</li>';
 	}
-
-	if ($total)
-		print '<li>'.l_t('Total (finished): <strong>%s</strong>',$total).'</li>';
 
 	foreach($rankingDetails['stats'] as $name => $status)
 	{
@@ -565,16 +562,16 @@ print '<style type="text/css"> .tooltip { position: absolute; display: none; bac
 		</script>';
 		
 print '<li><strong>'.l_t('Reliability stats: ').'</strong> <ul class="gamesublist">';
-print '<li>Reliability: 
+print '<li>'.l_t('Reliability').': 
 	<a onmouseover="showRR();"; onmouseout="hideWMTT();" href="#">
     <strong>'.libReliability::getGrade($UserProfile).'</strong></a></li>';
-print '<li>NoNMR: <strong>'.libReliability::noNMRrating($UserProfile).'%</strong> (<strong>'.$UserProfile->missedMoves.'</strong> missed phases out of <strong>'.$UserProfile->phasesPlayed.'</strong>)</li>';
-print '<li>NoCD: <strong>'.libReliability::noCDrating($UserProfile).'%</strong> (<strong>'.$UserProfile->gamesLeft.'</strong> abandoned games out of <strong>'.$UserProfile->gamesPlayed.'</strong>)</li>';
+print '<li>'.l_t('NoNMR').': <strong>'.libReliability::noNMRrating($UserProfile).'%</strong> ('.l_t('<strong>%s</strong> missed phases out of <strong>%s</strong>',$UserProfile->missedMoves,$UserProfile->phasesPlayed).')</li>';
+print '<li>'.l_t('NoCD').': <strong>'.libReliability::noCDrating($UserProfile).'%</strong> ('.l_t('<strong>%s</strong> abandoned games out of <strong>%s</strong>',$UserProfile->gamesLeft,$UserProfile->gamesPlayed).')</li>';
 
 if ( $User->type['Moderator'])
-	print '<li>Integrity: 
-		<a onmouseover="showI();"; onmouseout="hideWMTT();" href="#">
-		<strong>'.libReliability::integrityRating($UserProfile).'</strong></a> (<strong>'.$UserProfile->CDtakeover.'</strong> CD takeovers)</li>';
+	print '<li>'.l_t('Integrity:'). 
+		'<a onmouseover="showI();"; onmouseout="hideWMTT();" href="#">
+		<strong>'.libReliability::integrityRating($UserProfile).'</strong></a> ('.l_t('<strong>%s</strong> CD takeovers',$UserProfile->CDtakeover).')</li>';
 
 
 print '</ul></li></div>';

@@ -219,25 +219,25 @@ interactiveMap.onClick = function(event) {
  */
 interactiveMap.errorMessages = {
     noTerritory: function() {
-        alert("No territory selected!");
+        alert(l_t("No territory selected!"));
     },
     noUnit: function(terrID) {
-        alert("No unit selected (" + Territories.get(terrID).name + ")!");
+        alert(l_t("No unit selected (") + Territories.get(terrID).name + ")!");
     },
     noOwnUnit: function(terrID) {
-        alert("No own unit selected (" + Territories.get(terrID).name + ")!");
+        alert(l_t("No own unit selected (") + Territories.get(terrID).name + ")!");
     },
     uncompletedOrder: function() {
-        alert(" Different order not finished!");
+        alert(l_t(" Different order not finished!"));
     },
     noArmy: function(terrID) {
-        alert("No " + interactiveMap.parameters.armyName + " selected (" + Territories.get(terrID).name + ")!");
+        alert(l_t("No ") + interactiveMap.parameters.armyName + l_t(" selected (") + Territories.get(terrID).name + ")!");
     },
     noCoast: function(terrID) {
-        alert("No coast territory selected (" + Territories.get(terrID).name + ")!");
+        alert(l_t("No coast territory selected (") + Territories.get(terrID).name + ")!");
     },
     noFleet: function(terrID) {
-        alert("No " + interactiveMap.parameters.fleetName + " selected (" + Territories.get(terrID).name + ")!");
+        alert(l_t("No ") + interactiveMap.parameters.fleetName + l_t(" selected (") + Territories.get(terrID).name + ")!");
     }
 };
 
@@ -292,9 +292,9 @@ interactiveMap.activate = function(activated) {
 interactiveMap.insertMessage = function(content, successful, skipContent) {
     if(Object.isUndefined(this.orderLineStart))
         if((context.phase=="Builds")&&(MyOrders.length > 0)&&(MyOrders[0].type != "Destroy"))
-            this.orderLineStart = "The supply center ";
+            this.orderLineStart = l_t("The supply center ");
         else
-            this.orderLineStart = "The unit in ";
+            this.orderLineStart = l_t("The unit in ");
     
     if (interactiveMap.interface.orderLine != null) {
         if ((content != "")) {
@@ -304,17 +304,17 @@ interactiveMap.insertMessage = function(content, successful, skipContent) {
                 if(!Object.isUndefined(skipContent)&&skipContent)
                     interactiveMap.interface.lastOrder.lastChild.innerHTML = " - "+content;
                 else
-                    interactiveMap.interface.lastOrder.lastChild.innerHTML = interactiveMap.interface.orderLine.innerHTML.replace("Order-Line: ", " - ");
+                    interactiveMap.interface.lastOrder.lastChild.innerHTML = interactiveMap.interface.orderLine.innerHTML.replace(l_t("Order-Line: "), " - ");
                 
                 if (successful)
                     interactiveMap.interface.lastOrder.firstChild.setAttribute('src', 'images/icons/tick.png');
                 else
                     interactiveMap.interface.lastOrder.firstChild.setAttribute('src', 'images/icons/cross.png');
                 
-                interactiveMap.interface.orderLine.innerHTML = "Order-Line: "+this.orderLineStart;
+                interactiveMap.interface.orderLine.innerHTML = l_t("Order-Line: ")+this.orderLineStart;
             }
         } else {
-            interactiveMap.interface.orderLine.innerHTML = "Order-Line: "+this.orderLineStart;
+            interactiveMap.interface.orderLine.innerHTML = l_t("Order-Line: ")+this.orderLineStart;
         }
         interactiveMap.interface.orderLine.scrollTop = interactiveMap.interface.orderLine.scrollHeight;
 

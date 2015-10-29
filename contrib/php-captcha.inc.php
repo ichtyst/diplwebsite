@@ -53,7 +53,7 @@
    
    // class defaults - change to effect globally
    
-   define('CAPTCHA_SESSION_ID', 'php_captcha');
+   define('CAPTCHA_SESSION_ID', 'diplomacycaptcha');
    define('CAPTCHA_WIDTH', 200); // max 500
    define('CAPTCHA_HEIGHT', 50); // max 200
    define('CAPTCHA_NUM_CHARS', 5);
@@ -63,12 +63,12 @@
    define('CAPTCHA_CHAR_SET', ''); // defaults to A-Z
    define('CAPTCHA_CASE_INSENSITIVE', true);
    define('CAPTCHA_BACKGROUND_IMAGES', '');
-   define('CAPTCHA_MIN_FONT_SIZE', 16);
-   define('CAPTCHA_MAX_FONT_SIZE', 25);
+   define('CAPTCHA_MIN_FONT_SIZE', 12);
+   define('CAPTCHA_MAX_FONT_SIZE', 22);
    define('CAPTCHA_USE_COLOUR', false);
    define('CAPTCHA_FILE_TYPE', 'jpeg');
-   define('CAPTCHA_FLITE_PATH', '/usr/bin/flite');
-   define('CAPTCHA_AUDIO_PATH', '/tmp/'); // must be writeable by PHP process
+   define('CAPTCHA_FLITE_PATH', '');
+   define('CAPTCHA_AUDIO_PATH', ''); // must be writeable by PHP process
    
    /************************ End Default Options **********************/
    

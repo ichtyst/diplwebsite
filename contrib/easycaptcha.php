@@ -7,7 +7,7 @@
 
 require_once('php-captcha.inc.php');
 
-$fonts = array('VeraBd.ttf');
+$fonts = array('./VeraBd.ttf');
 
 $alphabet = 'a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z';
 $alphabet = explode('_', $alphabet);

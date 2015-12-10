@@ -61,7 +61,7 @@ Locale.textLookup = $H({
 	'An e-mail has been sent to the address you provided (<strong>%s</strong>) with a link that you can click on to confirm that it\'s your real e-mail address, and then you\'re ready to go!': 'Es wurde eine Email an die von dir angegebene Adresse (<strong>%s</strong>) verschickt. Sie enthält einen Link, über den du die Richtigkeit der Mail-Adresse bestätigen kannst/musst. Und dann kann es hier auch schon losgehen',
 	'An e-mail has been sent with a verification link, which will allow you to have your password reset. If you can\'t find the e-mail in your inbox try your junk folder/spam-box.': 'Wir ahben die eine Email mit einem Bestätigungslink gesendet, über den du dein Passwort zurücksetzen kannst. Solltest du die Email nicht ein deinem Postfach finden, sieh bitte in deinem Junk-/Spam-Ordner nach.',
 	'An optional comma-separated list of user-IDs to compare the above user ID to. If this is not specified the user ID above will be checked against accounts which have matching IP/cookie-code data.': 'Eine optional kommagetrennte Liste von User-IDs zum vergleichen mit der oben angegebenen User-ID. Wenn du diese Liste hier nicht anwählst, wird die angegebene User-ID mit passenden IPs/Cockie-Code-Daten abgeglichen.',
-	'Anon': 'Alsbald',
+	'Anon': 'Anonym',
 	'Anonymous': 'Anonym',
 	'Anonymous players': 'Anonyme Spieler',
 	'Anti-bot Validation - Confirmed!': 'Anti-Bot-Validierung - Bestätigt!',
@@ -212,7 +212,7 @@ Locale.textLookup = $H({
 	'Home': 'Home',
 	'Home page:': 'Home page:',
 	'IP address (xxx.xxx.xxx.xxx)': 'IP-Adresse (xxx.xxx.xxx.xxx)',
-	'If this e-mail was unexpected it can be ignored, please don\'t reply.': 'Falls du mit dieser Email nichts anfangen kannst, ignoriere sie einfach. Bitte nicht beantworten!',
+	'If this e-mail was unexpected it can be ignored, please don\'t reply.': 'Sollte diese Nachricht dich unerwartet erreicht haben, kannst du sie einfach ignorieren. Bitte antworte nicht auf diese Mail!',
 	'If you are posting a <strong>feature request</strong> please check that it isn\'t mentioned in the <a href="http://forum.webdiplomacy.net">todo list</a>.': '',
 	'If you are posting a question please <strong>check the <a href="faq.php">FAQ</a></strong> before posting.': 'Wenn du eine Frage stellen möchtest, <strong>vergewissere dich, dass sie nicht schon in den <a href="faq.php">FAQ</a> beantwortet wurde.</strong>.',
 	'If you don\'t know what Diplomacy is about yet check out the quick\
@@ -222,7 +222,7 @@ Locale.textLookup = $H({
 				damit du dich hier schnell zurecht findest.',
 	'If you have any further problems contact the server\'s admin at %s.': 'Solltest du weitere Probleme haben setze dich bitte mit uns über %s in Verbindung.',
 	'If you have problems e-mail this server\'s admin at %s': 'Falls du Schwierigkeiten hast, kontaktiere einen Administrator über %s',
-	'If you repeatedly get unexpected / unwanted e-mails from this address please contact the server admin at %s to have the matter investigated.': 'Wenn du wiederholt unerwartet/ungefragt Emails von uns erhalten solltest, melde dich bitte bei einem Administrator (%s) damit wir dem Problem auf den Grund gehen können.',
+	'If you repeatedly get unexpected / unwanted e-mails from this address please contact the server admin at %s to have the matter investigated.': 'Solltest du zum wiederholten mal unerwartete / ungewünschte Emails von dieser Absender-Adresse erhalten kontaktiere bitte den Admin über %s, damit das Problem überprüft werden kann.',
 	'If your message is long you may need to write a summary message, and add the full message as a reply.': 'Falls deine Nachricht sehr lang sein sollte schreibe bitte erst eine kurze Zusammenfassung und verfasse deine eigentliche Nachricht als Antwort darauf.',
 	'If your post relates to a particular game please include the <strong>URL or ID#</strong>\
 				of the game.': 'Wenn dein Beitrag mit einem bestimmten Spiel zusammenhängt, gebe bitte auch die <strong>URL oder ID#</strong> des Spiels an',
@@ -365,7 +365,7 @@ Locale.textLookup = $H({
 	'Results:': 'Ergebnis:',
 	'Retreats': 'Rückzüge',
 	'Returns an active game to the last Diplomacy phase,\
-					along with that phase\'s orders, and sets the time so that the game will be reprocessed.': 'Setzt ein Spiel mit den entsprechenden Befehlen eine Phase zurück und passt die Zeit an, sodass die Phase erneut ausgewertet wird.',
+					along with that phase\'s orders, and sets the time so that the game will be reprocessed.': 'Führt ein aktives Spiel zurück in die Diplomatie-Phase, zusammen mit den Befehlen der Phase, und setzt die Zeit so, dass das Spiel neu ausgewertet wird.',
 	'Run gamemaster': 'Gamemaster ausführen',
 	'SCs required for solo win: %s': 'Versogungszentrn die für einen Sieg nötig sind: %s',
 	'Save': 'Speichern',
@@ -397,11 +397,7 @@ Locale.textLookup = $H({
 						users to have errors when the game gets loaded on their home page / board page.<br />\
 						Until the cause can be tracked down and resolved this command can find and correct the\
 						invalid values, but it shouldn\'t be used unless errors are occurring since it may alter\
-						unaffected games.': 'Durch das Verlängern oder Zurücksetzen von Auswertungszeiten\
-						kann es passieren, dass manche Spiele mit falschen Auswertungs-/Pause-Einstellungen gespeiert werden,\
-						was Fehler bei der Darstellung der Spiele auf der Homepage / dem Spieltisch der Spieler bewirken kann.<br />\
-						Bis die Ursache des Fehlers gefunden wurde kann diese Einstellung die falschen Werte finden und korrigieren,\
-						sollte aber nicht benutzt werden, wenn keine Fehler auftreten, da es sonstige Spiele verändern könnte.',
+						unaffected games.': 'Es kann passieren, dass nach dem Hinauszögern von Auswertungen und dem Zurücksetzen der letzten Auswertungszeit, einige Spiele falsche Auswertungs-/Pause-Zeiten haben; was zu Fehlern auf der Übersichts-Seite von Spielern führen kann.<br />Bis die Ursache für das Problem / den Fehler gefunden wurde kann dieser Befehl falsche Werte finden und korrigieren. Er sollte aber nicht verwendet werden, wenn kein Fehler vorliegen, denn es kann zu unvorhergesehenem Verhalten kommen.',
 	'Splits points among all players in a game equally, and deletes the game.': 'Teilt die Punkte gleichermaßen unter den Spielern auf und löscht das Spiel.',
 	'Splits points among all the surviving players in a game equally, and ends the game.': 'Teilt die Punkte gleichermaßen unter den überlebenden Spielern auf und löscht das Spiel.',
 	'Standard Diplomacy Rules Apply': 'Standard-Diplomacy-Regeln',
@@ -451,7 +447,7 @@ Locale.textLookup = $H({
 	'To:': 'An:',
 	'Toggle maintenance': 'Wartungsmodus umschalten',
 	'Toggle maintenance mode, which makes the server inaccessible except to admins\
-					so changes can be made.': 'Schalte Maintenance Mode um, sodass nur Administratoren den Server erreichen können.',
+					so changes can be made.': 'Ein/Ausschalten des Maintenance Modus, der den Server nur noch für Admins erreichbar macht; um Einstellungen anzupassen.',
 	'Toggle maintenance-mode': 'Wartungsmodus ein-/aussschalten',
 	'Toggle mod-report mute': 'Ein-/Ausschalten von Mod-Report-Stummschaltung',
 	'Toggle panic button': 'Panik-Knopf ein-/ausschalten',
@@ -459,7 +455,7 @@ Locale.textLookup = $H({
 	'Toggle pause': 'Pause ein-/ausschalten',
 	'Toggle site-wide notice': 'Seiten-weiten Hinweis ein-/ausschalten',
 	'Toggle the notice which is displayed in a noticebar across the whole site. The\
-					notice itself can be set in config.php': 'Schalte die Meldung, die im Meldungsbereich auf der ganzen Seite angezeigt wird, um. Die Meldung selbst kann in config.php geändert werden.',
+					notice itself can be set in config.php': 'Ein/Ausschalten des Hinweises, der im Hinweis-Bereich auf der gesamten Seite angezeigt wird. Der Hinweis selbst kann in der config.php festgelegt werden.',
 	'Toggle the panic button; turning it on prevents games from being processed, users joining games,\
 						users registering. It is intended to limit the damage a problem can do': 'Panik-Knopf umschalten; Einschalten verhindet die Auswetrtung der Spiele, das Beitreten von Spielen, und Benutzer-Registrierung. Es wird genutzt, um bei einem Problem Fehler weitesgehend zu verhindern.',
 	'Toggle the site-wide notice': 'Den Seiten-weiten Hinweis ein-/ausschalten',
@@ -542,7 +538,7 @@ Locale.textLookup = $H({
 	'Start up a new game': 'Beginne ein neues Spiel',
 	'Stats': 'Stats',
 	'webDiplomacy points': 'Diplomacy Punkte',
-	'The last process time was over %s minutes ago (at %s); the server is not processing games until the cause is found and games are given extra time.': 'Die letzte Spielauswertung ist mehr als %s her; der Server wertet momentan keine Spiele aus, bis der Grund dafür gefunden wurde. Laufende Spielphasen werden entsprechend verlängert.',
+	'The last process time was over %s minutes ago (at %s); the server is not processing games until the cause is found and games are given extra time.': 'Die letzte Spielauswertung ist mehr als %s Minuten her (um %s); der Server wertet momentan keine Spiele aus, bis der Grund dafür gefunden wurde. Laufende Spielphasen werden entsprechend verlängert.',
 	'%s - vDiplomacy': '%s - Diplomacy\'s Website',
 	'Translations upload:': 'Übersetzung hochladen',
 	'Uploading translations.': 'hochgeladene Übersetzungen',
@@ -606,8 +602,7 @@ Locale.textLookup = $H({
 	'VariantID': 'VariantID',
 	'Classic': 'Klassisches Diplomacy',
 	'Disable or enable some or all vote-buttons.<br />\
-				If you want enable all vote buttons again use "none"': 'Aktiviere oder deaktiviere einige oder alle Wahl-Buttons.</ br>\
-				Wenn alle Buttons aktiviert werden sollen, nutze "none"',
+				If you want enable all vote buttons again use "none"': 'Ein- und Ausschalten von einigen oder allen Abstimmungs-Buttons.<br /> Falls du alle Buttons wieder aktivieren möchtest, wähle "none"/"keine".',
 	'UserID to be replaced': 'zu ersetzende UserID',
 	'Dev: bronze': 'Entw.: Bronze',
 	'Clear advanced access logs': 'Leere Advanced Access Log',
@@ -628,8 +623,12 @@ Locale.textLookup = $H({
 					the indexes to be recreated.<br />\
 					Note that this uses the generic installation code, so if there are any variant-specific modifications\
 					running this may give unpredictable results. Please confirm with the variant maintainer before\
-					using this admin action.': 'Aktualisiert die Unit-Destroy-Indezes einer bestimmten mapID. Normalerweise nur bei Bug.<br>\
-					Achtung: Verwendet allgemeinen Code, Veränderungen in Varianten können zu ungewollten Ergebnissen führen.',
+					using this admin action.': 'Refreshes the unit destroy indexes for a certain map ID. This will generally only\
+					be run if there has been a bug found in the unit destroy index generation code which requires \
+					the indexes to be recreated.<br />\
+					Note that this uses the generic installation code, so if there are any variant-specific modifications\
+					running this may give unpredictable results. Please confirm with the variant maintainer before\
+					using this admin action.',
 	'Min. Phases played': 'Mindestanzahl gespielter Phasen',
 	'Remove all inactive Variants': 'Alle inaktiven Varianten entfernen',
 	'GameID (all active if empty)': 'GameID (alle aktiv, wenn leer)',
@@ -1604,7 +1603,7 @@ Who do you trust?"<br />\
 <br />\
 \
 Who do you trust?"<br />\
-(<a href="http://www.wizards.com/default.asp?x=ah/prod/diplomacy"\
+(<a href="<a rel="nofollow" href="http://www.amazon.de/gp/product/B0015MN6JE/ref=as_li_tl?ie=UTF8&camp=1638&creative=19454&creativeASIN=B0015MN6JE&linkCode=as2&tag=diplswebs-21">Avalon Hill / Wizards of the Coast 221930000 - Diplomacy, Englische Ausgabe, Brettspiel</a><img src="http://ir-de.amazon-adsystem.com/e/ir?t=diplswebs-21&l=as2&o=3&a=B0015MN6JE" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />"\
 	class="light">Avalon Hill</a>)</em>',
 	'A multiplayer web implementation of the popular turn-based strategy game Diplomacy.': 'Hier kannst du das berühmte, Runden-basierte Strategiespiel Diplomacy kostenlos online spielen.',
 	'The map': 'Die Karte',
@@ -1869,4 +1868,104 @@ Who do you trust?"<br />\
 	'Western-Canada': 'West-Kanada',
 	'Turkey (modern)': 'Türkei',
 	'Germany (modern)': 'Deutschland',
+	'Pot:': 'Pott',
+	'PPSC': 'PPSC',
+	'slow': 'langsam',
+	'New messages': 'Neue Nachrichten',
+	'New messages!': 'Neue Nachrichten!',
+	'worth:': 'wert',
+	'Co - Site Owner': 'Co - Seitenbetreiber',
+	'Looking at our stats this game might take (roughly) %s to complete.': 'Mit unseren Statistiken im Hinterkopf braucht dieses Spiel (ungefähr) %s bis zum Ende.',
+	'WTA': 'WTA',
+	'very slow': 'sehr langsam',
+	'Public Press': 'öffentliche Nachrichten',
+	'Left: <strong>%s</strong>': 'übrig <strong>%s</strong>',
+	'Mod': 'Mod',
+	'Make forum moderator': 'Zum Forenmoderator ernennen',
+	'won:': 'gewonnen:',
+	'No users found matching the given search parameters.': 'Keine Benutzer gefunden, die den Such-Parametern entsprechen.',
+	'Moderator/Admin': 'Moderator/Admin',
+	'Defeated:': 'Besiegt:',
+	'One %s per %s seconds, please wait and try again.': 'Ein/e %s pro %s Sekunden. Bitte warte etwas und versuche es dann erneut',
+	'Denied': 'Verweigert',
+	'Thread posted sucessfully.': 'Beitrag erfolgreich gepostet.',
+	' to %s ': ' nach %s ',
+	' the %s in %s ': ' die %s in %s ',
+	' an army to %s ': ' eine Armee nach %s ',
+	' from %s ': ' von %s ',
+	'via convoy': 'via Convoy',
+	'via land': 'über Land',
+	'unit': 'Einheit',
+	'Unit': 'Einheit',
+	'DropDown-OrderInterface': 'DropDown-Befehle',
+	'InteractiveMap-OrderInterface (loading)': 'Klick-Befehle (lädt)',
+	'InteractiveMap-OrderInterface': 'Klick-Befehle',
+	'Reset Order': 'Befehle zurücksetzen',
+	'No orders this phase!': 'In dieser Phase keine Befehle!',
+	'InteractiveMap Options:': 'Klick-Befehl Einstellungen',
+	'Toggle scrollbars on map': 'Scroll-Balken ein/ausschalten',
+	'Change grey-out intensity:': 'Intensität des Ausgrauens:',
+	'Deactivate territory-grey-out': 'Territorien Ausgrauen deaktivieren',
+	'Activate territory-grey-out': 'Territorien Ausgrauen aktivieren',
+	'Deactivate highlighting of own units': 'Hervorheben der eigenen Einheiten deaktiveren',
+	'Activate highlighting of own units': 'Hervorheben der eigenen Einheiten aktivieren',
+	'Options': 'Einstellungen',
+	'The shown orders are a PREVIEW of your currently entered orders!<br>': 'Die angezeigten Befehle sind nur eine Vorschau deiner eben eigegebenen Befehle!<br>',
+	'They are not saved immediately!': 'Sie wurden nicht sofort gespeichert!',
+	'They were saved immediately!': 'Sie wurden sofort gespeichert!',
+	'Order-Line: ': 'Befehls-Reihenfolge: ',
+	'The unit in ': 'Die Einheit in ',
+	'The supply center ': 'Das Versorgungscenter in ',
+	'No territory selected!': 'Kein Territorium ausgewählt!',
+	'No unit selected (': 'Keine Einheit ausgewählt (',
+	'No own unit selected (': 'Keine eigene Einheit ausgewählt (',
+	' Different order not finished!': ' Anderer Befehl nicht vollständig!',
+	'No ': 'Keine ',
+	' selected (': ' ausgewählt (',
+	'No coast territory selected (': 'Kein Küsten-Territorium ausgewählt (',
+	'http://webdiplomacy.net/images/webDiplomacy.png': 'http://diplomacy.s-website.de/images/logo.gif',
+	'This message was generated by a webDiplomacy server, sent from %s to %s (%s) at %s (GMT+0), on behalf of %s': 'Diese Nachricht wurde von Diplomacy\'s Website generiert, gesendet von %s an %s (%s) um %s (GMT+0), im Auftrag von %s ',
+	'Mailer error: ': 'Mailer-Fehler: ',
+	'Are you sure you want to wipe backups?': 'Bist du sicher, dass du die Backups löschen möchtest?',
+	'Confirm': 'Bestätigen',
+	'Crashed': 'Abgestürtzt',
+	'You are not in any active games, select the "New" tab to view games that you can join, or if you can\'t find a game you want to join select "New game" in the menu to create your own.': 'Du nimmst an keinen aktiven Spielen teil. Wähle die Registerkarte "Neu", um dir Spiele anzuzeigen, denen du beitreten kannst oder erstelle ein neues Spiel, in dem du auf "Neues Spiel" klickst, falls du kein passendes finden solltest.',
+	'PreGameCheck': 'Vorspiel-Check',
+	'You sent:': 'Du schriebst:',
+	'You sent: ': 'Du schriebst: ',
+	'Won: <strong>%s</strong>': 'Gewonnen <strong>%s</strong>',
+	'New private messages!': 'Neue private Nachricht',
+	'New private messages': 'Neue private Nachricht',
+	'PM': 'PN',
+	'Cancel:': 'Abbrechen:',
+	'No more games found for this profile.': 'Keine weiteren Spiele für dieses Profil gefunden.',
+	'Unread messages': 'Ungelesene Nachrichten',
+	'Drawn: <strong>%s</strong>': 'Unentschieden: <strong>%s</strong>',
+	'Won (singular): <strong>%s</strong>': 'Gewonnen (allein): <strong>%s</strong>',
+	'Defeated: <strong>%s</strong>': 'Besiegt: <strong>%s</strong>',
+	'Public chat': 'Öffentlicher Chat',
+	'Platinum': 'Platinum',
+	'Donator:': 'Unterstützer',
+	'live': 'live',
+	'support move': 'support move',
+	'Afrika': 'Afrika',
+	'Kolonial': 'Kolonial',
+	'dislodged': 'verdrängt',
+	'No new games on the server.': 'Keine neuen Spiele auf diesem Server',
+	'fail': 'gescheitert',
+	'Select "New game" in the menu to create your own.': 'Wähle "Neues Spiel" im Menü, um ein neues Spiel zu erstellen.',
+	'': '',
+	'support hold': 'support hold',
+	'The set of returned games has finished; use the search tab to find specific games.': 'Du hast dir alle Spiele anzeigen lassen; nutze die Suche um ein bestimmtes Spiel zu finden.',
+	'convoy': 'Convoy',
+	'destroy': 'zerstören',
+	'Survived: <strong>%s</strong>': 'Überlebt: <strong>%s</strong>',
+	'To date there have been %s threads and a total of %s posts made here.': '',
+	'This is where you post issues you may have with certain users, games and bugs.<br>\
+			Every thread you post here is confidential and can only be viewed by yourself and the moderators.<br>\
+			All mods receive an alert when you make a post in this forum.': 'Hier kannst du Probleme mit bestimmten Benutzern, Spielen oder Fehlern posten. Jede Diskussion, die du hier eröffnest kann nur von dir selbst und von Moderatoren gesehen werden. Alle Moderatoren bekommen einen Alarm, wenn du hier etwas postest.',
+	'fast': 'schnell',
+	'[E-mail address image]': '[E-Mail-Adresse Bild]',
+	'view threads': 'Diskussionen anzeigen',
+	'Please <a href=\'register.php\' class=\'light\'>register</a> or <a href=\'logon.php\' class=\'light\'>log in</a> to %s.': 'Bitte <a href=\'register.php\' class=\'light\'>registriere</a> oder <a href=\'logon.php\' class=\'light\'>logge dich ein</a> um %s.',
 });

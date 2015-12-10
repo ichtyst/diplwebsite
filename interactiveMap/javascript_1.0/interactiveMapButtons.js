@@ -35,9 +35,9 @@ interactiveMap.interface.create = function() {
     var orderDiv = $("orderDiv"+context.memberID);
     var IAswitch = orderDiv.insertBefore(new Element('div',{'id':'IAswitch', 'class':'gamelistings-tabs'}), $('orderFormElement'));
     //create Pseudolinks to use the tab-styles
-    var dropDownInterface = IAswitch.appendChild(new Element('a',{'id':'dropDownInterface','href':'#mapstore','title':'View DropDown-OrderInterface', 'class':'current', 'onclick':'return false;'})).update('DropDown-OrderInterface');
+    var dropDownInterface = IAswitch.appendChild(new Element('a',{'id':'dropDownInterface','href':'#mapstore','title':'View DropDown-OrderInterface', 'class':'current', 'onclick':'return false;'})).update(l_t('DropDown-OrderInterface'));
     dropDownInterface.observe('click', function(){interactiveMap.activate(false);});
-    var interactiveInterface = IAswitch.appendChild(new Element('a',{'id':'IAInterface','href':'#mapstore','title':'View InteractiveMap-OrderInterface', 'onclick':'return false;'})).update('InteractiveMap-OrderInterface (loading)');
+    var interactiveInterface = IAswitch.appendChild(new Element('a',{'id':'IAInterface','href':'#mapstore','title':'View InteractiveMap-OrderInterface', 'onclick':'return false;'})).update(l_t('InteractiveMap-OrderInterface (loading)'));
     interactiveInterface.observe('click', function(){if(interactiveMap.ready) interactiveMap.activate(true);});
     
     var IADiv = new Element('div', {'id': 'IA'});
@@ -52,13 +52,13 @@ interactiveMap.interface.create = function() {
     var tr1td2 = tr1.appendChild(new Element('td', {'style': 'text-align:center'}));
     var tr1td3 = tr1.appendChild(new Element('td', {'style': 'text-align:right'}));
     
-    var resetButton = new Element("Button", {'id': 'ResetOrder', 'class':'buttonIA form-submit', 'onclick': 'interactiveMap.abortOrder();', 'disabled': 'true'}).update("Reset Order");
+    var resetButton = new Element("Button", {'id': 'ResetOrder', 'class':'buttonIA form-submit', 'onclick': 'interactiveMap.abortOrder();', 'disabled': 'true'}).update(l_t("Reset Order"));
     tr1td1.appendChild(resetButton);
     
     tr1td2.appendChild(interactiveMap.interface.createOrderButtons());
     
-    tr1td3.appendChild(new Element("Button", {'id': 'options', 'class':'buttonIA form-submit', 'onclick': 'interactiveMap.interface.options.show()', 'disabled': 'true', 'style': 'text-align:right'})).update("Options");
-    tr1td3.appendChild(new Element('button',{'class':'buttonIA form-submit', 'onclick':'window.open("interactiveMap/html/help.html","_blank")'})).update("Help");
+    tr1td3.appendChild(new Element("Button", {'id': 'options', 'class':'buttonIA form-submit', 'onclick': 'interactiveMap.interface.options.show()', 'disabled': 'true', 'style': 'text-align:right'})).update(l_t("Options"));
+    tr1td3.appendChild(new Element('button',{'class':'buttonIA form-submit', 'onclick':'window.open("interactiveMap/html/help.html","_blank")'})).update(l_t("Help"));
     
 //second row of table
     var tr3 = new Element('tr');
@@ -75,7 +75,7 @@ interactiveMap.interface.create = function() {
 
     interactiveMap.interface.orderLine.setStyle({'height': '15px', 'overflow': 'auto'});
     
-    $('mapstore').appendChild(new Element('p',{'id':'IAnotice','style':'font-weight: bold;text-align: center;'})).update('The shown orders are a PREVIEW of your currently entered orders!<br>'+((!interactiveMap.autosave)?'They are not saved immediately!':'They were saved immediately!')).hide();
+    $('mapstore').appendChild(new Element('p',{'id':'IAnotice','style':'font-weight: bold;text-align: center;'})).update(l_t('The shown orders are a PREVIEW of your currently entered orders!<br>')+((!interactiveMap.autosave)?l_t('They are not saved immediately!'):l_t('They were saved immediately!'))).hide();
 };
 
 /*
@@ -93,7 +93,7 @@ interactiveMap.interface.createOrderButtons = function() {
             break;
         case "Builds":
             if (MyOrders.length == 0) {
-                orderButtons.appendChild(new Element('p').update("No orders this phase!"));
+                orderButtons.appendChild(new Element('p').update(l_t("No orders this phase!")));
             } else if (MyOrders[0].type == "Destroy") {
                 orderButtons.appendChild(new Element('button', {'id': 'destroy', 'class':'buttonIA form-submit', 'onclick': 'interactiveMap.sendOrder("Destroy")', 'disabled': 'true'}).update("DESTROY"));
             } else {
@@ -104,7 +104,7 @@ interactiveMap.interface.createOrderButtons = function() {
             break;
         case "Retreats":
             if (MyOrders.length == 0) {
-                orderButtons.appendChild(new Element('p').update("No orders this phase!"));
+                orderButtons.appendChild(new Element('p').update(l_t("No orders this phase!")));
             } else {
                 orderButtons.appendChild(new Element('button', {'id': 'retreat', 'class':'buttonIA form-submit', 'onclick': 'interactiveMap.sendOrder("Retreat")', 'disabled': 'true'}).update("RETREAT"));
                 orderButtons.appendChild(new Element('button', {'id': 'disband', 'class':'buttonIA form-submit', 'onclick': 'interactiveMap.sendOrder("Disband")', 'disabled': 'true'}).update("DISBAND"));
@@ -175,7 +175,7 @@ interactiveMap.interface.orderMenu.create = function() {
                 break;
             case "Builds":
                 if (MyOrders.length == 0) {
-                    interactiveMap.interface.orderMenu.element.appendChild(new Element('p', {'style': 'background-color:LightGrey;border:1px solid Grey'}).update("No orders this phase!"));
+                    interactiveMap.interface.orderMenu.element.appendChild(new Element('p', {'style': 'background-color:LightGrey;border:1px solid Grey'}).update(l_t("No orders this phase!")));
                 } else if (MyOrders[0].type == "Destroy") {
                     orderMenuOpt.id = 'imgDestroy';
                     orderMenuOpt.src = interactiveMap.parameters.imgDestroy;
@@ -204,7 +204,7 @@ interactiveMap.interface.orderMenu.create = function() {
                 break;
             case "Retreats":
                 if (MyOrders.length == 0) {
-                    interactiveMap.interface.orderMenu.element.appendChild(new Element('p', {'style': 'background-color:LightGrey;border:1px solid Grey'}).update("No orders this phase!"));
+                    interactiveMap.interface.orderMenu.element.appendChild(new Element('p', {'style': 'background-color:LightGrey;border:1px solid Grey'}).update(l_t("No orders this phase!")));
                 } else {
                     orderMenuOpt.id = 'imgRetreat';
                     orderMenuOpt.src = interactiveMap.parameters.imgRetreat;
@@ -317,7 +317,7 @@ interactiveMap.interface.orderMenu.hideElement = function(element){
  */
 interactiveMap.interface.activateButton = function() {
     interactiveMap.ready = true;
-    $("IAInterface").innerHTML = "InteractiveMap-OrderInterface";
+    $("IAInterface").innerHTML = l_t("InteractiveMap-OrderInterface");
     //$("IAswitch").disabled = false;
 };
 
@@ -426,8 +426,8 @@ interactiveMap.interface.options.load = function(){
         border: '10px solid black'
     });
     
-    interactiveMap.interface.options.element.appendChild(new Element("h1").update("InteractiveMap Options:"));
-    this.scrollbarsButton = interactiveMap.interface.options.element.appendChild(new Element("p")).appendChild(new Element("button", {'id': 'largeMap', 'class':'buttonIA form-submit'})).update("Toggle scrollbars on map");
+    interactiveMap.interface.options.element.appendChild(new Element("h1").update(l_t("InteractiveMap Options:")));
+    this.scrollbarsButton = interactiveMap.interface.options.element.appendChild(new Element("p")).appendChild(new Element("button", {'id': 'largeMap', 'class':'buttonIA form-submit'})).update(l_t("Toggle scrollbars on map"));
     this.scrollbarsButton.observe('click', this.largeMap.bind(this));
         
     this.greyOutButton = interactiveMap.interface.options.element.appendChild(new Element("p")).appendChild(new Element("Button", {'id': 'greyOut', 'class':'buttonIA form-submit'}));
@@ -439,12 +439,12 @@ interactiveMap.interface.options.load = function(){
     this.greyOutUnitButton.observe('click', this.unitGreyOut.bind(this));
     
     this.greyOutIntensitySlider = this.greyOutOptions.appendChild(new Element("p"));
-    this.greyOutIntensitySlider.appendChild(new Element("p", {'style':'color:rgb(68,68,68)'})).update("Change grey-out intensity:");
+    this.greyOutIntensitySlider.appendChild(new Element("p", {'style':'color:rgb(68,68,68)'})).update(l_t("Change grey-out intensity:"));
     this.greyOutIntensitySlider.appendChild(new Element("p", {'id':'colorBox', 'style':'margin-left:auto; margin-right:auto; width:50px; height:20px; background-color:rgba(0,0,0,'+interactiveMap.options.greyOutIntensity+');'}));     
     var track = this.greyOutIntensitySlider.appendChild(new Element("div",{'id':'track', 'class':'buttonIA', 'style':'margin-left:auto; margin-right:auto; width:256px; background-color:GhostWhite; height:10px; position: relative;'}));
     track.appendChild(new Element("div",{'id':'handle', 'style':'width:10px; height:15px; background-color:Red; cursor:move; position: absolute;'}));
         
-    this.closeButton = interactiveMap.interface.options.element.appendChild(new Element("p")).appendChild(new Element("Button", {'id': 'close', 'class':'buttonIA form-submit'})).update("Close");
+    this.closeButton = interactiveMap.interface.options.element.appendChild(new Element("p")).appendChild(new Element("Button", {'id': 'close', 'class':'buttonIA form-submit'})).update(l_t("Close"));
     this.closeButton.observe('click', function(){interactiveMap.interface.options.element.hide(); $("options").disabled = false;});
     $('options').parentNode.appendChild(this.element).hide();
         
@@ -497,12 +497,12 @@ interactiveMap.interface.options.greyOut = function() {
 
 interactiveMap.interface.options.updateGreyOut = function(){
     if(interactiveMap.options.greyOut){
-        interactiveMap.interface.options.greyOutButton.update("Deactivate territory-grey-out").disabled = false;
+        interactiveMap.interface.options.greyOutButton.update(l_t("Deactivate territory-grey-out")).disabled = false;
         interactiveMap.interface.options.greyOutOptions.show();
         interactiveMap.insertMessage("territory-grey-out activated",true,true);
         interactiveMap.resetOrder();
     } else {
-        interactiveMap.interface.options.greyOutButton.update("Activate territory-grey-out");
+        interactiveMap.interface.options.greyOutButton.update(l_t("Activate territory-grey-out"));
         interactiveMap.interface.options.greyOutOptions.hide();
         interactiveMap.insertMessage("territory-grey-out deactivated",true,true);
         interactiveMap.resetOrder();
@@ -519,10 +519,10 @@ interactiveMap.interface.options.unitGreyOut = function() {
 
 interactiveMap.interface.options.updateUnitGreyOut = function(){
     if(interactiveMap.options.unitGreyOut){
-        interactiveMap.interface.options.greyOutUnitButton.update("Deactivate highlighting of own units");
+        interactiveMap.interface.options.greyOutUnitButton.update(l_t("Deactivate highlighting of own units"));
         interactiveMap.insertMessage("highlighting of units activated",true,true);
     }else{
-        interactiveMap.interface.options.greyOutUnitButton.update("Activate highlighting of own units");
+        interactiveMap.interface.options.greyOutUnitButton.update(l_t("Activate highlighting of own units"));
         interactiveMap.insertMessage("highlighting of units deactivated",true,true);
     }
     interactiveMap.resetOrder();

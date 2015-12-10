@@ -327,7 +327,7 @@ class OrderInterface
 		libHTML::$footerIncludes[] = l_j('board/load.js');
 		libHTML::$footerIncludes[] = l_j('orders/order_vDipV2.js');
 		if ($this->phase == 'Diplomacy')
-			libHTML::$footerIncludes[] = l_j('orders/phaseDiplomacy_vDip.js');
+			libHTML::$footerIncludes[] = l_j('orders/phaseDiplomacy_vDipV2.js');
 		else
 			libHTML::$footerIncludes[] = l_j('orders/phase'.$this->phase.'.js');
 		libHTML::$footerIncludes[] = l_s('../'.libVariant::$Variant->territoriesJSONFile());

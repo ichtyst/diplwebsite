@@ -1022,6 +1022,7 @@ $bordersRawData=array(
 	array('Antilles (ant)','Mid North Atlantic Ocean (mna)','Yes','No'),
 	array('Antilles (ant)','Western South Atlantic Ocean - north sea lane (Nth. wsa)','Yes','No'),
 	array('Antilles (ant)','Western South Atlantic Ocean - west sea lane (Wst. wsa)','Yes','No'),
+	array('Antilles (ant)','Mid North Atlantic Ocean - south sea lane (Sth. mna)','Yes','No'),
 	array('Antilles (ant)','Sargasso Sea - south sea lane (Sth. sar)','Yes','No'),
 	array('Baja (baj)','Guatamala Basin (gub)','Yes','No'),
 	array('Baja (baj)','Sonora (son)','Yes','Yes'),
@@ -1326,6 +1327,8 @@ $bordersRawData=array(
 	array('Eastern North Atlantic Ocean (ena)','Western Mediterranean Sea (wmd)','Yes','No'),
 	array('Eastern North Atlantic Ocean (ena)','Mid North Atlantic Ocean (mna)','Yes','No'),
 	array('Eastern North Atlantic Ocean (ena)','Spain (spa) (South Coast)','Yes','No'),
+	array('Eastern North Atlantic Ocean (ena)','Eastern South Atlantic Ocean - west sea lane (Wst. esa)','Yes','No'),
+	array('Eastern North Atlantic Ocean (ena)','Western South Atlantic Ocean - north sea lane (Nth. wsa)','Yes','No'),
 	array('Eastern North Atlantic Ocean (ena)','Mid North Atlantic Ocean - south sea lane (Sth. mna)','Yes','No'),
 	array('Eastern North Atlantic Ocean (ena)','Mid North Atlantic Ocean - east sea lane (Est. mna)','Yes','No'),
 	array('Eastern North Atlantic Ocean (ena)','Cape Verde Islands - south sea lane (Sth. cpv)','Yes','No'),
@@ -2382,6 +2385,7 @@ $bordersRawData=array(
 	array('Central Pacific Ocean (cpo)','Tahiti (tah)','Yes','No'),
 	array('Central Pacific Ocean (cpo)','West Central Pacific Ocean - south east sea lane (S.E. wcp)','Yes','No'),
 	array('Central Pacific Ocean (cpo)','Hawaii - west sea lane (Wst. hi)','Yes','No'),
+	array('Central Pacific Ocean (cpo)','East Central Pacific Ocean - north west sea lane (N.W. ecp)','Yes','No'),
 	array('Central Pacific Ocean (cpo)','East Central Pacific Ocean - south west sea lane (S.W. ecp)','Yes','No'),
 	array('Central Pacific Ocean (cpo)','Central Pacific Ocean - north west sea lane (N.W. cpo)','Yes','No'),
 	array('Central Pacific Ocean (cpo)','Central Pacific Ocean - north east sea lane (N.E. cpo)','Yes','No'),
@@ -3437,6 +3441,10 @@ if (!file_exists('variants/'.$this->name.'/cache/sampleMap.png'))
 	copy ('variants/'.$this->name.'/resources/sampleMap.png','variants/'.$this->name.'/cache/sampleMap.png');
 
 ?>
+
+
+
+
 
 
 

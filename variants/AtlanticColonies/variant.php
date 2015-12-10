@@ -11,7 +11,7 @@ class AtlanticColoniesVariant extends WDVariant {
 	public $author     = 'Safari';
 	public $adapter    = 'Safari';
 	public $version    = '1';
-	public $codeVersion= '1.0.4';
+	public $codeVersion= '1.0.7';
 
 	public $countries=array('France', 'Spain', 'England', 'Portugal' );
 
@@ -20,6 +20,11 @@ class AtlanticColoniesVariant extends WDVariant {
 		$this->variantClasses['drawMap']            = 'AtlanticColonies';
 		$this->variantClasses['adjudicatorPreGame'] = 'AtlanticColonies';
 		$this->variantClasses['OrderInterface']     = 'AtlanticColonies';
+	}
+	
+	public function initialize() {
+		parent::initialize();
+		$this->supplyCenterTarget = 25;
 	}
 
 	public function turnAsDate($turn) {

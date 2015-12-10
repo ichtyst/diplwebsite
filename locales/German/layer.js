@@ -64,7 +64,7 @@ Locale.text = function(text, args) {
 		}*/
 		else if ( text == ' to %s ' )
 		{
-			text = ' nach %s';
+			text = ' nach %s ';
 
 			/*Territories.each(function(p){
 				var t=p[1];
@@ -73,6 +73,14 @@ Locale.text = function(text, args) {
 				else
 					args[0] = args[0].replace(t.name, ' in '+t.name);
 			},this);*/
+		}
+		else if ( text == ' from %s ' )
+		{
+			text = ' von %s ';	
+		}
+		else if ( text == ' at %s' )
+		{
+			text = ' in %s';
 		}
 	}
 

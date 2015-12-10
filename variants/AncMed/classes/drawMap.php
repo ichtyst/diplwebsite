@@ -41,19 +41,19 @@ class AncMedVariant_drawMap extends drawMap
 		
 		if( $this->smallmap ) {
 			return array(
-				'map'     =>'variants/'.$Variant->name.'/resources/smallmap.png',
-				'army'    =>'variants/'.$Variant->name.'/resources/smallarmy.png',
-				'fleet'   =>'variants/'.$Variant->name.'/resources/smallfleet.png',
-				'names'   =>'variants/'.$Variant->name.'/resources/smallmapNames.png',
-				'standoff'=>'images/icons/cross.png'
+				'map'     =>l_s('variants/'.$Variant->name.'/resources/smallmap.png'),
+				'army'    =>l_s('variants/'.$Variant->name.'/resources/smallarmy.png'),
+				'fleet'   =>l_s('variants/'.$Variant->name.'/resources/smallfleet.png'),
+				'names'   =>l_s('variants/'.$Variant->name.'/resources/smallmapNames.png'),
+				'standoff'=>l_s('images/icons/cross.png')
 			);
 		} else {
 			return array(
-				'map'     =>'variants/'.$Variant->name.'/resources/map.png',
-				'army'    =>'variants/'.$Variant->name.'/resources/army.png',
-				'fleet'   =>'variants/'.$Variant->name.'/resources/fleet.png',
-				'names'   =>'variants/'.$Variant->name.'/resources/mapNames.png',
-				'standoff'=>'images/icons/cross.png'
+				'map'     =>l_s('variants/'.$Variant->name.'/resources/map.png'),
+				'army'    =>l_s('variants/'.$Variant->name.'/resources/army.png'),
+				'fleet'   =>l_s('variants/'.$Variant->name.'/resources/fleet.png'),
+				'names'   =>l_s('variants/'.$Variant->name.'/resources/mapNames.png'),
+				'standoff'=>l_s('images/icons/cross.png')
 			);
 		}
 	}

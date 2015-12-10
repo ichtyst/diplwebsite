@@ -25,7 +25,7 @@ defined('IN_CODE') or die('This script can not be run by itself.');
  * @subpackage Static
  */
 
-print libHTML::pageTitle('Intro to webDiplomacy','A quick &amp; easy guide to get newcomers to webDiplomacy playing the game.');
+print libHTML::pageTitle('Kurzanleitung zu Diplomacy ','Eine kurze Einführung ins Diplomacy spielen für Einsteiger hier auf Diplomacy\'s Website.');
 
 print '
 <p>
@@ -78,7 +78,7 @@ Die Versorgungszentren sind gesondert markierte Landabschnitte.</p>
 	<li class="formlistdesc">
 		Die Einheit verteidigt das Territorium, falls es angegriffen wird. Sonst tut es nichts.
 		<p style="text-align:center;">
-			<img src="<?php print STATICSRV; ?>datc/maps/801-large.map-thumb" alt=" " title="An army holds in Naples" />
+			<img src="http://webdiplomacy.net/datc/maps/801-large.map-thumb" alt=" " title="An army holds in Naples" />
 		</p>
 	</li>
 
@@ -87,7 +87,7 @@ Die Versorgungszentren sind gesondert markierte Landabschnitte.</p>
 	<li class="formlistdesc">
 		Die Einheit versucht in ein angrenzendes Territorium zu ziehen / es zu anzugreifen. 
 		<p style="text-align:center;">
-			<img src="<?php print STATICSRV; ?>datc/maps/802-large.map-thumb" alt=" " title="An army in Naples moves to Rome" />
+			<img src="http://webdiplomacy.net/datc/maps/802-large.map-thumb" alt=" " title="An army in Naples moves to Rome" />
 		</p>
 	</li>
 
@@ -99,9 +99,9 @@ Die Versorgungszentren sind gesondert markierte Landabschnitte.</p>
 		<em>
 		(Fahre mit der Maus &uuml;ber die komplexeren Schlachten f&uuml;r eine genauere Erkl&auml;uterung.) </em>
 		<p style="text-align:center;">
-			<img src="<?php print STATICSRV; ?>datc/maps/803-large.map-thumb" alt=" "
+			<img src="http://webdiplomacy.net/datc/maps/803-large.map-thumb" alt=" "
 				title="Ein gelber Support move l&auml;sst die Armee in Venedig, die Armee in Rom besiegen." />
-			<img src="<?php print STATICSRV; ?>datc/maps/804-large.map-thumb" alt=" "
+			<img src="http://webdiplomacy.net/datc/maps/804-large.map-thumb" alt=" "
 				title="Ein gr&uuml;ner Support move der Flotte im Tyrrhenischen Meer l&auml;sst die Armee in Rom gegen den unterst&uuml;tzten Angriff der Armee in Venedig bestehen (unentschieden)." />
 		</p>
 	</li>
@@ -111,7 +111,7 @@ Die Versorgungszentren sind gesondert markierte Landabschnitte.</p>
 	<li class="formlistdesc">
 		Man kann Flotten nutzen, um Armeen &uuml;ber See-Territorien zu geleiten (im Enlischen "convoy"). Mehrere Flotten hintereinander k&ouml;nnen in einem einzigen Zug eine Armee auch weitere Strecken &uuml;ber See bewegen.
 		<p style="text-align:center;">
-			<img src="<?php print STATICSRV; ?>datc/maps/805-large.map-thumb" alt=" "
+			<img src="http://webdiplomacy.net/datc/maps/805-large.map-thumb" alt=" "
 				title="Eine Armee zieht von Venedig nach Tunis, convoyed von einer Flotte in der Adria und einer im Ionischen Meer." />
 		</p>
 	</li>
@@ -130,9 +130,9 @@ Die Versorgungszentren sind gesondert markierte Landabschnitte.</p>
 	<strong>support</strong>
 	). 
 	<p style="text-align:center;">
-		<img src="<?php print STATICSRV; ?>datc/maps/806-large.map-thumb" alt=" "
+		<img src="http://webdiplomacy.net/datc/maps/806-large.map-thumb" alt=" "
 			title="Eine Armee in Neapel soll nach Rom ziehen, wird aber nicht unterst&uuml;tzt und kann so die Einheit in Rom nicht vertreiben." />
-		<img src="<?php print STATICSRV; ?>datc/maps/807-large.map-thumb" alt=" "
+		<img src="http://webdiplomacy.net/datc/maps/807-large.map-thumb" alt=" "
 			title="Die Flotte und die Armee sind gleich stark, daher kann keiner nach Apulien ziehen." />
 	</p>
 </li>
@@ -145,7 +145,7 @@ Die Versorgungszentren sind gesondert markierte Landabschnitte.</p>
 	<strong>support move</strong>
 	befielt. 
 	<p style="text-align:center;">
-		<img src="<?php print STATICSRV; ?>datc/maps/803-large.map-thumb" alt=" "
+		<img src="http://webdiplomacy.net/datc/maps/803-large.map-thumb" alt=" "
 				title="Ein gelber Support move l&auml;sst die Armee in Venedig, die haltende Armee in Rom besiegen." />
 	</p>
 </li>
@@ -158,7 +158,7 @@ Die Versorgungszentren sind gesondert markierte Landabschnitte.</p>
 	<strong>support hold</strong>
 	-Befehl unterst&uuml;tzt werden. 
 	<p style="text-align:center;">
-		<img src="<?php print STATICSRV; ?>datc/maps/804-large.map-thumb" alt=" "
+		<img src="http://webdiplomacy.net/datc/maps/804-large.map-thumb" alt=" "
 				title="Ein gr&uuml;ner Support hold der Flotte im Tyrrhenischen Meer l&Auml;sst die Armee in Rom gegen den unterst&uuml;tzten Angriff der Armee in Venedig bestehen (unentschieden)." />
 	</p>
 </li>
@@ -170,9 +170,9 @@ Die Versorgungszentren sind gesondert markierte Landabschnitte.</p>
 	<strong>support holds</strong>
 	-Befehle gl&uuml;ckt der move-Befehl, andernfalls scheitert er. 
 	<p style="text-align:center;">
-		<img src="<?php print STATICSRV; ?>datc/maps/808-large.map-thumb" alt=" "
+		<img src="http://webdiplomacy.net/datc/maps/808-large.map-thumb" alt=" "
 				title="Die Flotte, die aus Triest nach Venedig angreift, hat zwei Support moves, die haltende Flotte in Venedig aber nur einen support hold. Also gewinnt die angreifende Flotte." />
-		<img src="<?php print STATICSRV; ?>datc/maps/809-large.map-thumb" alt=" "
+		<img src="http://webdiplomacy.net/datc/maps/809-large.map-thumb" alt=" "
 				title="Sowohl der Angriff aus Triest, als auch die Abwehr in Venedig werden zweimal unterst&uuml;tzt. Es steht unentschieden, also kann der Verteidiger bleiben." />
 	</p>
 </li>
@@ -182,11 +182,11 @@ Die Versorgungszentren sind gesondert markierte Landabschnitte.</p>
 	<strong>hold</strong>
 	-Befehl aus und kann keine weitere Einheit mehr unterst&uuml;tzen. 
 	<p style="text-align:center;">
-		<img src="<?php print STATICSRV; ?>datc/maps/808-large.map-thumb" alt=" "
+		<img src="http://webdiplomacy.net/datc/maps/808-large.map-thumb" alt=" "
 				title="Keine unterst&uuml;tzenden Einheiten werden angegriffen, alle Z&auml;hlen: Triest 2 - Venedig 1; Triest darf ziehen" />
-		<img src="<?php print STATICSRV; ?>datc/maps/810-large.map-thumb" alt=" "
+		<img src="http://webdiplomacy.net/datc/maps/810-large.map-thumb" alt=" "
 				title="Eine Armee aus M&uuml;nchen greift Tirol an und verhindert so, dass die dortige Einheit unterst&uuml;tzen kann: Triest 1 - Venedig 1; Triest muss bleiben" />
-		<img src="<?php print STATICSRV; ?>datc/maps/811-large.map-thumb" alt=" "
+		<img src="http://webdiplomacy.net/datc/maps/811-large.map-thumb" alt=" "
 				title="Eine Flotte im Tyrrhenischen Meer greift Rom an und verhindert, dass es Venedig unterst&uuml;tzt: Triest 1 - Venedig 0; Triest darf ziehen" />
 	</p>
 </li>
@@ -204,7 +204,7 @@ Die Versorgungszentren sind gesondert markierte Landabschnitte.</p>
 	<a class="light" href="gamelistings.php">offenen Spielen</a>
 	teilnehmen.
 	<p style="text-align:center;">
-		<img src="<?php print STATICSRV; ?>datc/maps/812-large.map-thumb" alt=" "
+		<img src="http://webdiplomacy.net/datc/maps/812-large.map-thumb" alt=" "
 				title="Weil Preussen die Flotte in der Ostsee unterst&uuml;tzt, wird sie nicht von der Flotte aus Livland vertieben. Sie kann die Armee aus Berlin erfolgreich nach Schweden geleiten."  />
 	</p>
 	</li>

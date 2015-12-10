@@ -399,6 +399,7 @@ if($User->type['Moderator'])
 			$modActions[] = libHTML::admincp('setProcessTimeToNow',array('gameID'=>$Game->id), l_t('Process now'));
 			$modActions[] = libHTML::admincp('setProcessTimeToPhase',array('gameID'=>$Game->id), l_t('Process one phase length from now'));
 		}
+		$modActions[] = libHTML::admincp('updateCCIP',array('gameID'=>$Game->id), l_t('Recalculate IP and CC matches'));
 
 		if($User->type['Admin'])
 		{

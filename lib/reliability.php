@@ -118,6 +118,11 @@ class libReliability
 		list($totalGames) = $DB->sql_row("SELECT COUNT(*) FROM wD_Members m, wD_Games g WHERE m.userID=".$User->id." and m.status!='Defeated' and m.gameID=g.id and g.phase!='Finished' and m.bet!=1");
 		$mG = $gL - $totalGames;
 		if ($mG < 0) { $mG = 0; }
+		
+		// If a user has a timed ban he can 
+		if ($User->tempBan > time())
+			$mG=0;
+			
 		return $mG;
 	}
 	
@@ -128,9 +133,7 @@ class libReliability
 	static public function printCDNotice($User)
 	{
 		if ( self::maxGames($User) < 50 )
-			print '<p class="notice">Game-Restrictions in effect.</p>
-				<p class="notice">You can join or create '.self::maxGames($User).' additional games.<br>
-				Read more about this <a href="reliability.php">here</a>.<br><br></p>';
+			print l_t('<p class="notice">Game-Restrictions in effect.</p><p class="notice">You can join or create %s additional games.<br>Read more about this <a href="reliability.php">here</a>.<br><br></p>',self::maxGames($User));
 	}
 	
 	/**

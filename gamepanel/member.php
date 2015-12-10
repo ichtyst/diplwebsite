@@ -167,10 +167,30 @@ class panelMember extends Member
 		
 		if ($this->isNameHidden())
 			return '('.l_t('Anonymous').')';
+		
+		if ($this->rlGroup != 0 && count($this->Game->Members->ByRlGroup[$this->rlGroup])>1 )
+			$rlGroupCount = count($this->Game->Members->ByRlGroup[$this->rlGroup]);
 		else
-			return '<a href="profile.php?userID='.$this->userID.'">'.$this->username.'</a>
+			$rlGroupCount = 0;
+		
+		if ($User->type['Moderator'] && $this->ccMatch > $rlGroupCount)
+			$ccStr = ' / <font color = "FF0000"><b>CC:'.$this->ccMatch.'</b></font>';
+		elseif ($User->type['Moderator'] && $this->ccMatch > 0 )
+			$ccStr = ' / <b>CC:'.$this->ccMatch.'</b>';
+		else 
+			$ccStr = '';
+
+		if ($User->type['Moderator'] && $this->ipMatch > ($rlGroupCount + 1) )
+			$ipStr = ' / <font color = "FF0000"><b>IP:'.$this->ipMatch.'</b></font>';
+		elseif ($User->type['Moderator'] && $this->ipMatch > 1 )
+			$ipStr = ' / <b>IP:'.$this->ipMatch.'</b>';
+		else 
+			$ipStr = '';
+			
+		return '<a href="profile.php?userID='.$this->userID.'">'.$this->username.'</a>
 				'.libHTML::loggedOn($this->userID).'
-				<span class="points">('.$this->points.libHTML::points().User::typeIcon($this->userType,false).' / <b>'.libReliability::getGrade($this).'</b>'.
+				<span class="points">('.$this->vpoints.libHTML::vpoints().User::typeIcon($this->userType,false).' / <b>'.libReliability::getGrade($this).'</b>'.
+				$ccStr.$ipStr.				
 				(($User->type['Moderator'] && $this->rlGroup != 0 && count($this->Game->Members->ByRlGroup[$this->rlGroup])>1) ? 
 				' / <img src="'.libRelations::statusIcon($this->rlGroup).'">:<b>'.abs($this->rlGroup).'/'.count($this->Game->Members->ByRlGroup[$this->rlGroup]).'</b>'
 				: '')
@@ -418,7 +438,7 @@ class panelMember extends Member
 			if ( $this->missedPhases == 2 )
 				$buf .= '<br /><span class="missedPhases">'.l_t('Missed the last phase').'</span>';
 
-			$buf .= '</span>';
+			if ( !$this->isNameHidden() ) $buf .= '</span>';
 		}
 
 

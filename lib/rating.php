@@ -47,12 +47,14 @@ class libRating
 		$Members = self::calcVDipRating($Game, $Members);
 		
 		foreach ($Members AS $Member)
+		{
 			$DB->sql_put("INSERT INTO wD_Ratings SET
 							ratingType='vDip',
 							userID='".$Member['userID']."',
 							gameID='".$Game->id."',
 							rating=".round($Member['rating'] + $Member['change']));
-								
+			$DB->sql_put('UPDATE wD_Users SET vpoints='.round($Member['rating'] + $Member['change']).' WHERE id='.$Member['userID']);					
+		}						
 		return;
 	}
 	

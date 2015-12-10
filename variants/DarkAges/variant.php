@@ -11,7 +11,7 @@ class DarkAgesVariant extends WDVariant {
 	public $author     = 'Benjamin Hester';
 	public $adapter    = 'kaner406';
 	public $version    = '4';
-	public $codeVersion= '1.0.1';
+	public $codeVersion= '1.0.2';
 	public $homepage   = 'http://www.dipwiki.com/index.php?title=Dark_Ages';
 
 	public $countries=array('Gaels','Scots','Bretons','Norse','AngloSaxons','Danes','Swedes');
@@ -23,6 +23,11 @@ class DarkAgesVariant extends WDVariant {
 		$this->variantClasses['OrderInterface']     = 'DarkAges';
 	}
 
+	public function initialize() {
+		parent::initialize();
+		$this->supplyCenterTarget = 19;
+	}
+	
 	public function turnAsDate($turn) {
 		if ( $turn==-1 ) return "Pre-game";
 		else return ( $turn % 2 ? "Autumn, " : "Spring, " ).(floor($turn/2) + 825);

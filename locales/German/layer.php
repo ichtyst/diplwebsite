@@ -32,7 +32,8 @@ class Locale_German extends Locale_Abstract {
 	}
 	
 	public function text($text, array $args=array()) {
-	
+		global $Variant;
+		
 		if( $text == "%s days")
 		{
 			if( $args[0] == 1)
@@ -58,6 +59,15 @@ class Locale_German extends Locale_Abstract {
 				$text = 'Won (singular): <strong>%s</strong>';
 		}
 	
+		//Ausnahme für Ländernamen Turkey, Germany in Weltvariante (mit modernen Namen statt DR und OR)
+		if(isset($Variant) && $Variant->id == 2)
+		{
+			if($text == "Turkey")
+				$text = "Turkey (modern)";
+			elseif($text == "Germany")
+				$text = "Germany (modern)";
+		}
+		
 		return parent::text($text, $args);
 	}
 	
@@ -85,16 +95,22 @@ class Locale_German extends Locale_Abstract {
 	function includePHP($phpInclude) {
 		// Any PHP includes which have locales/English in them need to point to locales/Italian,
 		// because this locale has translated all files within locales/English. (e.g. faq.php)
-		return str_replace('locales/English','locales/German',$phpInclude);
+		$phpInclude = str_replace('locales/English','locales/German',$phpInclude);
+		
+		return $this->staticFile($phpInclude);
 	}
 	
 	function staticFile($resource) {
 		
 		// If loading up the classic map name overlays include instead the Italian names:
-		if( $resource == 'variants/Classic/resources/smallmapNames.png' )
+		/*if( $resource == 'variants/Classic/resources/smallmapNames.png' )
 			return 'locales/German/SmallMapNames.png';
 		else if ( $resource == 'variants/Classic/resources/mapNames.png')
 			return 'locales/German/LargeMapNames.png';
+		else
+			return $resource;*/
+		if(file_exists('locales/German/resources/'.$resource))
+			return 'locales/German/resources/'.$resource;
 		else
 			return $resource;
 	}

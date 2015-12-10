@@ -8,14 +8,10 @@ class CoastConvoy_userOrderDiplomacy extends userOrderDiplomacy
 		return parent::typeCheck();
 	}
 	
-	protected function supportMoveFromTerrCheck()
-	{
-		return true;
-	}
-	
 	// It's the original Code, but without the check for Fleets only on a Sea-Space.
 	protected function checkConvoyPath($startCoastTerrID, $endCoastTerrID, $mustContainTerrID=false, $mustNotContainTerrID=false)
 	{
+		
 		global $DB;
 
 		if( count($this->convoyPath)<2 ) // First, plus one fleet, then $endCoastTerrID makes the minimum 3

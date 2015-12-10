@@ -155,7 +155,7 @@ if( count(Config::$variants)==1 )
 else
 {
 ?>
-	<li class="formlisttitle">Variant map/rules:</li>
+	<li class="formlisttitle">Variante (Karte/Regeln):</li>
 	<li class="formlistfield">
 	
 	<script type="text/javascript">
@@ -171,16 +171,16 @@ else
 					continue;
 					
 				$Variant = libVariant::loadFromVariantName($variantName);
-				$checkboxes[$variantName] = '<option value="'.$variantID.'"'.(($first=='')?' selected':'').'>'.$Variant->fullName.'</option>';
+				$checkboxes[$variantName] = '<option value="'.$variantID.'"'.(($first=='')?' selected':'').'>'.l_t($Variant->fullName).'</option>';
 				if($first=='') {
 					$first='"'.$variantID.'"';
 					$defaultName=$variantName;
 				}
 				print "case \"".$variantID."\":\n";
-				print 'document.getElementById(\'desc\').innerHTML = "<a class=\'light\' href=\'variants.php?variantID='.$variantID.'\'>'.$Variant->fullName.'</a><hr style=\'color: #aaa\'>'.$Variant->description.'";'."\n";		
+				print 'document.getElementById(\'desc\').innerHTML = "<a class=\'light\' href=\'variants.php?variantID='.$variantID.'\'>'.l_t($Variant->fullName).'</a><hr style=\'color: #aaa\'>'.l_t($Variant->description).'";'."\n";		
 				print "document.getElementById('countryID').options[0]=new Option ('Zufall','0');";
 				for ($i=1; $i<=count($Variant->countries); $i++)
-					print "document.getElementById('countryID').options[".$i."]=new Option ('".$Variant->countries[($i -1)]."', '".$i."');";
+					print "document.getElementById('countryID').options[".$i."]=new Option ('".l_t($Variant->countries[($i -1)])."', '".$i."');";
 				print "break;\n";		
 			}	
 			ksort($checkboxes);	
@@ -641,6 +641,6 @@ else
 <div class="hr"></div>
 
 <p class="notice">
-	<input type="submit" onClick="$('fixStart').disabled = false;" class="form-submit" value="Create">
+	<input type="submit" onClick="$('fixStart').disabled = false;" class="form-submit" value="Erstellen">
 </p>
 </form>

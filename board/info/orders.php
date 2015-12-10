@@ -82,24 +82,24 @@ class OrderArchiv {
 		switch($order['type'])
 		{
 			case 'retreat':
-				$buffer .= 'The '.$order['unitType']." at ".$this->terrIDToName[$order['terrID']]." retreat to ".$this->terrIDToName[$order['toTerrID']];
+				$buffer .= l_t('The %s at %s retreat to %s',l_t($order['unitType']),l_t($this->terrIDToName[$order['terrID']]),l_t($this->terrIDToName[$order['toTerrID']]));
 				break;
 			case 'disband':
-				$buffer .= 'The '.$order['unitType']." at ".$this->terrIDToName[$order['terrID']]." disband";
+				$buffer .= l_t('The %s at %s disband',l_t($order['unitType']),l_t($this->terrIDToName[$order['terrID']]));
 			case 'build army':
 			case 'build fleet':
-				$buffer .= 'Build '.($order['type']=='build army'?'army':'fleet').' at '.$this->terrIDToName[$order['terrID']];
+				$buffer .= l_t('Build %s at %s',($order['type']=='build army'?l_t('army'):l_t('fleet')),l_t($this->terrIDToName[$order['terrID']]));
 				break;
 			case 'wait':
-				$buffer .= 'Do not use build order';
+				$buffer .= l_t('Do not use build order');
 				break;
 			case 'destroy':
-				$buffer .= 'Destroy the unit at '.$this->terrIDToName[$order['terrID']];
+				$buffer .= l_t('Destroy the unit at %s',l_t($this->terrIDToName[$order['terrID']]));
 			default:
-				$buffer .= "The ".$order['unitType']." at ".$this->terrIDToName[$order['terrID']]." ".$order['type'].
-					($order['toTerrID'] ? " to ".$this->terrIDToName[$order['toTerrID']] : '' ).
-					($order['fromTerrID'] ? " from ".$this->terrIDToName[$order['fromTerrID']] : '').
-					($order['viaConvoy'] == 'Yes' ? " via convoy" : '');
+				$buffer .= l_t("The %s at %s %s",l_t($order['unitType']),l_t($this->terrIDToName[$order['terrID']]),l_t($order['type'])).
+						($order['toTerrID'] ? l_t(" to %s",l_t($this->terrIDToName[$order['toTerrID']])) : '' ).
+						($order['fromTerrID'] ? l_t(" from %s",l_t($this->terrIDToName[$order['fromTerrID']])) : '').
+						($order['viaConvoy'] == 'Yes' ? l_t(" via convoy") : '');
 		}
 
 		$buffer .= '.';
@@ -109,10 +109,10 @@ class OrderArchiv {
 			$buffer .= '</u>';
 
 			if (($order['success'] == 'No') && ($order['type'] != 'hold'))
-				$buffer .= ' (fail)';
+				$buffer .= ' ('.l_t('fail').')';
 
 			if ($order['dislodged'] == 'Yes')
-				$buffer .= ' (dislodged)';
+				$buffer .= ' ('.l_t('dislodged').')';
 		}
 
 		$buffer .= '</li>';
@@ -129,7 +129,7 @@ class OrderArchiv {
 		foreach($this->types as $phase=>$orderTypes)
 		{
 			if ($phase == 'Diplomacy' ) {
-			   $buffer .= '<li><strong>'.$phase."</strong></li>\n\t\t\t<ul>";
+			   $buffer .= '<li><strong>'.l_t($phase)."</strong></li>\n\t\t\t<ul>";
 			} else {
 				$orderFound=0;
 				foreach($orderTypes as $t) {
@@ -139,7 +139,7 @@ class OrderArchiv {
 					}
 	 			}
 				if ($orderFound)
-					$buffer .= '<li>'.$this->BuildOrderIndex($phase, 3).'<strong>'.$phase."</strong></li>\n\t\t\t<ul>";
+					$buffer .= '<li>'.$this->BuildOrderIndex(l_t($phase), 3).'<strong>'.l_t($phase)."</strong></li>\n\t\t\t<ul>";
 				else
 				   continue;
 			}
@@ -168,9 +168,9 @@ class OrderArchiv {
 		$buffer = "<h4>" . $this->BuildOrderIndex($Game->datetxt($turn), 1);
 
 		$buffer .= $Game->datetxt($turn).' <a href="map.php?gameID='.$Game->id.'&largemap=on&turn='.$turn.'">
-			<img src="images/historyicons/external.png" alt="Large map"
-			title="This button will open the large map in a new window. The large map shows all the moves, and is useful when the small map isn\'t clear enough."
-			/></a>:</h4>';
+			<img src="'.l_s('images/historyicons/external.png').'" alt="'.l_t('Large map').'"
+			title="'.l_t('This button will open the large map in a new window. The large map shows all the moves, and is useful when the small map isn\'t clear enough.').
+			'"/></a>:</h4>';
 		$buffer .= '<p>';
 		
 		return $buffer;
@@ -205,9 +205,9 @@ class OrderArchiv {
 					$lastTurn = $row['turn'];
 				}
 
-				$this->orderHTML .= $this->BuildOrderIndex($this->countryIDToName[$row['countryID']], 2);
+				$this->orderHTML .= $this->BuildOrderIndex(l_t($this->countryIDToName[$row['countryID']]), 2);
 
-				$this->orderHTML .= '<strong><span class="country'.$row['countryID'].'">'.$this->countryIDToName[$row['countryID']]."</span>:</strong><br />";
+				$this->orderHTML .= '<strong><span class="country'.$row['countryID'].'">'.l_t($this->countryIDToName[$row['countryID']])."</span>:</strong><br />";
 
 				$lastCountryID = $row['countryID'];
 			}
@@ -222,7 +222,7 @@ class OrderArchiv {
 		if( isset($orderLogs))
 			$this->orderHTML .= $this->outputOrderLogs($orderLogs);
 		else
-			$this->orderIndex .= '<p>No order logs to output</p>';
+			$this->orderIndex .= '<p>'.l_t('No order logs to output').'</p>';
 
 		$this->orderHTML .= $this->BuildOrderIndex('',0);
 
@@ -236,7 +236,7 @@ class OrderArchiv {
 	
 }	
 
-print '<h3>Order history</h3>';
+print '<h3>'.l_t('Order history').'</h3>';
 print '<div class="variant'.$Game->Variant->name.'">';
 
 ini_set('memory_limit',"16M");

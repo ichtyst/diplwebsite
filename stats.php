@@ -17,7 +17,7 @@ print '<SCRIPT LANGUAGE="Javascript" SRC="contrib/FusionChartsFree/FusionCharts.
 print '<div class="content">';
 
 //MapID
-print '<b>Map: </b>
+print '<b>'.l_t('Map').': </b>
 	<form style="display: inline" method="get" name="set_map">
 	<input type="hidden" name="variantID" value="'.$variantID.'">
 	<select name=variantID onchange="this.form.submit();">';
@@ -29,7 +29,7 @@ foreach ( Config::$variants as $id=>$name ) {
 	print '<option value="'.$id.'"';
 	if ($id == $variantID) 
 		print ' selected';
-	print '>'.$name.'</option>';
+	print '>'.l_t($name).'</option>';
 }
 print '</select></form>';
 
@@ -105,12 +105,12 @@ if ($variantID != 0)
 	
 	list($turns) = $DB->sql_row('SELECT SUM(turn) FROM wD_Games WHERE variantID='.$variant->id.' AND phase = "Finished"');
 	
-	print '<ul><li><b>Number of games finished:</b> '.$g_info['All'].'</li>';
+	print '<ul><li><b>'.l_t('Number of games finished').':</b> '.$g_info['All'].'</li>';
 
 	if ($g_info['All'] > 0)
 	{
 	
-		print '<li><b>Avg. turns played:</b> '.number_format($turns/$g_info['All'],2).' turns</li>';
+		print '<li><b>'.l_t('Avg. turns played').':</b> '.l_t('%s turns',number_format($turns/$g_info['All'],2)).'</li>';
 
 		$count=array('Sea'=>0,'Land'=>0,'Coast'=>0,'All'=>0);
 		$tabl = $DB->sql_tabl(
@@ -123,10 +123,10 @@ if ($variantID != 0)
 			$count[$type]=$counter;
 			$count['All']+=$counter;
 		}	
-		print '<li><b>Territories:</b> '.$count['All'];
-		print '<ul><li>Land: '.$count['Land'].' ('.number_format($count['Land']/$count['All']*100,2).'%)</li>';
-		print '<li>Coast: '.$count['Coast'].' ('.number_format($count['Coast']/$count['All']*100,2).'%)</li>';
-		print '<li>Sea: '.$count['Sea'].' ('.number_format($count['Sea']/$count['All']*100,2).'%)</li></ul>';
+		print '<li><b>'.l_t('Territories').':</b> '.$count['All'];
+		print '<ul><li>'.l_t('Land').': '.$count['Land'].' ('.number_format($count['Land']/$count['All']*100,2).'%)</li>';
+		print '<li>'.l_t('Coast').': '.$count['Coast'].' ('.number_format($count['Coast']/$count['All']*100,2).'%)</li>';
+		print '<li>'.l_t('Sea').': '.$count['Sea'].' ('.number_format($count['Sea']/$count['All']*100,2).'%)</li></ul>';
 
 		// Get the hex-color of the country for the tables
 		$id=1;
@@ -139,11 +139,11 @@ if ($variantID != 0)
 		}
 		fclose($css);
 
-		print '<li><b>Pottype:</b><ul><li>Winner-takes-all: '.$g_info['Winner-takes-all'].' game'.($g_info['Winner-takes-all']!=1?'s':'').'</li>';
-		print '<li>Points-per-supply-center: '.$g_info['Points-per-supply-center'].' game'.($g_info['Points-per-supply-center']!=1?'s':'').'</li></ul>';
+		print '<li><b>'.l_t('Pottype').':</b><ul><li>'.l_t('Winner-takes-all').': '.$g_info['Winner-takes-all'].' '.l_t('game'.($g_info['Winner-takes-all']!=1?'s':'')).'</li>';
+		print '<li>'.l_t('Points-per-supply-center').': '.$g_info['Points-per-supply-center'].' '.l_t('game'.($g_info['Points-per-supply-center']!=1?'s':'')).'</li></ul>';
 
-		print '<li><b>Results:</b><ul><li>Solo: '.$g_info['Solo'].' game'.($g_info['Solo']!=1?'s':'').'</li>';
-		print '<li>Drawn:'.$g_info['Drawn'].' game'.($g_info['Drawn']!=1?'s':'').'</li>';
+		print '<li><b>'.l_t('Results').':</b><ul><li>'.l_t('Solo').': '.$g_info['Solo'].' '.l_t('game'.($g_info['Solo']!=1?'s':'')).'</li>';
+		print '<li>'.l_t('Drawn').': '.$g_info['Drawn'].' '.l_t('game'.($g_info['Drawn']!=1?'s':'')).'</li>';
 		if ($g_info['Drawn'] > 0)
 		{
 			print '<ul>';
@@ -151,27 +151,27 @@ if ($variantID != 0)
 			{
 				if (strpos($type,'way') && ($count>0))
 				{
-					print '<li> '.$type.' draw: '.$count.'</li>';
+					print '<li> '.l_t($type).' '.l_t('draw').': '.$count.'</li>';
 				}
 			}
 			print '</ul>';
 		}
 		print '</ul>';
 		
-		print '<li><b>Results by country:</b></li>';	
+		print '<li><b>'.l_t('Results by country').':</b></li>';	
 		print '<table border="1" rules="groups">
 				<thead>
 					<tr>
-					<th align="left">Country</th>
-					<th align="center">Solos</th>
-					<th align="center">Draws</th>
-					<th align="center">Survivals</th>
-					<th align="center">Eliminated</th>
-					<th align="center">SCs &Oslash</th>
-					<th align="center">Performance*</th></tr>
+					<th align="left">'.l_t('Country').'</th>
+					<th align="center">'.l_t('Solos').'</th>
+					<th align="center">'.l_t('Draws').'</th>
+					<th align="center">'.l_t('Survivals').'</th>
+					<th align="center">'.l_t('Eliminated').'</th>
+					<th align="center">'.l_t('SCs &Oslash').'</th>
+					<th align="center">'.l_t('Performance').'*</th></tr>
 				</thead>
 				<tfoot>
-					<tr><td colspan=6><b>*Performance</b> = (15 x Solos + 5 x Draws + 1 x Survivals) / Games</td></tr>
+					<tr><td colspan=6>'.l_t('<b>*Performance</b> = (15 x Solos + 5 x Draws + 1 x Survivals) / Games').'</td></tr>
 				</tfoot>
 				<tbody>';
 				
@@ -186,7 +186,7 @@ if ($variantID != 0)
 			$alternate = !$alternate;
 			
 			print '<tr class="replyalternate'.($alternate ? '1' : '2' ).'">
-					<td>'.$variant->countries[$i-1].'</td>
+					<td>'.l_t($variant->countries[$i-1]).'</td>
 					<td align="center">'.$c_info[$i]['Won'].'</td>
 					<td align="center">'.$c_info[$i]['Drawn'].'</td>
 					<td align="center">'.$c_info[$i]['Survived'].'</td>
@@ -197,20 +197,20 @@ if ($variantID != 0)
 		}
 		print'</table><br>';
 
-		$strXML['Drawn']       = "<graph caption='Draws by Country'          xAxisName='Country' yAxisName='Draws'       decimalPrecision='0' formatNumberScale='0'>";
-		$strXML['Solo']        = "<graph caption='Solo Victories by Country' xAxisName='Country' yAxisName='Solos'       decimalPrecision='0' formatNumberScale='0'>";
-		$strXML['Performance'] = "<graph caption='Performance by Country'    xAxisName='Country' yAxisName='Performance' decimalPrecision='0' formatNumberScale='0'>";
-		$strXML['Result']      = "<graph caption='Result Types by Map'       xAxisName='Result'  yAxisName='Count'       decimalPrecision='0' formatNumberScale='0'>";
-		$strXML['Result']     .= "<set name='Solo' value='".$g_info['Solo']."' color='".$color[1]."'/>";
+		$strXML['Drawn']       = "<graph caption='".l_t('Draws by Country')."'          xAxisName='".l_t('Country')."' yAxisName='".l_t('Draws')."'       decimalPrecision='0' formatNumberScale='0'>";
+		$strXML['Solo']        = "<graph caption='".l_t('Solo Victories by Country')."' xAxisName='".l_t('Country')."' yAxisName='".l_t('Solos')."'       decimalPrecision='0' formatNumberScale='0'>";
+		$strXML['Performance'] = "<graph caption='".l_t('Performance by Country')."'    xAxisName='".l_t('Country')."' yAxisName='".l_t('Performance')."' decimalPrecision='0' formatNumberScale='0'>";
+		$strXML['Result']      = "<graph caption='".l_t('Result Types by Map')."'       xAxisName='".l_t('Result')."'  yAxisName='".l_t('Count')."'       decimalPrecision='0' formatNumberScale='0'>";
+		$strXML['Result']     .= "<set name='".l_t('Solo')."' value='".$g_info['Solo']."' color='".$color[1]."'/>";
 		for ($i=1; $i<=count($variant->countries); $i++)		
 		{
-			$strXML['Drawn']        .= "<set name='".$variant->countries[$i-1]."' value='";
+			$strXML['Drawn']        .= "<set name='".l_t($variant->countries[$i-1])."' value='";
 			$strXML['Drawn']        .= $c_info[$i]['Drawn'];
 			$strXML['Drawn']        .= "' color='".$color[$i]."'/>";
-			$strXML['Solo']         .= "<set name='".$variant->countries[$i-1]."' value='".$c_info[$i]['Won'].        "' color='".$color[$i]."'/>";
-			$strXML['Performance']  .= "<set name='".$variant->countries[$i-1]."' value='".$c_info[$i]['Performance']."' color='".$color[$i]."'/>";
+			$strXML['Solo']         .= "<set name='".l_t($variant->countries[$i-1])."' value='".$c_info[$i]['Won'].        "' color='".$color[$i]."'/>";
+			$strXML['Performance']  .= "<set name='".l_t($variant->countries[$i-1])."' value='".$c_info[$i]['Performance']."' color='".$color[$i]."'/>";
 			if ($i > 1)
-				$strXML['Result']   .= "<set name='".$i.                   "-way' value='".$g_info[$i.'-way'].        "' color='".$color[$i]."'/>";
+				$strXML['Result']   .= "<set name='".l_t($i.                   '-way')."' value='".$g_info[$i.'-way'].        "' color='".$color[$i]."'/>";
 		}
 		$strXML['Drawn']       .=  "</graph>";
 		$strXML['Solo']        .=  "</graph>";
@@ -226,7 +226,7 @@ if ($variantID != 0)
 	
 	}
 }
-
+print '</div>';
 libHTML::footer();
 
 ?>

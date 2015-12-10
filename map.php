@@ -36,7 +36,7 @@ if( isset($_REQUEST['uncache'])||isset($_REQUEST['profile']) )
 	define('DELETECACHE',1);
 else
 	define('DELETECACHE',0);
-
+    
 // Check if we should hide the move arrows. (Preview do not need the old move-arrows too...)
 if( isset($_REQUEST['hideMoves']) || isset($_REQUEST['preview']))
 	define('HIDEMOVES',1);
@@ -68,7 +68,7 @@ if( isset($_REQUEST['countryNames']))
 else
 	define('COUNTRYNAMES',0);
 
-if( !IGNORECACHE && !PREVIEW && !isset($_REQUEST['variantID']))
+if( !IGNORECACHE && !PREVIEW)
 {
 	// We might be able to fetch the map from the cache
 	
@@ -538,13 +538,11 @@ elseif( $Game->phase == 'Finished' and $turn == $latestTurn )
 $filename = Game::mapFilename($Game->id, $turn);
 
 if (HIDEMOVES)
-	$filename = str_replace(".map","-hideMoves.map",$filename);
+    $filename = str_replace(".map","-hideMoves.map",$filename);
 
 if( defined('DATC') && $mapType!='small')
 	$drawMap->saveThumbnail($filename.'-thumb');
 
-if (PREVIEW)
-	$filename = libCache::dirID('users',$User->id).'/preview-'. md5($User->password.Config::$secret).'.map';
 	
 // colorCorrect Patch
 if (COLORCORRECT)
@@ -558,9 +556,15 @@ if (COLORCORRECT)
 if (COUNTRYNAMES)
 	$filename = str_replace(".map","-names.map",$filename);
 
-$drawMap->write($filename);
+if (PREVIEW)
+{
+	$drawMap->writeToBrowser();
+}
+else 
+{
+	$drawMap->write($filename);
+	libHTML::serveImage($filename);
+}
 unset($drawMap); // $drawMap is memory intensive and should be freed as soon as no longer needed
-
-libHTML::serveImage($filename);
 
 ?>

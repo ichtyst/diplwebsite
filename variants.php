@@ -30,7 +30,7 @@ libHTML::starthtml();
 if(!(isset($_REQUEST['variantID'])))
 {
 	print '<script type="text/javascript" src="contrib/tablekit/tablekit.js"></script>';
-	print libHTML::pageTitle('webDiplomacy variants','A list of the variants available on this server, with credits and information on variant-specific rules.');
+	print libHTML::pageTitle(l_t('webDiplomacy variants'),l_t('A list of the variants available on this server, with credits and information on variant-specific rules.'));
 	$variantsOn=array();
 	$variantsOff=array();
 
@@ -47,7 +47,7 @@ if(!(isset($_REQUEST['variantID'])))
 	}
 	
 	if( count($variantsOff) )
-		print '<a name="top"></a><h4>Active variants:</h4>';
+		print '<a name="top"></a><h4>'.l_t('Active variants:').'</h4>';
 	
 	print '<style type="text/css">
 			.sortcol { cursor: pointer;
@@ -65,16 +65,16 @@ if(!(isset($_REQUEST['variantID'])))
 		
 	print '<TABLE class="sortable">
 				<THEAD>
-					<TH style="border: 1px solid #000" class="sortfirstasc">Name</TH>
-					<TH style="border: 1px solid #000">Players</TH>
-					<TH style="border: 1px solid #000">IAMap</TH>
-					<TH style="border: 1px solid #000">Games finished</TH>
-					<TH style="border: 1px solid #000">avg. Turns</TH>
-					<TH style="border: 1px solid #000">Rating*</TH>
-					<TH style="border: 1px solid #000">Hot**</TH>
+					<TH style="border: 1px solid #000" class="sortfirstasc">'.l_t('Name').'</TH>
+					<TH style="border: 1px solid #000">'.l_t('Players').'</TH>
+					<TH style="border: 1px solid #000">'.l_t('IAMap').'</TH>
+					<TH style="border: 1px solid #000">'.l_t('Games finished').'</TH>
+					<TH style="border: 1px solid #000">'.l_t('avg. Turns').'</TH>
+					<TH style="border: 1px solid #000">'.l_t('Rating').'*</TH>
+					<TH style="border: 1px solid #000">'.l_t('Hot').'**</TH>
 				</THEAD>
 				<TFOOT>
-					<tr style="border: 1px solid #666"><td colspan=6><b>**Rating</b> = ("players" x "games played") - <b>**Hot</b> = Number of active games</td></tr>
+					<tr style="border: 1px solid #666"><td colspan=6>'.l_t('<b>**Rating</b> = ("players" x "games played") - <b>**Hot</b> = Number of active games').'</td></tr>
 				</TFOOT>';
 			
 	foreach( $variantsOn as $variantName )
@@ -91,10 +91,10 @@ if(!(isset($_REQUEST['variantID'])))
 		list($turns,$games) = $DB->sql_row('SELECT SUM(turn), COUNT(*) FROM wD_Games WHERE variantID='.$Variant->id.' AND phase = "Finished"');
 		list($hot) = $DB->sql_row('SELECT COUNT(*) FROM wD_Games WHERE variantID='.$Variant->id.' AND phase != "Finished" AND phase != "Pre-game"');
 		print '<TR><TD style="border: 1px solid #666">'.$Variant->link().'</TD>';
-		print '<TD style="border: 1px solid #666">'.($games==0?count($Variant->countries):round($players/$games,2)) .' players</TD>';
+		print '<TD style="border: 1px solid #666">'.($games==0?count($Variant->countries):round($players/$games,2)) .' '.l_t('players').'</TD>';
 		print '<TD style="border: 1px solid #666" align="center">'.((file_exists('variants/'.$Variant->name.'/interactiveMap')) ? '<img src="images/icons/tick.png"' : '-').'</TD>';
-		print '<TD style="border: 1px solid #666">'.$games.' game'.($games!=1?'s':'').'</TD>';
-		print '<TD style="border: 1px solid #666">'.($games==0?'0.00':number_format($turns/$games,2)).' turns</TD>';
+		print '<TD style="border: 1px solid #666">'.l_t('%s game'.($games!=1?'s':''), $games).'</TD>';
+		print '<TD style="border: 1px solid #666">'.l_t('%s turns',$games==0?'0.00':number_format($turns/$games,2)).'</TD>';
 		print '<TD style="border: 1px solid #666">'.$players.'</TD>';
 		print '<TD style="border: 1px solid #666">'.$hot.'</TD></TR>';
 	}
@@ -130,7 +130,7 @@ else
 		foreach (array_reverse(Config::$variants,true) as $id => $name);
 		
 	$Variant = libVariant::loadFromVariantID($id);
-	print libHTML::pageTitle($Variant->fullName . ' (' . count($Variant->countries) . ' players)',$Variant->description);
+	print libHTML::pageTitle(l_t( $Variant->fullName ) .' '.l_t('(%s Players)',count($Variant->countries)),l_t($Variant->description));
 	print '<div style="text-align:center"><span id="Image_'. $Variant->name . '"> <a href="';
 		if (file_exists(libVariant::cacheDir($Variant->name).'/sampleMapLarge.png'))
 			print libVariant::cacheDir($Variant->name).'/sampleMapLarge.png';
@@ -141,68 +141,68 @@ else
 		print libVariant::cacheDir($Variant->name).'/sampleMap.png';
 	else
 		print 'map.php?variantID=' . $Variant->id;
-	print '" alt="Open large map" title="The map for the '. $Variant->name .' Variant" /></a></span> </div><br />';
+	print '" alt="Open large map" title="'.l_t('The map for the %s Variant',$Variant->name).'" /></a></span> </div><br />';
 
 	print '<table>
-		<td style="text-align:left">Search for games: 		
-			<form style="display: inline" action="gamelistings.php" method="POST">
+		<td style="text-align:left">'.l_t('Search for games:'). 		
+			'<form style="display: inline" action="gamelistings.php" method="POST">
 				<input type="hidden" name="gamelistType" value="New" />
 				<input type="hidden" name="searchOff" value="true" />
 				<input type="hidden" name="search[chooseVariant]" value="'.$Variant->id.'" />
-				<input type="submit" value="New" /></form>							
+				<input type="submit" value="'.l_t('New').'" /></form>							
 			<form style="display: inline" action="gamelistings.php" method="POST">
 				<input type="hidden" name="gamelistType" value="Open" />
 				<input type="hidden" name="searchOff" value="true" />
 				<input type="hidden" name="search[chooseVariant]" value="'.$Variant->id.'" />
-				<input type="submit" value="Open"/></form>				
+				<input type="submit" value="'.l_t('Open').'"/></form>				
 			<form style="display: inline" action="gamelistings.php" method="POST">
 				<input type="hidden" name="gamelistType" value="Active" />
 				<input type="hidden" name="searchOff" value="true" />
 				<input type="hidden" name="search[chooseVariant]" value="'.$Variant->id.'" />
-				<input type="submit" value="Active" /></form>
+				<input type="submit" value="'.l_t('Active').'" /></form>
 			<form style="display: inline" action="gamelistings.php" method="POST">
 				<input type="hidden" name="gamelistType" value="Finished" />
 				<input type="hidden" name="searchOff" value="true" />
 				<input type="hidden" name="search[chooseVariant]" value="'.$Variant->id.'" />
-				<input type="submit" value="Finished" /></form>
+				<input type="submit" value="'.l_t('Finished').'" /></form>
 		</td> <td style="text-align:right">
 			<form style="display: inline" action="stats.php" method="GET">
 				<input type="hidden" name="variantID" value="'.$Variant->id.'" />
-				<input type="submit" value="View statistics" /></form>			
+				<input type="submit" value="'.l_t('View statistics').'" /></form>			
 			<form style="display: inline" action="edit.php" method="GET">
 				<input type="hidden" name="variantID" value="'.$Variant->id.'" />
-				<input type="submit" value="Map info" /></form>			
+				<input type="submit" value="'.l_t('Map info').'" /></form>			
 			<form style="display: inline" action="files.php" method="GET">
 				<input type="hidden" name="variantID" value="'.$Variant->id.'" />
-				<input type="submit" value="View/Download code" /></form>
+				<input type="submit" value="'.l_t('View/Download code').'" /></form>
 		</td>
 	</table>';
 			
-	print '<br><div><strong>Variant Parameters';
+	print '<br><div><strong>'.l_t('Variant Parameters').'';
 	if ((isset($Variant->version)) || (isset($Variant->CodeVersion)))
 	{
 		print ' (';
 		if (isset($Variant->version))
-			print 'Version: '. $Variant->version.(isset($Variant->codeVersion)?' / ':'');
+			print l_t('Version: %s',$Variant->version).(isset($Variant->codeVersion)?' / ':'');
 		if (isset($Variant->codeVersion))
-			print 'Code: ' . $Variant->codeVersion;
+			print l_t('Code: %s',$Variant->codeVersion);
 		print ')';
 	}
 	print ':</strong>';
 	
 	print '<ul>';
 	if (isset($Variant->homepage))
-		print '<li><a href="'. $Variant->homepage .'">Variant homepage</a></li>';
+      print '<li><a href="'. $Variant->homepage .'">'.l_t('Variant homepage').'</a></li>';
 	if (isset($Variant->author))
-		print '<li> Created by: '. $Variant->author .'</li>';
+      print '<li> '.l_t('Created by: %s',$Variant->author).'</li>';
 	if (isset($Variant->adapter))
-		print '<li> Adapted for webDiplomacy by: '. $Variant->adapter .'</li>';
+      print '<li> '.l_t('Adapted for webDiplomacy by: %s',$Variant->adapter).'</li>';
 
 	list($turns,$games) = $DB->sql_row('SELECT SUM(turn), COUNT(*) FROM wD_Games WHERE variantID='.$Variant->id.' AND phase = "Finished"');
-	print '<li> Games finished: '. $games .' game'.($games!=1?'s':'').'</li>';
-	print '<li> avg. Duration: '. ($games==0?'0.00':number_format($turns/$games,2)) .' turns</li>';
+	print '<li> '.l_t('Games finished: %s game'.($games!=1?'s':''),$games).'</li>';
+	print '<li> '.l_t('avg. Duration: %s turns',$games==0?'0.00':number_format($turns/$games,2)).'</li>';
 
-	print '<li> SCs required for solo win: ' . $Variant->supplyCenterTarget . ' (of '.$Variant->supplyCenterCount.')</li>';
+	print '<li> '.l_t('SCs required for solo win: %s (of %s)',$Variant->supplyCenterTarget,$Variant->supplyCenterCount).'</li>';
 
 	$count=array('Sea'=>0,'Land'=>0,'Coast'=>0,'All'=>0);
 	$tabl = $DB->sql_tabl(
@@ -215,23 +215,24 @@ else
 		$count[$type]=$counter;
 		$count['All']+=$counter;
 	}	
-	print '<li> Territories: '.$count['All'].' (Land='.$count['Land'].'; Coast='.$count['Coast'].'; Sea='.$count['Sea'].')</li>';
+	print '<li> '.l_t('Territories: %s (Land=%s; Coast=%s; Sea=%s)',$count['All'],$count['Land'],$count['Coast'],$count['Sea']).'</li>';
 
-	if (!file_exists('variants/'. $Variant->name .'/rules.html'))
-		print '<li>Standard Diplomacy Rules Apply</li>';
+	if (!file_exists(l_s('variants/'. $Variant->name .'/rules.html')))
+		print '<li>'.l_t('Standard Diplomacy Rules Apply').'</li>';
 	print '</ul>';
 
-	if (file_exists('variants/'. $Variant->name .'/rules.html'))
+	if (file_exists(l_s('variants/'. $Variant->name .'/rules.html'))) 
 	{
-		print '<p><strong>Special rules/information:</strong></p>';
-		print '<div>'.file_get_contents('variants/'. $Variant->name .'/rules.html').'</div>';
+		print '<p><strong>'.l_t('Special rules/information:').'</strong></p>';
+		print '<div>'.file_get_contents(l_s('variants/'. $Variant->name .'/rules.html')).'</div>';
 	}
-	elseif (file_exists('variants/'. $Variant->name .'/rules.php'))
+	elseif (file_exists(l_s('variants/'. $Variant->name .'/rules.php'))) 
 	{
-		print '<p><strong>Special rules/information:</strong></p><div>';
-		include_once('variants/'. $Variant->name .'/rules.php');
+		print '<p><strong>'.l_t('Special rules/information:').'</strong></p><div>';
+		include_once(l_s('variants/'. $Variant->name .'/rules.php'));
 		print '</div>';
 	}
+	print '</div>';
 }
 
 print '</div>';

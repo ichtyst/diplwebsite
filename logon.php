@@ -172,12 +172,12 @@ if( ! $User->type['User'] ) {
 		</ul>
 		</form>
 		<div class="hr"></div>
-		<p><b>Troubleshooting:</b>
+		<p><b>'.l_t('Troubleshooting:').'</b>
 			<ul>
-				<li>If you forgot your password, use the lost password finder <a href="logon.php?forgotPassword=1">here</a>.</li>
-				<li>If you forgot your username, use the username recovery <a href="logon.php?resendUsername=1">here</a>.</li>
-				<li>If you forgot both, first use the username recovery <a href="logon.php?resendUsername=1">here</a>, and than the lost password finder <a href="logon.php?forgotPassword=1">here</a>.</li>
-				<li>If you are still unable to log in, contact the mods here: <a href="mailto:'.(isset(Config::$modEMail) ? Config::$modEMail : Config::$adminEMail).'">'.(isset(Config::$modEMail) ? Config::$modEMail : Config::$adminEMail).'</a></li>
+				<li>'.l_t('If you forgot your password, use the lost password finder <a href="logon.php?forgotPassword=1">here</a>.').'</li>
+				<li>'.l_t('If you forgot your username, use the username recovery <a href="logon.php?resendUsername=1">here</a>.').'</li>
+				<li>'.l_t('If you forgot both, first use the username recovery <a href="logon.php?resendUsername=1">here</a>, and than the lost password finder <a href="logon.php?forgotPassword=1">here</a>.').'</li>
+				<li>'.l_t('If you are still unable to log in, contact the mods here:').' <a href="mailto:'.(isset(Config::$modEMail) ? Config::$modEMail : Config::$adminEMail).'">'.(isset(Config::$modEMail) ? Config::$modEMail : Config::$adminEMail).'</a></li>
 			</ul>
 		</p>';
 } else {

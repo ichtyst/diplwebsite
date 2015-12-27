@@ -35,6 +35,7 @@
 	1.1.6: Movment fix for some borders
 	1.1.7: Movment fix for some borders
 	1.1.7.1: Movment fix for some borders
+	1.1.7.3.1: Adjusted names for German localisation (so "Germany"=/=>"Deutsches Reich", "Turkey"=/=>"Osmanisches Reich")
 		   
 */
 
@@ -47,7 +48,7 @@ class WorldVariant extends WDVariant {
 	public $author     = 'David Norman';
 	public $adapter    = 'Carey Jensen / Kestas J. Kuliukas / Oliver Auth';
 	public $version    = 'IX';
-	public $codeVersion= '1.1.7.3';
+	public $codeVersion= '1.1.7.3.1';
 	public $homepage   = 'http://www.variantbank.org/results/rules/w/worlddip9.htm';
 
 	public $countries=array( 'Argentina','Brazil','China','Europe','Frozen-Antarctica',

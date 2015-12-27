@@ -32,8 +32,6 @@ class Locale_German extends Locale_Abstract {
 	}
 	
 	public function text($text, array $args=array()) {
-		global $Variant;
-		
 		if( $text == "%s days")
 		{
 			if( $args[0] == 1)
@@ -60,7 +58,7 @@ class Locale_German extends Locale_Abstract {
 		}
 	
 		//Ausnahme für Ländernamen Turkey, Germany in Weltvariante (mit modernen Namen statt DR und OR)
-		if(isset($Variant) && $Variant->id == 2)
+		if(isset($GLOBALS["localisationVariantID"]) && $GLOBALS["localisationVariantID"] == 2)
 		{
 			if($text == "Turkey")
 				$text = "Turkey (modern)";

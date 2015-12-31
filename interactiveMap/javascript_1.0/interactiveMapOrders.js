@@ -475,7 +475,7 @@ interactiveMap.loadOrders = function() {
 
             if (this.isOwnUnitIn(this.Order.Unit.terrID)) {
                 this.enterOrder('toTerrID', terrID);
-                if (!this.Order.isComplete)
+                if (this.Order.viaConvoy=='No'||!this.Order.isComplete)
                     this.enterOrder('viaConvoy', 'Yes');
             } else {
                 this.print('toTerrID', terrID);

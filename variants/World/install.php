@@ -3,6 +3,8 @@
 defined('IN_CODE') or die('This script can not be run by itself.');
 require_once("variants/install.php");
 
+$GLOBALS['localisationVariantID'] = 2;
+
 InstallTerritory::$Territories=array();
 $countries=$this->countries;
 $territoryRawData=array(

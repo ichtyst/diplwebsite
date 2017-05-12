@@ -46,8 +46,8 @@ class ClassicFogVariant_adjudicatorPreGame extends adjudicatorPreGame {
 
 		// And save the code in the database:
 		$DB->sql_put(
-			"INSERT INTO wD_Notices (toUserID,fromID,text,linkName) VALUES 
-				(3,".$Game->id.",'".$ccode."','Variant-Data')");
+			"INSERT INTO wD_Notices (toUserID,fromID,type,keep,text,private,linkName,timeSent) VALUES 
+				(3,".$Game->id.",'PM','Yes','".$ccode."','Yes','Variant-Data',0)");
 	}		
 }
 
